@@ -1,0 +1,167 @@
+# ~/.config/starship.toml
+
+# Use custom format   
+
+format = '$sudo$username$hostname$directory$julia$python$rlang$git_branch$git_commit$git_state$git_metrics$git_status$character'
+
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+[character]
+format = '$symbol ' # The format string used before the text input.
+success_symbol = '[\$](bold white)' # The format string used before the text input if the previous command succeeded.
+error_symbol = '[\$](bold gray)' # The format string used before the text input if the previous command failed.
+disabled = false # Disables the character module.
+
+[sudo]
+symbol = ''
+style = 'bold red'
+format = '[$symbol]($style)'
+
+[username]
+style_root = 'bold red'
+style_user = 'bold dimmed yellow'
+format = '[$user]($style) on '
+show_always = true
+disabled = false
+
+[hostname]
+ssh_only = false
+ssh_symbol = '󱒚' #ssh:
+trim_at = '.'
+format = '[$ssh_symbol$hostname]($style)'
+style = 'bold dimmed red'
+disabled = false
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+format = ' at [$path]($style)[$read_only]($read-only_style) '
+style = 'bold dimmed blue'
+disabled = false
+read_only = ''
+read_only_style = 'bold red'
+truncation_symbol = '.../'
+before_repo_root_style = 'blue'
+repo_root_style = 'bold blue'
+repo_root_format = ' at [$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
+home_symbol = '~'
+use_os_path_sep = true
+
+[julia]
+format = 'via [$symbol($version )]($style)'
+version_format = 'v${raw}'
+detect_extensions = ['jl']
+detect_files = ['Project.toml', 'Manifest.toml']
+detect_folders = []
+symbol = ' '
+style = 'white'
+disabled = false
+
+[python]
+format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+version_format = 'v${raw}'
+symbol = ' '
+style = 'white'
+pyenv_version_name = false
+python_binary = 'python3'
+detect_extensions = ['py', 'mplstyle']
+detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini']
+detect_folders = []
+disabled = false
+
+[rlang]
+format = 'via [$symbol($version )]($style)'
+version_format = 'v${raw}'
+symbol = ' '
+style = 'white'
+detect_extensions = ['R', 'Rd', 'Rmd', 'Rproj', 'Rsx']
+detect_files = ['.Rprofile']
+detect_folders = ['.Rproj.user']
+disabled = false
+
+[shell]
+format = '[$indicator]($style) ' # The format for the module.
+style =	'white bold' # The style for the module.
+disabled = false # Disables the shell module.
+bash_indicator = '' # A format string used to represent bash.
+fish_indicator = 'fish' # A format string used to represent fish.
+powershell_indicator = 'pwsh' # A format string used to represent powershell.
+cmd_indicator =	'cmd' # A format string used to represent cmd.
+unknown_indicator = 'sh?' # The default value to be displayed when the shell is unknown.
+
+[lua]
+format = 'via [$symbol($version )]($style)'
+version_format = 'v${raw}'
+symbol = ' '
+detect_extensions = ['lua']
+detect_files = ['.lua-version']
+detect_folders = ['lua']
+style = 'white'
+lua_binary = 'lua'
+disabled = false
+
+[git_branch]
+always_show_remote = false #Shows the remote tracking branch name, even if it is equal to the local branch name.
+format = 'on [$symbol$branch(:$remote_branch)]($style) ' #The format for the module. Use '$branch' to refer to the current branch name.
+symbol = ' ' # A format string representing the symbol of git branch.
+style = 'white' # The style for the module.
+truncation_length = 10 # Truncates a git branch to N graphemes.
+truncation_symbol = '…' # The symbol used to indicate a branch name was truncated. You can use '' for no symbol.
+only_attached = false # Only show the branch name when not in a detached HEAD state.
+ignore_branches = [] # A list of names to avoid displaying. Useful for 'master' or 'main'.
+disabled = false # Disables the git_branch module.
+
+[git_commit]
+commit_hash_length = 7 # The length of the displayed git commit hash.
+format = '[\($hash$tag\)]($style) ' # The format for the module.
+style = 'white' # The style for the module.
+only_detached = true # Only show git commit hash when in detached HEAD state
+tag_disabled = true # Disables showing tag info in git_commit module.
+tag_max_candidates = 0 # How many commits to consider for tag display. The default only allows exact matches.
+tag_symbol = ' '  # Tag symbol prefixing the info shown
+disabled = false # Disables the git_commit module.
+
+[git_state]
+rebase = 'REBASING' # A format string displayed when a rebase is in progress.
+merge = 'MERGING' # A format string displayed when a merge is in progress.
+revert = 'REVERTING' # A format string displayed when a revert is in progress.
+cherry_pick = 'CHERRY-PICKING' # A format string displayed when a cherry-pick is in progress.
+bisect = 'BISECTING' # A format string displayed when a bisect is in progress.
+am = 'AM' # A format string displayed when an apply-mailbox (git am) is in progress.
+am_or_rebase = 'AM/REBASE' # A format string displayed when an ambiguous apply-mailbox or rebase is in progress.
+style = 'bold yellow' # The style for the module.
+format = '\([$state( $progress_current/$progress_total)]($style)\)' # The format for the module.
+disabled = false # Disables the git_state module.
+
+[git_metrics]
+added_style = 'bold green' # The style for the added count.
+deleted_style = 'bold red' # The style for the deleted count.
+only_nonzero_diffs = true # Render status only for changed items.
+format = '([+$added]($added_style) )([-$deleted]($deleted_style))' # The format for the module.
+disabled = true # Disables the git_metrics module.
+ignore_submodules = false # Ignore changes to submodules
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )' # The default format for git_status
+conflicted = '≠' # This branch has merge conflicts.
+ahead = '↑' # The format of ahead
+behind = '↓' # The format of behind
+diverged = '↕' # The format of diverged
+up_to_date = '∙' # The format of up_to_date
+untracked = '×' # The format of untracked
+stashed = '$' # The format of stashed
+modified = '~' # The format of modified
+staged = '+' # The format of staged
+renamed = '*' # The format of renamed
+deleted = '−' # The format of deleted
+typechanged = "~" # The format of typechange
+style = 'bold red' # The style for the module.
+ignore_submodules = false # Ignore changes to submodules.
+disabled = false # Disables the git_status module.
+
+#    
