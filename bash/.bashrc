@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return # No need to run the configuration for a script
 
 # PSX Prompts as starship fallback
-if [[ ! -f /usr/bin/starship ]] ; then
+if [[ ! -x "$(command -v starship)" ]] ; then
     PS0="" # Not used - displayed after each command, before any output
     PS1="\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w \
 \[\e[3;37m\]$ \[\e[0;0m\]" # Primary output displayed before command
@@ -55,6 +55,6 @@ if [[ -x "$(command -v tmux)" ]] && [[ -n "${DISPLAY}" ]] && [[ -z "${TMUX}" ]];
     exec tmux new-session -A -s "${USER}" >/dev/null 2>&1
 fi
 
-if [[ -f /usr/bin/starship ]] ; then
+if [[ -x "$(command -v starship)" ]] ; then
     eval "$(starship init bash)"
 fi
