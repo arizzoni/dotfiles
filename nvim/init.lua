@@ -69,8 +69,9 @@ require('lazy').setup({
       -- Useful status updates for LSP
       { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
 
-      -- Additional lua configuration, makes nvim stuff amazing!
+      -- Additional lua configuration
       'folke/neodev.nvim',
+
     },
   },
   {
@@ -111,7 +112,6 @@ require('lazy').setup({
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
     opts = {
       options = {
         icons_enabled = true,
@@ -367,6 +367,11 @@ local servers = {
           single_file_support = { 'true' },
         },
       },
+      texlab = {
+        texlab = {
+          cmd = { 'texlab' },
+        },
+      },
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },
@@ -390,7 +395,6 @@ local servers = {
       },
     },
 
-    -- Setup neovim lua configuration
     require('neodev').setup()
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -467,7 +471,7 @@ cmp.setup {
   },
 }
 
--- The line beneath this is called `modeline`. See `:help modeline`
+-- modeline
 -- vim: ts=2 sts=2 sw=2 et
 
 
@@ -478,7 +482,7 @@ if vim.g.neovide then
 
   vim.g.neovide_floating_blur_amount_x = 2.0
   vim.g.neovide_floating_blur_amount_y = 2.0
-  vim.g.neovide_transparency = 0.5
+  vim.g.neovide_transparency = 0.9
   vim.g.neovide_scroll_animation_length = 0.1
   vim.g.neovide_hide_mouse_when_typing = false
   vim.g.neovide_theme = 'auto'

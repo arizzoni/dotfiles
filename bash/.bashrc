@@ -40,6 +40,8 @@ alias eza="eza --color=automatic --color-scale --hyperlink --long --level=2    \
 --git-repos"
 alias ls="eza"
 alias bat="bat --wrap=auto --color=auto --tabs=2 --theme=ansi"
+alias hx="helix"
+
 
 # Ipython Alias
 alias ipython="source ~/.ipython/profile_default/ipython/bin/activate;         \
