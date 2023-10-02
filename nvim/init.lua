@@ -49,6 +49,9 @@ require('lazy').setup({
   -- Zenbones color scheme
   { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
 
+  -- Pywal Color Scheme
+  'uzer/pywal16.nvim',
+
   -- Greeter page
   { 'echasnovski/mini.starter', opts = {}, version = '*' },
 
@@ -97,9 +100,9 @@ require('lazy').setup({
       signs = {
         add = { text = '+' },
         change = { text = '~' },
-        delete = { text = '−' },
-        topdelete = { text = '−' },
-        changedelete = { text = '−' },
+        delete = { text = '–' },
+        topdelete = { text = '=' },
+        changedelete = { text = '≃' },
         untracked = { text = '×' }
       },
       on_attach = function(bufnr)
@@ -116,7 +119,7 @@ require('lazy').setup({
       options = {
         icons_enabled = true,
         component_separators = '|',
-        section_separators = '',
+        section_separators = ''
       },
     },
   },
@@ -191,7 +194,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
+    callback = function()
     vim.highlight.on_yank()
   end,
   group = highlight_group,
@@ -367,6 +370,8 @@ local servers = {
           single_file_support = { 'true' },
         },
       },
+      cmake = {},
+      julials = {},
       texlab = {
         texlab = {
           cmd = { 'texlab' },
@@ -471,40 +476,24 @@ cmp.setup {
   },
 }
 
--- modeline
--- vim: ts=2 sts=2 sw=2 et
-
-
--- Neovide settings
-if vim.g.neovide then
-  vim.o.guifont = "Inconsolata Nerd Font:h12"
-  vim.o.linespace = 0
-
-  vim.g.neovide_floating_blur_amount_x = 2.0
-  vim.g.neovide_floating_blur_amount_y = 2.0
-  vim.g.neovide_transparency = 0.9
-  vim.g.neovide_scroll_animation_length = 0.1
-  vim.g.neovide_hide_mouse_when_typing = false
-  vim.g.neovide_theme = 'auto'
-  vim.g.neovide_refresh_rate = 60
-  vim.g.neovide_refresh_rate_idle = 12
-
-  vim.g.neovide_cursor_animation_length = 0.1
-  vim.g.neovide_cursor_trail_size = 0.2
-  vim.g.neovide_cursor_antialiasing = true
-  vim.g.neovide_cursor_animate_in_insert_mode = true
-  vim.g.neovide_cursor_animate_command_line = true
-  vim.g.neovide_cursor_unfocused_outline_width = 0.125
-  vim.g.neovide_cursor_vfx_mode = ""
-end
-
 -- Global Settings
-
 vim.opt.number = true    -- Line numbers
 vim.opt.expandtab = true -- Expand tabs to spaces
 vim.opt.modeline = true  -- Enable modeline
+vim.g.python3_host_prog = '/usr/bin/python3' -- Python executable
 
-vim.g.python3_host_prog = '/usr/bin/python3'
+-- Pywal Color Theme
+local pywal = require 'pywal16'
+pywal.setup()
 
-vim.g.transparent_enabled = true
-vim.cmd('colorscheme seoulbones')
+local lualine = require 'lualine'
+lualine.setup {
+  options = {
+    theme = 'pywal16-nvim',
+  },
+}
+
+-- Theming Settings
+vim.g.transparent_enabled = true -- Transparency
+vim.api.nvim_command(':colo walbones') -- Fancy color theme
+-- vim: ts=2 sts=2 sw=2 et

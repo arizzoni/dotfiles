@@ -53,6 +53,18 @@ export EDITOR="nvim" # Export editor variable
 export MANPAGER="nvim -c 'Man!' -c 'colo zenwritten'" # Use neovim as a manpager
 export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+# Not supported in the "fish" shell.
+(cat ~/.cache/wal/sequences &)
+
+# Alternative (blocks terminal for 0-3ms)
+#cat ~/.cache/wal/sequences
+
+# To add support for TTYs this line can be optionally added.
+source ~/.cache/wal/colors-tty.sh
+
 if [[ -x "$(command -v tmux)" ]] && [[ -n "${DISPLAY}" ]] && [[ -z "${TMUX}" ]]; then
     exec tmux new-session -A -s "${USER}" >/dev/null 2>&1
 fi
