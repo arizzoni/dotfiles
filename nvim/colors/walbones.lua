@@ -41,7 +41,8 @@ vim.api.nvim_command(":colo lushwal")
 
 local function walbones()
 
-	local colors = generate_colors() -- Get colors from wal
+	-- Get colors from wal
+	local colors = generate_colors()
 
 	-- Define a palette manually.
 	colors.fg = colors.foreground
@@ -80,7 +81,8 @@ local function walbones()
 	term.apply_colors(colors)
 end
 
-walbones()
-
 -- Set up the hook
 lushwal.add_reload_hook(walbones)
+
+-- And call the hook once to get started
+walbones()
