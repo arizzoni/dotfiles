@@ -21,12 +21,12 @@ alias ls="ls --color=auto --group-directories-first --human-readable           \
           --time=ctime --time-style=long-iso"
 alias du="du --total --human-readable --no-dereference --time=ctime            \
           --time-style=long-iso"
-alias cp="cp --interactive --no-clobber --verbose"
+alias cp="cp --interactive --verbose"
 alias df="df --human-readable --total --print-type"
 alias dir="dir --almost-all --color=auto --format=long --human-readable        \
           --indicator-style=slash --sort=extension --time=ctime                \
           --time-style=long-iso"
-alias mv="mv --interactive --no-clobber --verbose"
+alias mv="mv --interactive --verbose"
 alias vdir="vdir --color=auto --format=long --group-directories-first          \
             --human-readable --indicator-style=slash --sort=extension          \
             --time=ctime --time-style=long-iso"
@@ -39,9 +39,10 @@ alias eza="eza --color=automatic --color-scale --hyperlink --long --level=2    \
 --time-style=long-iso --icons --sort=Extension --group-directories-first --git \
 --git-repos"
 alias ls="eza"
+alias la="eza -a"
 alias bat="bat --wrap=auto --color=auto --tabs=2 --theme=ansi"
-alias hx="helix"
-
+alias lite="lite-xl"
+alias rct="openrct2"
 
 # Ipython Alias
 alias ipython="source ~/.ipython/profile_default/ipython/bin/activate;         \
@@ -50,22 +51,16 @@ alias ipython="source ~/.ipython/profile_default/ipython/bin/activate;         \
 
 # Environment Variables
 export EDITOR="nvim" # Export editor variable
-export MANPAGER="nvim -c 'Man!' -c 'colo zenwritten'" # Use neovim as a manpager
+export MANPAGER="nvim -c 'Man!' -c 'colo zenwritten'" # Use neovim as manpager
 export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 
-# Import colorscheme from 'wal' asynchronously
-# &   # Run the process in the background.
-# ( ) # Hide shell job control messages.
-# Not supported in the "fish" shell.
-(cat ~/.cache/wal/sequences &)
+if [[ -x "$(command -v wal)" ]] ; then
+    wal -Rwq
+fi
 
-# Alternative (blocks terminal for 0-3ms)
-#cat ~/.cache/wal/sequences
-
-# To add support for TTYs this line can be optionally added.
-source ~/.cache/wal/colors-tty.sh
-
-if [[ -x "$(command -v tmux)" ]] && [[ -n "${DISPLAY}" ]] && [[ -z "${TMUX}" ]]; then
+if [[ -x "$(command -v tmux)" ]] &&                                            \
+    [[ -n "${DISPLAY}" ]] &&                                                   \
+    [[ -z "${TMUX}" ]] ; then
     exec tmux new-session -A -s "${USER}" >/dev/null 2>&1
 fi
 
