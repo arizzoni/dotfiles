@@ -135,7 +135,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-local mytextclock = wibox.widget.textclock( "%a, %b %d %Y %I:%M %p", 1 )
+local mytextclock = wibox.widget.textclock( " %a, %b %d %Y %I:%M %p ", 1 )
 
 
 -- Create a wibox for each screen and add it
