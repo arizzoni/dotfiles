@@ -2,10 +2,6 @@
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
-local awesome = awesome
-local client = client
-local root = root
-
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -53,7 +49,6 @@ awful.spawn.with_shell(
     'xrdb -merge <<< "awesome.started:true";' ..
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
     'picom -b;' ..
-    'qpwgraph -m;' ..
 
     'dex --environment Awesome --autostart'
     )
@@ -140,7 +135,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-local mytextclock = wibox.widget.textclock()
+local mytextclock = wibox.widget.textclock( "%a, %b %d %Y %I:%M %p", 1 )
+
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -233,7 +229,8 @@ awful.screen.connect_for_each_screen(function(s)
     s.mysystray.set_base_size(48)
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top",
+    s.mywibox = awful.wibar({
+        position = "top",
         screen = s,
         opacity = 0.8,
         type = "dock",
@@ -424,8 +421,8 @@ for i = 1, 9 do
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
-                        local screen = awful.screen.focused()
-                        local tag = screen.tags[i]
+                        local current_screen = awful.screen.focused()
+                        local tag = current_screen.tags[i]
                         if tag then
                            tag:view_only()
                         end
@@ -434,8 +431,8 @@ for i = 1, 9 do
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
-                      local screen = awful.screen.focused()
-                      local tag = screen.tags[i]
+                      local current_screen = awful.screen.focused()
+                      local tag = current_screen.tags[i]
                       if tag then
                          awful.tag.viewtoggle(tag)
                       end
