@@ -2,7 +2,7 @@
 -- Alessandro Rizzoni
 
 local awful = require("awful")
-local theme_assets = require("beautiful.theme_assets")
+-- local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local shape = require("gears.shape")
@@ -29,8 +29,8 @@ theme.wallpaper = wallpapers[ math.random(#wallpapers) ] -- Select random image 
 -- Call pywal and associated programs
 local command = 'wal -i' .. theme.wallpaper .. ' --cols16 --recursive --saturate 0.8 -nq'
 -- Returns a table of colors like https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
-
 -- But then set colors as a callback
+
 awful.spawn.easy_async_with_shell(command, function()
 
     local colors = xresources.get_current_theme()
@@ -42,7 +42,7 @@ awful.spawn.easy_async_with_shell(command, function()
     theme.fg_normal                 = colors.foreground
     theme.border_normal             = theme.bg_normal
 
-    theme.bg_focus                  = colors.color1
+    theme.bg_focus                  = colors.color3
     theme.fg_focus                  = theme.fg_normal
     theme.border_focus              = theme.bg_focus
 
@@ -113,14 +113,15 @@ awful.spawn.easy_async_with_shell(command, function()
     theme.menu_bg_focus             = theme.bg_focus
     theme.menu_fg_focus             = theme.fg_focus
 
-    -- Generate taglist squares:
-    local taglist_square_size = dpi(8)
-    theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-        taglist_square_size, theme.fg_normal
-    )
-    theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-        taglist_square_size, theme.fg_normal
-    )
+    -- -- Generate taglist squares:
+    -- local taglist_square_size = dpi(8)
+    -- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
+    --     taglist_square_size, theme.fg_normal
+    -- )
+    -- theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
+    --     taglist_square_size, theme.fg_normal
+    -- )
+
 end)
 
 -- Set Font

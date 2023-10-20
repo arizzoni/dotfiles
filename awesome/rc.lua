@@ -4,6 +4,7 @@ pcall(require, "luarocks.loader")
 
 -- Standard awesome library
 local gears = require("gears")
+local gfs = require("gears.filesystem")
 local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
@@ -56,7 +57,7 @@ awful.spawn.with_shell(
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-beautiful.init("/home/air/.config/awesome/theme.lua")
+beautiful.init(gfs.get_xdg_config_home() .. "awesome/theme.lua")
 -- This is used later as the default terminal and editor to run.
 local terminal = "alacritty"
 --local editor = os.getenv("EDITOR") or "nvim"
@@ -97,7 +98,7 @@ local myengineeringmenu = {
     { "FreeCAD", "freecad" },
     { "OpenSCAD", "openscad" },
     { "LibreCAD", "librecad" },
-    { "LTspice", "ltspice-wine"},
+    --{ "LTspice", "ltspice-wine"},
 }
 
 local mygraphicsmenu = {
