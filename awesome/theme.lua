@@ -27,100 +27,99 @@ local wallpapers = scan_dir(wallpaper_dir) -- Pull filenames into a table
 theme.wallpaper = wallpapers[ math.random(#wallpapers) ] -- Select random image from the filename table
 
 -- Call pywal and associated programs
-local command = 'wal -i' .. theme.wallpaper .. ' --cols16 --recursive --saturate 0.8 -nq'
+local command = 'wal -i' .. theme.wallpaper .. ' --cols16 --recursive --saturate 0.8'
 -- Returns a table of colors like https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
 -- But then set colors as a callback
 
 awful.spawn.easy_async_with_shell(command, function()
 
-    local colors = xresources.get_current_theme()
+    awful.spawn.easy_async('cat ' .. gfs.get_xdg_cache_home() .. 'wal/colors', function(stdout)
 
-    awful.spawn.spawn('zathura-pywal')
-    awful.spawn.spawn('pywalfox update')
+        local colors = {}
+        local i = 0
+        for color, _ in string.gmatch(stdout, "[^%\n]+") do
+            i = i + 1
+            colors[i] = color
+        end
 
-    theme.bg_normal                 = colors.background
-    theme.fg_normal                 = colors.foreground
-    theme.border_normal             = theme.bg_normal
+        awful.spawn.spawn('zathura-pywal')
+        awful.spawn.spawn('pywalfox update')
 
-    theme.bg_focus                  = colors.color3
-    theme.fg_focus                  = theme.fg_normal
-    theme.border_focus              = theme.bg_focus
+        theme.bg_normal                 = colors[1]
+        theme.fg_normal                 = colors[8]
+        theme.border_normal             = theme.bg_normal
 
-    theme.bg_urgent                 = colors.color9
-    theme.fg_urgent                 = theme.fg_normal
-    theme.border_marked             = theme.bg_urgent
+        theme.bg_focus                  = colors[4]
+        theme.fg_focus                  = theme.fg_normal
+        theme.border_focus              = theme.bg_focus
 
-    theme.bg_minimize               = colors.bg_normal
-    theme.fg_minimize               = colors.fg_normal
+        theme.bg_urgent                 = colors[10]
+        theme.fg_urgent                 = theme.fg_normal
+        theme.border_marked             = theme.bg_urgent
 
-    theme.bg_systray                = theme.bg_normal
-    theme.fg_systray                = theme.fg_normal
+        theme.bg_minimize               = colors.bg_normal
+        theme.fg_minimize               = colors.fg_normal
 
-    theme.taglist_bg_focus          = theme.bg_focus
-    theme.taglist_fg_focus          = theme.fg_focus
+        theme.bg_systray                = theme.bg_normal
+        theme.fg_systray                = theme.fg_normal
 
-    theme.taglist_bg_urgent         = theme.bg_urgent
-    theme.taglist_fg_urgent         = theme.fg_urgent
+        theme.taglist_bg_focus          = theme.bg_focus
+        theme.taglist_fg_focus          = theme.fg_focus
 
-    theme.taglist_bg_occupied       = theme.bg_normal
-    theme.taglist_fg_occupied       = theme.fg_normal
+        theme.taglist_bg_urgent         = theme.bg_urgent
+        theme.taglist_fg_urgent         = theme.fg_urgent
 
-    theme.taglist_bg_empty          = theme.bg_normal
-    theme.taglist_fg_empty          = theme.bg_normal
+        theme.taglist_bg_occupied       = theme.bg_normal
+        theme.taglist_fg_occupied       = theme.fg_normal
 
-    theme.taglist_bg_volatile       = colors.color8
-    theme.taglist.fg_volatile       = theme.fg_urgent
+        theme.taglist_bg_empty          = theme.bg_normal
+        theme.taglist_fg_empty          = theme.bg_normal
 
-    theme.tasklist_bg_focus         = theme.bg_focus
-    theme.tasklist_fg_focus         = theme.fg_focus
+        theme.taglist_bg_volatile       = colors[9]
+        theme.taglist.fg_volatile       = theme.fg_urgent
 
-    theme.tasklist_bg_urgent        = theme.bg_urgent
-    theme.tasklist_fg_urgent        = theme.fg_urgent
+        theme.tasklist_bg_focus         = theme.bg_focus
+        theme.tasklist_fg_focus         = theme.fg_focus
 
-    theme.titlebar_bg_normal        = theme.bg_normal
-    theme.titlebar_fg_normal        = theme.fg_normal
+        theme.tasklist_bg_urgent        = theme.bg_urgent
+        theme.tasklist_fg_urgent        = theme.fg_urgent
 
-    theme.titlebar_bg_focus         = theme.bg_focus
-    theme.titlebar_fg_focus         = theme.fg_focus
+        theme.titlebar_bg_normal        = theme.bg_normal
+        theme.titlebar_fg_normal        = theme.fg_normal
 
-    theme.tooltip_bg_color          = theme.bg_normal
-    theme.tooltip_fg_color          = theme.fg_normal
-    theme.tooltip_border_color      = theme.border_marked
+        theme.titlebar_bg_focus         = theme.bg_focus
+        theme.titlebar_fg_focus         = theme.fg_focus
 
-    theme.mouse_finder_color        = theme.border_marked
+        theme.tooltip_bg_color          = theme.bg_normal
+        theme.tooltip_fg_color          = theme.fg_normal
+        theme.tooltip_border_color      = theme.border_marked
 
-    theme.prompt_bg                 = theme.bg_normal
-    theme.prompt_fg                 = theme.fg_normal
-    theme.prompt_bg_cursor          = theme.bg_normal
-    theme.prompt_fg_cursor          = theme.fg_normal
+        theme.mouse_finder_color        = theme.border_marked
 
-    theme.hotkeys_bg                = theme.bg_normal
-    theme.hotkeys_fg                = theme.fg_normal
-    theme.hotkeys_border_color      = theme.border_marked
-    theme.hotkeys_modifier_bg       = theme.bg_focus
-    theme.hotkeys_modifier_fg       = theme.fg_focus
-    theme.hotkeys_label_bg          = theme.bg_normal
-    theme.hotkeys_label_fg          = theme.fg_normal
+        theme.prompt_bg                 = theme.bg_normal
+        theme.prompt_fg                 = theme.fg_normal
+        theme.prompt_bg_cursor          = theme.bg_normal
+        theme.prompt_fg_cursor          = theme.fg_normal
 
-    theme.notification_bg           = theme.bg_normal
-    theme.notification_fg           = theme.fg_normal
-    theme.notification_border_color = theme.border_normal
+        theme.hotkeys_bg                = theme.bg_normal
+        theme.hotkeys_fg                = theme.fg_normal
+        theme.hotkeys_border_color      = theme.border_marked
+        theme.hotkeys_modifier_bg       = theme.bg_focus
+        theme.hotkeys_modifier_fg       = theme.fg_focus
+        theme.hotkeys_label_bg          = theme.bg_normal
+        theme.hotkeys_label_fg          = theme.fg_normal
 
-    theme.menu_bg_normal            = theme.bg_normal
-    theme.menu_fg_normal            = theme.fg_normal
-    theme.menu_border_color         = theme.border_normal
+        theme.notification_bg           = theme.bg_normal
+        theme.notification_fg           = theme.fg_normal
+        theme.notification_border_color = theme.border_normal
 
-    theme.menu_bg_focus             = theme.bg_focus
-    theme.menu_fg_focus             = theme.fg_focus
+        theme.menu_bg_normal            = theme.bg_normal
+        theme.menu_fg_normal            = theme.fg_normal
+        theme.menu_border_color         = theme.border_normal
 
-    -- -- Generate taglist squares:
-    -- local taglist_square_size = dpi(8)
-    -- theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    --     taglist_square_size, theme.fg_normal
-    -- )
-    -- theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    --     taglist_square_size, theme.fg_normal
-    -- )
+        theme.menu_bg_focus             = theme.bg_focus
+        theme.menu_fg_focus             = theme.fg_focus
+    end)
 
 end)
 
