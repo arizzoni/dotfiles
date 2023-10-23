@@ -10,7 +10,7 @@ function __virtualenv_info(){
         [[ -n "$venv" ]] && echo " (venv:$venv)"
 }
 
-function __right_prompt(){
+function __set_prompt(){
         # Create a string like:  "[ Apr 25 16:06 ]" with time in RED.
         printf -v PS1RHS "\e[0m[ \e[0;1;31m%(%b %d %H:%M)T \e[0m]" -1 # -1 is current time
 
@@ -29,17 +29,14 @@ function __right_prompt(){
         # Note: "\[" and "\]" are used so that bash can calculate the number of
         # printed characters so that the prompt doesn't do strange things when
         # editing the entered text.
-
+        PS0='' # Not used - displayed after each command, before any output
+        PS1='\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;35m\]$(__git_ps1 " (%s)") \[\e[0;35m\]$(__virtualenv_info)\[\e[3;37m\]$ \[\e[0;0m\]' # Primary output displayed before command
+        PS2='\[\e[1;33m\]\u ' # Secondary prompt when a command needs more input
+        PS3='' # Not used - bash select interactive menus - customized per command
+        PS4='' # Not used - bash debug
         PS1="\[${Save}\e[${COLUMNS:-$(tput cols)}C\e[${#PS1RHS_stripped}D${PS1RHS}${Rest}\]${PS1}"
 }
-        
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-export PS0='' # Not used - displayed after each command, before any output
-export PS1='\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;35m\]$(__git_ps1 " (%s)") \[\e[0;35m\]$(__virtualenv_info)\[\e[3;37m\]$ \[\e[0;0m\]' # Primary output displayed before command
-export PS2='\[\e[1;33m\]\u ' # Secondary prompt when a command needs more input
-export PS3='' # Not used - bash select interactive menus - customized per command
-export PS4='' # Not used - bash debug
-
-PROMPT_COMMAND=__right_prompt
+PROMPT_COMMAND=__set_prompt
