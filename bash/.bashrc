@@ -6,14 +6,9 @@
 [[ $- != *i* ]] && return # No need to run the configuration for a script
 
 # PSX Prompts as starship fallback
-if [[ ! -x "$(command -v starship)" ]] ; then
-    PS0="" # Not used - displayed after each command, before any output
-    PS1="\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w \
-\[\e[3;37m\]$ \[\e[0;0m\]" # Primary output displayed before command
-    PS2="\[\e[1;33m\]\u " # Secondary prompt when a command needs more input
-    PS3="" # Not used - bash select interactive menus - customized per command
-    PS4="" # Not used - bash debug
-fi
+# if [[ ! -x "$(command -v starship)" ]] ; then
+source "$HOME/.config/bash/prompt.bash"
+# fi
 
 # GNU Core Utilities Aliases
 alias ls="ls --color=auto --group-directories-first --human-readable           \
@@ -52,7 +47,6 @@ alias ipython="source ~/.ipython/profile_default/ipython/bin/activate;         \
 # Environment Variables
 export EDITOR="nvim" # Export editor variable
 export MANPAGER="nvim -c 'Man!' -c 'colo zenwritten'" # Use neovim as manpager
-export STARSHIP_CONFIG="${HOME}/.config/starship/starship.toml"
 
 if [[ -x "$(command -v wal)" ]] ; then
     wal -Rwq
@@ -62,8 +56,4 @@ if [[ -x "$(command -v tmux)" ]] &&                                            \
     [[ -n "${DISPLAY}" ]] &&                                                   \
     [[ -z "${TMUX}" ]] ; then
     exec tmux new-session -A -s "${USER}" >/dev/null 2>&1
-fi
-
-if [[ -x "$(command -v starship)" ]] ; then
-    eval "$(starship init bash)"
 fi
