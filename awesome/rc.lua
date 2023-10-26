@@ -50,6 +50,7 @@ awful.spawn.with_shell(
     'xrdb -merge <<< "awesome.started:true";' ..
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
     'picom -b;' ..
+    -- clamd, etc
 
     'dex --environment Awesome --autostart'
     )
@@ -75,19 +76,19 @@ awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.floating,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.corner.nw,
-    awful.layout.suit.corner.ne,
-    awful.layout.suit.corner.sw,
-    awful.layout.suit.corner.se,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
 }
 -- }}}
 
@@ -98,7 +99,6 @@ local myengineeringmenu = {
     { "FreeCAD", "freecad" },
     { "OpenSCAD", "openscad" },
     { "LibreCAD", "librecad" },
-    --{ "LTspice", "ltspice-wine"},
 }
 
 local mygraphicsmenu = {
@@ -132,12 +132,13 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
---local mykeyboardlayout = awful.widget.keyboardlayout()
+local mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
 local mytextclock = wibox.widget.textclock( " %a, %b %d %Y %I:%M %p ", 1 )
-
+-- local mycalendar_popup = awful.widget.calendar_popup.month()
+-- mycalendar_popup:attach( mytextclock, "tr")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -250,7 +251,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            --mykeyboardlayout,
+            mykeyboardlayout,
             s.mysystray,
             mytextclock,
             s.mylayoutbox,

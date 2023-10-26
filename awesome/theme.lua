@@ -2,7 +2,6 @@
 -- Alessandro Rizzoni
 
 local awful = require("awful")
--- local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local shape = require("gears.shape")
@@ -22,7 +21,7 @@ math.randomseed(os.time())
 
 local theme = {}
 -- Change wallpaper and get colors from Wal
-local wallpaper_dir = "/usr/share/backgrounds/4k/" -- Set wallpaper directory
+local wallpaper_dir = "/usr/share/backgrounds/4k/steve-johnson/" -- Set wallpaper directory
 local wallpapers = scan_dir(wallpaper_dir) -- Pull filenames into a table
 theme.wallpaper = wallpapers[ math.random(#wallpapers) ] -- Select random image from the filename table
 
@@ -36,13 +35,14 @@ awful.spawn.easy_async_with_shell(command, function()
     awful.spawn.easy_async('cat ' .. gfs.get_xdg_cache_home() .. 'wal/colors', function(stdout)
 
         local colors = {}
+
         local i = 0
         for color, _ in string.gmatch(stdout, "[^%\n]+") do
             i = i + 1
             colors[i] = color
         end
 
-        awful.spawn.spawn('zathura-pywal')
+        awful.spawn.spawn('zathura-pywal -a 0.8')
         awful.spawn.spawn('pywalfox update')
 
         theme.bg_normal                 = colors[1]
@@ -120,7 +120,6 @@ awful.spawn.easy_async_with_shell(command, function()
         theme.menu_bg_focus             = theme.bg_focus
         theme.menu_fg_focus             = theme.fg_focus
     end)
-
 end)
 
 -- Set Font
@@ -149,9 +148,6 @@ theme.hotkeys_font                  = theme.prompt_font
 theme.hotkeys_description_font      = theme.font
 
 theme.notification_font             = theme.font
---theme.notification_width            = 
---theme.notification_height           = 
---theme.notification_margin           = 
 theme.notification_border_width     = theme.border_width
 theme.notification_shape            = shape.rounded_rectangle
 theme.notification_opacity          = theme.tooltip_opacity
