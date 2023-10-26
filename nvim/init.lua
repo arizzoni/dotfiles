@@ -36,6 +36,17 @@ require('lazy').setup({
   -- Indentation Guides
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
+  -- Better Zen Mode
+  {
+    "pocco81/true-zen.nvim",
+    modes = {    -- configurations per mode
+      integrations = {
+        tmux = true, -- hide tmux status bar in (minimalist, ataraxis)
+        lualine = true -- hide nvim-lualine (ataraxis)
+      },
+    },
+  },
+
   -- Zenbones color scheme
   { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
 
@@ -56,10 +67,10 @@ require('lazy').setup({
   { 'echasnovski/mini.starter', opts = {}, version = '*' },
 
   -- Show pending keybinds.
-  { 'folke/which-key.nvim',     opts = {} },
+  { 'folke/which-key.nvim', opts = {} },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',    opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- LSP Configuration & Plugins
   {
@@ -69,7 +80,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim',       opts = {},    tag = 'legacy' },
+      { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
       -- Additional lua configuration
       'folke/neodev.nvim',
     },
@@ -80,13 +91,13 @@ require('lazy').setup({
     'hrsh7th/nvim-cmp',
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip', -- Snippet Engine
-      'saadparwaiz1/cmp_luasnip', -- Luasnip source
+      'L3MON4D3/LuaSnip',           -- Snippet Engine
+      'saadparwaiz1/cmp_luasnip',   -- Luasnip source
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp', -- LSP completion
-      'hrsh7th/cmp-buffer', -- Buffer completion
-      'hrsh7th/cmp-path', -- Completion for paths
-      'hrsh7th/cmp-cmdline', -- Completion for command line
+      'hrsh7th/cmp-nvim-lsp',       -- LSP completion
+      'hrsh7th/cmp-buffer',         -- Buffer completion
+      'hrsh7th/cmp-path',           -- Completion for paths
+      'hrsh7th/cmp-cmdline',        -- Completion for command line
       -- Adds LaTeX autocompletion
       'kdheepak/cmp-latex-symbols', -- Unicode symbols
       -- Adds git autocompletion
@@ -123,6 +134,13 @@ require('lazy').setup({
         icons_enabled = true,
         component_separators = '|',
         section_separators = ''
+      },
+      extensions = {
+        'fugitive',
+        'lazy',
+        'fzf',
+        'man',
+        'mason',
       },
     },
   },
@@ -254,7 +272,9 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 require('nvim-treesitter.configs').setup {
 
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'bash', 'c', 'cpp', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'gpg', 'ini', 'lua', 'latex', 'make', 'markdown_inline', 'bibtex', 'psv', 'python', 'json', 'rust', 'ssh_config', 'tsv', 'yaml', 'toml', 'vimdoc', 'vim', 'xml'},
+  ensure_installed = { 'bash', 'c', 'cpp', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore',
+    'gpg', 'ini', 'lua', 'latex', 'make', 'markdown_inline', 'bibtex', 'psv', 'python', 'json', 'rust', 'ssh_config',
+    'tsv', 'yaml', 'toml', 'vimdoc', 'vim', 'xml' },
 
   -- Autoinstall languages that are not installed. Defaults to false
   auto_install = false,
@@ -409,7 +429,7 @@ local servers = {
       rust_analyzer = {
         rust_analyzer = {
           diagnostics = {
-            enable = false;
+            enable = false,
           }
         }
       },
@@ -450,7 +470,7 @@ cmp.setup {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
-  window = {
+    window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
@@ -491,13 +511,21 @@ cmp.setup {
     { name = 'dap' },
     { name = 'buffer' },
     { name = 'git' },
-    { name = 'latex_symbols',
-        option = {
-          strategy = 1, -- Julia style autocompletion
+    {
+      name = 'latex_symbols',
+      option = {
+        strategy = 1,   -- Julia style autocompletion
       },
     }
   },
 }
+
+-- Zen Mode Keymaps
+vim.api.nvim_set_keymap("n", "<leader>zn", ":TZNarrow<CR>", {})
+vim.api.nvim_set_keymap("v", "<leader>zn", ":'<,'>TZNarrow<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>zf", ":TZFocus<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>zm", ":TZMinimalist<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
 
 -- Lualine Settings
 local lualine = require 'lualine'
@@ -522,7 +550,6 @@ vim.api.nvim_command(':colo walbones') -- Colorscheme
 -- Neovide Settings
 if vim.g.neovide then
   vim.o.guifont = "Iosevka Nerd Font:h14"
-  --vim.opt.linespace = 1.25
   vim.g.neovide_scale_factor = 1.0
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
@@ -558,5 +585,3 @@ if vim.g.neovide then
   vim.g.neovide_cursor_vfx_particle_phase = 2.0
   vim.g.neovide_cursor_vfx_particle_curl = 1.25
 end
-
--- vim: ts=2 sts=2 sw=2 et
