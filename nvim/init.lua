@@ -36,17 +36,6 @@ require('lazy').setup({
   -- Indentation Guides
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
-  -- Better Zen Mode
-  {
-    "pocco81/true-zen.nvim",
-    modes = {    -- configurations per mode
-      integrations = {
-        tmux = true, -- hide tmux status bar in (minimalist, ataraxis)
-        lualine = true -- hide nvim-lualine (ataraxis)
-      },
-    },
-  },
-
   -- Zenbones color scheme
   { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
 
@@ -62,9 +51,6 @@ require('lazy').setup({
       { 'rktjmp/shipwright.nvim' },
     },
   },
-
-  -- Greeter page
-  { 'echasnovski/mini.starter', opts = {}, version = '*' },
 
   -- Show pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
@@ -98,8 +84,6 @@ require('lazy').setup({
       'hrsh7th/cmp-buffer',         -- Buffer completion
       'hrsh7th/cmp-path',           -- Completion for paths
       'hrsh7th/cmp-cmdline',        -- Completion for command line
-      -- Adds LaTeX autocompletion
-      'kdheepak/cmp-latex-symbols', -- Unicode symbols
       -- Adds git autocompletion
       'petertriho/cmp-git',
     },
@@ -111,7 +95,7 @@ require('lazy').setup({
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
-        add = { text = '+' },
+      add = { text = '+' },
         change = { text = '~' },
         delete = { text = '–' },
         topdelete = { text = '=' },
@@ -508,15 +492,9 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'dap' },
+ --   { name = 'dap' },
     { name = 'buffer' },
     { name = 'git' },
-    {
-      name = 'latex_symbols',
-      option = {
-        strategy = 1,   -- Julia style autocompletion
-      },
-    }
   },
 }
 
@@ -577,7 +555,7 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animate_in_insert_mode = true
   vim.g.neovide_cursor_animate_command_line = true
   vim.g.neovide_cursor_unfocused_outline_width = 0.125
-  vim.g.neovied_cursor_vfx_mode = "railgun"
+  vim.g.neovide_cursor_vfx_mode = "railgun"
   vim.g.neovide_cursor_vfx_opacity = 100.0
   vim.g.neovide_cursor_vfx_particle_lifetime = 0.5
   vim.g.neovide_cursor_vfx_particle_density = 5.0
