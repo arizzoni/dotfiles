@@ -12,11 +12,11 @@ function __virtualenv_info(){
 
 function __set_prompt(){
         # Create a string like:  "[ Apr 25 16:06 ]" with time in RED.
-        printf -v PS1RHS "\e[0m[ \e[0;1;31m%(%b %d %H:%M)T \e[0m]" -1 # -1 is current time
+        printf -v PS1RHS "\e[0m\e[0;1;32m%(%T)T \e[0;1;31m%(%F)T\e[0m" -1 # -1 is current time
 
         # Strip ANSI commands before counting length
         # From: https://www.commandlinefu.com/commands/view/12043/remove-color-special-escape-ansi-codes-from-text-with-sed
-        PS1RHS_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1RHS")
+        PS1RHS_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1RHS") # TODO refactor if possible
 
         # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
         local Save='\e[s' # Save cursor position
@@ -30,7 +30,7 @@ function __set_prompt(){
         # printed characters so that the prompt doesn't do strange things when
         # editing the entered text.
         PS0='' # Not used - displayed after each command, before any output
-        PS1='\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;35m\]$(__git_ps1 " (%s)") \[\e[0;35m\]$(__virtualenv_info)\[\e[3;37m\]$ \[\e[0;0m\]' # Primary output displayed before command
+        PS1='\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;35m\]$(__git_ps1 " (git:%s)") \[\e[0;35m\]$(__virtualenv_info)\[\e[3;37m\]$ \[\e[0;0m\]' # Primary output displayed before command
         PS2='\[\e[1;33m\]\u ' # Secondary prompt when a command needs more input
         PS3='' # Not used - bash select interactive menus - customized per command
         PS4='' # Not used - bash debug
