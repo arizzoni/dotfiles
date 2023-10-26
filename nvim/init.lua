@@ -1,5 +1,4 @@
 -- ~/.config/nvim/init.lua
--- version 0.2
 
 -- Set <space> as the leader key
 vim.g.mapleader = ' '
@@ -21,6 +20,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   }
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 -- Setup packages
@@ -42,20 +42,14 @@ require('lazy').setup({
   -- Pywal Color Scheme
   {
     'oncomouse/lushwal.nvim',
-
     -- Specify command to recompile wal colors
     cmd = { 'LushwalCompile' },
-
     dependencies = {
-
       -- Lush colorscheming engine
       { 'rktjmp/lush.nvim' },
-
       -- Shipwright
       { 'rktjmp/shipwright.nvim' },
-
     },
-
   },
 
   -- Greeter page
@@ -70,97 +64,77 @@ require('lazy').setup({
   -- LSP Configuration & Plugins
   {
     'neovim/nvim-lspconfig',
-
     dependencies = {
-
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-
       -- Useful status updates for LSP
       { 'j-hui/fidget.nvim',       opts = {},    tag = 'legacy' },
-
       -- Additional lua configuration
       'folke/neodev.nvim',
-
     },
-
   },
 
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
-
     dependencies = {
-
       -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-
+      'L3MON4D3/LuaSnip', -- Snippet Engine
+      'saadparwaiz1/cmp_luasnip', -- Luasnip source
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-
+      'hrsh7th/cmp-nvim-lsp', -- LSP completion
+      'hrsh7th/cmp-buffer', -- Buffer completion
+      'hrsh7th/cmp-path', -- Completion for paths
+      'hrsh7th/cmp-cmdline', -- Completion for command line
       -- Adds LaTeX autocompletion
-      'kdheepak/cmp-latex-symbols',
-
+      'kdheepak/cmp-latex-symbols', -- Unicode symbols
+      -- Adds git autocompletion
+      'petertriho/cmp-git',
     },
-
   },
 
   -- Adds git releated signs to the gutter, as well as utilities for managing changes
   {
     'lewis6991/gitsigns.nvim',
-
     opts = {
-
       -- See `:help gitsigns.txt`
       signs = {
-
         add = { text = '+' },
         change = { text = '~' },
         delete = { text = '–' },
         topdelete = { text = '=' },
         changedelete = { text = '≃' },
         untracked = { text = '×' }
-
       },
-
       on_attach = function(bufnr)
         vim.keymap.set('n', '[c', require('gitsigns').prev_hunk, { buffer = bufnr, desc = 'Go to Previous Hunk' })
         vim.keymap.set('n', ']c', require('gitsigns').next_hunk, { buffer = bufnr, desc = 'Go to Next Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
-
     },
-
   },
 
   -- Set lualine as statusline
   {
     'nvim-lualine/lualine.nvim',
-
     opts = {
-
       options = {
-
         icons_enabled = true,
         component_separators = '|',
         section_separators = ''
-
       },
-
     },
-
   },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
-
     branch = '0.1.x',
-
-    dependencies = { 'nvim-lua/plenary.nvim' },
-
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'tsakirist/telescope-lazy.nvim',
+    },
   },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -168,29 +142,20 @@ require('lazy').setup({
 
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-
     build = 'make',
-
     cond = function()
       return vim.fn.executable 'make' == 1
     end,
-
   },
 
   -- Highlight, edit, and navigate code
   {
     'nvim-treesitter/nvim-treesitter',
-
     dependencies = {
-
       'nvim-treesitter/nvim-treesitter-textobjects',
-
     },
-
     build = ':TSUpdate',
-
   },
-
 })
 
 -- [[ Setting options ]]
@@ -239,45 +204,32 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-
   callback = function()
     vim.highlight.on_yank()
   end,
-
   group = highlight_group,
   pattern = '*',
-
 })
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
+local telescope = require("telescope")
 
+telescope.setup {
   defaults = {
-
     mappings = {
-
       i = {
-
         ['<C-u>'] = false,
         ['<C-d>'] = false,
-
       },
-
     },
-
   },
-
 }
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+-- Enable telescope fzf native and telescope dap, if installed
+pcall(telescope.load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
@@ -285,10 +237,8 @@ vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { d
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-
     winblend = 10,
     previewer = false,
-
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
@@ -304,40 +254,26 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 require('nvim-treesitter.configs').setup {
 
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'bash', 'c', 'cpp', 'lua', 'latex', 'markdown', 'bibtex', 'python', 'rust', 'julia', 'json',
-    'yaml', 'toml', 'vimdoc', 'vim' },
+  ensure_installed = { 'bash', 'c', 'cpp', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore', 'gpg', 'ini', 'lua', 'latex', 'make', 'markdown_inline', 'bibtex', 'psv', 'python', 'json', 'rust', 'ssh_config', 'tsv', 'yaml', 'toml', 'vimdoc', 'vim', 'xml'},
 
   -- Autoinstall languages that are not installed. Defaults to false
   auto_install = false,
-
   highlight = { enable = true },
-
-  indent = { enable = true, disable = { 'python' } },
-
+  indent = { enable = true },
   incremental_selection = {
-
     enable = true,
-
     keymaps = {
-
       init_selection = '<c-space>',
       node_incremental = '<c-space>',
       scope_incremental = '<c-s>',
       node_decremental = '<M-space>',
-
     },
-
   },
-
   textobjects = {
-
     select = {
-
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-
       keymaps = {
-
         -- You can use the capture groups defined in textobjects.scm
         ['aa'] = '@parameter.outer',
         ['ia'] = '@parameter.inner',
@@ -345,67 +281,38 @@ require('nvim-treesitter.configs').setup {
         ['if'] = '@function.inner',
         ['ac'] = '@class.outer',
         ['ic'] = '@class.inner',
-
       },
-
     },
-
     move = {
-
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
-
       goto_next_start = {
-
         [']m'] = '@function.outer',
         [']]'] = '@class.outer',
-
       },
-
       goto_next_end = {
-
         [']M'] = '@function.outer',
         [']['] = '@class.outer',
-
-
       },
-
       goto_previous_start = {
-
         ['[m'] = '@function.outer',
         ['[['] = '@class.outer',
-
       },
-
       goto_previous_end = {
-
         ['[M'] = '@function.outer',
         ['[]'] = '@class.outer',
-
       },
-
     },
-
     swap = {
-
       enable = true,
-
       swap_next = {
-
         ['<leader>a'] = '@parameter.inner',
-
       },
-
       swap_previous = {
-
         ['<leader>A'] = '@parameter.inner',
-
       },
-
     },
-
   },
-
 }
 
 -- Diagnostic keymaps
@@ -423,7 +330,6 @@ local on_attach = function(_, bufnr)
     if desc then
       desc = 'LSP: ' .. desc
     end
-
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
@@ -459,60 +365,35 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config.
 local servers = {
-
       bashls = {
-
         bashls = {
-
           name = 'bash-language-server',
           cmd = { 'bash-language-server', 'start' },
-
         },
-
       },
-
       clangd = {
-
         clangd = {
-
           cmd = { 'clangd' },
           filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
           single_file_support = { 'true' },
-
         },
-
       },
-
       cmake = {},
 
       texlab = {
-
         texlab = {
-
           cmd = { 'texlab' },
-
         },
-
       },
-
       lua_ls = {
-
         Lua = {
-
           workspace = { checkThirdParty = false },
-
           telemetry = { enable = false },
-
         },
-
       },
-
       pylsp = {
-
         pylsp = {
-
           plugins = {
-
             black = { enabled = true },
             autopep8 = { enabled = false },
             yapf = { enabled = false },
@@ -522,13 +403,16 @@ local servers = {
             pylsp_mypy = { enabled = true },
             jedi_completion = { fuzzy = true },
             pyls_isort = { enabled = true },
-
           },
-
         },
-
       },
-
+      rust_analyzer = {
+        rust_analyzer = {
+          diagnostics = {
+            enable = false;
+          }
+        }
+      },
     },
 
     require('neodev').setup()
@@ -548,14 +432,11 @@ mason_lspconfig.setup_handlers {
 
   function(server_name)
     require('lspconfig')[server_name].setup {
-
       capabilities = capabilities,
       on_attach = on_attach,
       settings = servers[server_name],
-
     }
   end,
-
 }
 
 -- [[ Configure nvim-cmp ]]
@@ -565,15 +446,15 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
-
   snippet = {
-
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
-
+  window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
   },
-
   mapping = cmp.mapping.preset.insert {
 
     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -582,12 +463,9 @@ cmp.setup {
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
     ['<CR>'] = cmp.mapping.confirm {
-
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
-
     },
-
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -597,7 +475,6 @@ cmp.setup {
         fallback()
       end
     end, { 'i', 's' }),
-
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
@@ -607,48 +484,36 @@ cmp.setup {
         fallback()
       end
     end, { 'i', 's' }),
-
   },
-
   sources = {
-
     { name = 'nvim_lsp' },
-
     { name = 'luasnip' },
-
-    {
-      name = 'latex_symbols',
-
-      option = {
-
-        strategy = 1, -- Julia style autocompletion
-
+    { name = 'dap' },
+    { name = 'buffer' },
+    { name = 'git' },
+    { name = 'latex_symbols',
+        option = {
+          strategy = 1, -- Julia style autocompletion
       },
-
     }
-
   },
-
 }
 
 -- Lualine Settings
 local lualine = require 'lualine'
 
 lualine.setup {
-
   options = {
-
     theme = 'pywal'
-
   },
-
 }
 
--- Global Settings
 vim.opt.number = true                        -- Line numbers
 vim.opt.expandtab = true                     -- Expand tabs to spaces
 vim.opt.modeline = true                      -- Enable modeline
 vim.g.python3_host_prog = '/usr/bin/python3' -- Python executable
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- Theming Settings
 vim.g.transparent_enabled = true       -- Transparency
@@ -664,7 +529,7 @@ if vim.g.neovide then
   vim.g.neovide_padding_right = 4
   vim.g.neovide_padding_left = 4
   vim.g.neovide_transparency = 0.8
-  vim.g.transparency = 0
+  vim.g.transparency = 0.8
   vim.g.neovide_floating_blur_amount_x = 2.0
   vim.g.neovide_floating_blur_amount_y = 2.0
   vim.g.neovide_scroll_animation_length = 0.5

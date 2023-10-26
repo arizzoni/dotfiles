@@ -46,7 +46,6 @@ local function walbones()
 
 	-- Define a palette manually.
 	colors.fg = colors.foreground
-	colors.fg = colors.foreground
 	colors.bg = colors.background
 	colors.wood = colors.color1
 	colors.leaf = colors.color2
@@ -57,7 +56,7 @@ local function walbones()
 
 	-- Extended palette colors
 	colors.bg1 = colors.bg
-	colors.bg_stark = colors.color0
+	colors.bg_stark = colors.color7
 	colors.bg_warm = colors.color8
 	colors.rose1 = colors.color9
 	colors.leaf1 = colors.color10

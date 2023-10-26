@@ -2,6 +2,4 @@
 --        get path
 --        change .tex to .pdf
 --        zathura file.pdf
---
-
-
+--        if there is no .pdf file try to compile with latexmk -lualatex 
