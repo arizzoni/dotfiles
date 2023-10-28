@@ -66,7 +66,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
+      { 'j-hui/fidget.nvim', tag = 'legacy', event = 'LspAttach', opts = {} },
       -- Additional lua configuration
       'folke/neodev.nvim',
     },
@@ -77,13 +77,16 @@ require('lazy').setup({
     'hrsh7th/nvim-cmp',
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',           -- Snippet Engine
-      'saadparwaiz1/cmp_luasnip',   -- Luasnip source
+      'L3MON4D3/LuaSnip',         -- Snippet Engine
+      'saadparwaiz1/cmp_luasnip', -- Luasnip source
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',       -- LSP completion
-      'hrsh7th/cmp-buffer',         -- Buffer completion
-      'hrsh7th/cmp-path',           -- Completion for paths
-      'hrsh7th/cmp-cmdline',        -- Completion for command line
+      'hrsh7th/cmp-nvim-lsp',     -- LSP completion
+      'hrsh7th/cmp-buffer',       -- Buffer completion
+      'hrsh7th/cmp-path',         -- Completion for paths
+      'hrsh7th/cmp-cmdline',      -- Completion for command line
+      'hrsh7th/cmp-nvim-lua',     -- Neovim Lua completion source
+      -- Treesitter Autocompletion
+      'ray-x/cmp-treesitter',
       -- Adds git autocompletion
       'petertriho/cmp-git',
     },
@@ -95,7 +98,7 @@ require('lazy').setup({
     opts = {
       -- See `:help gitsigns.txt`
       signs = {
-      add = { text = '+' },
+        add = { text = '+' },
         change = { text = '~' },
         delete = { text = '–' },
         topdelete = { text = '=' },
@@ -121,8 +124,8 @@ require('lazy').setup({
       },
       extensions = {
         'fugitive',
-        'lazy',
         'fzf',
+        'lazy',
         'man',
         'mason',
       },
@@ -135,6 +138,8 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-symbols.nvim',
+      'nvim-tree/nvim-web-devicons',
       'tsakirist/telescope-lazy.nvim',
     },
   },
@@ -155,6 +160,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-refactor',
     },
     build = ':TSUpdate',
   },
@@ -230,7 +236,7 @@ telescope.setup {
   },
 }
 
--- Enable telescope fzf native and telescope dap, if installed
+-- Enable telescope fzf native, if installed
 pcall(telescope.load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
@@ -325,6 +331,8 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+require("neodev").setup()
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -369,57 +377,55 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config.
 local servers = {
-      bashls = {
-        bashls = {
-          name = 'bash-language-server',
-          cmd = { 'bash-language-server', 'start' },
-        },
-      },
-      clangd = {
-        clangd = {
-          cmd = { 'clangd' },
-          filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
-          single_file_support = { 'true' },
-        },
-      },
-      cmake = {},
+  bashls = {
+    bashls = {
+      name = 'bash-language-server',
+      cmd = { 'bash-language-server', 'start' },
+    },
+  },
+  clangd = {
+    clangd = {
+      cmd = { 'clangd' },
+      filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
+      single_file_support = { 'true' },
+    },
+  },
+  cmake = {},
 
-      texlab = {
-        texlab = {
-          cmd = { 'texlab' },
-        },
-      },
-      lua_ls = {
-        Lua = {
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
-        },
-      },
-      pylsp = {
-        pylsp = {
-          plugins = {
-            black = { enabled = true },
-            autopep8 = { enabled = false },
-            yapf = { enabled = false },
-            pylint = { enabled = true, executable = 'pylint' },
-            pyflakes = { enabled = false },
-            pycodestyle = { enabled = false },
-            pylsp_mypy = { enabled = true },
-            jedi_completion = { fuzzy = true },
-            pyls_isort = { enabled = true },
-          },
-        },
-      },
-      rust_analyzer = {
-        rust_analyzer = {
-          diagnostics = {
-            enable = false,
-          }
-        }
+  texlab = {
+    texlab = {
+      cmd = { 'texlab' },
+    },
+  },
+  lua_ls = {
+    Lua = {
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+    },
+  },
+  pylsp = {
+    pylsp = {
+      plugins = {
+        black = { enabled = true },
+        autopep8 = { enabled = false },
+        yapf = { enabled = false },
+        pylint = { enabled = true, executable = 'pylint' },
+        pyflakes = { enabled = false },
+        pycodestyle = { enabled = false },
+        pylsp_mypy = { enabled = true },
+        jedi_completion = { fuzzy = true },
+        pyls_isort = { enabled = true },
       },
     },
-
-    require('neodev').setup()
+  },
+  rust_analyzer = {
+    rust_analyzer = {
+      diagnostics = {
+        enable = false,
+      }
+    }
+  },
+}
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -465,12 +471,12 @@ cmp.setup {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
+    -- ['<C-Space>'] = cmp.mapping.complete {},
+    ['<Tab>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ['<C-Space>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_locally_jumpable() then
@@ -492,18 +498,10 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
- --   { name = 'dap' },
     { name = 'buffer' },
     { name = 'git' },
   },
 }
-
--- Zen Mode Keymaps
-vim.api.nvim_set_keymap("n", "<leader>zn", ":TZNarrow<CR>", {})
-vim.api.nvim_set_keymap("v", "<leader>zn", ":'<,'>TZNarrow<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>zf", ":TZFocus<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>zm", ":TZMinimalist<CR>", {})
-vim.api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
 
 -- Lualine Settings
 local lualine = require 'lualine'
@@ -527,7 +525,7 @@ vim.api.nvim_command(':colo walbones') -- Colorscheme
 
 -- Neovide Settings
 if vim.g.neovide then
-  vim.o.guifont = "Iosevka Nerd Font:h14"
+   vim.o.guifont = "Iosevka Nerd Font:h14"
   vim.g.neovide_scale_factor = 1.0
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
