@@ -31,6 +31,12 @@ shopt -s sourcepath
 set -o braceexpand
 set -o noclobber
 
+
+
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+
+
 # If the shell is interactive and .bashrc exists, get the aliases and functions
 if [[ -f ~/.config/.bashrc ]]; then {
         source ~/.config/.bashrc
