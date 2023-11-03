@@ -21,7 +21,7 @@ math.randomseed(os.time())
 
 local theme = {}
 -- Change wallpaper and get colors from Wal
-local wallpaper_dir = "/usr/share/backgrounds/4k/steve-johnson/" -- Set wallpaper directory
+local wallpaper_dir = "/usr/share/backgrounds/4k/nasa-wallpapers" -- Set wallpaper directory
 local wallpapers = scan_dir(wallpaper_dir) -- Pull filenames into a table
 theme.wallpaper = wallpapers[ math.random(#wallpapers) ] -- Select random image from the filename table
 
@@ -156,6 +156,18 @@ theme.menu_border_width = theme.border_width
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_height = dpi(24)
 theme.menu_width  = dpi(150)
+
+-- theme.calendar_font = theme.font,
+-- theme.calendar_spacing =  -0.5 * theme.corner_radius,
+-- theme.calendar_week_numbers = false,
+-- theme.calendar_start_sunday = true,
+-- theme.calendar_long_weekdays = true,
+-- theme.calendar_style_month = {},
+-- theme.calendar_style_header = {},
+-- theme.calendar_style_weekday = {},
+-- theme.calendar_style_weeknumber = {},
+-- theme.calendar_style_normal = {},
+-- theme.calendar_style_focus = {},
 
 -- Define the image to load
 theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"

@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 --If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
@@ -49,11 +51,10 @@ awful.spawn.with_shell(
     'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
     'xrdb -merge <<< "awesome.started:true";' ..
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
-    'picom -b;' ..
-    -- clamd, etc
-
     'dex --environment Awesome --autostart'
     )
+awful.spawn.single_instance("conky")
+awful.spawn.single_instance("picom")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -94,7 +95,7 @@ awful.layout.layouts = {
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-local myengineeringmenu = {
+local mycadmenu = {
     { "KiCAD", "kicad"},
     { "FreeCAD", "freecad" },
     { "OpenSCAD", "openscad" },
@@ -107,20 +108,14 @@ local mygraphicsmenu = {
     { "Gpick", "gpick" }
 }
 
-local myofficemenu = {
-    { "LibreOffice", "libreoffice" },
-    { "Evince", "evince" }
-}
-
 local mymainmenu = awful.menu({ items = { { "Terminal", terminal },
                                     { "File Manager", "thunar" },
                                     { "Internet", "firefox" },
                                     { "Mail", "thunderbird" },
                                     { "Screenshot", "xfce4-screenshooter" },
                                     { "Radio", "goodvibes" },
-                                    { "Engineering", myengineeringmenu },
+                                    { "CAD", mycadmenu },
                                     { "Graphics", mygraphicsmenu },
-                                    { "Office", myofficemenu },
                                   }
                          })
 
@@ -135,11 +130,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 local mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
-local mytextclock = wibox.widget.textclock( " %a, %b %d %Y %I:%M %p ", 1 )
--- local mycalendar_popup = awful.widget.calendar_popup.month()
--- mycalendar_popup:attach( mytextclock, "tr")
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -230,6 +220,29 @@ awful.screen.connect_for_each_screen(function(s)
     s.mysystray = wibox.widget.systray()
     s.mysystray.set_base_size(48)
 
+    -- Create a textclock widget
+    s.mytextclock = wibox.widget.textclock( " %a, %b %d %Y %I:%M %p ", 1 )
+    -- Create a popup calendar widget attached to the textclock
+    s.mycalendar_popup = awful.widget.calendar_popup.month({
+        position = "tr",
+        screen = s,
+        opacity = beautiful.notification_opacity,
+        bg = beautiful.notification_bg,
+        font = beautiful.calendar_font,
+        spacing = beautiful.calendar_spacing,
+        margin = beautiful.corner_radius,
+        week_numbers = beautiful.calendar_week_numbers,
+        start_sunday = beautiful.calendar_start_sunday,
+        long_weekdays = beautiful.calendar_long_weekdays,
+        style_month = beautiful.calendar_style_month,
+        style_header = beautiful.calendar_style_header,
+        style_weekday = beautiful.calendar_style_weekday,
+        style_weeknumber = beautiful.calendar_style_weeknumber,
+        style_normal = beautiful.calendar_style_normal,
+        style_focus = beautiful.calendar_style_focus,
+    })
+    s.mycalendar_popup:attach( s.mytextclock, "tr")
+
     -- Create the wibox
     s.mywibox = awful.wibar({
         position = "top",
@@ -251,9 +264,8 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
             s.mysystray,
-            mytextclock,
+            s.mytextclock,
             s.mylayoutbox,
         },
     }
