@@ -33,8 +33,8 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- Indentation Guides
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+  -- Mini start page
+  { 'echasnovski/mini.nvim', version = '*' },
 
   -- Zenbones color scheme
   { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
@@ -85,10 +85,9 @@ require('lazy').setup({
       'hrsh7th/cmp-path',         -- Completion for paths
       'hrsh7th/cmp-cmdline',      -- Completion for command line
       'hrsh7th/cmp-nvim-lua',     -- Neovim Lua completion source
-      -- Treesitter Autocompletion
-      'ray-x/cmp-treesitter',
-      -- Adds git autocompletion
-      'petertriho/cmp-git',
+      'ray-x/cmp-treesitter', -- Treesitter Autocompletion
+      'petertriho/cmp-git', -- Adds git autocompletion
+      'kdheepak/cmp-latex-symbols', -- LaTeX style autocompletion
     },
   },
 
@@ -259,7 +258,9 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
+---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
+  sync_install = true,
 
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'bash', 'c', 'cpp', 'csv', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit', 'gitignore',
@@ -391,7 +392,6 @@ local servers = {
     },
   },
   cmake = {},
-
   texlab = {
     texlab = {
       cmd = { 'texlab' },
@@ -455,6 +455,7 @@ local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
+---@diagnostic disable-next-line: missing-fields
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -500,6 +501,7 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'git' },
+    { name = 'latex_symbols' },
   },
 }
 
@@ -512,6 +514,9 @@ lualine.setup {
   },
 }
 
+-- Mini.Starter Settings
+require("mini.starter").setup()
+
 vim.opt.number = true                        -- Line numbers
 vim.opt.expandtab = true                     -- Expand tabs to spaces
 vim.opt.modeline = true                      -- Enable modeline
@@ -520,12 +525,11 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- Theming Settings
-vim.g.transparent_enabled = true       -- Transparency
 vim.api.nvim_command(':colo walbones') -- Colorscheme
 
 -- Neovide Settings
 if vim.g.neovide then
-   vim.o.guifont = "Iosevka Nerd Font:h14"
+  vim.o.guifont = "Iosevka Nerd Font:h14"
   vim.g.neovide_scale_factor = 1.0
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0

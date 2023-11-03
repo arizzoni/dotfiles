@@ -7,6 +7,8 @@
 -- given priority. All credit goes to the developers of the dependencies and 
 -- of Neovim itself.
 
+---@diagnostic disable: need-check-nil
+
 -- Setup colorscheme
 local colorscheme_name = "walbones" -- i.e. :colo walbones
 vim.g.colors_name = colorscheme_name -- Required when defining a colorscheme
@@ -37,8 +39,6 @@ vim.g.lushwal_configuration = { -- Should this be in another place?
 	}
 }
 
-vim.api.nvim_command(":colo lushwal")
-
 local function walbones()
 
 	-- Get colors from wal
@@ -68,6 +68,7 @@ local function walbones()
 
 	-- Generate the lush specs using the zenbones generator utility
 	local specs = generator.generate( -- Import zenbones specs and generate the new specs for lush
+		---@diagnostic disable-next-line
 	        colors, -- Apply wal colors to zenbones
 	        bg, -- Preserve background color
 	        generator.get_global_config(colorscheme_name, bg)
@@ -77,6 +78,7 @@ local function walbones()
 	lush(specs)
 
 	-- Optionally set term colors
+	---@diagnostic disable-next-line
 	term.apply_colors(colors)
 end
 
