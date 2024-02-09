@@ -26,7 +26,7 @@ if [[ -x "$(command -v  eza)" ]] ; then { # If eza is installed prefer over ls
                 --sort=extension --group-directories-first"
 } fi
 
-if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over ls
+if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over cat
         alias cat="bat --theme=ansi"
 } else {
         alias cat="cat --number-nonblank"
