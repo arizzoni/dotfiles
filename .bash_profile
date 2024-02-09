@@ -12,7 +12,10 @@ export HISTFILESIZE=2000 # History size limit (on disk)
 export EDITOR="nvim" # Export Neovim as global editor
 export MANPAGER="nvim -c ':Man!'" # Use Neovim as manpager
 
-# Add GNU Stow sync script to path
+# IPython local dir
+export IPYTHONDIR="$HOME/.local/share/ipython"
+
+# Add bin directory to path
 PATH=$PATH:~/.dotfiles/bin
 
 # Bash Shell Options
