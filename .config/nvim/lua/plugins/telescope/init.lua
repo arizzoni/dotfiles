@@ -6,6 +6,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-symbols.nvim",
+    "nvim-telescope/telescope-dap.nvim",
     "tsakirist/telescope-lazy.nvim",
   },
   opts = {
@@ -20,5 +21,6 @@ return {
   },
   init = function()
     require("telescope").load_extension("fzf")
+    require("telescope").load_extension("dap")
   end
 }
