@@ -1,5 +1,0 @@
-#!/bin/env sh
-
-if [ -x "$(command -v nvim)" ] ; then {
-        $TERM -e nvim -f "$@"
-} fi
