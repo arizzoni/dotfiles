@@ -1,0 +1,89 @@
+ipc_socket = true
+live_config_reload = true
+
+# import = [
+#         "~/.local/share/nvim/lazy/zenbones.nvim/extras/alacritty/seoulbones_dark.yml"
+# ]
+
+[env]
+TERM = "alacritty"
+
+[colors]
+draw_bold_text_with_bright_colors = false
+transparent_background_colors = true
+
+# [colors.bright]
+# black = "#6C6465"
+# blue = "#A2C8E9"
+# cyan = "#6BCACB"
+# green = "#8FCD92"
+# magenta = "#B2B3DA"
+# red = "#EB99B1"
+# white = "#A8A8A8"
+# yellow = "#FFE5B3"
+#
+# [colors.cursor]
+# cursor = "#E2E2E2"
+# text = "#4B4B4B"
+#
+# [colors.normal]
+# black = "#4B4B4B"
+# blue = "#97BDDE"
+# cyan = "#6FBDBE"
+# green = "#98BD99"
+# magenta = "#A5A6C5"
+# red = "#E388A3"
+# white = "#DDDDDD"
+# yellow = "#FFDF9B"
+#
+# [colors.primary]
+#  background = "#000000"
+# foreground = "#DDDDDD"
+
+[cursor]
+blink_interval = 750
+blink_timeout = 5
+thickness = 0.15
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "On"
+shape = "Underline"
+
+[font]
+builtin_box_drawing = true
+size = 14
+
+[font.normal]
+family = "IosevkaTerm Nerd Font"
+
+[font.bold]
+style = "Bold"
+
+[font.bold_italic]
+style = "Bold Italic"
+
+[font.italic]
+style = "Italic"
+
+[mouse]
+hide_when_typing = false
+
+[scrolling]
+history = 10000
+multiplier = 2
+
+[shell]
+args = ["--login"]
+program = "/bin/bash"
+
+[window]
+decorations = "None"
+decorations_theme_variant = "None"
+dynamic_padding = true
+opacity = 0.8
+startup_mode = "Windowed"
+
+[window.padding]
+x = 6
+y = 0

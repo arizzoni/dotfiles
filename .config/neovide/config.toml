@@ -1,0 +1,9 @@
+# config.toml
+# Neovide configuration file
+
+[font]
+normal = ["Iosevka", "Iosevka Nerd Font"]
+bold = ["Iosevka", "Iosevka Nerd Font"]
+italic = ["Iosevka Curly", "Iosevka Nerd Font"]
+bold_italic = ["Iosevka Curly", "Iosevka Nerd Font"]
+size = 20

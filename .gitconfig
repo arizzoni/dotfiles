@@ -1,0 +1,48 @@
+[user]
+	name = Alex Rizzoni
+	email = rizzoni.alex@gmail.com
+	username = air
+[init]
+	defaultBranch = main
+[color]
+	ui = true
+[color "branch"]
+        current = yellow reverse
+        local = yellow
+        remote = green
+[color "diff"]
+        meta = yellow bold
+        frag = magenta bold
+        old = red bold
+        new = green bold
+[color "status"]
+        added = yellow
+        changed = green
+	untracked = red
+[web]
+        browser = firefox
+[diff]
+        tool = nvim -d
+[difftool]
+        prompt = false
+[delta]
+        features = line-numbers decorations
+        line-numbers = true
+[delta "decorations"]
+	minus-style = red bold normal
+	plus-style = green bold normal
+	minus-emph-style = white bold red
+	minus-non-emph-style = red bold normal
+	plus-emph-style = white bold green
+	plus-non-emph-style = green bold normal
+	file-style = yellow bold none
+	file-decoration-style = yellow box
+	hunk-header-style = magenta bold
+	hunk-header-decoration-style = magenta box
+	minus-empty-line-marker-style = normal normal
+	plus-empty-line-marker-style = normal normal
+	line-numbers-right-format = "{np:^4}│ "
+[gitflow "prefix"]
+        versiontag = V
+[credential]
+	helper = store

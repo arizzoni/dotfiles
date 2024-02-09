@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# .xprofile
+
+# Disable touchpad while typing
+if [[ -x "$(command -v syndaemon)" ]] ; then {
+        syndaemon -d -i 1.5 -m 100 -K
+} fi
+
+# Multiple monitor configuration
+if [[ -f "~/.screenlayout/home.sh" ]] ; then {
+        source ~/.screenlayout/home.sh
+} fi
+
+# Pywal colorscheme and wallpaper selection
+if [[ -x "$(command -v wal)" ]] ; then {
+        
+        # Randomly select a wallpaper and generate a colorsscheme randomly
+        # without setting the wallpaper
+        wal --recursive -nq -i ~/Pictures/wallpapers/4k/space/
+
+        # Apply pywal colorscheme to Firefox
+        if [[ -x "$(command -v pywalfox)" ]] ; then {
+                pywalfox update
+        } fi
+
+        # Apply pywal colorscheme to patched zathura
+        if [[ -x "$(command -v zathura-pywal)" ]] ; then {
+                zathura-pywal -a 0.9
+        } fi
+
+        # Apply pywal colorscheme to KiCAD
+        if [[ -f "~/Projects/kicad/kicad-scripts/kiwal.py" ]] ; then {
+                python ~/Projects/kicad/kicad-scripts/kiwal.py
+        } fi
+
+} fi
