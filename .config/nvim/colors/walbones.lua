@@ -40,14 +40,6 @@ palette = util.palette_extend({
 	water = hsluv(tostring(wal_colors.blue)),
 	blossom = hsluv(tostring(wal_colors.magenta)),
 	sky = hsluv(tostring(wal_colors.cyan)),
-	bg1 = hsluv(tostring(wal_colors.background)),
-	fg1 = hsluv(tostring(wal_colors.foreground)),
-	rose1 = hsluv(tostring(wal_colors.red)),
-	leaf1 = hsluv(tostring(wal_colors.green)),
-	wood1 = hsluv(tostring(wal_colors.brown)),
-	water1 = hsluv(tostring(wal_colors.blue)),
-	blossom1 = hsluv(tostring(wal_colors.magenta)),
-	sky1 = hsluv(tostring(wal_colors.cyan)),
 }, bg)
 
 -- Generate the lush specs using the generator util
