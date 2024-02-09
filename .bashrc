@@ -38,8 +38,8 @@ if [[ -x "$(command -v neovide)" ]] ; then {
 } fi
 
 # IPython Alias
-if [[ -d "~/.local/share/python/ipython/bin/" ]]; then {
+if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
         alias ipython="source ~/.local/share/python/ipython/bin/activate; \
-                python -m IPython; \
+                ipython --no-banner; \
                 deactivate;"
 } fi
