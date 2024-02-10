@@ -19,7 +19,7 @@ return {
       "textlint",
       "yamllint",
     },
-    automatic_installation = true,
+    automatic_installation = false,
     handlers = {},
   }
 }
