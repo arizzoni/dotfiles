@@ -1,7 +1,7 @@
 -- theme.lua - Theme for AwesomeWM
 -- V0.2
 -- Alessandro Rizzoni
---
+
 local xresources = require("beautiful.xresources") -- AwesomeWM Xresources interface
 local dpi = xresources.apply_dpi                   -- AwesomeWM sizing utility
 local shape = require("gears.shape")               -- AwesomeWM shapes
@@ -13,8 +13,10 @@ theme.name = 'MetaTheme' -- Theme name for export
 local colors = xresources.get_current_theme()
 
 local wal_cache = io.open(gfs.get_xdg_cache_home() .. 'wal/wal', 'r')
-theme.wallpaper = wal_cache:read()
-wal_cache:close()
+if wal_cache ~= nil then
+  theme.wallpaper = wal_cache:read()
+  wal_cache:close()
+end
 
 -- Assign colors:
 theme.bg_normal                 = colors.background
@@ -96,19 +98,10 @@ theme.calendar_style_month      = {
   opacity = 0.8,
 }
 
--- Laptop specific settings
-local laptop = true; -- REFACTOR: refactor to detect battery and additional monitors, etc.
-if laptop then
-  theme.corner_radius     = dpi(0)
-  theme.useless_gap       = dpi(0)
-  theme.border_width      = dpi(0)
-  theme.gap_single_client = false
-else
-  theme.corner_radius     = dpi(2)
-  theme.useless_gap       = dpi(2)
-  theme.border_width      = dpi(2)
-  theme.gap_single_client = true
-end
+theme.corner_radius     = dpi(0)
+theme.useless_gap       = dpi(0)
+theme.border_width      = dpi(0)
+theme.gap_single_client = false
 
 theme.font                                      = "Iosevka Nerd Font 10"
 
