@@ -9,18 +9,27 @@ if [ -x "$(command -v syndaemon)" ] ; then {
 # Multiple monitor configuration
 # REFACTOR: this should be done by checking if the laptop is at home by 
 # REFACTOR: seeing if the display information matches
-NUM_MONITORS=$("xrandr --listmonitors | sed 's/[^0-9]//g' | head -n 1")
-if (( $NUM_MONITORS = 2 )) ; then { 
-        source ~/bin/monitors.bash
+NUM_MONITORS=$(xrandr --listmonitors | sed 's/[^0-9]//g' | head -n 1)
+if (( NUM_MONITORS == 2 )) ; then { 
+        source "$HOME/bin/monitors.bash"
 } fi
 
 # Pywal colorscheme and wallpaper selection
 if [ -x "$(command -v wal)" ] ; then {
-        
-        # Randomly select a wallpaper and generate a colorscheme randomly
-        # without setting the wallpaper
-        wal --recursive -nq -i ~/Pictures/wallpapers/4k/
+       
+        # Use old cached wallpaper to generate a colorscheme
+        WAL_CACHE="$HOME/.cache/wal/wal_cache"
+        wal --cols16 -nq -i "$(cat "$WAL_CACHE")"
 
+        # Select new random wallpaper and cache it
+        WALLPAPER_DIR="$HOME/Pictures/wallpapers/4k/space"
+        WALLPAPER="$WALLPAPER_DIR/$(command ls "$WALLPAPER_DIR" --recursive | shuf | head -n 1)"
+        echo "$WALLPAPER" >| "$WAL_CACHE"
+
+        # Copy the image to /usr/share/backgrounds so that LightDM can use it
+        WALLPAPER_CACHE="/usr/share/backgrounds/wal"
+        cp --no-preserve=mode,ownership "$WALLPAPER" "$WALLPAPER_CACHE"
+        
         # Apply pywal colorscheme to Firefox
         if [ -x "$(command -v pywalfox)" ] ; then {
                 pywalfox update
@@ -32,7 +41,7 @@ if [ -x "$(command -v wal)" ] ; then {
         } fi
 
         # Apply pywal colorscheme to KiCAD
-        if [ -f "~/Projects/kicad/kicad-scripts/kiwal.py" ] ; then {
+        if [ -f ~/Projects/kicad/kicad-scripts/kiwal.py ] ; then {
                 python ~/Projects/kicad/kicad-scripts/kiwal.py
         } fi
 
