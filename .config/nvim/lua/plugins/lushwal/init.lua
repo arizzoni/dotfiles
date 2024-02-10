@@ -25,7 +25,7 @@ return {
       addons = {
         gitsigns_nvim = true,
         indent_blankline_nvim = true,
-        lualine = true,
+        -- lualine = true,
         markdown = true,
         native_lsp = true,
         nvim_cmp = true,
