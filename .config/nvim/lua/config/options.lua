@@ -19,7 +19,6 @@ vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.completeopt = "menuone,noselect"                                    -- Set completeopt to have a better completion experience
 vim.opt.termguicolors = true                                                -- Make sure the terminal supports this
-vim.opt.number = true                                                       -- Line numbers
 vim.opt.expandtab = true                                                    -- Expand tabs to spaces
 vim.opt.modeline = true                                                     -- Enable modeline
 vim.g.python3_host_prog = "/home/air/.local/share/python/neovim/bin/python" -- Python executable
