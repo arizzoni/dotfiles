@@ -30,17 +30,19 @@ vim.g.lushwal_configuration = {
 local wal_colors = generate_colors()
 
 -- Define a palette. Use `palette_extend` to fill unspecified colors
-local palette
-palette = util.palette_extend({
-	bg = hsluv(tostring(wal_colors.background)),
-	fg = hsluv(tostring(wal_colors.foreground)),
-	rose = hsluv(tostring(wal_colors.red)),
-	leaf = hsluv(tostring(wal_colors.green)),
-	wood = hsluv(tostring(wal_colors.yellow)),
-	water = hsluv(tostring(wal_colors.blue)),
-	blossom = hsluv(tostring(wal_colors.magenta)),
-	sky = hsluv(tostring(wal_colors.cyan)),
-}, bg)
+local palette = {}
+if wal_colors ~= nil then
+	palette = util.palette_extend({
+		bg = hsluv(tostring(wal_colors.background)),
+		fg = hsluv(tostring(wal_colors.foreground)),
+		rose = hsluv(tostring(wal_colors.red)),
+		leaf = hsluv(tostring(wal_colors.green)),
+		wood = hsluv(tostring(wal_colors.yellow)),
+		water = hsluv(tostring(wal_colors.blue)),
+		blossom = hsluv(tostring(wal_colors.magenta)),
+		sky = hsluv(tostring(wal_colors.cyan)),
+	}, bg)
+end
 
 -- Generate the lush specs using the generator util
 local generator = require("zenbones.specs")
