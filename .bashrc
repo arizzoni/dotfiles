@@ -32,6 +32,10 @@ if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over cat
         alias cat="cat --number-nonblank"
 } fi
 
+if [[ -x "$(command -v fzf)" ]] ; then {
+        alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
+} fi
+
 # Neovide Alias
 if [[ -x "$(command -v neovide)" ]] ; then {
         alias neovide="neovide --no-fork"
