@@ -19,7 +19,7 @@ if [ -x "$(command -v wal)" ] ; then {
        
         # Use old cached wallpaper to generate a colorscheme
         WAL_CACHE="$HOME/.cache/wal/wal_cache"
-        wal --cols16 -nq -i "$(cat "$WAL_CACHE")"
+        wal --saturate 1.0 --cols16 -nq -i "$(cat "$WAL_CACHE")"
 
         # Select new random wallpaper and cache it
         WALLPAPER_DIR="$HOME/Pictures/wallpapers/4k/space"
