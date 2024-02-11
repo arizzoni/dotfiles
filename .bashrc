@@ -18,7 +18,7 @@ if [[ -x "$(command -v  eza)" ]] ; then { # If eza is installed prefer over ls
         alias la="eza --long --no-quotes --almost-all --sort=extension \
                 --group-directories-first --time-style=long-iso \
                 --git --git-repos --level=1"
-        alias tree="eza --tree --level 2"
+        alias tree="eza --tree --almost-all --sort=extension --group-directories-first --level 2"
 } else {
         alias ls="ls --color=auto -g --time-style=long-iso --sort=extension \
                 --group-directories-first"
