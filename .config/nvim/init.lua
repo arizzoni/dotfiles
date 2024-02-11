@@ -5,7 +5,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Enable the builtin filetype plugin
--- vim.bo.filetype = true
 vim.g.do_filetype_lua = true
 
 -- Install package manager
