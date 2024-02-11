@@ -1,8 +1,5 @@
 -- /.config/nvim/init.lua
 
----@diagnostic disable-next-line undefined-global
-local vim = vim
-
 -- Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
