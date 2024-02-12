@@ -57,8 +57,6 @@ awful.spawn.with_shell(
   'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
   'xrdb -merge <<< "awesome.started:true";' ..
   -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
-  'dbus-update-activation-environment --all;' ..          -- has to happen after wm startup
-  'gnome-keyring-daemon --start --components=secrets;' .. -- has to happen after wm startup
   'picom;' ..                                             -- has to happen after wm startup
   'light-locker --lock-on-suspend --lock-on-lid --idle-hint;' ..
   --
