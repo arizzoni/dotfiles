@@ -52,3 +52,8 @@ if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
                 ipython --no-banner; \
                 deactivate;"
 } fi
+
+# Neofetch Alias
+if [[ -x "$(command -v neofetch)" ]] ; then {
+        alias neofetch="neofetch --disable uptime"
+} fi
