@@ -60,6 +60,7 @@ awful.spawn.with_shell(
   'dbus-update-activation-environment --all;' ..          -- has to happen after wm startup
   'gnome-keyring-daemon --start --components=secrets;' .. -- has to happen after wm startup
   'picom;' ..                                             -- has to happen after wm startup
+  'light-locker --lock-on-suspend --lock-on-lid --idle-hint;' ..
   --
   'dex --environment Awesome --autostart'
 )
