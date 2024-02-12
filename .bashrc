@@ -41,6 +41,11 @@ if [[ -x "$(command -v neovide)" ]] ; then {
         alias neovide="neovide --no-fork"
 } fi
 
+# Minicom Alias
+if [[ -x "$(command -v minicom)" ]] ; then {
+        alias minicom='minicom --color=on --statlinefmt=" Minicom %V | %b | %T | %D "'
+} fi
+
 # IPython Alias
 if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
         alias ipython="source ~/.local/share/python/ipython/bin/activate; \
