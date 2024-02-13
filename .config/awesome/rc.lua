@@ -68,8 +68,9 @@ awful.spawn.with_shell(
 beautiful.init(gfs.get_xdg_config_home() .. "awesome/theme.lua")
 -- Default terminal and editor to run.
 local terminal = "alacritty"
-local editor = os.getenv("EDITOR") or "nvim"
-local editor_cmd = terminal .. " -e " .. editor
+-- local editor = os.getenv("EDITOR") or "nvim"
+-- local editor_cmd = terminal .. " -e " .. editor
+local editor_cmd = "neovide -- -c 'Vex'"
 
 -- Default modkey.
 local modkey = "Mod4"
@@ -97,16 +98,6 @@ awful.layout.layouts = {
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-local mycadmenu = {
-  { "KiCAD",   "kicad" },
-  { "FreeCAD", "freecad" },
-}
-
-local mygraphicsmenu = {
-  { "Gimp",     "gimp" },
-  { "Inkscape", "inkscape" },
-}
-
 local mymainmenu = awful.menu({
   items = { { "Terminal", terminal },
     { "File Manager", "thunar" },
@@ -114,8 +105,6 @@ local mymainmenu = awful.menu({
     { "Mail",         "himalaya" },
     { "Screenshot",   "scrot -s" }, -- TODO: update to use maim
     { "Radio",        "goodvibes" },
-    { "CAD",          mycadmenu },
-    { "Graphics",     mygraphicsmenu },
   }
 })
 
@@ -583,10 +572,10 @@ local globalkeys = gears.table.join(
   -- Standard program
   awful.key({ modkey, }, "Return", function() awful.spawn(terminal) end,
     { description = "open a terminal", group = "launcher" }),
-
-  awful.key({ modkey, "Control" }, "r", awesome.restart,
+  awful.key({ modkey, }, "e", function() awful.spawn(editor_cmd) end,
+    { description = "open editor", group = "launcher" }),
+    awful.key({ modkey, "Control" }, "r", awesome.restart,
     { description = "reload awesome", group = "awesome" }),
-
   awful.key({ modkey, "Shift" }, "q", awesome.quit,
     { description = "quit awesome", group = "awesome" }),
   awful.key({ modkey, }, "l", function() awful.tag.incmwfact(0.05) end,
