@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+# Help
+
+Help()
+{
+    # Display Help
+    echo "Wrapper around maim for screenshots."
+    echo "Saves images to $HOME/Pictures/screenshots by default."
+    echo
+    echo "Syntax: scriptTemplate [-c|d|h|V]"
+    echo "options:"
+    echo "  c     Copy screenshot to clipboard using xclip."
+    echo "  d     Optional path of the directory to save the screenshot to."
+    echo "  h     Print this Help."
+    echo "  V     Print software version and exit."
+    echo
+}
+
+# Main program
+
+if [[ -z "$(command maim --version)" ]] ; then {
+    echo "Error: maim not installed"
+    return 100
+} fi
+
+SCREENSHOT_DIR="$HOME/Pictures/screenshots"
+DATE="$(date +%FT%T)"
+FLAG=""
+
+while getopts ":hcd:V" option; do
+    case $option in
+        c) # Copy to clipboard
+            FLAG="c"
+            ;;
+        d) # Copy to clipboard
+            SCREENSHOT_DIR=$OPTARG
+            ;;
+        h) # Display Help
+            Help
+            ;;
+        V) # Version
+            echo "Screenshot V0.1"
+            ;;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            ;;
+    esac
+done
+
+if [[ ! -d "$SCREENSHOT_DIR" ]] ; then {
+    mkdir "$SCREENSHOT_DIR"
+} fi
+
+if [[ $FLAG = "" ]] ; then {
+    command maim --hidecursor                                                  \
+    > "$SCREENSHOT_DIR/$DATE.png"
+    }
+elif [[ "$FLAG" = "c" ]] ; then {
+    command maim --hidecursor                                                  \
+    | tee "$SCREENSHOT_DIR/$DATE.png"                                          \
+    | xclip -selection clipboard -t image/png
+    } fi
