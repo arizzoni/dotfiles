@@ -103,7 +103,7 @@ local mymainmenu = awful.menu({
     { "File Manager", "thunar" },
     { "Internet",     "firefox" },
     { "Mail",         "himalaya" },
-    { "Screenshot",   "scrot -s" }, -- TODO: update to use maim
+    { "Screenshot",   "screenshot -c" },
     { "Radio",        "goodvibes" },
   }
 })
@@ -642,8 +642,7 @@ local globalkeys = gears.table.join(
 
   -- Screenshot on prtscn using scrot
   awful.key({}, "XF86Print", function()
-    awful.spawn.spawn(
-    'maim | tee \"~/Pictures/screenshots/$(date +%FT%T).png\" | xclip -selection clipboard -t image/png')                   -- BUG: fixme
+    awful.spawn.spawn("screenshot -c")
   end),
 
   -- Map xbacklight for brightness keys
