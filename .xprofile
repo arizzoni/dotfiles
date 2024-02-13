@@ -2,20 +2,21 @@
 # .xprofile
 
 # Disable touchpad while typing
-if [ -x "$(command -v syndaemon)" ] ; then {
+if [[ -x "$(command -v syndaemon)" ]] ; then {
         syndaemon -d -i 1 -m 100 -K
 } fi
 
 # Multiple monitor configuration
 # REFACTOR: this should be done by checking if the laptop is at home by 
 # REFACTOR: seeing if the display information matches
+# REFACTOR: should this be in its own script?
 NUM_MONITORS=$(xrandr --listmonitors | sed 's/[^0-9]//g' | head -n 1)
 if (( NUM_MONITORS == 2 )) ; then { 
         source "$HOME/bin/monitors.bash"
 } fi
 
 # Pywal colorscheme and wallpaper selection
-if [ -x "$(command -v wal)" ] ; then {
+if [[ -x "$(command -v wal)" ]] ; then {
        
         # Use old cached wallpaper to generate a colorscheme
         WAL_CACHE="$HOME/.cache/wal/wal_cache"
@@ -31,17 +32,17 @@ if [ -x "$(command -v wal)" ] ; then {
         cp --no-preserve=mode,ownership "$WALLPAPER" "$WALLPAPER_CACHE"
         
         # Apply pywal colorscheme to Firefox
-        if [ -x "$(command -v pywalfox)" ] ; then {
+        if [[ -x "$(command -v pywalfox)" ]] ; then {
                 pywalfox update
         } fi
 
-        # Apply pywal colorscheme to patched zathura
-        if [ -x "$(command -v zathura-pywal)" ] ; then {
+        # Apply pywal colorscheme to patched zathura 
+        if [[ -x "$(command -v zathura-pywal)" ]] ; then { 
                 zathura-pywal -a 0.9
         } fi
 
         # Apply pywal colorscheme to KiCAD
-        if [ -f ~/Projects/kicad/kicad-scripts/kiwal.py ] ; then {
+        if [[ -f ~/Projects/kicad/kicad-scripts/kiwal.py ]] ; then {
                 python ~/Projects/kicad/kicad-scripts/kiwal.py
         } fi
 
