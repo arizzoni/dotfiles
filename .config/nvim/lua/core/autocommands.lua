@@ -8,6 +8,7 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
   group = term_enter_group,
   callback = function()
     if vim.opt.buftype:get() == "terminal" then
+      vim.g.termguicolors = true
       vim.cmd("startinsert")
       vim.o.number = false
       vim.o.relativenumber = false
