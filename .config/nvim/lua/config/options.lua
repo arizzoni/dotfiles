@@ -2,7 +2,7 @@
 
 -- Options
 vim.opt.shortmess = "I" -- Disable short message (start screen)
-vim.opt.scrolloff = 4
+vim.opt.scrolloff = 8
 vim.opt.undofile = true
 vim.opt.wrap = true
 vim.opt.writebackup = true
