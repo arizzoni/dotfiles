@@ -1,34 +1,37 @@
--- [[ Settings ]]
+--[[ core/init.lua ]]
 
--- Theming Settings
+--[[ Settings ]]
+vim.g.shortmess = "IfilnxtToOF"
+vim.opt.updatetime = 250 -- Decrease update time
 vim.g.transparent_enabled = true
 vim.cmd.colorscheme("patched-lushwal")
+vim.opt.termguicolors = true -- Make sure the terminal supports this
+vim.g.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-Cursor,r-cr-o:hor20"
 
--- Options
-vim.opt.shortmess = "I" -- Disable short message (start screen)
-vim.opt.scrolloff = 8
-vim.opt.undofile = true
-vim.opt.wrap = true
+-- Backup and undo
 vim.opt.writebackup = true
-vim.opt.hlsearch = true    -- Set highlight on search
-vim.opt.number = true      -- Make relative line numbers default
-vim.opt.relativenumber = true
-vim.opt.breakindent = true -- Enable break indent
-vim.opt.undofile = true    -- Save undo history
-vim.opt.ignorecase = true  -- Case insensitive searching UNLESS /C or capital in search
+vim.opt.undofile = true -- Save undo history
+
+-- Searching
+vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
 vim.opt.smartcase = true
-vim.opt.signcolumn = "yes" -- Keep signcolumn on by default
-vim.opt.updatetime = 250   -- Decrease update time
+
+-- Input
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
-vim.opt.completeopt = "menuone,noselect"                                    -- Set completeopt to have a better completion experience
-vim.opt.termguicolors = true -- Make sure the terminal supports this
-vim.opt.expandtab = true                                                    -- Expand tabs to spaces
-vim.opt.modeline = true                                                     -- Enable modeline
+
+-- Language support
+vim.g.shell = "bash"
 vim.g.python3_host_prog = "/home/air/.local/share/python/neovim/bin/python" -- Python executable
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
+
+-- Diagnostic keymaps
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- Neovide Settings
 if vim.g.neovide then
@@ -42,7 +45,8 @@ if vim.g.neovide then
   vim.g.neovide_cursor_vfx_mode = ""
 end
 
--- [[ Configurations ]]
-require("core.keymaps")
-require("core.autocommands")
+-- [[ Core Modules ]]
+require("core.editor")
+require("core.terminal")
 require("core.netrw")
+require("core.treesitter")

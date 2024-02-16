@@ -27,4 +27,5 @@ require("lazy").setup("plugins")
 
 -- Setup configuration
 require("core")
+require("modules")
 
