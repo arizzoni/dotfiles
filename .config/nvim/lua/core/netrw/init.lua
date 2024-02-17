@@ -1,7 +1,5 @@
 --[[ Netrw File Manager ]]
 
-local util = require('util')
-
 -- Netrw Settings
 vim.g.netrw_browse_split = 4
 vim.g.netrw_fastbrowse = 0
