@@ -64,7 +64,7 @@ awful.spawn.with_shell(
 
 -- {{{ Variable definitions
 -- Initialize theme
-beautiful.init(gfs.get_xdg_config_home() .. "awesome/theme/init.lua")
+beautiful.init(gfs.get_xdg_config_home() .. "awesome/theme.lua")
 -- Default terminal and editor to run.
 local terminal = "alacritty"
 -- local editor = os.getenv("EDITOR") or "nvim"
@@ -934,5 +934,3 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 collectgarbage("collect")
-
--- vim: ts=2:sw=2
