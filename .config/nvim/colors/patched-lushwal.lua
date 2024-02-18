@@ -25,19 +25,27 @@ if colors ~= nil then
   vim.g.terminal_color_13 = colors.color13
   vim.g.terminal_color_14 = colors.color14
   vim.g.terminal_color_15 = colors.color15
+
+  -- we can apply modifications ontop of the existing colorscheme
+  local spec = lush.extends({ lushwal }).with(function()
+    return {
+      Boolean({ fg = lushwal.Boolean.fg, bg = lushwal.Boolean.bg, gui = "italic" }),
+      Conditional({ fg = lushwal.Conditional.fg, bg = lushwal.Conditional.bg, gui = "bold" }),
+      Define({ fg = lushwal.Define.fg, bg = lushwal.Define.bg, gui = "bold" }),
+      Include({ fg = lushwal.Include.fg, bg = lushwal.Include.bg, gui = "bold" }),
+      Keyword({ fg = lushwal.Keyword.fg, bg = lushwal.Keyword.bg, gui = "bold" }),
+      Type({ fg = lushwal.Type.fg, bg = lushwal.Type.bg, gui = "italic" }),
+
+      LazyReasonSource({ fg = colors.color7, bg = lushwal.Boolean.bg, gui = "italic" }),
+      LazyH1({ fg = colors.foreground, bg = lushwal.Boolean.bg, gui = "bold" }),
+      LazyNormal({ fg = colors.foreground, bg = colors.background }),
+      LazyButton({ fg = colors.foreground, bg = lushwal.Type.bg, gui = "bold" }),
+      LazyButtonActive({ fg = colors.foreground, bg = colors.background, gui = "bold" }),
+      LazySpecial({ fg = lushwal.Type.fg, bg = lushwal.Type.bg}),
+      LazyH2({ fg = colors.foreground, bg = lushwal.Type.bg, gui = "bold" }),
+    }
+  end)
+
+  -- then pass the extended spec to lush for application
+  lush(spec)
 end
-
--- we can apply modifications ontop of the existing colorscheme
-local spec = lush.extends({ lushwal }).with(function()
-  return {
-    Boolean({ fg = lushwal.Boolean.fg, lushwal.Boolean.bg, gui = "italic" }),
-    Conditional({ fg = lushwal.Conditional.fg, lushwal.Conditional.bg, gui = "bold" }),
-    Define({ fg = lushwal.Define.fg, lushwal.Define.bg, gui = "bold" }),
-    Include({ fg = lushwal.Include.fg, lushwal.Include.bg, gui = "bold" }),
-    Keyword({ fg = lushwal.Keyword.fg, lushwal.Keyword.bg, gui = "bold" }),
-    Type({ fg = lushwal.Type.fg, lushwal.Type.bg, gui = "italic" }),
-  }
-end)
-
--- then pass the extended spec to lush for application
-lush(spec)
