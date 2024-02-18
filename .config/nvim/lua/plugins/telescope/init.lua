@@ -7,6 +7,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-symbols.nvim",
     "nvim-telescope/telescope-dap.nvim",
+    "nvim-telescope/telescope-ui-select.nvim",
     "tsakirist/telescope-lazy.nvim",
   },
   opts = {
@@ -18,10 +19,16 @@ return {
         },
       },
     },
+    -- extensions = {
+    --   ["ui-select"] = {
+    --     require("telescope").themes.get_cursor({})
+    --   },
+    -- },
   },
   init = function()
     require("telescope").load_extension("fzf")
     require("telescope").load_extension("dap")
+    require("telescope").load_extension("ui-select")
 
     --[[ Telescope Keymaps ]]
     local pickers = require("telescope.builtin")
