@@ -1,1 +1,1 @@
-# Welcome to my .dofiles!
+# Welcome to my .dotfiles!
