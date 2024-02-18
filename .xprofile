@@ -20,7 +20,7 @@ if [[ -x "$(command -v wal)" ]] ; then {
        
         # Use old cached wallpaper to generate a colorscheme
         WAL_CACHE="$HOME/.cache/wal/wal_cache"
-        wal --saturate 0.4 --cols16 -nq -i "$(cat "$WAL_CACHE")"
+        command wal --saturate 0.4 --cols16 -nq -i "$(cat "$WAL_CACHE")"
 
         # Select new random wallpaper and cache it
         WALLPAPER_DIR="$HOME/Pictures/wallpapers/4k/space"
@@ -29,21 +29,32 @@ if [[ -x "$(command -v wal)" ]] ; then {
 
         # Copy the image to /usr/share/backgrounds so that LightDM can use it
         WALLPAPER_CACHE="/usr/share/backgrounds/wal"
-        cp --no-preserve=mode,ownership "$WALLPAPER" "$WALLPAPER_CACHE"
+        command cp --no-preserve=mode,ownership "$WALLPAPER" "$WALLPAPER_CACHE"
+
+        # Apply pywal colorscheme to Zathura 
+        if [[ -x "$(command -v zathura)" ]] && [[ -e "$HOME/.cache/wal/zathurarc" ]] ; then { 
+                command cp "$HOME/.cache/wal/zathurarc" "$HOME/.config/zathura/zathurarc"
+        } fi
+
+        # Apply colorscheme to CAVA
+        if [[ -x "$(command -v cava)" ]] && [[ -e "$HOME/.cache/wal/cava" ]] ; then {
+                command cp "$HOME/.cache/wal/cava" "$HOME/.config/cava/config"
+        } fi
+        
+        # Apply colorscheme to AERC
+        if [[ -x "$(command -v aerc)" ]] && [[ -e "$HOME/.cache/wal/aerc" ]] ; then {
+                command cp "$HOME/.cache/wal/aerc" "$HOME/.config/aerc/stylesets/wal"
+        } fi
         
         # Apply pywal colorscheme to Firefox
         if [[ -x "$(command -v pywalfox)" ]] ; then {
-                pywalfox update
+                command pywalfox update
         } fi
 
-        # Apply pywal colorscheme to patched zathura 
-        if [[ -x "$(command -v zathura-pywal)" ]] ; then { 
-                zathura-pywal -a 0.9
-        } fi
-
-        # Apply pywal colorscheme to KiCAD
+        # Apply pywal colorscheme to KiCad
         if [[ -f ~/Projects/kicad/kicad-scripts/kiwal.py ]] ; then {
-                python ~/Projects/kicad/kicad-scripts/kiwal.py
+                command python ~/Projects/kicad/kicad-scripts/kiwal.py
         } fi
-
+        
 } fi
+
