@@ -1,5 +1,4 @@
-# should work with any terminal colorscheme, but was designed for gruvbox
-# terminal colors are prefer{color1}, but hex is used for {color7}scale
+# aerc wal styleset
 
 *.default=true
 
@@ -13,7 +12,7 @@ header.bold=true
 header.fg={color5}
 
 # decorative lines
-border.fg={color4}
+border.fg={color1}
 
 # requires attention
 *error.bold=true
