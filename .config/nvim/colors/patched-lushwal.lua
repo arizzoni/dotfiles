@@ -1,3 +1,5 @@
+--[[ Patched Lushwal Colorscheme ]]
+
 -- First we will need lush, and the colorscheme we wish to modify
 local lush = require("lush")
 local lushwal = require("lushwal.base")
@@ -7,7 +9,6 @@ vim.o.background = "dark"
 vim.g.colorscheme_name = "patched-lushwal"
 
 local colors = get_colors()
-
 if colors ~= nil then
   vim.g.terminal_color_0 = colors.color0
   vim.g.terminal_color_1 = colors.color1

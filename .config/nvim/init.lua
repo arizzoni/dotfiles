@@ -1,4 +1,4 @@
--- /.config/nvim/init.lua
+--[[ Neovim init.lua ]]
 
 -- Set <space> as the leader key
 vim.g.mapleader = " "

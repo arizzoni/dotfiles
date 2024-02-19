@@ -1,3 +1,5 @@
+--[[ Gruvbones Colorscheme ]]
+
 local colors_name = "gruvbones"
 vim.g.colors_name = colors_name -- Required when defining a colorscheme
 
