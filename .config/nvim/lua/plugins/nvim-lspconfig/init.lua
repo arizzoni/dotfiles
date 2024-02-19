@@ -9,6 +9,7 @@ return {
     { "j-hui/fidget.nvim",       tag = "legacy", event = "LspAttach", opts = {} },
     -- Additional lua configuration
     { "folke/neodev.nvim",       opts = {} },
+    { "kosorin/awesome-code-doc" },
   },
   init = function()
     -- [[ Configure LSP ]]
@@ -77,7 +78,12 @@ return {
       },
       lua_ls = {
         Lua = {
-          workspace = { checkThirdParty = false },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              ["/home/air/.local/share/nvim/lazy/awesome-code-doc"] = true,
+          },
+        },
           format = {
             enable = true,
             defaultConfig = {
