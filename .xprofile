@@ -57,4 +57,3 @@ if [[ -x "$(command -v wal)" ]] ; then {
         } fi
         
 } fi
-

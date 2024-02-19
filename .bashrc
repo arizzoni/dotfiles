@@ -10,7 +10,9 @@ if [[ -f $HOME/.bash_prompt ]] ; then {
     source "$HOME/.bash_prompt"
 } fi
 
-# Core Utility Aliases
+# Aliases
+
+# ls
 if [[ -x "$(command -v  eza)" ]] ; then { # If eza is installed prefer over ls
         alias ls="eza --long --no-quotes --sort=extension \
                 --group-directories-first --time-style=long-iso \
@@ -26,6 +28,18 @@ if [[ -x "$(command -v  eza)" ]] ; then { # If eza is installed prefer over ls
                 --sort=extension --group-directories-first"
 } fi
 
+# cd
+cl() {
+        DIR="$*"
+        if [[ $# -lt 1 ]] ; then {
+                DIR=$HOME
+        } fi
+        builtin cd "${DIR}" && ls
+}
+
+alias cd='cl'
+
+# cat
 if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over cat
         alias cat="bat --theme=ansi"
 } else {
@@ -36,24 +50,29 @@ if [[ -x "$(command -v fzf)" ]] ; then {
         alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
 } fi
 
-# Neovide Alias
+# Neovide
 if [[ -x "$(command -v neovide)" ]] ; then {
         alias neovide="neovide --no-fork"
 } fi
 
-# Minicom Alias
+# Minicom
 if [[ -x "$(command -v minicom)" ]] ; then {
         alias minicom='minicom --color=on --statlinefmt=" Minicom %V | %b | %T | %D "'
 } fi
 
-# IPython Alias
+# IPython
 if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
         alias ipython="source ~/.local/share/python/ipython/bin/activate; \
                 ipython --no-banner; \
                 deactivate;echo;"
 } fi
 
-# Neofetch Alias
+# Neofetch
 if [[ -x "$(command -v neofetch)" ]] ; then {
         alias neofetch="neofetch --disable uptime"
 } fi
+
+# Wal Colors
+if [[ -x "$(command -v wal)" ]]; then
+    wal -Rnqe
+fi
