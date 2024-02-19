@@ -1,3 +1,5 @@
+--[[ Terminal Settings ]]
+
 -- Start terminal in insert mode
 -- TODO: get colored prompt working in neovide
 local term_enter_group = vim.api.nvim_create_augroup("TerminalEnter", { clear = true })
