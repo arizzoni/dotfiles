@@ -1,11 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Compositor
-if [ -x "$(command -v picom)" ] ; then {
+if [[ -x "$(command -v picom)" ]] ; then {
         picom
 } fi
 
 # Screen locker
-if [ -x "$(command -v light-locker)" ] ; then {
+if [[ -x "$(command -v light-locker)" ]] ; then {
         light-locker --lock-on-suspend --lock-on-lid --idle-hint
 } fi
