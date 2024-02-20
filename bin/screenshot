@@ -33,7 +33,7 @@ while getopts ":hcd:V" option; do
         c) # Copy to clipboard
             FLAG="c"
             ;;
-        d) # Copy to clipboard
+        d) # Set screenshot directory
             SCREENSHOT_DIR=$OPTARG
             ;;
         h) # Display Help
@@ -60,4 +60,4 @@ elif [[ "$FLAG" = "c" ]] ; then {
     command maim --hidecursor                                                  \
     | tee "$SCREENSHOT_DIR/$DATE.png"                                          \
     | xclip -selection clipboard -t image/png
-    } fi
+} fi
