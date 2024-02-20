@@ -1,4 +1,0 @@
-while ! read -n 1 -t 0.1 ; do {
-	printf '\r%s' "$(date +%r)"
-	sleep 0.1 
-} done

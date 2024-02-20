@@ -72,6 +72,10 @@ if [[ -x "$(command -v neofetch)" ]] ; then {
         alias neofetch="neofetch --disable uptime"
 } fi
 
+if [[ -x "$(command -v toilet)" ]] ; then {
+        alias clock='watch -t -n0.1 "date +%r | toilet -f smmono12 -W -t -F crop -F border"'
+} fi
+
 # Wal Colors
 if [[ -x "$(command -v wal)" ]]; then
     wal -Rnqe
