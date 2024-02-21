@@ -29,14 +29,14 @@ if [[ -x "$(command -v  eza)" ]] ; then { # If eza is installed prefer over ls
 } fi
 
 # cd
-cl() {
+change_dir() {
         DIR="$*"
         if [[ $# -lt 1 ]] ; then {
                 DIR=$HOME
         } fi
         builtin cd "${DIR}" && ls
 }
-alias cd='cl'
+alias cd='change_dir'
 
 # cat
 if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over cat
@@ -80,3 +80,6 @@ if [[ -x "$(command -v toilet)" ]] ; then {
 if [[ -x "$(command -v wal)" ]]; then
     wal -Rnqes
 fi
+
+# When the interactive session starts show neofetch
+clear; neofetch
