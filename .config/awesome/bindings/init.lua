@@ -1,3 +1,5 @@
+-- awesome/bindings/init.lua
+
 return {
    client = {
       key = require'bindings.client.key',
@@ -7,5 +9,10 @@ return {
       key = require'bindings.global.key',
       mouse = require'bindings.global.mouse',
    },
-   mod = require'bindings.mod'
+   mod = {
+      alt   = "Mod1",
+      super = "Mod4",
+      shift = "Shift",
+      ctrl  = "Control",
+   },
 }

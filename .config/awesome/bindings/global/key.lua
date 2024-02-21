@@ -1,10 +1,13 @@
+-- awesome/bindings/global/key.lua
+
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local gears = require("gears")
 local menubar = require("menubar")
 local widgets = require("widgets")
-local modkey = require("mod").super
+local modkey = require("bindings.mod").super
 
-awful.keyboard.append_global_keybindings({
+local globalkeys = gears.table.join(
   awful.key({ modkey, }, "s", hotkeys_popup.show_help,
     { description = "show help", group = "awesome" }),
 
@@ -92,14 +95,14 @@ awful.keyboard.append_global_keybindings({
     { description = "restore minimized", group = "client" }),
 
   -- Prompt
-  awful.key({ modkey }, "r", function() awful.screen.focused().promptbox:run() end,
+  awful.key({ modkey }, "r", function() awful.screen.focused().mypromptbox:run() end,
     { description = "run prompt", group = "launcher" }),
 
   awful.key({ modkey }, "x",
     function()
       awful.prompt.run {
         prompt       = "Lua: ",
-        textbox      = awful.screen.focused().promptbox.widget,
+        textbox      = awful.screen.focused().mypromptbox.widget,
         exe_callback = awful.util.eval,
         history_path = awful.util.get_cache_dir() .. "/history_eval"
       }
@@ -141,13 +144,13 @@ awful.keyboard.append_global_keybindings({
   awful.key({}, "XF86RFKill", function()
     awful.spawn.spawn("rfkill toggle all")
   end)
-})
+)
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
-  awful.keyboard.append_global_keybindings({
+  local globalkeys = gears.table.join(globalkeys,
 
     -- View tag only.
     awful.key({ modkey }, "#" .. i + 9,
@@ -194,6 +197,7 @@ for i = 1, 9 do
         end
       end,
       { description = "toggle focused client on tag #" .. i, group = "tag" })
-    })
+    )
 end
 
+return globalkeys
