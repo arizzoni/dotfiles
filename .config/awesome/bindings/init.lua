@@ -9,10 +9,5 @@ return {
       key = require'bindings.global.key',
       mouse = require'bindings.global.mouse',
    },
-   mod = {
-      alt   = "Mod1",
-      super = "Mod4",
-      shift = "Shift",
-      ctrl  = "Control",
-   },
+   mod = require("bindings.mod"),
 }

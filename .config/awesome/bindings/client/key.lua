@@ -1,4 +1,8 @@
 
+local awful = require("awful")
+local gears = require("gears")
+local modkey = require("bindings.mod").super
+
 local clientkeys = gears.table.join(
   awful.key({ modkey, }, "f",
     function(c)
@@ -48,18 +52,4 @@ local clientkeys = gears.table.join(
     { description = "(un)maximize horizontally", group = "client" })
 )
 
-local clientbuttons = gears.table.join(
-  awful.button({}, 1, function(c)
-    c:emit_signal("request::activate", "mouse_click", { raise = true })
-  end),
-
-  awful.button({ modkey }, 1, function(c)
-    c:emit_signal("request::activate", "mouse_click", { raise = true })
-    awful.mouse.client.move(c)
-  end),
-
-  awful.button({ modkey }, 3, function(c)
-    c:emit_signal("request::activate", "mouse_click", { raise = true })
-    awful.mouse.client.resize(c)
-  end)
-)
+return clientkeys
