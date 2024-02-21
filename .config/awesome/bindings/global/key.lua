@@ -1,5 +1,10 @@
+local awful = require("awful")
+local hotkeys_popup = require("awful.hotkeys_popup")
+local menubar = require("menubar")
+local widgets = require("widgets")
+local modkey = require("mod").super
 
-local globalkeys = gears.table.join(
+awful.keyboard.append_global_keybindings({
   awful.key({ modkey, }, "s", hotkeys_popup.show_help,
     { description = "show help", group = "awesome" }),
 
@@ -24,7 +29,7 @@ local globalkeys = gears.table.join(
     end,
     { description = "focus previous by index", group = "client" }
   ),
-  awful.key({ modkey, }, "w", function() mymainmenu:show() end,
+  awful.key({ modkey, }, "w", function() widgets.mainmenu:show() end,
     { description = "show main menu", group = "awesome" }),
 
   -- Layout manipulation
@@ -49,9 +54,9 @@ local globalkeys = gears.table.join(
     { description = "go back", group = "client" }),
 
   -- Standard program
-  awful.key({ modkey, }, "Return", function() awful.spawn(terminal) end,
+  awful.key({ modkey, }, "Return", function() awful.spawn("alacritty") end,
     { description = "open a terminal", group = "launcher" }),
-  awful.key({ modkey, }, "e", function() awful.spawn(editor_cmd) end,
+  awful.key({ modkey, }, "e", function() awful.spawn("neovide -- -c 'Vex'") end,
     { description = "open editor", group = "launcher" }),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
     { description = "reload awesome", group = "awesome" }),
@@ -87,20 +92,19 @@ local globalkeys = gears.table.join(
     { description = "restore minimized", group = "client" }),
 
   -- Prompt
-  awful.key({ modkey }, "r", function() awful.screen.focused().mypromptbox:run() end,
+  awful.key({ modkey }, "r", function() awful.screen.focused().promptbox:run() end,
     { description = "run prompt", group = "launcher" }),
 
   awful.key({ modkey }, "x",
     function()
       awful.prompt.run {
-        prompt       = "Run Lua code: ",
-        textbox      = awful.screen.focused().mypromptbox.widget,
+        prompt       = "Lua: ",
+        textbox      = awful.screen.focused().promptbox.widget,
         exe_callback = awful.util.eval,
         history_path = awful.util.get_cache_dir() .. "/history_eval"
       }
     end,
     { description = "lua execute prompt", group = "awesome" }),
-
   -- Menubar
   awful.key({ modkey }, "p", function() menubar.show() end,
     { description = "show the menubar", group = "launcher" }),
@@ -137,13 +141,14 @@ local globalkeys = gears.table.join(
   awful.key({}, "XF86RFKill", function()
     awful.spawn.spawn("rfkill toggle all")
   end)
-)
+})
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
-  globalkeys = gears.table.join(globalkeys,
+  awful.keyboard.append_global_keybindings({
+
     -- View tag only.
     awful.key({ modkey }, "#" .. i + 9,
       function()
@@ -189,9 +194,6 @@ for i = 1, 9 do
         end
       end,
       { description = "toggle focused client on tag #" .. i, group = "tag" })
-  )
+    })
 end
 
-
--- Set keys
-root.keys(globalkeys)
