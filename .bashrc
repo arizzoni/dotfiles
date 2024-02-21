@@ -36,7 +36,6 @@ cl() {
         } fi
         builtin cd "${DIR}" && ls
 }
-
 alias cd='cl'
 
 # cat
@@ -72,11 +71,12 @@ if [[ -x "$(command -v neofetch)" ]] ; then {
         alias neofetch="neofetch --disable uptime"
 } fi
 
+# Clock
 if [[ -x "$(command -v toilet)" ]] ; then {
-        alias clock='watch -t -n0.1 "date +%r | toilet -f smmono12 -W -t -F crop -F border"'
+        alias clock='watch -tc -n0.1 "tput setaf 001 ; date +%r | toilet -f smmono12 -W -t -F crop -F border ; tput sgr0"'
 } fi
 
 # Wal Colors
 if [[ -x "$(command -v wal)" ]]; then
-    wal -Rnqe
+    wal -Rnqes
 fi

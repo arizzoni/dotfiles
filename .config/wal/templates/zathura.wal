@@ -69,3 +69,5 @@ set index-bg '{color0}'
 # Selected element in index mode
 set index-active-fg '{color4}'
 set index-active-bg '{color7}'
+
+$ vim: filetype=zathurarc

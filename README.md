@@ -1,3 +1,14 @@
-# Welcome to my .dotfiles!
-
-I have made thie repository public in the hopes that someone will find it useful.
+```
+        ▗▖            ▄▄   █  ▗▄▖
+        ▐▌      ▐▌   ▐▛▀   ▀  ▝▜▌
+      ▟█▟▌ ▟█▙ ▐███ ▐███  ██   ▐▌   ▟█▙ ▗▟██▖
+     ▐▛ ▜▌▐▛ ▜▌ ▐▌   ▐▌    █   ▐▌  ▐▙▄▟▌▐▙▄▖▘
+     ▐▌ ▐▌▐▌ ▐▌ ▐▌   ▐▌    █   ▐▌  ▐▛▀▀▘ ▀▀█▖
+  █  ▝█▄█▌▝█▄█▘ ▐▙▄  ▐▌  ▗▄█▄▖ ▐▙▄ ▝█▄▄▌▐▄▄▟▌
+  ▀   ▝▀▝▘ ▝▀▘   ▀▀  ▝▘  ▝▀▀▀▘  ▀▀  ▝▀▀  ▀▀▀
+```
+```bash
+# Installation
+git clone https://github.com/arizzoni/dotfiles
+cd .dotfiles && stow .
+```
