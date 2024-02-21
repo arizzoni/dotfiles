@@ -1,6 +1,7 @@
 local M = {}
 
 local awful = require("awful")
+local util = require("util")
 
 -- Create a wireless widget
 -- 󰂯 󰂰 󰂱 󰂲 󰂳 󰂴
@@ -8,17 +9,6 @@ local awful = require("awful")
 -- 󰤫 󰤠 󰤣 󰤦 󰤩
 -- 󰤬 󰤡 󰤤 󰤧 󰤪
 -- 󰤮 󰤭
-
-local function split(inputstr, sep)
-  if sep == nil then
-    sep = "%s"
-  end
-  local t = {}
-  for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
-    table.insert(t, str)
-  end
-  return t
-end
 
 M.mywireless = awful.widget.watch("iwconfig", 1,
   function(widget, stdout)
@@ -41,8 +31,8 @@ M.mywireless = awful.widget.watch("iwconfig", 1,
           table.insert(words, word)
         end
         link_quality_string = string.match(words[2], [[Quality=([^ ]+)]])
-        local numerator = split(link_quality_string, "/")[1]
-        local denominator = split(link_quality_string, "/")[2]
+        local numerator = util.split(link_quality_string, "/")[1]
+        local denominator = util.split(link_quality_string, "/")[2]
         link_quality_float = 100 * tonumber(numerator) / tonumber(denominator)
       end
     end
