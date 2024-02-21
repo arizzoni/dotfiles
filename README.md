@@ -8,6 +8,8 @@
   ▀▀   ▝▀▝▘ ▝▀▘   ▀▀  ▝▘  ▝▀▀▀▘  ▀▀  ▝▀▀  ▀▀▀
 
 # Installation
+cd ~
 git clone https://github.com/arizzoni/dotfiles
-cd .dotfiles && stow .
+cd .dotfiles
+stow .
 ```
