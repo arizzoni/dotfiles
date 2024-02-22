@@ -79,6 +79,9 @@ return {
       },
       lua_ls = {
         Lua = {
+          diagnostics = {
+            disable = true,
+          },
           workspace = {
             checkThirdParty = false,
             library = {
