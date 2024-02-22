@@ -1,5 +1,8 @@
 --[[ Neovim init.lua ]]
 
+-- No startup message (has to be first)
+vim.opt.shortmess:append("I")
+
 -- Set <space> as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
