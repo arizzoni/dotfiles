@@ -2,6 +2,7 @@ return {
   "lukas-reineke/indent-blankline.nvim",
   name = "indent-blankline.nvim",
   main = "ibl",
+  lazy = false,
   opts = {
     debounce = 100,
     indent = { char = "░" },
