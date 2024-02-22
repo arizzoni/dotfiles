@@ -37,7 +37,7 @@ return {
       yaml = { 'yamllint', },
     }
 
-    vim.api.nvim_create_autocmd({ "BufEnter", "TextChanged" }, {
+    vim.api.nvim_create_autocmd({ "LspAttach", "TextChanged" }, {
       callback = function()
         require("lint").try_lint()
       end,
