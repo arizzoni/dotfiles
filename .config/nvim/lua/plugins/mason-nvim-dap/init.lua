@@ -13,7 +13,7 @@ return {
       "bash",
       "codelldb",
     },
-    automatic_installation = true,
+    automatic_installation = false,
     handlers = {},
   }
 }
