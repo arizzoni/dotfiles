@@ -6,6 +6,7 @@ vim.opt.completeopt = "menuone,noselect"         -- Set completeopt to have a be
 vim.opt.signcolumn = "yes" -- Keep signcolumn on by default
 vim.wo.breakindent = true
 vim.g.cmdwinheight = 3
+vim.o.cmdheight = 1
 vim.g.colorcolumn = "+1"
 vim.wo.concealcursor = "nvc"
 vim.bo.copyindent = true

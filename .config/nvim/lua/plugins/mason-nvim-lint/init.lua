@@ -14,7 +14,7 @@ return {
       "mypy",
       "proselint",
       "pylint",
-      "selene",
+      -- "selene",
       "shellcheck",
       "vale",
       "yamllint",
