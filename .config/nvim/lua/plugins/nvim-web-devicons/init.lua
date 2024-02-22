@@ -1,3 +1,6 @@
+
+require("plugins.nvim-web-devicons.icons")
+
 return {
   "nvim-tree/nvim-web-devicons",
   opts =  {
