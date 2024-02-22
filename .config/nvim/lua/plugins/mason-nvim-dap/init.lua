@@ -9,7 +9,6 @@ return {
   opts = {
     ensure_installed = {
       "python",
-      "stylua",
       "bash",
       "codelldb",
     },
