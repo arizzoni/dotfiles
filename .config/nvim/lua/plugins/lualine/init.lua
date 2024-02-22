@@ -2,10 +2,11 @@
 return {
   'nvim-lualine/lualine.nvim',
   name = "lualine.nvim",
+  lazy = false,
   opts = {
     options = {
       icons_enabled = false,
-      theme = 'pywal',
+      theme = 'auto',
       globalstatus = true,
       component_separators = '|',
       section_separators = ''
@@ -32,6 +33,5 @@ return {
       'man',
       'mason',
     },
-
   },
 }
