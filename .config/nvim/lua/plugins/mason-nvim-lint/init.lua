@@ -12,6 +12,7 @@ return {
       "cpplint",
       "jsonlint",
       "mypy",
+      "proselint",
       "pylint",
       "selene",
       "shellcheck",
@@ -23,15 +24,16 @@ return {
   },
   init = function()
     require('lint').linters_by_ft = {
-      c = { 'cpplint', },
-      cpp = { 'cpplint', },
-      cmake = { 'cmakelint', },
-      json = { 'jsonlint', },
-      python = { 'mypy', 'pylint' },
-      markdown = { 'vale', },
-      lua = { 'selene', },
       bash = { 'shellcheck', },
+      c = { 'cpplint', },
+      cmake = { 'cmakelint', },
+      cpp = { 'cpplint', },
+      json = { 'jsonlint', },
+      lua = { 'selene', },
+      markdown = { 'vale', },
+      python = { 'mypy', 'pylint' },
       sh = { 'shellcheck', },
+      tex = { 'proselint' },
       yaml = { 'yamllint', },
     }
 
