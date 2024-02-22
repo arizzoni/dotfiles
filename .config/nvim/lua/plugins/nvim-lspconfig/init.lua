@@ -10,6 +10,7 @@ return {
     -- Additional lua configuration
     { "folke/neodev.nvim",       opts = {} },
     { "kosorin/awesome-code-doc" },
+    { "p00f/clangd_extensions.nvim", opts = {} },
   },
   init = function()
     -- [[ Configure LSP ]]
