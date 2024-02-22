@@ -9,6 +9,12 @@ return {
     "nvim-telescope/telescope-dap.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
     "tsakirist/telescope-lazy.nvim",
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      cond = function()
+        return vim.fn.executable "make" ==1
+      end,
+    }
   },
   opts = {
     defaults = {
