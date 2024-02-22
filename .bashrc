@@ -20,7 +20,8 @@ if [[ -x "$(command -v  eza)" ]] ; then { # If eza is installed prefer over ls
         alias la="eza --long --no-quotes --almost-all --sort=extension \
                 --group-directories-first --time-style=long-iso \
                 --git --git-repos --level=1"
-        alias tree="eza --tree --almost-all --sort=extension --group-directories-first --level 2"
+        alias tree="eza --tree --almost-all --sort=extension \
+                --group-directories-first --level 2"
 } else {
         alias ls="ls --color=auto -g --time-style=long-iso --sort=extension \
                 --group-directories-first"
@@ -56,7 +57,8 @@ if [[ -x "$(command -v neovide)" ]] ; then {
 
 # Minicom
 if [[ -x "$(command -v minicom)" ]] ; then {
-        alias minicom='minicom --color=on --statlinefmt=" Minicom %V | %b | %T | %D "'
+        alias minicom='minicom --color=on \
+                --statlinefmt=" Minicom %V | %b | %T | %D "'
 } fi
 
 # IPython
@@ -73,13 +75,20 @@ if [[ -x "$(command -v neofetch)" ]] ; then {
 
 # Clock
 if [[ -x "$(command -v toilet)" ]] ; then {
-        alias clock='watch -tc -n0.1 "tput setaf 001 ; date +%r | toilet -f smmono12 -W -t -F crop -F border ; tput sgr0"'
+        alias clock='watch -tc -n0.1 "tput setaf 001 ; date +%r \
+                | toilet -f smmono12 -W -t -F crop -F border ; tput sgr0"'
+} fi
+
+# Fastfetch
+if [[ -x "$(command -v fastfetch)" ]] ; then {
+        alias minifetch='fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break \
+                --logo arch_small'
 } fi
 
 # Wal Colors
-if [[ -x "$(command -v wal)" ]]; then
+if [[ -x "$(command -v wal)" ]]; then {
     wal -Rnqes
-fi
+} fi
 
-# When the interactive session starts show neofetch
-clear; neofetch
+# Call minifetch
+minifetch
