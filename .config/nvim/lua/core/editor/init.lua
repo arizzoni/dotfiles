@@ -2,8 +2,8 @@
 
 vim.g.autochdir = true
 vim.g.browsedir = "current"
-vim.opt.completeopt = "menuone,noselect"         -- Set completeopt to have a better completion experience
-vim.opt.signcolumn = "yes" -- Keep signcolumn on by default
+vim.opt.completeopt = "menuone,noselect"
+vim.opt.signcolumn = "yes"
 vim.wo.breakindent = true
 vim.g.cmdwinheight = 3
 vim.o.cmdheight = 1
@@ -36,6 +36,12 @@ vim.g.splitright = true
 vim.g.timeoutlen = 300
 vim.g.undofile = true
 vim.g.virtualedit = "block,insert"
+
+-- Set some nice unicode characters for the error/etc. characters in the sign column
+vim.fn.sign_define('DiagnosticSignError', { text = '🅴', texthl = 'DiagnosticSignError' })
+vim.fn.sign_define('DiagnosticSignWarn', { text = '🆆', texthl = 'DiagnosticSignWarn' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = '🅸', texthl = 'DiagnosticSignInfo' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '🅷', texthl = 'DiagnosticSignHint' })
 
 -- Disable arrow keys
 vim.keymap.set({ "n", "v", "i" }, "<Up>", "<Nop>", { noremap = true, silent = true })
