@@ -43,29 +43,33 @@ alias cd='change_dir'
 if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over cat
         alias cat="bat --theme=ansi"
 } else {
-        alias cat="cat --number-nonblank"
+alias cat="cat --number-nonblank"
 } fi
 
 if [[ -x "$(command -v fzf)" ]] ; then {
         alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
 } fi
 
-# Neovide
-if [[ -x "$(command -v neovide)" ]] ; then {
-        alias neovide="neovide --no-fork"
+# Editors
+if [[ -x "$(command -v nvim)" ]] ; then {
+                alias neogit="nvim -c 'Neogit'"
+        # Neovide
+        if [[ -x "$(command -v neovide)" ]] ; then {
+                alias neovide="neovide --no-fork"
+                # alias neogit="neovide -- -c 'Neogit'"
+        } fi
 } fi
 
 # Minicom
 if [[ -x "$(command -v minicom)" ]] ; then {
         alias minicom='minicom --color=on \
-                --statlinefmt=" Minicom %V | %b | %T | %D "'
+        --statlinefmt=" Minicom %V | %b | %T | %D "'
 } fi
 
 # IPython
 if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
-        alias ipython="source ~/.local/share/python/ipython/bin/activate; \
-                ipython --no-banner; \
-                deactivate;echo;"
+        alias ipython="source ~/.local/share/python/ipython/bin/activate \
+        && ipython --no-banner; deactivate;echo;"
 } fi
 
 # Neofetch
