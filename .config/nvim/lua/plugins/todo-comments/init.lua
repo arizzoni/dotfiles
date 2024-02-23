@@ -3,6 +3,7 @@ return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {
+    signcolumn = false,
     keywords = {
       FIX  = { icon = "󰅗", color = "error", alt = { "BUG" } },
       TODO = { icon = "󰄲", color = "info", alt = { "DONE" } },
@@ -21,7 +22,7 @@ return {
       test = { "Identifier" },
     },
     highlight = {
-      multiline = false,
+      multiline = true,
     },
   },
 }
