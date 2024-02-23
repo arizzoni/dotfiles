@@ -29,7 +29,7 @@ return {
       cmake = { 'cmakelint', },
       cpp = { 'cpplint', },
       json = { 'jsonlint', },
-      lua = { 'selene', },
+      -- lua = { 'selene', }, TODO: set up for non-neovim stuff. Do I need this?
       markdown = { 'vale', },
       python = { 'mypy', 'pylint' },
       sh = { 'shellcheck', },
