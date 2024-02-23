@@ -10,6 +10,11 @@ if [[ -f $HOME/.bash_prompt ]] ; then {
     source "$HOME/.bash_prompt"
 } fi
 
+# Bash Completions - Sourced in etc/bash.bashrc or wherever
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
+        source '/usr/share/bash-completion/bash_completion'
+} fi
+
 # Aliases
 
 # ls
@@ -69,7 +74,7 @@ if [[ -x "$(command -v minicom)" ]] ; then {
 # IPython
 if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
         alias ipython="source ~/.local/share/python/ipython/bin/activate \
-        && ipython --no-banner; deactivate;echo;"
+        && ipython --no-banner; deactivate; echo;"
 } fi
 
 # Neofetch

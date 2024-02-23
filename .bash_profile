@@ -38,11 +38,6 @@ shopt -s sourcepath
 set -o braceexpand
 set -o noclobber
 
-# Bash Completions - Sourced in etc/bash.bashrc or wherever
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
-        source '/usr/share/bash-completion/bash_completion'
-} fi
-
 # bashrc 
 if [[ -f $HOME/.bashrc ]] ; then {
     source "$HOME/.bashrc"
