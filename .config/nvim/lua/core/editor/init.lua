@@ -30,6 +30,7 @@ vim.g.showcmd = false
 vim.g.showtabline = 2
 vim.g.sidescrolloff = 8
 vim.g.smartcase = true
+vim.g.smartindent = true
 vim.g.splitbelow = true
 vim.g.splitright = true
 vim.g.timeoutlen = 300
