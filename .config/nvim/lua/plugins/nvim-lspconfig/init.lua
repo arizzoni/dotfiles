@@ -72,11 +72,6 @@ return {
         },
       },
       cmake = {},
-      texlab = {
-        texlab = {
-          cmd = { "texlab" },
-        },
-      },
       lua_ls = {
         Lua = {
           hint = {
