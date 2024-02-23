@@ -11,7 +11,7 @@ return {
       delete = { text = '−' }, --  − 
       topdelete = { text = '=' }, -- =
       changedelete = { text = '≃' }, -- ≃ ⍙
-      untracked = { text = '⋯' } -- ≀⋅∘×⋯
+      untracked = { text = '×' } -- ≀⋅∘×⋯⋮
     },
     on_attach = function(bufnr)
       vim.keymap.set('n', '[c', require('gitsigns').prev_hunk, { buffer = bufnr, desc = 'Go to Previous Hunk' })

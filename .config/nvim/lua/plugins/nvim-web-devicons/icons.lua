@@ -15,7 +15,7 @@ local function draw_icons()
   end
   local default_signs = {
     netrw_dir = {
-      text = "", -- 🮹🮺 ⚑ ⚐ ✔ ✘ ❱ ❯ ❭
+      text = "", -- 🮹🮺 ⚑ ⚐ ✔ ✘ ❱ ❯ ❭ 🯊
       texthl = "netrwDir",
     },
     netrw_file = {
