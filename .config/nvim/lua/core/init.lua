@@ -80,7 +80,6 @@ vim.g.smartindent = true
 vim.g.splitbelow = true
 vim.g.splitright = true
 vim.g.timeoutlen = 300
-vim.g.undofile = true
 vim.g.virtualedit = "block,insert"
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column
