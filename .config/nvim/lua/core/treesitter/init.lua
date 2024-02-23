@@ -1,1 +1,0 @@
---[[ Treesitter Configuration ]]
