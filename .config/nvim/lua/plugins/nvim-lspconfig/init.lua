@@ -79,6 +79,9 @@ return {
       },
       lua_ls = {
         Lua = {
+          hint = {
+            enable = true,
+          },
           workspace = {
             checkThirdParty = false,
             library = {
