@@ -6,12 +6,12 @@ return {
   opts = {
     -- See `:help gitsigns.txt`
     signs = {
-      add = { text = '+' }, -- 󰐖   +
-      change = { text = 'Δ' }, -- 󱗜  ~ Δ
-      delete = { text = '–' }, -- 󰍵  –
-      topdelete = { text = '=' }, -- 󰇽 󰦓  =
-      changedelete = { text = '⍙' }, --  󰾟 󰇕  ≃ ⍙
-      untracked = { text = '×' } -- 󰅗   ×
+      add = { text = '+' }, -- +
+      change = { text = '~' }, -- ~ Δ
+      delete = { text = '−' }, --  − 
+      topdelete = { text = '=' }, -- =
+      changedelete = { text = '≃' }, -- ≃ ⍙
+      untracked = { text = '⋯' } -- ≀⋅∘×⋯
     },
     on_attach = function(bufnr)
       vim.keymap.set('n', '[c', require('gitsigns').prev_hunk, { buffer = bufnr, desc = 'Go to Previous Hunk' })

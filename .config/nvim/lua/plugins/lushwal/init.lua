@@ -16,7 +16,7 @@ return {
       addons = {
         gitsigns_nvim = true,
         indent_blankline_nvim = true,
-        lualine = true,
+        lualine = false,
         markdown = true,
         native_lsp = true,
         neogit = true,

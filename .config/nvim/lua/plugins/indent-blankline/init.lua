@@ -5,7 +5,7 @@ return {
   lazy = false,
   opts = {
     debounce = 100,
-    indent = { char = "░" },
+    indent = { char = { " ", "░", "▒", "▓", "█" } },
     whitespace = { remove_blankline_trail = true },
     scope = {
       show_start = true,

@@ -6,7 +6,7 @@ return {
   opts = {
     options = {
       icons_enabled = false,
-      theme = 'auto',
+      theme = 'pywal',
       globalstatus = true,
       component_separators = '|',
       section_separators = ''
