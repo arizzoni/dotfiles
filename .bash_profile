@@ -9,8 +9,10 @@ export HISTSIZE=2000 # History size limit (in memory)
 export HISTFILESIZE=2000 # History size limit (on disk)
 
 # Editors
-export EDITOR="nvim" # Export Neovim as global editor
-export MANPAGER="nvim -c ':Man!'" # Use Neovim as manpager
+if [[ -x "$(command -v nvim)" ]] ; then {
+    export EDITOR="nvim" # Export Neovim as global editor
+    export MANPAGER="nvim -c ':Man!'" # Use Neovim as manpager
+} fi
 
 # IPython local dir
 export IPYTHONDIR="$HOME/.local/share/ipython"
@@ -38,15 +40,8 @@ set -o noclobber
 
 # Bash Completions - Sourced in etc/bash.bashrc or wherever
 if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
-        source /usr/share/bash-completion/bash_completion
+        source '/usr/share/bash-completion/bash_completion'
 } fi
-
-# Wal Colors
-if [[ -x "$(command -v wal)" ]] ; then
-    wal -Rnq
-    pywalfox update
-    zathura-pywal -a 0.8 &>/dev/null
-fi
 
 # bashrc 
 if [[ -f $HOME/.bashrc ]] ; then {
