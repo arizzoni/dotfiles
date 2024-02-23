@@ -13,20 +13,10 @@ return {
   init = function()
     vim.g.lushwal_configuration = {
       compile_to_vimscript = false,
-      color_overrides = function(colors)
-        local overrides = {
-          orange = colors.color1,
-          purple = colors.color4,
-          pink = colors.color4,
-          amaranth = colors.color1,
-          brown = colors.color1,
-        }
-        return vim.tbl_extend("force", colors, overrides)
-      end,
       addons = {
         gitsigns_nvim = true,
         indent_blankline_nvim = true,
-        -- lualine = true,
+        lualine = true,
         markdown = true,
         native_lsp = true,
         neogit = true,
