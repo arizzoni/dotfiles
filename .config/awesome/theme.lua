@@ -103,7 +103,7 @@ theme.useless_gap       = dpi(0)
 theme.border_width      = dpi(0)
 theme.gap_single_client = false
 
-theme.font                                      = "Iosevka Nerd Font 10"
+theme.font                                      = "Iosevka Nerd Font 12"
 
 theme.tooltip_font                              = theme.font
 theme.tooltip_opacity                           = 0.8

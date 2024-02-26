@@ -484,7 +484,8 @@ awful.screen.connect_for_each_screen(function(s)
     screen = s,
     opacity = 1.0,
     type = "dock",
-    shape = gears.shape.rectangle
+    shape = gears.shape.rectangle,
+    height = 24,
   })
 
   -- Add widgets to the wibox
