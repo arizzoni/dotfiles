@@ -3,7 +3,7 @@
 
 [font]
 normal = ["Iosevka", "Iosevka Nerd Font Propo"]
-bold = ["Iosevka", "Iosevka Nerd Font Propo"]
+bold = ["Iosevka Slab", "Iosevka Nerd Font Propo"]
 italic = ["Iosevka Curly", "Iosevka Nerd Font Propo"]
-bold_italic = ["Iosevka Curly", "Iosevka Nerd Font Propo"]
-size = 20
+bold_italic = ["Iosevka Curly Slab", "Iosevka Nerd Font Propo"]
+size = 16
