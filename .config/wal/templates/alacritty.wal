@@ -16,7 +16,7 @@ shape = "Underline"
 
 [font]
 builtin_box_drawing = true
-size = 12
+size = 14
 
 [font.normal]
 family = "IosevkaTerm Nerd Font"
