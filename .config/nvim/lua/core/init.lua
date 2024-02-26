@@ -1,10 +1,8 @@
 --[[ core/init.lua ]]
 
 --[[ Settings ]]
-vim.g.shortmess = "IfilnxtToOF"
 vim.opt.updatetime = 250 -- Decrease update time
 vim.g.transparent_enabled = true
-vim.cmd.colorscheme("patched-lushwal")
 vim.opt.termguicolors = true -- Make sure the terminal supports this
 vim.g.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-Cursor,r-cr-o:hor20"
 
@@ -114,3 +112,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- [[ Core Modules ]]
 require("core.terminal")
 require("core.netrw")
+
+if require('lushwal') ~= nil then
+	vim.cmd.colorscheme("patched-lushwal")
+else
+	vim.cmd.colorscheme("quiet")
+end
+

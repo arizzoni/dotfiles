@@ -8,11 +8,11 @@ return {
     -- Lush colorscheming engine
     { 'rktjmp/lush.nvim' },
     -- Shipwright
-    { 'rktjmp/shipwright.nvim' },
+    -- { 'rktjmp/shipwright.nvim' },
   },
   init = function()
     vim.g.lushwal_configuration = {
-      compile_to_vimscript = false,
+      compile_to_vimscript = false, -- if we don't compile we don't need shipwright
       addons = {
         gitsigns_nvim = true,
         indent_blankline_nvim = true,

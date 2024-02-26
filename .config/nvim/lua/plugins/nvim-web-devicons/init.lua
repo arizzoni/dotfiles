@@ -1,6 +1,3 @@
-
-require("plugins.nvim-web-devicons.icons")
-
 return {
   "nvim-tree/nvim-web-devicons",
   opts =  {
@@ -33,6 +30,9 @@ return {
     --     name = "Log"
     --   }
     -- };
-  }
+  },
+  init = function()
+    require("plugins.nvim-web-devicons.icons")
+  end,
 }
 

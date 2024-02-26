@@ -13,21 +13,22 @@ local function draw_icons()
   if not is_devicons_available then
     return
   end
+
   local default_signs = {
     netrw_dir = {
-      text = "", -- 🮹🮺 ⚑ ⚐ ✔ ✘ ❱ ❯ ❭ 🯊
+      text = "", -- 🮹🮺 ⚑ ⚐ ✓ ✔ ✗ ✘ ❱ ❯ ❭ 🯊 ⌂ 
       texthl = "netrwDir",
     },
     netrw_file = {
-      text = "",-- 𝚵
+      text = "",-- 𝚵   𝚵 ␣ ○ ⍜ ⍥ ◌ ● ☰ ䷀䷍      ≣≣ ▯▮ 🗎
       texthl = "netrwPlain",
     },
     netrw_exec = {
-      text = "",
+      text = "", -- >_ 
       texthl = "netrwExe",
     },
     netrw_link = {
-      text = "",
+      text = "", -- ↺  🢱 ➦ 
       texthl = "netrwSymlink",
     },
   }

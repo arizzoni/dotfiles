@@ -31,7 +31,7 @@ return {
       json = { 'jsonlint', },
       -- lua = { 'selene', }, TODO: set up for non-neovim stuff. Do I need this?
       markdown = { 'vale', },
-      python = { 'mypy', 'pylint' },
+      -- python = { 'mypy', 'pylint' },
       sh = { 'shellcheck', },
       tex = { 'proselint' },
       yaml = { 'yamllint', },
