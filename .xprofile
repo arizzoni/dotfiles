@@ -10,9 +10,11 @@ if [[ -x "$(command -v syndaemon)" ]] ; then {
 # REFACTOR: this should be done by checking if the laptop is at home by 
 # REFACTOR: seeing if the display information matches
 # REFACTOR: should this be in its own script?
-NUM_MONITORS=$(xrandr --listmonitors | sed 's/[^0-9]//g' | head -n 1)
-if (( NUM_MONITORS == 2 )) ; then { 
-        source "$HOME/bin/monitors.bash"
-} fi
+# NUM_MONITORS=$(xrandr --listmonitors | sed 's/[^0-9]//g' | head -n 1)
+# if (( NUM_MONITORS == 2 )) ; then { 
+#         source "$HOME/bin/monitors.bash"
+# } fi
+
+source "$HOME/bin/monitors.bash"
 
 source "$HOME/bin/wal.bash"
