@@ -90,8 +90,7 @@ if [[ -x "$(command -v toilet)" ]] ; then {
 
 # Fastfetch
 if [[ -x "$(command -v fastfetch)" ]] ; then {
-        alias minifetch='fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break \
-                --logo arch_small'
+        fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small
 } fi
 
 # Wal Colors
@@ -99,5 +98,3 @@ if [[ -x "$(command -v wal)" ]]; then {
     wal -Rnqes
 } fi
 
-# Call minifetch
-minifetch
