@@ -100,7 +100,7 @@ visualizer_in_stereo = yes
 ##
 visualizer_type = spectrum
 #
-visualizer_fps = 120
+visualizer_fps = 60
 #
 visualizer_autoscale = yes
 #
@@ -366,7 +366,7 @@ visualizer_spectrum_hz_max = 20000
 ## Note: You can specify third character which will be used to build 'empty'
 ## part of progressbar.
 ##
-#progressbar_look = =>
+progressbar_look = █
 #
 ## Available values: database, playlist.
 ##
