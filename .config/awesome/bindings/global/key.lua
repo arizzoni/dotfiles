@@ -59,6 +59,8 @@ local globalkeys = gears.table.join(
   -- Standard program
   awful.key({ modkey, }, "Return", function() awful.spawn("alacritty") end,
     { description = "open a terminal", group = "launcher" }),
+  awful.key({ modkey, }, "b", function() awful.spawn("firefox") end,
+    { description = "open a browser", group = "launcher" }),
   awful.key({ modkey, }, "e", function() awful.spawn("neovide -- -c 'Vex'") end,
     { description = "open editor", group = "launcher" }),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
@@ -150,7 +152,7 @@ local globalkeys = gears.table.join(
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
-  local globalkeys = gears.table.join(globalkeys,
+  globalkeys = gears.table.join(globalkeys,
 
     -- View tag only.
     awful.key({ modkey }, "#" .. i + 9,
