@@ -1,6 +1,7 @@
 local awful = require("awful")
 local gears = require("gears")
-local modkey = require("bindings.mod").super
+local mod = require("bindings.mod")
+local modkey = mod.super
 
 local clientbuttons = gears.table.join(
   awful.button({}, 1, function(c)

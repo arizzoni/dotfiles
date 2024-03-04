@@ -1,5 +1,7 @@
 local util = {}
 
+util.terminal = "alacritty"
+
 function util.split(inputstr, sep)
   if sep == nil then
     sep = "%s"
