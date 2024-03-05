@@ -20,5 +20,5 @@ stow .
 - [x] Neovim config refactor
 - [ ] Automatic monitor detection and configuration
 - [ ] Screensaver/screenlocker activation
-- [ ] Awesomewm refactor
+- [x] Awesomewm refactor
 - [ ] Finish aerc config
