@@ -56,7 +56,7 @@ set highlight-active-color '{color2}'
 
 # Represent light/dark colors in recoloring mode
 set recolor-lightcolor rgba(0,0,0,0)
-set recolor-darkcolor '{color1}'
+set recolor-darkcolor '{color7}'
 
 # 'Loading...' text
 set render-loading-fg '{color3}'
