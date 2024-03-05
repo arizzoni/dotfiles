@@ -4,7 +4,7 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local gears = require("gears")
 local menubar = require("menubar")
-local widgets = require("widgets")
+-- local widgets = require("bar")
 local modkey = require("bindings.mod").super
 
 local globalkeys = gears.table.join(
@@ -32,8 +32,8 @@ local globalkeys = gears.table.join(
     end,
     { description = "focus previous by index", group = "client" }
   ),
-  awful.key({ modkey, }, "w", function() widgets.mainmenu:show() end,
-    { description = "show main menu", group = "awesome" }),
+  -- awful.key({ modkey, }, "w", function() widgets.mainmenu:show() end,
+  --   { description = "show main menu", group = "awesome" }),
 
   -- Layout manipulation
   awful.key({ modkey, "Shift" }, "j", function() awful.client.swap.byidx(1) end,

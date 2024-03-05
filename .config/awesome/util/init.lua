@@ -1,6 +1,15 @@
 local util = {}
 
-util.terminal = "alacritty"
+util.external = {
+  terminal = "alacritty",
+  editor = os.getenv("EDITOR") or "nvim",
+  editor_cmd = "neovide -- -c 'Vex'",
+  file_manager = "thunar",
+  browser = "firefox",
+  mail = "thunderbird",
+  screenshot = "screenshot -c",
+  music = "ncmpcpp -s media_library -S visualizer",
+}
 
 function util.split(inputstr, sep)
   if sep == nil then
