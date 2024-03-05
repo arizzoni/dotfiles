@@ -18,7 +18,7 @@ stow .
 
 # To-Do List
 - [x] Neovim config refactor
+- [x] Awesomewm refactor
 - [ ] Automatic monitor detection and configuration
 - [ ] Screensaver/screenlocker activation
-- [x] Awesomewm refactor
 - [ ] Finish aerc config
