@@ -2,7 +2,7 @@
 return {
   "mfussenegger/nvim-dap",
   name = "nvim-dap",
-  lazy = true,
+  event = "VeryLazy",
   opts = {},
   config = function()
     local dap = require('dap')

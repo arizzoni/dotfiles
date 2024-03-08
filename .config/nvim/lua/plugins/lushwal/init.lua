@@ -3,7 +3,7 @@ return {
   'oncomouse/lushwal.nvim',
   name = "lushwal.nvim",
   cmd = { "LushwalCompile" }, -- Specify command to recompile wal colors
-  lazy = true,
+  event = "VeryLazy",
   dependencies = {
     -- Lush colorscheming engine
     { 'rktjmp/lush.nvim' },

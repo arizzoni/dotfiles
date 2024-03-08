@@ -1,7 +1,7 @@
 -- Fuzzy Finder (files, lsp, etc)
 return {
   "nvim-telescope/telescope.nvim",
-  lazy = true,
+  event = "VeryLazy",
   name = "telescope.nvim",
   branch = "0.1.x",
   dependencies = {

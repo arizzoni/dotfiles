@@ -1,6 +1,6 @@
 return {
   "nvim-tree/nvim-web-devicons",
-  lazy = true,
+  event = "VeryLazy",
   opts =  {
     -- globally enable different highlight colors per icon (default to true)
     -- if set to false all icons will have the default icon's color

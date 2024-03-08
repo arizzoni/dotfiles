@@ -1,6 +1,6 @@
 -- Zenbones color scheme
 return {
   "mcchrish/zenbones.nvim",
-  lazy = true,
+  event = "VeryLazy",
   dependencies = { "rktjmp/lush.nvim" },
 }

@@ -8,7 +8,7 @@ return {
     "jemag/telescope-diff.nvim",
   },
   config = true,
-  lazy = true,
+  event = "VeryLazy",
   init = function()
 
     require("telescope").load_extension("diff")
