@@ -6,6 +6,7 @@ local gears = require("gears")
 local menubar = require("menubar")
 -- local widgets = require("bar")
 local modkey = require("bindings.mod").super
+local util = require("util")
 
 local globalkeys = gears.table.join(
   awful.key({ modkey, }, "s", hotkeys_popup.show_help,
@@ -57,11 +58,11 @@ local globalkeys = gears.table.join(
     { description = "go back", group = "client" }),
 
   -- Standard program
-  awful.key({ modkey, }, "Return", function() awful.spawn("alacritty") end,
+  awful.key({ modkey, }, "Return", function() awful.spawn(util.external.terminal) end,
     { description = "open a terminal", group = "launcher" }),
-  awful.key({ modkey, }, "b", function() awful.spawn("firefox") end,
+  awful.key({ modkey, }, "b", function() awful.spawn(util.external.browser) end,
     { description = "open a browser", group = "launcher" }),
-  awful.key({ modkey, }, "e", function() awful.spawn("neovide -- -c 'Vex'") end,
+  awful.key({ modkey, }, "e", function() awful.spawn(util.external.editor_cmd) end,
     { description = "open editor", group = "launcher" }),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
     { description = "reload awesome", group = "awesome" }),
