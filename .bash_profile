@@ -21,7 +21,6 @@ export IPYTHONDIR="$HOME/.local/share/ipython"
 PATH=$PATH:~/.dotfiles/bin
 
 # Bash Shell Options
-shopt -s autocd
 shopt -s direxpand
 shopt -s dotglob
 shopt -s globstar

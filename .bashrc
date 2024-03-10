@@ -10,7 +10,7 @@ if [[ -f $HOME/.bash_prompt ]] ; then {
     source "$HOME/.bash_prompt"
 } fi
 
-# Bash Completions - Sourced in etc/bash.bashrc or wherever
+# Bash Completions
 if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
         source '/usr/share/bash-completion/bash_completion'
 } fi
@@ -51,13 +51,15 @@ if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer over cat
 alias cat="cat --number-nonblank"
 } fi
 
+# fzf
 if [[ -x "$(command -v fzf)" ]] ; then {
         alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
 } fi
 
 # Editors
 if [[ -x "$(command -v nvim)" ]] ; then {
-                alias neogit="nvim -c 'Neogit'"
+        alias neogit="nvim -c 'Neogit'"
+        
         # Neovide
         if [[ -x "$(command -v neovide)" ]] ; then {
                 alias neovide="neovide --no-fork"
@@ -77,11 +79,6 @@ if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
         && ipython --no-banner; deactivate; echo;"
 } fi
 
-# Neofetch
-if [[ -x "$(command -v neofetch)" ]] ; then {
-        alias neofetch="neofetch --disable uptime"
-} fi
-
 # Clock
 if [[ -x "$(command -v toilet)" ]] ; then {
         alias clock='watch -tc -n0.1 "tput setaf 001 ; date +%r \
@@ -92,9 +89,3 @@ if [[ -x "$(command -v toilet)" ]] ; then {
 if [[ -x "$(command -v fastfetch)" ]] ; then {
         fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small
 } fi
-
-# Wal Colors
-if [[ -x "$(command -v wal)" ]]; then {
-    wal -Rnqes
-} fi
-
