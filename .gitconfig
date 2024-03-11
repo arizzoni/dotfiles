@@ -27,5 +27,3 @@
         prompt = false
 [gitflow "prefix"]
         versiontag = V
-[credential]
-	helper = keepassxc -vv --git-groups
