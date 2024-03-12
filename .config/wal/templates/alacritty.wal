@@ -16,18 +16,21 @@ shape = "Underline"
 
 [font]
 builtin_box_drawing = true
-size = 12
+size = 14
 
 [font.normal]
-family = "IosevkaTerm Nerd Font"
+family = "Iosevka Term"
 
 [font.bold]
+family = "Iosevka Term Slab"
 style = "Bold"
 
 [font.bold_italic]
+family = "Iosevka Term Curly Slab"
 style = "Bold Italic"
 
 [font.italic]
+family = "Iosevka Term Curly"
 style = "Italic"
 
 [mouse]
