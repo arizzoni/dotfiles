@@ -40,19 +40,16 @@ if [ -x "$(command -v fzf)" ] ; then {
         alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
 } fi
 
-# fzf
+# ncmpcpp
 if [ -x "$(command -v ncmpcpp)" ] ; then {
         alias ncmpcpp="ncmpcpp --quiet"
 } fi
 
 # Editors
 if [ -x "$(command -v nvim)" ] ; then {
-        alias neogit="nvim -c 'Neogit'"
-        
         # Neovide
         if [ -x "$(command -v neovide)" ] ; then {
                 alias neovide="neovide --no-fork"
-                # alias neogit="neovide -- -c 'Neogit'"
         } fi
 } fi
 
