@@ -40,6 +40,11 @@ if [ -x "$(command -v fzf)" ] ; then {
         alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
 } fi
 
+# fzf
+if [ -x "$(command -v ncmpcpp)" ] ; then {
+        alias ncmpcpp="ncmpcpp --quiet"
+} fi
+
 # Editors
 if [ -x "$(command -v nvim)" ] ; then {
         alias neogit="nvim -c 'Neogit'"
@@ -67,4 +72,9 @@ if [ -d "$HOME/.local/share/python/ipython" ]; then {
 if [ -x "$(command -v toilet)" ] ; then {
         alias clock='watch -tc -n0.1 "tput setaf 001 ; date +%r \
                 | toilet -f smmono12 -W -t -F crop -F border ; tput sgr0"'
+} fi
+
+# Pacdiff
+if [ -x "$(command -v pacdiff)" ] ; then {
+        alias pacdiff='DIFFPROG=nvim pacdiff'
 } fi
