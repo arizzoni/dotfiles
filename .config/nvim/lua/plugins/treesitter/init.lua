@@ -15,7 +15,7 @@ return {
     ignore_install = {},
 
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { "bash", "c", "clojure", "comment", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "latex", "lua", "make", "markdown_inline", "pip_requirements", "psv", "python", "readline", "ssh_config", "tsv", "query", "yaml", "toml", "vimdoc", "vim", "xml", "zathurarc" },
+    ensure_installed = { "bash", "c", "clojure", "comment", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "latex", "lua", "make", "markdown_inline", "perl", "pip_requirements", "psv", "python", "readline", "ssh_config", "tsv", "query", "yaml", "toml", "vimdoc", "vim", "xml", "zathurarc" },
 
     -- Autoinstall languages that are not installed. Defaults to false
     auto_install = false,

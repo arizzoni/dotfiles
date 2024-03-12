@@ -13,12 +13,13 @@ return {
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       cond = function()
-        return vim.fn.executable "make" ==1
+        return vim.fn.executable "make" == 1
       end,
     }
   },
   opts = {
     defaults = {
+      borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
       mappings = {
         i = {
           ["<C-u>"] = false,
@@ -26,13 +27,16 @@ return {
         },
       },
     },
-    -- extensions = {
-    --   ["ui-select"] = {
-    --     require("telescope").themes.get_cursor({})
-    --   },
-    -- },
   },
   init = function()
+    require("telescope").setup {
+      extensions = {
+        ["ui-select"] = {
+          require("telescope.themes").get_cursor {}
+        },
+      },
+    }
+
     require("telescope").load_extension("fzf")
     require("telescope").load_extension("dap")
     require("telescope").load_extension("ui-select")
@@ -42,7 +46,6 @@ return {
     local themes = require("telescope.themes")
 
     if pickers ~= nil and themes ~= nil then
-
       vim.keymap.set("n", "<leader>?", function()
         pickers.oldfiles(themes.get_ivy {
           winblend = 10,

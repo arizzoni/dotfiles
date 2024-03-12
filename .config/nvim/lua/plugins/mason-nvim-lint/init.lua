@@ -12,7 +12,7 @@ return {
       "cpplint",
       "jsonlint",
       "mypy",
-      "proselint",
+      -- "proselint",
       "pylint",
       -- "selene",
       "shellcheck",
@@ -33,7 +33,7 @@ return {
       markdown = { 'vale', },
       -- python = { 'mypy', 'pylint' },
       sh = { 'shellcheck', },
-      tex = { 'proselint' },
+      -- tex = { 'proselint' },
       yaml = { 'yamllint', },
     }
 
