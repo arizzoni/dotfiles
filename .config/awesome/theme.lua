@@ -103,7 +103,7 @@ theme.useless_gap       = dpi(0)
 theme.border_width      = dpi(0)
 theme.gap_single_client = false
 
-theme.font                                      = "Iosevka Nerd Font 12"
+theme.font                                      = "Iosevka, Symbols Nerd Font 12"
 
 theme.tooltip_font                              = theme.font
 theme.tooltip_opacity                           = 0.8
@@ -114,7 +114,7 @@ theme.mouse_finder_animate_timeout              = true
 theme.mouse_finder_radius                       = dpi(64)
 theme.mouse_finder_factor                       = 0.8
 
-theme.prompt_font                               = "IosevkaTerm Nerd Font 10"
+theme.prompt_font                               = "Iosevka Term, Symbols Nerd Font Mono 11"
 
 theme.hotkeys_border_width                      = theme.border_width
 theme.hotkeys_shape                             = shape.rounded_rectangle
