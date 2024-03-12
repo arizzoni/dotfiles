@@ -24,7 +24,7 @@ WAL_CACHE="$CACHE/wal_cache"
 $WAL --saturate 0.4 --cols16 -nq -i "$($CAT "$WAL_CACHE")"
 
 # Select new random wallpaper and cache it
-WALLPAPER_DIR="$HOME/Pictures/wallpapers/space"
+WALLPAPER_DIR="$HOME/Pictures/wallpapers/selected"
 WALLPAPER="$($LS "$WALLPAPER_DIR" --recursive | shuf | head -n 1)"
 echo "$WALLPAPER_DIR/$WALLPAPER" >| "$WAL_CACHE"
 
