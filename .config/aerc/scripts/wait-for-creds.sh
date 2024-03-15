@@ -1,8 +1,7 @@
 #!/bin/sh
 
-GET_PASSWORD="$(keepassxc-cli show -s "$HOME/Passwords.kdbx" 'Gmail - aerc' | grep Password: | sed 's/^Password:\ //')"
-
+secret-tool lookup "$1" "$2"
 # wait until the password is available
-while [ ! "$GET_PASSWORD" ]; do
-	$GET_PASSWORD	
+while [ $? != 0 ]; do
+	secret-tool lookup "$1" "$2"
 done
