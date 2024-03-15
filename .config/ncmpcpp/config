@@ -19,7 +19,7 @@
 ## MPD clients (eg. ncmpc) also use that location.
 ##
 #
-#lyrics_directory = ~/.lyrics
+lyrics_directory = ~/.cache/lyrics
 #
 ##### connection settings #####
 #
@@ -31,9 +31,9 @@
 #
 ## Needed for tag editor and file operations to work.
 ##
-#mpd_music_dir = ~/music
+mpd_music_dir = ~/Music
 #
-#mpd_crossfade_time = 5
+mpd_crossfade_time = 4
 #
 # Exclude pattern for random song action
 # http://www.boost.org/doc/libs/1_46_1/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html
@@ -98,13 +98,14 @@ visualizer_in_stereo = yes
 #
 ## Available values: spectrum, wave, wave_filled, ellipse.
 ##
-visualizer_type = spectrum
+# visualizer_type = spectrum
+visualizer_type = wave_filled
 #
 visualizer_fps = 60
 #
 visualizer_autoscale = yes
 #
-visualizer_look = ●▮
+visualizer_look = ⚫█
 #
 #visualizer_color = blue, cyan, green, yellow, magenta, red
 #
@@ -127,17 +128,17 @@ visualizer_spectrum_smooth_look = yes
 ## visualizer look at a larger slice of time, which results in less jumpy
 ## visualizer output.
 #
-visualizer_spectrum_dft_size = 3
+visualizer_spectrum_dft_size = 1
 #
 visualizer_spectrum_gain = 10
 #
 ## Left-most frequency of visualizer in Hz, must be less than HZ MAX
 #
-visualizer_spectrum_hz_min = 20
+visualizer_spectrum_hz_min = 25
 #
 ## Right-most frequency of visualizer in Hz, must be greater than HZ MIN
 #
-visualizer_spectrum_hz_max = 20000
+visualizer_spectrum_hz_max = 25000
 #
 ##### system encoding #####
 ##
