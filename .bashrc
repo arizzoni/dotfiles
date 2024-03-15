@@ -18,9 +18,10 @@ if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
 # Aliases
 source "$HOME/.aliases"
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
+# Wal
+if [[ -x "$(command -v wal)" ]] ; then {
+        wal -Rnq
+} fi
 
 # Fastfetch
 if [[ -x "$(command -v fastfetch)" ]] ; then {
