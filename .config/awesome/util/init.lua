@@ -2,6 +2,7 @@ local util = {}
 
 util.external = {
   terminal = "alacritty",
+  -- terminal = "kitty",
   editor = os.getenv("EDITOR") or "nvim",
   editor_cmd = "alacritty -e nvim",
   file_manager = "thunar",
