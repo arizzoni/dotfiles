@@ -2,10 +2,10 @@
 
 # Compositor
 if [[ -x "$(command -v picom)" ]] ; then {
-        picom
+        picom &
 } fi
 
 # Screen locker
 if [[ -x "$(command -v light-locker)" ]] ; then {
-        light-locker --lock-on-suspend --lock-on-lid --idle-hint
+        light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
 } fi
