@@ -21,4 +21,4 @@ stow .
 - [x] Awesomewm refactor
 - [x] Finish aerc config
 - [x] Screensaver/screenlocker activation
-- [ ] Automatic monitor detection and configuration
+- [x] Automatic monitor profile detection and configuration
