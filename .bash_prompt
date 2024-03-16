@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# ~/.config/bash/.bash_prompt
-# v0.1
 
 # Load Git functions
 source "/usr/share/git/git-prompt.sh"
@@ -16,15 +14,15 @@ function __virtualenv_info(){
 
 function __set_prompt(){
         # Create a string like:  "[ Apr 25 16:06 ]" with time in RED.
-        printf -v PS1RHS "\e[0m\e[0;1;32m%(%T)T \e[0;1;31m%(%F)T\e[0m" -1 # -1 is current time
+        # printf -v PS1RHS "\e[0m\e[0;1;32m%(%T)T \e[0;1;31m%(%F)T\e[0m" -1 # -1 is current time
 
         # Strip ANSI commands before counting length
         # From: https://www.commandlinefu.com/commands/view/12043/remove-color-special-escape-ansi-codes-from-text-with-sed
-        PS1RHS_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1RHS") # TODO refactor if possible
+        # PS1RHS_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1RHS") # TODO refactor if possible
 
         # Reference: https://en.wikipedia.org/wiki/ANSI_escape_code
-        local Save='\e[s' # Save cursor position
-        local Rest='\e[u' # Restore cursor to save point
+        # local Save='\e[s' # Save cursor position
+        # local Rest='\e[u' # Restore cursor to save point
 
         # Save cursor position, jump to right hand edge, then go left N columns where
         # N is the length of the printable RHS string. Print the RHS string, then

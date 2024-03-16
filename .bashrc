@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# ~/.config/bash/.bashrc
-# v0.4
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return # No need to run the configuration for a script
@@ -15,15 +13,19 @@ if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
         source '/usr/share/bash-completion/bash_completion'
 } fi
 
-# Aliases
-source "$HOME/.aliases"
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#   exec tmux
+# fi
 
 # Wal
-if [[ -x "$(command -v wal)" ]] ; then {
-        wal -Rnq
+if [[ -f "$HOME/.cache/wal/sequences" ]] ; then {
+        (cat "$HOME/.cache/wal/sequences" &)
 } fi
 
 # Fastfetch
 if [[ -x "$(command -v fastfetch)" ]] ; then {
         fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small
 } fi
+
+# Aliases
+source "$HOME/.aliases"

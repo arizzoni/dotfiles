@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# ~/.config/bash/.bash_profile
 
 # Bash History
 export HISTFILE="$HOME/.cache/.bash_history"

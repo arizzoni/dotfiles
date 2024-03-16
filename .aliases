@@ -1,5 +1,5 @@
 #!/usr/bin/sh
-# Aliases
+# Shell Aliases
 
 # ls
 if [ -x "$(command -v  eza)" ] ; then { # If eza is installed prefer over ls
