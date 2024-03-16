@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/sh
 # Pywal colorscheme and wallpaper selection
 
 # If pywal is not executable, exit
