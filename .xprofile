@@ -7,4 +7,4 @@ if [[ -x "$(command -v syndaemon)" ]] ; then {
 } fi
 
 source "$HOME/bin/monitors.bash"
-source "$HOME/bin/wal.bash"
+source "$HOME/bin/wal.sh"
