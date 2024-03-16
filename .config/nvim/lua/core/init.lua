@@ -1,10 +1,9 @@
 --[[ core/init.lua ]]
 
 --[[ Settings ]]
-vim.opt.updatetime = 250 -- Decrease update time
+vim.opt.updatetime = 250     -- Decrease update time
 vim.g.transparent_enabled = true
 vim.opt.termguicolors = true -- Make sure the terminal supports this
-vim.g.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-Cursor,r-cr-o:hor20"
 
 -- Backup and undo
 vim.opt.writebackup = true
@@ -30,18 +29,6 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
-
--- Neovide Settings
-if vim.g.neovide then
-  vim.g.neovide_transparency = 0.8
-  vim.g.neovide_background_color = "#000000"
-  vim.g.neovide_confirm_quit = true
-  vim.g.neovide_cursor_animation_length = 0.125
-  vim.g.neovide_cursor_trail_size = 0.5
-  vim.g.neovide_cursor_antialiasing = true
-  vim.g.neovide_cursor_animate_command_line = true
-  vim.g.neovide_cursor_vfx_mode = ""
-end
 
 -- Basic Settings
 vim.g.autochdir = true
@@ -101,11 +88,11 @@ vim.keymap.set("n", "j", 'v:count == 0 ? "gj" : "j"', { expr = true, silent = tr
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = "*",
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	pattern = "*",
 })
 
 -- [[ Core Modules ]]
@@ -117,4 +104,3 @@ if require('lushwal') ~= nil then
 else
 	vim.cmd.colorscheme("quiet")
 end
-
