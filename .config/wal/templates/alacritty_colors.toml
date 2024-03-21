@@ -1,64 +1,3 @@
-ipc_socket = true
-live_config_reload = true
-
-[env]
-TERM = "alacritty"
-
-[cursor]
-blink_interval = 750
-blink_timeout = 5
-thickness = 0.15
-unfocused_hollow = true
-
-[cursor.style]
-blinking = "On"
-shape = "Underline"
-
-[font]
-builtin_box_drawing = true
-size = 14
-
-[font.normal]
-family = "Iosevka Term"
-
-[font.bold]
-family = "Iosevka Term Slab"
-style = "Bold"
-
-[font.bold_italic]
-family = "Iosevka Term Curly Slab"
-style = "Bold Italic"
-
-[font.italic]
-family = "Iosevka Term Curly"
-style = "Italic"
-
-[mouse]
-hide_when_typing = true
-
-[scrolling]
-history = 10000
-multiplier = 2
-
-[shell]
-args = ["--login"]
-program = "/bin/bash"
-
-[window]
-decorations = "None"
-decorations_theme_variant = "None"
-dynamic_padding = true
-opacity = 0.8
-startup_mode = "Windowed"
-
-[window.padding]
-x = 2 
-y = 0
-
-[colors]
-draw_bold_text_with_bright_colors = false
-transparent_background_colors = true
-
 [colors.primary]
 background            = "{color0}"
 foreground            = "{color15}"
@@ -121,14 +60,17 @@ magenta               = "{color13}"
 cyan                  = "{color14}"
 white                 = "{color15}"
 
-[colors.dim]
-black                 = "{color0}"
-red                   = "{color1}"
-green                 = "{color2}"
-yellow                = "{color3}"
-blue                  = "{color4}"
-magenta               = "{color5}"
-cyan                  = "{color6}"
-white                 = "{color8}"
+# Alacritty will automatically calculate the dim colors based on the existing
+# normal colors. Uncomment to have dim colors the same as normal colors with 
+# the exception that white is still dimmed.
+# [colors.dim]
+# black                 = "{color0}"
+# red                   = "{color1}"
+# green                 = "{color2}"
+# yellow                = "{color3}"
+# blue                  = "{color4}"
+# magenta               = "{color5}"
+# cyan                  = "{color6}"
+# white                 = "{color8}"
 
 # vim: filetype=toml
