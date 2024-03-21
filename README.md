@@ -17,6 +17,10 @@ stow .
 ```
 
 # To-Do List
+
+- [ ] Port Awesomewm config to -git version
+
+# Done list
 - [x] Neovim config refactor
 - [x] Awesomewm refactor
 - [x] Finish aerc config
