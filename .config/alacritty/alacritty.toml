@@ -1,0 +1,66 @@
+ipc_socket = true
+live_config_reload = true
+
+import = [
+"~/.cache/wal/alacritty_colors.toml",
+]
+
+[env]
+TERM = "alacritty"
+
+[cursor]
+blink_interval = 750
+blink_timeout = 5
+thickness = 0.15
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "On"
+shape = "Underline"
+
+[font]
+builtin_box_drawing = true
+size = 12
+
+[font.normal]
+family = "Iosevka Term"
+
+[font.bold]
+family = "Iosevka Term Slab"
+style = "Bold"
+
+[font.bold_italic]
+family = "Iosevka Term Curly Slab"
+style = "Bold Italic"
+
+[font.italic]
+family = "Iosevka Term Curly"
+style = "Italic"
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 10000
+multiplier = 2
+
+[shell]
+args = ["--login"]
+program = "/bin/bash"
+
+[window]
+decorations = "None"
+decorations_theme_variant = "None"
+opacity = 0.8
+dynamic_padding = true
+startup_mode = "Windowed"
+
+[window.padding]
+x = 0 
+y = 0
+
+[colors]
+draw_bold_text_with_bright_colors = false
+transparent_background_colors = true
+
+# vim: filetype=toml
