@@ -27,7 +27,6 @@ require("xpm").setup({
   plugins = {
     -- Let xpm manage itself
     'dtomvan/xpm.xplr',
-    { name = 'gitlab:hartan/web-devicons.xplr' },
     { name = 'sayanarijit/fzf.xplr' },
     { name = 'sayanarijit/alacritty.xplr' },
     { name = 'sayanarijit/xclip.xplr' },
@@ -80,3 +79,5 @@ xplr.config.general.enable_recover_mode = true
 --
 -- Type: nullable [Border Type](https://xplr.dev/en/borders#border-type)
 xplr.config.general.panel_ui.default.border_type = "Plain"
+
+xplr.config.general.initial_layout = "no_help"
