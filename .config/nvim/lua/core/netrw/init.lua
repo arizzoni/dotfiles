@@ -18,4 +18,3 @@ vim.g.netrw_localcopydircmd = "cp -r"
 vim.g.netrw_localmkdir = "mkdir -p"
 vim.g.netrw_localrmdir = "rm -r"
 vim.api.nvim_set_hl(0, "netrwMarkFile", { link = "Search" })
-
