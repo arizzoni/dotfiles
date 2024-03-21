@@ -1,11 +1,15 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
-local gears = require("gears")
 local wibox = require("wibox")
+local menubar = require("menubar")
 
 local bindings = require("bindings")
 local modkey = bindings.mod.super
 local util = require("util")
+
+--[[ Menu ]]
+-- Menubar configuration
+menubar.utils.terminal = util.external.terminal -- Set the terminal for applications that require it
 
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
@@ -15,10 +19,10 @@ local mykeyboardlayout = awful.widget.keyboardlayout()
 local mymainmenu = awful.menu({
   items = { { "Terminal", util.external.terminal },
     { "File Manager", util.external.file_manager },
-    { "Web Browser",     util.external.browser },
-    { "e-Mail",         util.external.mail },
+    { "Web Browser",  util.external.browser },
+    { "e-Mail",       util.external.mail },
     { "Screenshot",   util.external.screenshot },
-    { "Music Player",        util.external.music },
+    { "Music Player", util.external.music },
   }
 })
 
@@ -27,102 +31,8 @@ local mylauncher = awful.widget.launcher({
   menu = mymainmenu
 })
 
--- {{{ Wibar
--- Create a wibox for each screen and add it
-local taglist_buttons = gears.table.join(
-  awful.button({}, 1, function(t) t:view_only() end),
-  awful.button({ modkey }, 1, function(t)
-    if client.focus then
-      client.focus:move_to_tag(t)
-    end
-  end),
-  awful.button({}, 3, awful.tag.viewtoggle),
-  awful.button({ modkey }, 3, function(t)
-    if client.focus then
-      client.focus:toggle_tag(t)
-    end
-  end),
-  awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
-  awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end)
-)
-
-local tasklist_buttons = gears.table.join(
-  awful.button({}, 1, function(c)
-    if c == client.focus then
-      c.minimized = true
-    else
-      c:emit_signal(
-        "request::activate",
-        "tasklist",
-        { raise = true }
-      )
-    end
-  end),
-
-  awful.button({}, 3, function()
-    awful.menu.client_list({ theme = { width = 250 } })
-  end),
-
-  awful.button({}, 4, function()
-    awful.client.focus.byidx(1)
-  end),
-
-  awful.button({}, 5, function()
-    awful.client.focus.byidx(-1)
-  end))
-
-local function set_wallpaper(s)
-  -- Wallpaper
-  if beautiful.wallpaper then
-    local wallpaper = beautiful.wallpaper
-    -- If wallpaper is a function, call it with the screen
-    if type(wallpaper) == "function" then
-      wallpaper = wallpaper(s)
-    end
-    gears.wallpaper.maximized(wallpaper, s, true)
-  end
-end
-
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-awful.screen.set_auto_dpi_enabled(true)
-screen.connect_signal("property::geometry", set_wallpaper)
-awful.screen.connect_for_each_screen(function(s)
-  -- Wallpaper
-  set_wallpaper(s)
-
-  -- Each screen has its own tag table.
-  awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
-
-  -- Create a promptbox for each screen
-  s.mypromptbox = awful.widget.prompt({ prompt = " $ " })
-
-  -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-  -- We need one layoutbox per screen.
-  s.mylayoutbox = awful.widget.layoutbox(s)
-
-  s.mylayoutbox:buttons(gears.table.join(
-    awful.button({}, 1, function() awful.layout.inc(1) end),
-    awful.button({}, 3, function() awful.layout.inc(-1) end),
-    awful.button({}, 4, function() awful.layout.inc(1) end),
-    awful.button({}, 5, function() awful.layout.inc(-1) end)))
-
-  -- Create a taglist widget
-  s.mytaglist = awful.widget.taglist {
-    screen  = s,
-    filter  = awful.widget.taglist.filter.all,
-    buttons = taglist_buttons
-  }
-
-  -- Create a tasklist widget
-  s.mytasklist = awful.widget.tasklist {
-    screen  = s,
-    filter  = awful.widget.tasklist.filter.currenttags,
-    buttons = tasklist_buttons
-  }
-
-  -- Create a systray widget
-  s.mysystray = wibox.widget.systray()
-  s.mysystray.set_base_size(48)
+screen.connect_signal("request::desktop_decoration", function(s)
+  -- {{{ Wibar
 
   -- Other widgets TBD
   -- Cooling Status                 
@@ -141,6 +51,7 @@ awful.screen.connect_for_each_screen(function(s)
   -- 󰤫 󰤠 󰤣 󰤦 󰤩
   -- 󰤬 󰤡 󰤤 󰤧 󰤪
   -- 󰤮 󰤭
+
   local function split(inputstr, sep)
     if sep == nil then
       sep = "%s"
@@ -321,6 +232,8 @@ awful.screen.connect_for_each_screen(function(s)
       widget:set_text(battery_icon .. tostring(charge) .. "%" .. " ")
     end
   )
+  -- Keyboard map indicator and switcher
+  -- local mykeyboardlayout = awful.widget.keyboardlayout()
 
   -- Create a textclock widget
   s.mytextclock = wibox.widget.textclock("%I:%M %p", 1)
@@ -388,36 +301,84 @@ awful.screen.connect_for_each_screen(function(s)
   })
   s.mycalendar_popup:attach(s.mytextclock, "tr")
 
-  -- Create the wibox
-  s.mywibox = awful.wibar({
-    position = "top",
-    screen = s,
-    opacity = 1.0,
-    type = "dock",
-    shape = gears.shape.rectangle,
-    height = 24,
-  })
+  -- Each screen has its own tag table.
+  awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
-  -- Add widgets to the wibox
-  s.mywibox:setup {
-    layout = wibox.layout.align.horizontal,
-    { -- Left widgets
-      layout = wibox.layout.fixed.horizontal,
-      s.mylayoutbox,
-      mylauncher,
-      s.mytaglist,
-      s.mypromptbox,
-    },
-    s.mytasklist, -- Middle widget
-    {             -- Right widgets
-      layout = wibox.layout.fixed.horizontal,
-      s.mykeyboardlayout,
-      s.mysystray,
-      s.mywireless,
-      s.myairplanemode,
-      s.mybattery,
-      s.mytextclock,
-    },
+  -- Create a promptbox for each screen
+  s.mypromptbox = awful.widget.prompt()
+
+  -- Create an imagebox widget which will contain an icon indicating which layout we're using.
+  -- We need one layoutbox per screen.
+  s.mylayoutbox = awful.widget.layoutbox {
+    screen  = s,
+    buttons = {
+      awful.button({}, 1, function() awful.layout.inc(1) end),
+      awful.button({}, 3, function() awful.layout.inc(-1) end),
+      awful.button({}, 4, function() awful.layout.inc(-1) end),
+      awful.button({}, 5, function() awful.layout.inc(1) end),
+    }
+  }
+
+  -- Create a taglist widget
+  s.mytaglist = awful.widget.taglist {
+    screen  = s,
+    filter  = awful.widget.taglist.filter.all,
+    buttons = {
+      awful.button({}, 1, function(t) t:view_only() end),
+      awful.button({ modkey }, 1, function(t)
+        if client.focus then
+          client.focus:move_to_tag(t)
+        end
+      end),
+      awful.button({}, 3, awful.tag.viewtoggle),
+      awful.button({ modkey }, 3, function(t)
+        if client.focus then
+          client.focus:toggle_tag(t)
+        end
+      end),
+      awful.button({}, 4, function(t) awful.tag.viewprev(t.screen) end),
+      awful.button({}, 5, function(t) awful.tag.viewnext(t.screen) end),
+    }
+  }
+
+  -- Create a tasklist widget
+  s.mytasklist = awful.widget.tasklist {
+    screen  = s,
+    filter  = awful.widget.tasklist.filter.currenttags,
+    buttons = {
+      awful.button({}, 1, function(c)
+        c:activate { context = "tasklist", action = "toggle_minimization" }
+      end),
+      awful.button({}, 3, function() awful.menu.client_list { theme = { width = 250 } } end),
+      awful.button({}, 4, function() awful.client.focus.byidx(-1) end),
+      awful.button({}, 5, function() awful.client.focus.byidx(1) end),
+    }
+  }
+
+  -- Create the wibox
+  s.mywibox = awful.wibar {
+    position = "top",
+    screen   = s,
+    height   = 24,
+    widget   = {
+      layout = wibox.layout.align.horizontal,
+      {       -- Left widgets
+        layout = wibox.layout.fixed.horizontal,
+        s.mylayoutbox,
+        mylauncher,
+        s.mytaglist,
+        s.mypromptbox,
+      },
+      s.mytasklist,       -- Middle widget
+      {                   -- Right widgets
+        layout = wibox.layout.fixed.horizontal,
+        -- mykeyboardlayout,
+        s.mysystray,
+        s.mywireless,
+        s.myairplanemode,
+        s.mybattery,
+        s.mytextclock,
+      },
+    }
   }
 end)
--- }}}

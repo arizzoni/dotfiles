@@ -4,12 +4,12 @@ util.external = {
   terminal = "alacritty",
   editor = os.getenv("EDITOR") or "nvim",
   editor_cmd = "alacritty -e nvim",
-  file_manager = "thunar",
+  file_manager = "alacritty -e xplr",
   screen_locker = "light-locker-command -l",
   browser = "firefox",
-  mail = "thunderbird",
+  mail = "evolution",
   screenshot = "screenshot -c",
-  music = "ncmpcpp -s media_library -S visualizer",
+  music = "alacritty -e ncmpcpp -s media_library -S visualizer",
 }
 
 function util.split(inputstr, sep)
