@@ -11,7 +11,7 @@ return {
     "nvim-telescope/telescope-ui-select.nvim",
     "tsakirist/telescope-lazy.nvim",
     {
-      "nvim-telescope/telescope-fzf-native.nvim",
+      "nvim-telescope/telescope-fzy-native.nvim",
       cond = function()
         return vim.fn.executable "make" == 1
       end,
@@ -37,7 +37,7 @@ return {
       },
     }
 
-    require("telescope").load_extension("fzf")
+    require("telescope").load_extension("fzy_native")
     require("telescope").load_extension("dap")
     require("telescope").load_extension("ui-select")
 
