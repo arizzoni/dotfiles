@@ -1,10 +1,25 @@
 #!/usr/bin/env bash
 # .xprofile
 
+source "$HOME/bin/monitors.sh"
+source "$HOME/bin/wal.sh"
+
 # Disable touchpad while typing
 if [[ -x "$(command -v syndaemon)" ]] ; then {
-        syndaemon -d -i 0.5 -m 100 -K
+        syndaemon -d -i 0.35 -m 100 -K
 } fi
 
-source "$HOME/bin/monitors.bash"
-source "$HOME/bin/wal.sh"
+# Compositor
+if [ -x "$(command -v picom)" ] ; then {
+        picom &
+} fi
+
+# Screen locker
+if [ -x "$(command -v light-locker)" ] ; then {
+        light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
+} fi
+
+# KeepassXC
+if [ -x "$(command -v keepassxc)" ] ; then {
+        keepassxc &
+} fi

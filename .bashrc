@@ -13,9 +13,9 @@ if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
         source '/usr/share/bash-completion/bash_completion'
 } fi
 
-# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#   exec tmux
-# fi
+if [[ -x "$(command -v tmux)" ]] && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]] ; then {
+        exec tmux new
+} fi
 
 # Wal
 if [[ -f "$HOME/.cache/wal/sequences" ]] ; then {

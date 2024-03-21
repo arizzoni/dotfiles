@@ -10,7 +10,7 @@ if [ -x "$(command -v  eza)" ] ; then { # If eza is installed prefer over ls
                 --group-directories-first --time-style=long-iso \
                 --git --git-repos --level=1"
         alias tree="eza --tree --almost-all --sort=extension \
-                --group-directories-first --level 2"
+                --group-directories-first --level=2"
 } else {
         alias ls="ls --color=auto -g --time-style=long-iso --sort=extension \
                 --group-directories-first"
@@ -33,11 +33,6 @@ if [ -x "$(command -v  bat)" ] ; then { # If bat is installed prefer over cat
         alias cat="bat --theme=ansi"
 } else {
 alias cat="cat --number-nonblank"
-} fi
-
-# fzf
-if [ -x "$(command -v fzf)" ] ; then {
-        alias fzf="fzf --multi --scroll-off=4 --layout=reverse-list --color=16"
 } fi
 
 # ncmpcpp
@@ -74,4 +69,20 @@ if [ -x "$(command -v toilet)" ] ; then {
 # Pacdiff
 if [ -x "$(command -v pacdiff)" ] ; then {
         alias pacdiff='DIFFPROG=nvim pacdiff'
+} fi
+
+# Fzy
+if [ -x "$(command -v fzy)" ] ; then {
+        if [ -x "$(command -v fd)" ] ; then {
+                alias fzy='fd . | fzy'
+        } else {
+                alias fzy='find . | fzy'
+        } fi
+} fi
+
+# Tmux
+if [ -x "$(command -v tmux)" ] ; then {
+        alias tm=tmux
+        alias tma="tmux attach"
+        alias tmd="tmux detach"
 } fi
