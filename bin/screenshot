@@ -24,7 +24,7 @@ if [[ -z "$(command maim --version)" ]] ; then {
     return 100
 } fi
 
-SCREENSHOT_DIR="$HOME/Pictures/screenshots"
+SCREENSHOT_DIR="$HOME/pictures/screenshots"
 DATE="$(date +%FT%T)"
 FLAG=""
 

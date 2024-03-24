@@ -32,7 +32,7 @@ if [ -x "$(command -v feh)" ] ; then {
 $WAL --saturate 0.5 --cols16 -nq -i "$($CAT "$WAL_CACHE")"
 
 # Select new random wallpaper and cache it
-WALLPAPER_DIR="$HOME/Pictures/wallpapers/selected"
+WALLPAPER_DIR="$HOME/pictures/wallpapers/selected"
 WALLPAPER="$($LS "$WALLPAPER_DIR" --recursive | shuf | head -n 1)"
 echo "$WALLPAPER_DIR/$WALLPAPER" >| "$WAL_CACHE"
 
