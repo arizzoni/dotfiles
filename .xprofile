@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 # .xprofile
 
+export USERXSESSION="$XDG_CACHE_HOME/X11/xsession"
+export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
+export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
+export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
+
 source "$HOME/bin/monitors.sh"
 source "$HOME/bin/wal.sh"
 
 # Disable touchpad while typing
 if [[ -x "$(command -v syndaemon)" ]] ; then {
-        syndaemon -d -i 0.35 -m 100 -K
+        syndaemon -d -i 0.35 -m 100 -K &
 } fi
 
 # Compositor
@@ -17,6 +22,11 @@ if [ -x "$(command -v picom)" ] ; then {
 # Screen locker
 if [ -x "$(command -v light-locker)" ] ; then {
         light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
+} fi
+
+# Start tmux in the background
+if [ -x "$(command -v tmux)" ] ; then {
+        tmux start &
 } fi
 
 # KeepassXC

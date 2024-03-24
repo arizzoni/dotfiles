@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 
+# XDG Desktop Specification
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/state"
+export XDG_STATE_HOME="$HOME/.local/state"
+
 # Bash History
 export HISTFILE="$HOME/.cache/.bash_history"
 export HISTCONTROL=ignoredups # Don't save duplicate commands
 export HISTSIZE=2000 # History size limit (in memory)
 export HISTFILESIZE=2000 # History size limit (on disk)
+
+source "$HOME/.env"
 
 # Editors
 if [[ -x "$(command -v nvim)" ]] ; then {
