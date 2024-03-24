@@ -331,12 +331,20 @@ awful.keyboard.append_global_keybindings({
     end
   ),
 
-  -- Screenshot on prtscn using scrot
+  -- Screenshot on prtscn using maim
   awful.key(
     {},
-    "XF86Print",
+    "Print",
     function()
-      awful.spawn.spawn("screenshot -c")
+      awful.spawn.with_shell(util.external.screenshot)
+    end
+  ),
+
+  awful.key(
+    { "Shift" },
+    "Print",
+    function()
+      awful.spawn.with_shell(util.external.screenshot_region)
     end
   ),
 
