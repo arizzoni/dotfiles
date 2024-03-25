@@ -1,0 +1,11 @@
+[Unit]
+Description=PowerTOP Auto-Tune at Boot
+
+[Service]
+Type=oneshot
+Environment="TERM=dumb"
+RemainAfterExit=true
+ExecStart=/usr/bin/powertop --auto-tune
+
+[Install]
+WantedBy=multi-user.target
