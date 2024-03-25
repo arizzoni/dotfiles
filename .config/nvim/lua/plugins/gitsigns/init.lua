@@ -4,7 +4,7 @@ return {
   name = "gitsigns.nvim",
   lazy = false,
   opts = {
-    -- See `:help gitsigns.txt`
+    attach_to_untracked = false,
     signs = {
       add = { text = '+' }, -- +
       change = { text = '~' }, -- ~ Δ

@@ -1,10 +1,15 @@
 return {
   'alexghergh/nvim-tmux-navigation',
+  event = { "VeryLazy" },
+  cond = function()
+      local term = os.getenv("TERM")
+      return term and string.find(term, "tmux")
+  end,
   config = function()
     local nvim_tmux_nav = require('nvim-tmux-navigation')
 
     nvim_tmux_nav.setup {
-      disable_when_zoomed = true   -- defaults to false
+      disable_when_zoomed = true -- defaults to false
     }
 
     vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)

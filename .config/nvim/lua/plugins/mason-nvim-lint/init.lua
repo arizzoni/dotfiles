@@ -4,22 +4,17 @@ return {
   name = "mason-nvim-lint",
   dependencies = {
     "williamboman/mason.nvim", -- Snippet Engine
-    "mfussenegger/nvim-lint",  -- Snippet Engine
+    "mfussenegger/nvim-lint",  -- Linter
   },
   opts = {
     ensure_installed = {
       "cmakelint",
       "cpplint",
       "jsonlint",
-      "mypy",
-      -- "proselint",
-      "pylint",
-      -- "selene",
       "shellcheck",
-      "vale",
       "yamllint",
     },
-    automatic_installation = false,
+    automatic_installation = true,
     handlers = {},
   },
   init = function()
@@ -29,15 +24,16 @@ return {
       cmake = { 'cmakelint', },
       cpp = { 'cpplint', },
       json = { 'jsonlint', },
-      -- lua = { 'selene', }, TODO: set up for non-neovim stuff. Do I need this?
-      markdown = { 'vale', },
-      -- python = { 'mypy', 'pylint' },
       sh = { 'shellcheck', },
-      -- tex = { 'proselint' },
       yaml = { 'yamllint', },
     }
 
-    vim.api.nvim_create_autocmd({ "LspAttach", "TextChanged" }, {
+    local shellcheck = require('lint').linters.shellcheck
+    shellcheck.args = {
+      "-x"
+    }
+
+    vim.api.nvim_create_autocmd({ "LspAttach", "CursorHold" }, {
       callback = function()
         require("lint").try_lint()
       end,
