@@ -100,7 +100,7 @@ require("core.terminal")
 require("core.netrw")
 
 if require('lushwal') ~= nil then
-	vim.cmd.colorscheme("patched-lushwal")
+	vim.cmd.colorscheme("lushwal")
 else
 	vim.cmd.colorscheme("quiet")
 end

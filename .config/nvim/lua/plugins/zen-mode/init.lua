@@ -44,7 +44,7 @@ return {
     end,
     -- callback where you can add custom code when the Zen window closes
     on_close = function()
-      vim.cmd(":colo patched-lushwal")
+      vim.cmd(":colo lushwal")
       vim.cmd(":IBLToggle")
     end,
   },
