@@ -24,7 +24,7 @@ if [[ -x "$(command -v nvim)" ]] ; then {
 export IPYTHONDIR="$HOME/.local/share/ipython"
 
 # Add bin directory to path
-PATH=$PATH:~/.dotfiles/bin
+PATH=$PATH:~/.local/bin
 
 # Bash Shell Options
 shopt -s checkwinsize

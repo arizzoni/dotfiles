@@ -6,8 +6,8 @@ export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
 export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
-source "$HOME/bin/monitors.sh"
-source "$HOME/bin/wal.sh"
+source "$HOME/.local/bin/monitors.sh"
+source "$HOME/.local/bin/wal.sh"
 
 # Disable touchpad while typing
 if [[ -x "$(command -v syndaemon)" ]] ; then {
