@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
 
-# Load Git functions
-source "/usr/share/git/git-prompt.sh"
-
 function __virtualenv_info(){
         if [[ -n "$VIRTUAL_ENV" ]]; then
-                venv="${VIRTUAL_ENV##*/}"
+                local venv="${VIRTUAL_ENV##*/}"
         else
-                venv=''
+                local venv=''
         fi
         [[ -n "$venv" ]] && echo "(venv:$venv)"
+}
+
+function __git_info(){
+        if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
+                # Load Git functions
+                source "/usr/share/git/git-prompt.sh"
+                local git="$(__git_ps1 "%s")"
+        else
+                local git=''
+        fi
+        [[ -n "$git" ]] && echo " (git:$git)"
 }
 
 function exitstatus(){
@@ -38,13 +46,11 @@ function __set_prompt(){
         # printed characters so that the prompt doesn't do strange things when
         # editing the entered text.
         PS0='' # Not used - displayed after each command, before any output
-        PS1='\[\e]2;$PWD\a\]\[\e[1;32m\]$(exitstatus)\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;35m\]$(__git_ps1 " (git:%s)") \[\e[0;35m\]$(__virtualenv_info)\[\e[3;37m\]$ \[\e[0;0m\]' # Primary output displayed before command
+        PS1='\[\e]2;$PWD\a\]\[\e[1;32m\]$(exitstatus)\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;35m\]$(__git_info)\[\e[0;35m\]$(__virtualenv_info)\[\e[3;37m\] $ \[\e[0;0m\]' # Primary output displayed before command
         PS2='\[\e[1;33m\]\u ' # Secondary prompt when a command needs more input
         PS3='' # Not used - bash select interactive menus - customized per command
         PS4='' # Not used - bash debug
         # PS1="\[${Save}\e[${COLUMNS:-$(tput cols)}C\e[${#PS1RHS_stripped}D${PS1RHS}${Rest}\]${PS1}"
 }
-
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 PROMPT_COMMAND=__set_prompt
