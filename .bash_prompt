@@ -2,33 +2,55 @@
 
 function __virtualenv_info(){
         local venv
-        if [[ -n "$VIRTUAL_ENV" ]]; then
+        
+        if [[ -n "$VIRTUAL_ENV" ]]; then {
                 venv="${VIRTUAL_ENV##*/}"
-        else
+        } else {
                 venv=''
-        fi
-        [[ -n "$venv" ]] && echo " (venv:$venv)"
+        } fi
+        
+        if [[ -n "$venv" ]] ; then {
+                echo " (venv:$venv)"
+        } fi
 }
 
 function __git_info(){
         local git
-        if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
+        
+        if [[ -f "/usr/share/git/git-prompt.sh" ]]; then {
                 # Load Git functions
                 source "/usr/share/git/git-prompt.sh"
                 git="$(__git_ps1 "%s")"
-        else
+        } else {
                 git=''
-        fi
-        [[ -n "$git" ]] && echo " (git:$git)"
+        } fi
+        
+        if [[ -n "$git" ]] ; then {
+                echo " (git:$git)"
+        } fi
 }
 
 function __exit_status(){
-        if [[ ! $? == 0 ]] ; then
+        if [[ ! $? == 0 ]] ; then {
                 echo '✖ '   
-        fi
+        } fi
 }
 
-function __set_prompt(){
+function __prompt_character(){
+        local char
+        
+        if [[ $(id -u) -ne 0 ]] ; then {
+                char='$'
+        } else {
+                char='#'
+        } fi
+
+        if [[ -n "$char" ]] ; then {
+                echo " $char"
+        } fi
+}
+
+function set_prompt(){
         # Create a string like:  "[ Apr 25 16:06 ]" with time in RED.
         # printf -v PS1RHS "\e[0m\e[0;1;32m%(%T)T \e[0;1;31m%(%F)T\e[0m" -1 # -1 is current time
 
@@ -50,11 +72,11 @@ function __set_prompt(){
         # editing the entered text.
         
         PS0='' # Not used - displayed after each command, before any output
-        PS1='\[\e]2;$PWD\a\]\[\e[1;32m\]$(__exit_status)\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;36m\]$(__git_info)\[\e[0;32m\]$(__virtualenv_info)\[\e[3;37m\] $ \[\e[0;0m\]' # Primary output displayed before command
+        PS1='\[\e]2;$PWD\a\]\[\e[1;32m\]$(__exit_status)\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;36m\]$(__git_info)\[\e[0;32m\]$(__virtualenv_info)\[\e[3;37m\]$(__prompt_character) \[\e[0;0m\]' # Primary output displayed before command
         PS2='\[\e[1;33m\]\u ' # Secondary prompt when a command needs more input
         PS3='' # Not used - bash select interactive menus - customized per command
         PS4='' # Not used - bash debug
         # PS1="\[${Save}\e[${COLUMNS:-$(tput cols)}C\e[${#PS1RHS_stripped}D${PS1RHS}${Rest}\]${PS1}"
 }
 
-PROMPT_COMMAND=__set_prompt
+PROMPT_COMMAND=set_prompt
