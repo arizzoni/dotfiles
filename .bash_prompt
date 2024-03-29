@@ -1,82 +1,257 @@
 #!/usr/bin/env bash
 
-function __virtualenv_info(){
-        local venv
+function __bold() {
+        tput bold;
+}
+
+function __normal() {
+        tput sgr0;
+}
+
+function __italic() {
+        tput sitm;
+}
+
+function __fg_color0() {
+        tput setaf 0;
+}
+
+function __fg_color1() {
+        tput setaf 1;
+}
+
+function __fg_color2() {
+        tput setaf 2;
+}
+
+function __fg_color3() {
+        tput setaf 3;
+}
+
+function __fg_color4() {
+        tput setaf 4;
+}
+
+function __fg_color5() {
+        tput setaf 5;
+}
+
+function __fg_color6() {
+        tput setaf 6;
+}
+
+function __fg_color7() {
+        tput setaf 7;
+}
+
+function __fg_color8() {
+        tput setaf 8;
+}
+
+function __fg_color9() {
+        tput setaf 9;
+}
+
+function __fg_color10() {
+        tput setaf 10;
+}
+
+function __fg_color11() {
+        tput setaf 11;
+}
+
+function __fg_color12() {
+        tput setaf 12;
+}
+
+function __fg_color13() {
+        tput setaf 13;
+}
+
+function __fg_color14() {
+        tput setaf 14;
+}
+
+function __fg_color15() {
+        tput setaf 15;
+}
+
+function __bg_color0() {
+        tput setab 0;
+}
+
+function __bg_color1() {
+        tput setab 1;
+}
+
+function __bg_color2() {
+        tput setab 2;
+}
+
+function __bg_color3() {
+        tput setab 3;
+}
+
+function __bg_color4() {
+        tput setab 4;
+}
+
+function __bg_color5() {
+        tput setab 5;
+}
+
+function __bg_color6() {
+        tput setab 6;
+}
+
+function __bg_color7() {
+        tput setab 7;
+}
+
+function __bg_color8() {
+        tput setab 8;
+}
+
+function __bg_color9() {
+        tput setab 9;
+}
+
+function __bg_color10() {
+        tput setab 10;
+}
+
+function __bg_color11() {
+        tput setab 11;
+}
+
+function __bg_color12() {
+        tput setab 12;
+}
+
+function __bg_color13() {
+        tput setab 13;
+}
+
+function __bg_color14() {
+        tput setab 14;
+}
+
+function __bg_color15() {
+        tput setab 15;
+}
+
+function virtualenv_info(){
+        local __venv
+        local __style
+        __style="$(__fg_color5)"
         
         if [[ -n "$VIRTUAL_ENV" ]]; then {
-                venv="${VIRTUAL_ENV##*/}"
+                __venv="${VIRTUAL_ENV##*/}"
         } else {
-                venv=''
+                __venv=''
         } fi
         
-        if [[ -n "$venv" ]] ; then {
-                echo " (venv:$venv)"
+        if [[ -n "$__venv" ]] ; then {
+                echo "$__style(venv:$__venv)$(__normal) "
         } fi
 }
 
-function __git_info(){
-        local git
+function git_info(){
+        local __git
+        local __style
+        __style="$(__fg_color4)"
         
         if [[ -f "/usr/share/git/git-prompt.sh" ]]; then {
                 # Load Git functions
                 source "/usr/share/git/git-prompt.sh"
-                git="$(__git_ps1 "%s")"
+                __git="$(__git_ps1 "%s")"
         } else {
-                git=''
+                __git=''
         } fi
         
-        if [[ -n "$git" ]] ; then {
-                echo " (git:$git)"
+        if [[ -n "$__git" ]] ; then {
+                echo "$__style(git:$__git)$(__normal) "
         } fi
 }
 
-function __exit_status(){
-        if [[ ! $? == 0 ]] ; then {
-                echo '✖ '   
+function exit_status(){
+        if [[ ! $1 == 0 ]] ; then {
+                local __char
+                local __style
+                __char="⨉"
+                __style="$(__fg_color1)$(__bold)"
+
+                if [[ -n "$__char" ]] ; then {
+                        echo "$__style$__char$(__normal) "  
+                } fi
         } fi
 }
 
-function __prompt_character(){
-        local char
+function prompt_character(){
+        local __char
+        local __style
+        __style="$(__fg_color7)$(__italic)"
         
         if [[ $(id -u) -ne 0 ]] ; then {
-                char='$'
+                __char='$'
         } else {
-                char='#'
+                __char='#'
         } fi
 
-        if [[ -n "$char" ]] ; then {
-                echo " $char"
+        if [[ -n "$__char" ]] ; then {
+                echo "$__style$__char$(__normal)"
         } fi
 }
 
-function set_prompt(){
-        # Create a string like:  "[ Apr 25 16:06 ]" with time in RED.
-        # printf -v PS1RHS "\e[0m\e[0;1;32m%(%T)T \e[0;1;31m%(%F)T\e[0m" -1 # -1 is current time
+function user(){
+        local __user
+        local __style
+        __user="$USER"
+        __style="$(__fg_color2)$(__bold)"
 
-        # Strip ANSI commands before counting length
-        # NOTE: from https://www.commandlinefu.com/commands/view/12043/remove-color-special-escape-ansi-codes-from-text-with-sed
+        if [[ -n "$__user" ]] ; then {
+                echo "$__style$__user$(__normal)"
+        } fi
+}
+
+function host(){
+        local __host
+        local __style
+        __host="$HOSTNAME"
+        __style="$(__fg_color3)$(__bold)"
+
+        if [[ -n "$__host" ]] ; then {
+                echo "$__style$__host$(__normal)"
+        } fi
+}
+
+function at(){
+        local __style
+        __style="$(__normal)"
         
-        # PS1RHS_stripped=$(sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" <<<"$PS1RHS") # TODO refactor if possible
+        echo "$__style@$(__normal)"
+}
 
-        # Save cursor position, jump to right hand edge, then go left N columns where
-        # N is the length of the printable RHS string. Print the RHS string, then
-        # return to the saved position and print the LHS prompt.
-        # NOTE: from https://en.wikipedia.org/wiki/ANSI_escape_code
-        
-        # local Save='\e[s' # Save cursor position
-        # local Rest='\e[u' # Restore cursor to save point
+function dirs(){
+        local __style
+        local __dir
+        __style="$(__fg_color6)"
+        __dir="$(echo "$PWD" | sed 's/\/home\/air/~/g')" 
+        echo "$__style$__dir$(__normal)"
+}
 
-        # NOTE: "\[" and "\]" are used so that bash can calculate the number of
-        # printed characters so that the prompt doesn't do strange things when
-        # editing the entered text.
+function set_prompts(){
+        exit_code=$? # Collect previous exit code for exit_status()
+
+        # NOTE: "\[" and "\]" are used so that bash can calculate the number
+        # of printed characters so that the prompt doesn't do strange things
+        # when editing the entered text.
         
         PS0='' # Not used - displayed after each command, before any output
-        PS1='\[\e]2;$PWD\a\]\[\e[1;32m\]$(__exit_status)\[\e[1;33m\]\[\e[1;33m\]\u\[\e[0;0m\]@\[\e[1;31m\]\h\[\e[0;37m\] \[\e[1;34m\]\w\[\e[0;36m\]$(__git_info)\[\e[0;32m\]$(__virtualenv_info)\[\e[3;37m\]$(__prompt_character) \[\e[0;0m\]' # Primary output displayed before command
-        PS2='\[\e[1;33m\]\u ' # Secondary prompt when a command needs more input
-        PS3='' # Not used - bash select interactive menus - customized per command
+        PS1='\[$(exit_status $exit_code)\]\[$(user)\]\[$(at)\]\[$(host)\] \[$(dirs)\] \[$(git_info)\]\[$(virtualenv_info)\]\[$(prompt_character)\] ' # Primary output displayed before command
+        PS2='\[$(user)\] ' # Secondary prompt when a command needs more input
+        PS3='' # Not used - bash select interactive menus
         PS4='' # Not used - bash debug
-        # PS1="\[${Save}\e[${COLUMNS:-$(tput cols)}C\e[${#PS1RHS_stripped}D${PS1RHS}${Rest}\]${PS1}"
 }
 
-PROMPT_COMMAND=set_prompt
+PROMPT_COMMAND=set_prompts

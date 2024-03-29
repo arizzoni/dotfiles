@@ -33,3 +33,8 @@ if [ -x "$(command -v tmux)" ] ; then {
 if [ -x "$(command -v keepassxc)" ] ; then {
         keepassxc &
 } fi
+
+# Udiskie
+if [ -x "$(command -v udiskie)" ] ; then {
+        udiskie -s -f 'alacritty -e xplr' &
+} fi
