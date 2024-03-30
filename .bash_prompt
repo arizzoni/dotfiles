@@ -1,255 +1,73 @@
 #!/usr/bin/env bash
 
-function __bold() {
-        tput bold;
-}
+# Define text styles
+bold=$(tput bold)
+normal=$(tput sgr0)
+italic=$(tput sitm)
 
-function __normal() {
-        tput sgr0;
-}
-
-function __italic() {
-        tput sitm;
-}
-
-function __fg_color0() {
-        tput setaf 0;
-}
-
-function __fg_color1() {
-        tput setaf 1;
-}
-
-function __fg_color2() {
-        tput setaf 2;
-}
-
-function __fg_color3() {
-        tput setaf 3;
-}
-
-function __fg_color4() {
-        tput setaf 4;
-}
-
-function __fg_color5() {
-        tput setaf 5;
-}
-
-function __fg_color6() {
-        tput setaf 6;
-}
-
-function __fg_color7() {
-        tput setaf 7;
-}
-
-function __fg_color8() {
-        tput setaf 8;
-}
-
-function __fg_color9() {
-        tput setaf 9;
-}
-
-function __fg_color10() {
-        tput setaf 10;
-}
-
-function __fg_color11() {
-        tput setaf 11;
-}
-
-function __fg_color12() {
-        tput setaf 12;
-}
-
-function __fg_color13() {
-        tput setaf 13;
-}
-
-function __fg_color14() {
-        tput setaf 14;
-}
-
-function __fg_color15() {
-        tput setaf 15;
-}
-
-function __bg_color0() {
-        tput setab 0;
-}
-
-function __bg_color1() {
-        tput setab 1;
-}
-
-function __bg_color2() {
-        tput setab 2;
-}
-
-function __bg_color3() {
-        tput setab 3;
-}
-
-function __bg_color4() {
-        tput setab 4;
-}
-
-function __bg_color5() {
-        tput setab 5;
-}
-
-function __bg_color6() {
-        tput setab 6;
-}
-
-function __bg_color7() {
-        tput setab 7;
-}
-
-function __bg_color8() {
-        tput setab 8;
-}
-
-function __bg_color9() {
-        tput setab 9;
-}
-
-function __bg_color10() {
-        tput setab 10;
-}
-
-function __bg_color11() {
-        tput setab 11;
-}
-
-function __bg_color12() {
-        tput setab 12;
-}
-
-function __bg_color13() {
-        tput setab 13;
-}
-
-function __bg_color14() {
-        tput setab 14;
-}
-
-function __bg_color15() {
-        tput setab 15;
-}
+# Define text foreground colors
+# fg_color0=$(tput setaf 0) # Don't need black foreground color
+fg_color1=$(tput setaf 1)
+fg_color2=$(tput setaf 2)
+fg_color3=$(tput setaf 3)
+fg_color4=$(tput setaf 4)
+fg_color5=$(tput setaf 5)
+fg_color6=$(tput setaf 6)
+fg_color7=$(tput setaf 7)
 
 function virtualenv_info(){
-        local __venv
-        local __style
-        __style="$(__fg_color5)"
+        local _venv
         
         if [[ -n "$VIRTUAL_ENV" ]]; then {
-                __venv="${VIRTUAL_ENV##*/}"
+                _venv="${VIRTUAL_ENV##*/}"
         } else {
-                __venv=''
+                _venv=''
         } fi
         
-        if [[ -n "$__venv" ]] ; then {
-                echo "$__style(venv:$__venv)$(__normal) "
+        if [[ -n "$_venv" ]] ; then {
+                echo " (venv:$_venv)"
         } fi
 }
 
 function git_info(){
-        local __git
-        local __style
-        __style="$(__fg_color4)"
+        local _git
         
         if [[ -f "/usr/share/git/git-prompt.sh" ]]; then {
                 # Load Git functions
                 source "/usr/share/git/git-prompt.sh"
-                __git="$(__git_ps1 "%s")"
+                _git="$(__git_ps1 "%s")"
         } else {
-                __git=''
+                _git=''
         } fi
         
-        if [[ -n "$__git" ]] ; then {
-                echo "$__style(git:$__git)$(__normal) "
+        if [[ -n "$_git" ]] ; then {
+                echo " (git:$_git)"
         } fi
 }
 
 function exit_status(){
         if [[ ! $1 == 0 ]] ; then {
-                local __char
-                local __style
-                __char="⨉"
-                __style="$(__fg_color1)$(__bold)"
+                local _char
+                _char="⨉"
 
-                if [[ -n "$__char" ]] ; then {
-                        echo "$__style$__char$(__normal) "  
+                if [[ -n "$_char" ]] ; then {
+                        echo "$_char "  
                 } fi
         } fi
 }
 
-function prompt_character(){
-        local __char
-        local __style
-        __style="$(__fg_color7)$(__italic)"
-        
-        if [[ $(id -u) -ne 0 ]] ; then {
-                __char='$'
-        } else {
-                __char='#'
-        } fi
-
-        if [[ -n "$__char" ]] ; then {
-                echo "$__style$__char$(__normal)"
-        } fi
-}
-
-function user(){
-        local __user
-        local __style
-        __user="$USER"
-        __style="$(__fg_color2)$(__bold)"
-
-        if [[ -n "$__user" ]] ; then {
-                echo "$__style$__user$(__normal)"
-        } fi
-}
-
-function host(){
-        local __host
-        local __style
-        __host="$HOSTNAME"
-        __style="$(__fg_color3)$(__bold)"
-
-        if [[ -n "$__host" ]] ; then {
-                echo "$__style$__host$(__normal)"
-        } fi
-}
-
-function at(){
-        local __style
-        __style="$(__normal)"
-        
-        echo "$__style@$(__normal)"
-}
-
-function dirs(){
-        local __style
-        local __dir
-        __style="$(__fg_color6)"
-        __dir="$(echo "$PWD" | sed 's/\/home\/air/~/g')" 
-        echo "$__style$__dir$(__normal)"
-}
 
 function set_prompts(){
         exit_code=$? # Collect previous exit code for exit_status()
 
         # NOTE: "\[" and "\]" are used so that bash can calculate the number
         # of printed characters so that the prompt doesn't do strange things
-        # when editing the entered text.
+        # when editing the entered text. All nonprinted characters should be
+        # escaped in this manner to avoid misbehavior.
         
         PS0='' # Not used - displayed after each command, before any output
-        PS1='\[$(exit_status $exit_code)\]\[$(user)\]\[$(at)\]\[$(host)\] \[$(dirs)\] \[$(git_info)\]\[$(virtualenv_info)\]\[$(prompt_character)\] ' # Primary output displayed before command
-        PS2='\[$(user)\] ' # Secondary prompt when a command needs more input
+        PS1="\[${fg_color1}${bold}\]$(exit_status $exit_code)\[${fg_color2}\]\u\[${normal}\]@\[${bold}${fg_color3}\]\h\[${normal}\] \[${fg_color4}\]\w\[${fg_color5}\]$(git_info)\[${fg_color6}\]$(virtualenv_info) \[${fg_color7}${italic}\]\$\[${normal}\] " # Primary output displayed before command
+        PS2="\[${fg_color1}${bold}\]$(exit_status exit_code)\[${fg_color2}\]\u\[${normal}\] " # Secondary prompt when a command needs more input
         PS3='' # Not used - bash select interactive menus
         PS4='' # Not used - bash debug
 }
