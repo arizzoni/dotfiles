@@ -7,7 +7,7 @@ export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
 "$HOME/.local/bin/monitors"
-"$HOME/.local/bin/wal"
+"$HOME/.local/bin/chwal"
 
 # Disable touchpad while typing
 if [[ -x "$(command -v syndaemon)" ]] ; then {
