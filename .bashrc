@@ -158,8 +158,8 @@ if [[ -x "$(command -v minicom)" ]] ; then {
 } fi
 
 # IPython
-if [[ -d "$HOME/.local/share/python/ipython" ]]; then {
-        alias ipython=". ~/.local/share/python/ipython/bin/activate \
+if [[ -e "$HOME/.local/share/virtualenvs/ipython/bin/activate" ]]; then {
+        alias ipython=". $HOME/.local/share/virtualenvs/ipython/bin/activate \
         && ipython --no-banner; deactivate; echo;"
 } fi
 
