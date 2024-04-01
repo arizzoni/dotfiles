@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# vim: sw=4 ts=4
 
 # XDG Desktop Specification
 export XDG_CONFIG_HOME="$HOME/.config"

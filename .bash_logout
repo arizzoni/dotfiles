@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# vim: sw=4 ts=4
 
 if [ -x "$(command -v tmux)" ] ; then {
     if [ "$(tmux list-panes | wc -l)" = 1 ] ; then {
