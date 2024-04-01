@@ -19,7 +19,7 @@ vim.opt.timeoutlen = 300
 
 -- Language support
 vim.g.shell = "bash"
-vim.g.python3_host_prog = "/home/air/.local/share/python/neovim/bin/python" -- Python executable
+vim.g.python3_host_prog = "/home/air/.local/share/virtualenvs/neovim/bin/python" -- Python executable
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
