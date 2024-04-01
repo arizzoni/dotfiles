@@ -1,40 +1,41 @@
 #!/usr/bin/env bash
 # .xprofile
+# vim: sw=4 ts=4
 
 export USERXSESSION="$XDG_CACHE_HOME/X11/xsession"
 export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
 export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
-"$HOME/.local/bin/monitors"
 "$HOME/.local/bin/chwal"
+"$HOME/.local/bin/monitors" &
 
 # Disable touchpad while typing
 if [[ -x "$(command -v syndaemon)" ]] ; then {
-        syndaemon -d -i 0.35 -m 100 -K &
+    syndaemon -d -i 0.35 -m 100 -K &
 } fi
 
 # Compositor
 if [ -x "$(command -v picom)" ] ; then {
-        picom &
+    picom &
 } fi
 
 # Screen locker
 if [ -x "$(command -v light-locker)" ] ; then {
-        light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
+    light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
 } fi
 
 # Start tmux in the background
-if [ -x "$(command -v tmux)" ] ; then {
-        tmux start &
-} fi
+# if [ -x "$(command -v tmux)" ] ; then {
+#     tmux start &
+# } fi
 
 # KeepassXC
 if [ -x "$(command -v keepassxc)" ] ; then {
-        keepassxc &
+    keepassxc &
 } fi
 
 # Udiskie
 if [ -x "$(command -v udiskie)" ] ; then {
-        udiskie -s -f 'alacritty -e xplr' &
+    udiskie -s -f 'alacritty -e xplr' &
 } fi

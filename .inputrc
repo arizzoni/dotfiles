@@ -1,7 +1,9 @@
 # .inputrc
+# vim: sw=4 ts=4
 
 # Enable vi mode
 set editing-mode vi
+set keymap vi
 
 # Show vi mode in prompt
 set show-mode-in-prompt on
