@@ -102,7 +102,7 @@ theme.opacity                                   = 1.0
 theme.corner_radius                             = 0
 theme.useless_gap                               = 0
 theme.border_width                              = 0
-theme.gap_single_client                         = false
+theme.gap_single_client                         = true
 
 theme.tooltip_font                              = theme.font
 theme.tooltip_opacity                           = theme.opacity
