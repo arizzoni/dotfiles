@@ -23,3 +23,8 @@ vim.api.nvim_create_autocmd("TermClose", {
     vim.cmd("bdelete")
   end
 })
+
+vim.keymap.set("n", "<leader>tt", function()
+  vim.cmd(":term")
+end, { desc = "Launch Terminal ([T]ele[t]ype)" })
+
