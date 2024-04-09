@@ -5,9 +5,6 @@ import = [
 "~/.cache/wal/alacritty_colors.toml",
 ]
 
-[env]
-TERM = "alacritty"
-
 [cursor]
 blink_interval = 750
 blink_timeout = 5
@@ -20,7 +17,7 @@ shape = "Underline"
 
 [font]
 builtin_box_drawing = true
-size = 12
+size = 13
 
 [font.normal]
 family = "Iosevka Term"
@@ -45,7 +42,6 @@ history = 10000
 multiplier = 2
 
 [shell]
-args = ["--login"]
 program = "/bin/bash"
 
 [window]
@@ -54,6 +50,7 @@ decorations_theme_variant = "None"
 opacity = 0.8
 dynamic_padding = true
 startup_mode = "Windowed"
+dynamic_title = true
 
 [window.padding]
 x = 0 
@@ -62,5 +59,3 @@ y = 0
 [colors]
 draw_bold_text_with_bright_colors = false
 transparent_background_colors = true
-
-# vim: filetype=toml
