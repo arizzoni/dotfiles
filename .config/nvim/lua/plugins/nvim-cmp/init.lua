@@ -15,7 +15,7 @@ return {
     "ray-x/cmp-treesitter",     -- Treesitter Autocompletion
     "petertriho/cmp-git",       -- Adds git autocompletion
     "lukas-reineke/cmp-rg",     -- Ripgrep autocompletion
-    "kdheepak/cmp-latex-symbols",     -- Ripgrep autocompletion
+    "kdheepak/cmp-latex-symbols",     -- LaTeX symbol autocompletion
   },
   opts = function()
     local cmp = require "cmp"

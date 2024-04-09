@@ -9,7 +9,7 @@ return {
     whitespace = { remove_blankline_trail = true },
     scope = {
       show_start = true,
-      show_end = true,
+      show_end = false,
       show_exact_scope = true,
       highlight = { "Function" },
     },

@@ -5,9 +5,6 @@ return {
     -- Automatically install LSPs to stdpath for neovim
     { "williamboman/mason.nvim", config = true },
     "williamboman/mason-lspconfig.nvim",
-    -- Useful status updates for LSP
-    -- { "j-hui/fidget.nvim",       tag = "legacy", event = "LspAttach", opts = {} },
-    -- Additional lua configuration
     { "folke/neodev.nvim",       opts = {} },
     { "kosorin/awesome-code-doc" },
     { "p00f/clangd_extensions.nvim", opts = {} },
@@ -72,6 +69,7 @@ return {
         },
       },
       cmake = {},
+      julials = {},
       lua_ls = {
         Lua = {
           hint = {
@@ -93,18 +91,42 @@ return {
           telemetry = { enable = false },
         },
       },
+      matlab_ls = {},
       pylsp = {
         pylsp = {
           plugins = {
-            black = { enabled = true },
-            autopep8 = { enabled = false },
-            yapf = { enabled = false },
-            pylint = { enabled = true, executable = "pylint" },
-            pyflakes = { enabled = false },
-            pycodestyle = { enabled = false },
-            pylsp_mypy = { enabled = true },
-            jedi_completion = { fuzzy = true },
-            pyls_isort = { enabled = true },
+            autopep8 = {
+              enabled = true,
+            },
+            flake8 = {
+              enabled = true,
+              executable = "flake8",
+            },
+            jedi_completion = {
+              enabled = true,
+              fuzzy = true,
+            },
+            mccabe = {
+              enabled = false,
+            },
+            pycodestyle = {
+              enabled = true,
+            },
+            pydocstyle = {
+              enabled = true,
+              convention = "numpy",
+            },
+            pyflakes = {
+              enabled = true,
+            },
+            pylint = {
+              enabled = true,
+              executable = "pylint"
+            },
+            rope_autoimport = {
+              completions = { enabled = true },
+              code_actions = { enabled = true },
+            },
           },
         },
       },

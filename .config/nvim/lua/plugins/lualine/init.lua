@@ -32,8 +32,8 @@ return {
     inactive_sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = {'filename'},
-      lualine_x = {'location'},
+      lualine_c = { 'filename' },
+      lualine_x = { 'location' },
       lualine_y = {},
       lualine_z = {},
     },
@@ -46,9 +46,9 @@ return {
           use_mode_colors = true,
         }
       },
-      lualine_b = {'tabs'},
-      lualine_c = {'windows'},
-      lualine_x = {'searchcount', 'selectioncount'},
+      lualine_b = { 'tabs' },
+      lualine_c = { 'windows' },
+      lualine_x = { 'searchcount', 'selectioncount' },
       lualine_y = {},
       lualine_z = {},
     },
