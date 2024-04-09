@@ -9,6 +9,7 @@ export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
 "$HOME/.local/bin/chwal"
 "$HOME/.local/bin/monitors" &
+amixer set Master 25% # make sure audio is quiet at startup
 
 # Disable touchpad while typing
 if [[ -x "$(command -v syndaemon)" ]] ; then {
@@ -24,11 +25,6 @@ if [ -x "$(command -v picom)" ] ; then {
 if [ -x "$(command -v light-locker)" ] ; then {
     light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
 } fi
-
-# Start tmux in the background
-# if [ -x "$(command -v tmux)" ] ; then {
-#     tmux start &
-# } fi
 
 # KeepassXC
 if [ -x "$(command -v keepassxc)" ] ; then {
