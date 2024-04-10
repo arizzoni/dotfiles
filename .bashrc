@@ -155,7 +155,7 @@ function __git_info(){
     # current branch in the prompt.
 
     if git branch &> /dev/null; then {
-        echo " \[${__fg_color5}\](git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__reset}\])"
+        echo " \[${__fg_color5}\](git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__remove_italic}\])\[${__reset}\]"
     } fi
 }
 
@@ -373,18 +373,22 @@ alias up=change_dir_up
 function ipy(){
     if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
         if . "$VIRTUAL_ENV/bin/activate" ; then {
-            ipython --no-banner
+            ipython
             deactivate
         } fi
     } elif [[ -e "$WORKON_HOME/ipython/bin/activate" ]] ; then  {
         if . "$HOME"/.local/share/virtualenvs/ipython/bin/activate ; then {
-            ipython --no-banner
+            ipython
             deactivate
         } fi
     } fi
 }
 
 alias ipython=ipy
+
+if [[ -x "$(command -v julia)" ]] ; then {
+    alias julia='julia --banner=no'
+} fi
 
 # cat
 if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer it
@@ -414,7 +418,7 @@ if [[ -x "$(command -v toilet)" ]] ; then {
 if [[ -f /etc/arch-release ]] ; then {
     # Pacdiff
     if [[ -x "$(command -v pacdiff)" ]] ; then {
-        alias pacdiff='DIFFPROG=nvim pacdiff'
+        alias pacdiff='DIFFPROG=$EDITOR pacdiff'
     } fi
 } fi
 

@@ -25,8 +25,7 @@ export HISTSIZE=1000 # History size limit (in memory)
 export HISTFILESIZE=10000 # History size limit (on disk)
 
 if [ -x "$(command -v julia)" ] ; then {
-	# export JULIA_DEPOT_PATH="$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
-	export JULIA_DEPOT_PATH="$XDG_DATA_HOME/julia"
+	export JULIA_DEPOT_PATH="$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
 	export JULIAUP_DEPOT_PATH="$XDG_DATA_HOME/julia"
 } fi
 
