@@ -11,11 +11,6 @@ export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 "$HOME/.local/bin/monitors" &
 amixer set Master 25% # make sure audio is quiet at startup
 
-# Disable touchpad while typing
-if [[ -x "$(command -v syndaemon)" ]] ; then {
-    syndaemon -d -i 0.35 -m 100 -K &
-} fi
-
 # Compositor
 if [ -x "$(command -v picom)" ] ; then {
     picom &
@@ -26,12 +21,17 @@ if [ -x "$(command -v light-locker)" ] ; then {
     light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
 } fi
 
+# Udiskie
+if [ -x "$(command -v udiskie)" ] ; then {
+    udiskie -s -f 'alacritty -e xplr' &
+} fi
+
 # KeepassXC
 if [ -x "$(command -v keepassxc)" ] ; then {
     keepassxc &
 } fi
 
-# Udiskie
-if [ -x "$(command -v udiskie)" ] ; then {
-    udiskie -s -f 'alacritty -e xplr' &
+# Disable touchpad while typing
+if [[ -x "$(command -v syndaemon)" ]] ; then {
+    syndaemon -d -i 0.35 -m 100 -K &
 } fi
