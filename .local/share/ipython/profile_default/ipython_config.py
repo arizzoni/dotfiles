@@ -422,7 +422,7 @@ c.TerminalIPythonApp.gui = 'tk'
 
 # The part of the banner to be printed before the profile
 #  Default: "Python 3.11.8 (main, Feb 12 2024, 14:50:05) [GCC 13.2.1 20230801]\nType 'copyright', 'credits' or 'license' for more information\nIPython 8.23.0 -- An enhanced Interactive Python. Type '?' for help.\n"
-# c.InteractiveShell.banner1 = "Python 3.11.8 (main, Feb 12 2024, 14:50:05) [GCC 13.2.1 20230801]\nType 'copyright', 'credits' or 'license' for more information\nIPython 8.23.0 -- An enhanced Interactive Python. Type '?' for help.\n"
+c.InteractiveShell.banner1 = ""
 
 # The part of the banner to be printed after the profile
 #  Default: ''
@@ -446,7 +446,7 @@ c.TerminalIPythonApp.gui = 'tk'
 # Set the color scheme (NoColor, Neutral, Linux, or LightBG).
 #  Choices: any of ['Neutral', 'NoColor', 'LightBG', 'Linux'] (case-insensitive)
 #  Default: 'Neutral'
-# c.InteractiveShell.colors = 'Neutral'
+c.InteractiveShell.colors = 'NoColor'
 
 #  Default: False
 # c.InteractiveShell.debug = False
@@ -586,7 +586,7 @@ c.TerminalInteractiveShell.autoformatter = None
 
 # The part of the banner to be printed before the profile
 #  See also: InteractiveShell.banner1
-# c.TerminalInteractiveShell.banner1 = "Python 3.11.8 (main, Feb 12 2024, 14:50:05) [GCC 13.2.1 20230801]\nType 'copyright', 'credits' or 'license' for more information\nIPython 8.23.0 -- An enhanced Interactive Python. Type '?' for help.\n"
+c.TerminalInteractiveShell.banner1 = ""
 
 # The part of the banner to be printed after the profile
 #  See also: InteractiveShell.banner2
@@ -602,7 +602,7 @@ c.TerminalInteractiveShell.autoformatter = None
 
 # Set the color scheme (NoColor, Neutral, Linux, or LightBG).
 #  See also: InteractiveShell.colors
-c.TerminalInteractiveShell.colors = 'Linux'
+c.TerminalInteractiveShell.colors = 'Neutral'
 
 # Set to confirm when you try to exit IPython with an EOF (Control-D in Unix,
 #  Control-Z/Enter in Windows). By typing 'exit' or 'quit', you can force a

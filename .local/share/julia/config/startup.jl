@@ -11,8 +11,16 @@ end
 try
         using Revise
         using OhMyREPL
-        # colorscheme!("Monokai24bit")
+        colorscheme!("Monokai16")
 
 catch err
         @warn "Could not load startup packages."
+end
+
+atreplinit() do repl
+    @eval import REPL
+    if !isdefined(repl, :interface)
+        repl.interface = REPL.setup_interface(repl)
+    end
+    REPL.numbered_prompt!(repl)
 end
