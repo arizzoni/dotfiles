@@ -1,9 +1,7 @@
 #p!/usr/bin/env bash
 
 ## Startup
-
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# If not running interactively, don't do anything [[ $- != *i* ]] && return
 
 # Start a tmux session if not in a graphical session
 if [[ -z "${DISPLAY}" ]] && [[ -z "${TMUX}" ]] ; then {
@@ -50,16 +48,24 @@ if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
 # Define text styles
 function __init_styles(){
     # This code is put into a function so it only runs when called by the
-    # __set_prompt() function to keep the scope local to the prompt
+    # __set_prompt() function to keep the scope local to the prompt. The tput
+    # command is used to check for the terminal's capabilities, but as it does
+    # not support all the required commands, the raw escape codes are used in 
+    # some cases.
+
+    # NOTE: Tested on Alacritty, Kitty, Zutty, Cool-Retro-Term, Guake,
+    # Gnome-Console, and Gnome-Terminal.
     
     if [[ -x "$(command -v tput bold)" ]] ; then {
-        __bold=$(tput bold) # There is no 'remove bold' tput command
+        __bold=$(tput bold)
+        __remove_bold="\e[2m"
     } else {
         __bold=""
+        __remove_bold=""
     } fi
 
     if [[ -x "$(command -v tput sgr0)" ]] ; then {
-        __reset=$(tput sgr0) 
+        __reset=$(tput sgr0)
     } else {
         __reset=""
     } fi
@@ -78,8 +84,10 @@ function __init_styles(){
 
     if [[ -x "$(command -v tput dim)" ]] ; then {
         __dim=$(tput dim)
+        __remove_dim="\e[22m"
     } else {
         __dim=""
+        __remove_dim=""
     } fi
 
     if [[ -x "$(command -v tput tsl)" ]] ; then {
@@ -96,7 +104,7 @@ function __init_styles(){
 
     # Define text colors
     if [[ -x "$(command -v tput setaf 0)" ]] ; then {
-        # fg_color0=$(tput setaf 0) # Don't need black foreground color
+        # fg_color0="\033[30m" # Don't need black foreground color
         __fg_color1=$(tput setaf 1)
         __fg_color2=$(tput setaf 2)
         __fg_color3=$(tput setaf 3)
@@ -115,12 +123,30 @@ function __init_styles(){
     } fi
 }
 
+# NOTE: "\[" and "\]" are used below so that bash can calculate the number of
+# printed characters. If not escaped, the shell will lose track of where it is
+# when printing characters.
+
+function __context(){
+    # Set user and host context in the format user@host.
+
+    local __user
+    local __host
+    local __separator
+
+    __user=$USER
+    __host=$HOSTNAME
+    __separator="@"
+
+    echo "\[${__fg_color2}${__bold}\]${__user}\[${__reset}\]${__separator}\[${__fg_color3}${__bold}\]${__host}\[${__reset}\]"
+}
+
 function __virtualenv_info(){
     # If there is a virtual environment in the current directory, then
     # activate it and show it in the prompt.
     
     if [[ -n "$VIRTUAL_ENV" ]]; then {
-        echo " (venv:\[${__italic}\]${VIRTUAL_ENV##*/}\[${__remove_italic}\])"
+        echo " \[${__fg_color5}\](venv:\[${__italic}\]${VIRTUAL_ENV##*/}\[${__reset}\])"
     } fi
 }
 
@@ -129,7 +155,7 @@ function __git_info(){
     # current branch in the prompt.
 
     if git branch &> /dev/null; then {
-        echo " (git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__remove_italic}\])"
+        echo " \[${__fg_color5}\](git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__reset}\])"
     } fi
 }
 
@@ -138,76 +164,81 @@ function __exit_status(){
     # indicator in the prompt.
 
     if [[ ! $1 == 0 ]] ; then {
-        echo "⨉ "
+        echo "\[${__fg_color1}${__bold}\]⨉ \[${__reset}\]"
     } fi
 }
 
-function __current_dir(){
+function __working_dir(){
     # Show the current working directory with '~' replacing the usual
     # '/home/$USER'. If the current working directory has more than four
     # directories in its path, then only show the last three and replace the
-    # rest with '.../'. This function handles the current directory. 
-    
+    # rest with '.../'. Also sets window title.
+        
     local __current_dir
-    __current_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-1 | rev )
-    echo "${__current_dir}"
-}
-
-function __parent_dir(){
-    # Show the current working directory with '~' replacing the usual
-    # '/home/$USER'. If the current working directory has more than four
-    # directories in its path, then only show the last three and replace the
-    # rest with '.../'. This function handles the parent directories.
-    
     local __parent_dir
     local __depth
     
-    __depth=${PWD//[!\/]} # extract the '/' from pwd
+    __current_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-1 | rev )
     __parent_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-3 | rev )
+    __depth=${PWD//[!\/]} # extract the '/' from pwd
     
     # There are only a few cases that are possible:
     case ${#__depth} in
-        1|2) ;; # Do nothing
-        3)      # Only show one parent
+        1|2)
+            # Show current directory
+            if [[ $PWD = "/" ]] ; then {
+                echo " \[${__fg_color4}\]/\[$__status_line\]/\[$__finish_status_line\]\[${__reset}\]"
+            } elif [[ $PWD = "$HOME" ]] ; then {
+                echo " \[${__fg_color4}\]${__current_dir}\[$__status_line\]${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
+            } else {
+                echo " \[${__fg_color4}\]/${__current_dir}\[$__status_line\]/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
+            } fi
+            ;; 
+        3)
+            # Only show one parent
             __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-1 )
-            echo "\[${__dim}\]${__parent_dir}/\[${__reset}\]"
+            echo " \[${__fg_color4}\]\[${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line\]${__parent_dir}/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
             ;;
-        4)      # Show two parents
+        4)
+            # Show two parents
             __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-2 )
-            echo "\[${__dim}\]${__parent_dir}/\[${__reset}\]"
+            echo " \[${__fg_color4}\]\[${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line\]${__parent_dir}/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
             ;;
-        *)      # Show two parents and an ellipsis
+        *)
+            # Show two parents and an ellipsis
             __parent_dir=$(echo "$__parent_dir" | cut -d'/' -f-2 )
-            echo "\[${__dim}\].../${__parent_dir}/\[${__reset}\]"
+            echo "\[${__fg_color4}\]\[${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line\].../${__parent_dir}/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
     esac
 }
 
-function __window_title(){
-    # Set the window title to the current working directory with '~' replacing
-    # '/home/$USER'. If the current working directory has more than four
-    # directories in its path, then only show the last three and replace the
-    # rest with '.../'. The behavior is similar to the __parent_dir() and
-    # __current_dir() functions combined.
-    
-    if [[ $TERM = "alacritty" ]] || [[ $TERM = "xterm-kitty" ]] ; then {
+function __prompt_character(){
+    # If the current user has root EUID then show '#' as the prompt character,
+    # otherwise show '$'.
 
-        local __depth
-
-        __depth=${PWD//[!\/]} # extract the '/' from pat
-
-        if (( ${#__depth} > 4 )) ; then { # if there are more than 4 dirs then
-            local __parent_dir
-            local __current_dir
-            __current_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-1 | rev )
-            __parent_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-3 | rev | cut -d'/' -f-2 )
-            __parent_dir=".../${__parent_dir}/"
-            echo "\[$__status_line${__parent_dir}${__current_dir}$__finish_status_line\]"
-        } else {
-            local __current_path
-            __current_path=$( echo "$PWD" | sed 's/\/home\/air/~/g' )
-            echo "\[$__status_line\]${__current_path}\[$__finish_status_line\]"
-        } fi
+    if [[ $EUID -ne 0 ]] ; then {
+        echo " \[${__fg_color7}${__italic}${__bold}\]\$\[${__reset}\] "
+    } else {
+        echo " \[${__fg_color7}${__italic}${__bold}\]\#\[${__reset}\] "
     } fi
+}
+
+function __interactive_prompt(){
+    # Set the prompt for interactive menus. Usually overwritten by the active
+    # program.
+    
+    local __prompt
+    __prompt="Please enter a number from the above list:\n"
+
+    echo "\[${__fg_color7}${__italic}\]${__prompt}\[${__reset}\]"
+}
+
+function __debug_prompt(){
+    # Set the prompt for debugging. Used in debug mode.
+
+    local __prompt_character
+    __prompt_character='+'
+    
+    echo "\[${__fg_color7}${__italic}\]${__prompt_character}\[${__reset}\]"
 }
 
 function __set_prompts(){
@@ -220,26 +251,21 @@ function __set_prompts(){
     # Initialize style and color variables defined above so that the variables
     # stay local in scope.
     __init_styles
-
-    # NOTE: "\[" and "\]" are used so that bash can calculate the number of
-    # printed characters so that the prompt doesn't do strange things when
-    # editing the entered text. Thus, escape all nonprinted characters to
-    # avoid any weirdness.
     
     # Not used - displayed after each command, before any output
     PS0=''
 
     # Normal prompt shown before each command
-    PS1="$(__window_title)\[${__fg_color1}${__bold}\]$(__exit_status $exit_code)\[${__fg_color2}\]\u\[${__reset}\]@\[${__bold}${__fg_color3}\]\h\[${__reset}\] \[${__fg_color4}\]$(__parent_dir)\[${__reset}\]\[${__fg_color4}\]$(__current_dir)\[${__fg_color5}\]$(__git_info)\[${__fg_color6}\]$(__virtualenv_info) \[${__fg_color7}${__dim}${__italic}${__bold}\]\$\[${__reset}\] "
+    PS1="$(__exit_status $exit_code)$(__context)$(__working_dir)$(__git_info)$(__virtualenv_info)$(__prompt_character)"
 
     # Secondary prompt when a command needs more input
-    PS2="\[${__fg_color1}${__bold}\]$(__exit_status exit_code)\[${__fg_color2}\]\u\[${__reset}\] \[${__fg_color7}${__italic}\]\$\[${__reset}\] "
+    PS2="$(__exit_status exit_code)$(__context)$(__prompt_character)"
 
     # Bash select interactive menus
-    PS3='\[${__fg_color7}${__italic}\]Please enter a number from the above list: \[${__reset}\]'
+    PS3="$(__interactive_prompt)"
 
     # Bash prompt used for tracing a script in debug mode
-    PS4='\[${__fg_color7}${__italic}\]+\[${__reset}\]' 
+    PS4="$(__debug_prompt)"
 }
 
 PROMPT_COMMAND=__set_prompts
@@ -339,7 +365,7 @@ function change_dir_up {
         path="${path}../"
     } done
     
-    cd $path || exit
+    cd $path || return
 }
 
 alias up=change_dir_up
@@ -349,13 +375,11 @@ function ipy(){
         if . "$VIRTUAL_ENV/bin/activate" ; then {
             ipython --no-banner
             deactivate
-            echo
         } fi
     } elif [[ -e "$WORKON_HOME/ipython/bin/activate" ]] ; then  {
         if . "$HOME"/.local/share/virtualenvs/ipython/bin/activate ; then {
             ipython --no-banner
             deactivate
-            echo
         } fi
     } fi
 }
@@ -386,9 +410,12 @@ if [[ -x "$(command -v toilet)" ]] ; then {
         | toilet -f smmono12 -W -t -F crop -F border ; tput sgr0"'
     } fi
 
-# Pacdiff
-if [[ -x "$(command -v pacdiff)" ]] ; then {
-    alias pacdiff='DIFFPROG=nvim pacdiff'
+# Distribution-specific Aliases
+if [[ -f /etc/arch-release ]] ; then {
+    # Pacdiff
+    if [[ -x "$(command -v pacdiff)" ]] ; then {
+        alias pacdiff='DIFFPROG=nvim pacdiff'
+    } fi
 } fi
 
 # Fzy
