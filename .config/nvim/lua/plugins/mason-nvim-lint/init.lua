@@ -33,7 +33,7 @@ return {
       "-x"
     }
 
-    vim.api.nvim_create_autocmd({ "LspAttach", "CursorHold" }, {
+    vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost", "InsertLeave" }, {
       callback = function()
         require("lint").try_lint()
       end,
