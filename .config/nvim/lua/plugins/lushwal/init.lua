@@ -14,18 +14,19 @@ return {
     local lush = require("lush")
     local lushwal = require("lushwal.base")
     local get_colors = require("lushwal.colors")
+    local convert = require("lush.vivid.hsl.convert")
 
     vim.g.lushwal_configuration = {
-      compile_to_vimscript = false, -- if we don't compile we don't need shipwright
+      compile_to_vimscript = false,             -- if we don't compile we don't need shipwright
       color_overrides = function(c)
-        local overrides = { -- we don't want colors that aren't from pywal
-          grey = c.color8.mix(c.color7, 30),      -- Darker mid-grey
-          br_grey = c.color8.mix(c.color7, 65),   -- Mid-grey
+        local overrides = {                     -- we don't want colors that aren't from pywal
+          grey = c.color8.mix(c.color7, 30),    -- Darker mid-grey
+          br_grey = c.color8.mix(c.color7, 65), -- Mid-grey
           orange = c.color1,
-          purple = c.color4,                      -- Purple
-          pink = c.color4,                        -- Pink
+          purple = c.color4,
+          pink = c.color4,
           amaranth = c.color1,
-          brown = c.color1,                       -- Brown
+          brown = c.color1,
         }
         return vim.tbl_extend("force", c, overrides)
       end,
@@ -45,22 +46,23 @@ return {
 
     local colors = get_colors()
     if colors ~= nil then
-      vim.g.terminal_color_0 = colors.color0
-      vim.g.terminal_color_1 = colors.color1
-      vim.g.terminal_color_2 = colors.color2
-      vim.g.terminal_color_3 = colors.color3
-      vim.g.terminal_color_4 = colors.color4
-      vim.g.terminal_color_5 = colors.color5
-      vim.g.terminal_color_6 = colors.color6
-      vim.g.terminal_color_7 = colors.color7
-      vim.g.terminal_color_8 = colors.color8
-      vim.g.terminal_color_9 = colors.color9
-      vim.g.terminal_color_10 = colors.color10
-      vim.g.terminal_color_11 = colors.color11
-      vim.g.terminal_color_12 = colors.color12
-      vim.g.terminal_color_13 = colors.color13
-      vim.g.terminal_color_14 = colors.color14
-      vim.g.terminal_color_15 = colors.color15
+      -- Set terminal colors
+      vim.g.terminal_color_0 = convert.hsl_to_hex(colors.color0)
+      vim.g.terminal_color_1 = convert.hsl_to_hex(colors.color1)
+      vim.g.terminal_color_2 = convert.hsl_to_hex(colors.color2)
+      vim.g.terminal_color_3 = convert.hsl_to_hex(colors.color3)
+      vim.g.terminal_color_4 = convert.hsl_to_hex(colors.color4)
+      vim.g.terminal_color_5 = convert.hsl_to_hex(colors.color5)
+      vim.g.terminal_color_6 = convert.hsl_to_hex(colors.color6)
+      vim.g.terminal_color_7 = convert.hsl_to_hex(colors.color7)
+      vim.g.terminal_color_8 = convert.hsl_to_hex(colors.color8)
+      vim.g.terminal_color_9 = convert.hsl_to_hex(colors.color9)
+      vim.g.terminal_color_10 = convert.hsl_to_hex(colors.color10)
+      vim.g.terminal_color_11 = convert.hsl_to_hex(colors.color11)
+      vim.g.terminal_color_12 = convert.hsl_to_hex(colors.color12)
+      vim.g.terminal_color_13 = convert.hsl_to_hex(colors.color13)
+      vim.g.terminal_color_14 = convert.hsl_to_hex(colors.color14)
+      vim.g.terminal_color_15 = convert.hsl_to_hex(colors.color15)
 
       -- we can apply modifications ontop of the existing colorscheme
       local spec = lush.extends({ lushwal }).with(
@@ -70,16 +72,11 @@ return {
             Comment { gui = "italic" },
             CursorLineNr { gui = "bold" },
             SpellRare { fg = colors.color14, bg = colors.background, gui = "underline" },
-
             String { gui = "italic" },
             Character { gui = "italic" },
             Number { fg = colors.color4 },
             Boolean { gui = "italic" },
             Float { Number },
-
-            -- Identifier { },
-            -- Function { },
-
             Statement { gui = "bold" },
             Conditional { gui = "bold" },
             Repeat { gui = "bold" },
@@ -87,18 +84,11 @@ return {
             Operator { gui = "bold" },
             Keyword { gui = "bold" },
             Exception { gui = "bold" },
-
             PreProc { gui = "bold" },
             Include { gui = "bold" },
             Define { fg = colors.color2, bg = colors.background, gui = "bold" },
-            -- Macro { },
-            -- PreCondit { },
-
             Type { gui = "italic" },
-            -- StorageClass { },
             Structure { fg = colors.color10, bg = colors.background, gui = "italic" },
-            -- Typedef { },
-
             Special { gui = "bold" },
             SpecialComment { Comment, gui = "NONE" },
 
@@ -160,6 +150,5 @@ return {
       -- then pass the extended spec to lush for application
       lush(spec)
     end
-
   end
 }
