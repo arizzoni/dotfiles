@@ -13,6 +13,8 @@ return {
       "jsonlint",
       "shellcheck",
       "yamllint",
+      "pylint",
+      "mypy",
     },
     automatic_installation = true,
     handlers = {},
@@ -24,6 +26,7 @@ return {
       cmake = { 'cmakelint', },
       cpp = { 'cpplint', },
       json = { 'jsonlint', },
+      python = { 'pylint', 'mypy'},
       sh = { 'shellcheck', },
       yaml = { 'yamllint', },
     }
