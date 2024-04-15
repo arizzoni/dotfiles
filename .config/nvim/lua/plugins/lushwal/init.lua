@@ -7,15 +7,10 @@ return {
   dependencies = {
     -- Lush colorscheming engine
     { 'rktjmp/lush.nvim' },
-    -- Shipwright (unused)
+    -- Shipwright
     -- { 'rktjmp/shipwright.nvim' },
   },
-  init = function()
-    local lush = require("lush")
-    local lushwal = require("lushwal.base")
-    local get_colors = require("lushwal.colors")
-    local convert = require("lush.vivid.hsl.convert")
-
+  config = function()
     vim.g.lushwal_configuration = {
       compile_to_vimscript = false,             -- if we don't compile we don't need shipwright
       color_overrides = function(c)
@@ -43,8 +38,12 @@ return {
         which_key_nvim = true,
       },
     }
-
+    local lush = require("lush")
+    local convert = require("lush.vivid.hsl.convert")
+    local lushwal = require("lushwal.base")
+    local get_colors = require("lushwal.colors")
     local colors = get_colors()
+
     if colors ~= nil then
       -- Set terminal colors
       vim.g.terminal_color_0 = convert.hsl_to_hex(colors.color0)
