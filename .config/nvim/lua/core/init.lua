@@ -12,9 +12,10 @@ vim.opt.undofile = true -- Save undo history
 
 -- Neovide Settings
 if vim.g.neovide then
+  vim.g.neovide_theme = 'auto'
   vim.g.neovide_transparency = 0.8
-  vim.g.neovide_background_color = "#000000"
-  vim.g.neovide_confirm_quit = true
+  vim.g.neovide_refresh_rate = 60
+  vim.g.neovide_refresh_rate_idle = 6
   vim.g.neovide_cursor_animation_length = 0.125
   vim.g.neovide_cursor_trail_size = 0.5
   vim.g.neovide_cursor_antialiasing = true
