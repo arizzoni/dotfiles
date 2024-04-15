@@ -8,7 +8,7 @@ return {
     -- Id is automatically added at the beginning, and name at the end
     -- See :help oil-columns
     columns = {
-      "icon",
+      -- "icon",
       "permissions",
       "size",
       "mtime",
@@ -102,5 +102,5 @@ return {
   },
 
   -- Optional dependencies
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  -- dependencies = { "nvim-tree/nvim-web-devicons" },
 }
