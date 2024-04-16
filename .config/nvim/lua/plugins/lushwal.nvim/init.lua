@@ -184,6 +184,11 @@ return {
             CmpItemKindInterface = { fg = "#D8EEEB", bg = "#58B5A8" },
             CmpItemKindColor = { fg = "#D8EEEB", bg = "#58B5A8" },
             CmpItemKindTypeParameter = { fg = "#D8EEEB", bg = "#58B5A8" },
+
+            -- Vim Illuminate
+            IlluminatedWordText = { gui = "bold" },
+            IlluminatedWordRead = { gui = "bold" },
+            IlluminatedWordWrite = { gui = "bold" },
             ---@diagnostic enable undefined_global
           }
         end)

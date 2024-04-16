@@ -92,45 +92,44 @@ return {
         },
       },
       matlab_ls = {},
-      jedi_language_server = {},
-      -- pylsp = {
-      --   pylsp = {
-      --     plugins = {
-      --       autopep8 = {
-      --         enabled = true,
-      --       },
-      --       flake8 = {
-      --         enabled = true,
-      --         executable = "flake8",
-      --       },
-      --       jedi_completion = {
-      --         enabled = true,
-      --         fuzzy = true,
-      --       },
-      --       mccabe = {
-      --         enabled = false,
-      --       },
-      --       pycodestyle = {
-      --         enabled = true,
-      --       },
-      --       pydocstyle = {
-      --         enabled = true,
-      --         convention = "numpy",
-      --       },
-      --       pyflakes = {
-      --         enabled = true,
-      --       },
-      --       pylint = {
-      --         enabled = true,
-      --         executable = "pylint"
-      --       },
-      --       rope_autoimport = {
-      --         completions = { enabled = true },
-      --         code_actions = { enabled = true },
-      --       },
-      --     },
-      --   },
-      -- },
+      pylsp = {
+        pylsp = {
+          plugins = {
+            autopep8 = {
+              enabled = true,
+            },
+            flake8 = {
+              enabled = true,
+              executable = "flake8",
+            },
+            jedi_completion = {
+              enabled = true,
+              fuzzy = true,
+            },
+            mccabe = {
+              enabled = true,
+            },
+            pycodestyle = {
+              enabled = true,
+            },
+            pydocstyle = {
+              enabled = true,
+              convention = "numpy",
+            },
+            pyflakes = {
+              enabled = false,
+            },
+            pylint = {
+              enabled = false,
+              executable = "pylint"
+            },
+            rope_autoimport = {
+              completions = { enabled = true },
+              code_actions = { enabled = true },
+            },
+          },
+        },
+      },
     }
 
     -- nvim-cmp supports additional completion capabilities,

@@ -1,6 +1,7 @@
 -- Set lualine as statusline
 return {
   'stevearc/oil.nvim',
+  -- Optional dependencies
   opts = {
     -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
     -- Set to false if you still want to use netrw.
@@ -8,7 +9,7 @@ return {
     -- Id is automatically added at the beginning, and name at the end
     -- See :help oil-columns
     columns = {
-      -- "icon",
+      "type",
       "permissions",
       "size",
       "mtime",
@@ -46,7 +47,7 @@ return {
       padding = 2,
       max_width = 0,
       max_height = 0,
-      border = "rounded",
+      border = "single",
       win_options = {
         winblend = 0,
       },
@@ -100,7 +101,4 @@ return {
       border = "rounded",
     },
   },
-
-  -- Optional dependencies
-  -- dependencies = { "nvim-tree/nvim-web-devicons" },
 }
