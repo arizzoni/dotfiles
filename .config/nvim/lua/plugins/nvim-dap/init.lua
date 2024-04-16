@@ -4,6 +4,23 @@ return {
   name = "nvim-dap",
   event = "VeryLazy",
   opts = {},
+  dependencies = {
+    "jay-babu/mason-nvim-dap.nvim",
+    name = "mason-nvim-dap",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "mfussenegger/nvim-dap",
+    },
+    opts = {
+      ensure_installed = {
+        "python",
+        "bash",
+        "codelldb",
+      },
+      automatic_installation = false,
+      handlers = {},
+    }
+  },
   config = function()
     local dap = require('dap')
     dap.configurations.python = {
@@ -116,3 +133,4 @@ return {
     }
   end
 }
+
