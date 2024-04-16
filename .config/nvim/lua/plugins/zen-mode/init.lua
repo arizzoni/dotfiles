@@ -1,6 +1,7 @@
 -- Set lualine as statusline
 return {
   'folke/zen-mode.nvim',
+  event = "VeryLazy",
   opts = {
     window = {
       backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal

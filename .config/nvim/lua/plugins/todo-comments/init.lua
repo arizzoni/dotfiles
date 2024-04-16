@@ -1,7 +1,6 @@
 -- Tagged To-Do comments
 return {
   "folke/todo-comments.nvim",
-  lazy = false,
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {
     signcolumn = false,
