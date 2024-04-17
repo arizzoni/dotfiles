@@ -14,6 +14,7 @@ set vi-cmd-mode-string \1\e[2 q\2
 
 # Show all autocomplete options if uncertain
 set show-all-if-ambiguous on
+set completion-ignore-case on
 
 # Color files by types, may cause completion text blink in xterm
 set colored-stats On 

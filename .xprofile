@@ -8,8 +8,8 @@ export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
 "$HOME/.local/bin/chwal"
-"$HOME/.local/bin/monitors" &
-amixer set Master 25% # make sure audio is quiet at startup
+# "$HOME/.local/bin/monitors" &
+amixer set Master 0% # make sure audio is quiet at startup
 
 # Compositor
 if [ -x "$(command -v picom)" ] ; then {
@@ -29,9 +29,4 @@ if [ -x "$(command -v udiskie)" ] ; then {
 # KeepassXC
 if [ -x "$(command -v keepassxc)" ] ; then {
     keepassxc &
-} fi
-
-# Disable touchpad while typing
-if [[ -x "$(command -v syndaemon)" ]] ; then {
-    syndaemon -d -i 0.35 -m 100 -K &
 } fi
