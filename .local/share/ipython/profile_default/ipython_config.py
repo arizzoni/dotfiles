@@ -1,4 +1,39 @@
-# Configuration file for ipython.
+"""Configuration file for ipython."""
+
+from pygments.token import(
+    Token,
+    Keyword,
+    Name,
+    Comment,
+    String,
+    Error,
+    Number,
+    Operator,
+    Generic
+        )
+
+
+class WalStyle(object):
+    """Override colors."""
+
+    style_overrides_linux = {
+        Token.Prompt: 'bg:#073642 #839496',
+        Token.PromptNum: 'bg:#073642 #859900 bold',
+        Token.OutPrompt: 'bg:#073642 #839496',
+        Token.OutPromptNum: 'bg:#073642 #dc322f bold',
+        Keyword: 'bg:#073642 #dc322f bold',
+        Name: 'bg:#073642 #dc322f bold',
+        Comment: 'bg:#073642 #dc322f bold',
+        String: 'bg:#073642 #dc322f bold',
+        Error: 'bg:#073642 #dc322f bold',
+        Number: 'bg:#073642 #dc322f bold',
+        Operator: 'bg:#073642 #dc322f bold',
+        Generic: 'bg:#073642 #dc322f bold',
+    }
+
+    def overrides_linux(self):
+        """Override prompt colors."""
+        return self.style_overrides_linux
 
 c = get_config()  # noqa
 
@@ -251,7 +286,7 @@ c.InteractiveShellApp.matplotlib = 'tk'
 # c.TerminalIPythonApp.add_ipython_dir_to_sys_path = False
 
 #  Default: True
-# c.TerminalIPythonApp.auto_create = True
+c.TerminalIPythonApp.auto_create = False
 
 # Execute the given command string.
 #  See also: InteractiveShellApp.code_to_run
@@ -259,7 +294,7 @@ c.InteractiveShellApp.matplotlib = 'tk'
 
 # Whether to install the default config files into the profile dir.
 #  See also: BaseIPythonApplication.copy_config_files
-# c.TerminalIPythonApp.copy_config_files = False
+c.TerminalIPythonApp.copy_config_files = False
 
 # Whether to display a banner upon starting IPython.
 #  Default: True
@@ -267,7 +302,7 @@ c.TerminalIPythonApp.display_banner = False
 
 # Run the file referenced by the PYTHONSTARTUP environment
 #  See also: InteractiveShellApp.exec_PYTHONSTARTUP
-# c.TerminalIPythonApp.exec_PYTHONSTARTUP = True
+c.TerminalIPythonApp.exec_PYTHONSTARTUP = True
 
 # List of files to run at IPython startup.
 #  See also: InteractiveShellApp.exec_files
@@ -275,7 +310,11 @@ c.TerminalIPythonApp.display_banner = False
 
 # lines of code to run at IPython startup.
 #  See also: InteractiveShellApp.exec_lines
-# c.TerminalIPythonApp.exec_lines = []
+c.TerminalIPythonApp.exec_lines = [
+        'import numpy as np',
+        'from matplotlib import pyplot as plt',
+        'plt.style.use(["dark_background", "fast"])',
+        ]
 
 # A list of dotted module names of IPython extensions to load.
 #  See also: InteractiveShellApp.extensions
@@ -446,7 +485,7 @@ c.InteractiveShell.banner1 = ""
 # Set the color scheme (NoColor, Neutral, Linux, or LightBG).
 #  Choices: any of ['Neutral', 'NoColor', 'LightBG', 'Linux'] (case-insensitive)
 #  Default: 'Neutral'
-c.InteractiveShell.colors = 'NoColor'
+c.InteractiveShell.colors = 'Linux'
 
 #  Default: False
 # c.InteractiveShell.debug = False
@@ -602,7 +641,7 @@ c.TerminalInteractiveShell.banner1 = ""
 
 # Set the color scheme (NoColor, Neutral, Linux, or LightBG).
 #  See also: InteractiveShell.colors
-c.TerminalInteractiveShell.colors = 'Neutral'
+c.TerminalInteractiveShell.colors = 'Linux'
 
 # Set to confirm when you try to exit IPython with an EOF (Control-D in Unix,
 #  Control-Z/Enter in Windows). By typing 'exit' or 'quit', you can force a
@@ -670,7 +709,7 @@ c.TerminalInteractiveShell.highlight_matching_brackets = True
 # The name or class of a Pygments style to use for syntax
 #          highlighting. To see available styles, run `pygmentize -L styles`.
 #  Default: traitlets.Undefined
-# c.TerminalInteractiveShell.highlighting_style = traitlets.Undefined
+c.TerminalInteractiveShell.highlighting_style = "friendly_grayscale"
 
 # Override highlighting format for specific tokens
 #  Default: {}
@@ -730,7 +769,7 @@ c.TerminalInteractiveShell.highlight_matching_brackets = True
 
 # Display the current vi mode (when using vi editing mode).
 #  Default: True
-# c.TerminalInteractiveShell.prompt_includes_vi_mode = True
+c.TerminalInteractiveShell.prompt_includes_vi_mode = False
 
 # The format for line numbering, will be passed `line` (int, 1 based) the
 #  current line number and `rel_line` the relative line number. for example to
