@@ -2,8 +2,8 @@ local util = {}
 
 util.external = {
   terminal = "alacritty",
-  editor = os.getenv("EDITOR") or "nvim",
-  editor_cmd = "alacritty -e nvim",
+  editor = "nvim",
+  editor_cmd = "neovide",
   file_manager = "alacritty -e xplr",
   screen_locker = "light-locker-command -l",
   browser = "firefox",
