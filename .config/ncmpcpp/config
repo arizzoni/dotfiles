@@ -19,7 +19,7 @@
 ## MPD clients (eg. ncmpc) also use that location.
 ##
 #
-lyrics_directory = ~/.cache/lyrics
+lyrics_directory = ~/music/lyrics
 #
 ##### connection settings #####
 #
@@ -107,7 +107,7 @@ visualizer_autoscale = yes
 #
 visualizer_look = ⚫█
 #
-#visualizer_color = blue, cyan, green, yellow, magenta, red
+visualizer_color = blue
 #
 ## Alternative subset of 256 colors for terminals that support it.
 ##
@@ -122,7 +122,7 @@ visualizer_look = ⚫█
 ## and visualizer_in_stereo set, artifacts may be visible on the bottom half of
 ## the visualization.
 #
-visualizer_spectrum_smooth_look = yes
+visualizer_spectrum_smooth_look = no
 #
 ## A value between 1 and 5 inclusive. Specifying a larger value makes the
 ## visualizer look at a larger slice of time, which results in less jumpy
@@ -134,11 +134,11 @@ visualizer_spectrum_gain = 10
 #
 ## Left-most frequency of visualizer in Hz, must be less than HZ MAX
 #
-visualizer_spectrum_hz_min = 25
+visualizer_spectrum_hz_min = 20
 #
 ## Right-most frequency of visualizer in Hz, must be greater than HZ MIN
 #
-visualizer_spectrum_hz_max = 25000
+visualizer_spectrum_hz_max = 20000
 #
 ##### system encoding #####
 ##
@@ -320,7 +320,7 @@ visualizer_spectrum_hz_max = 25000
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-#execute_on_song_change = ""
+execute_on_song_change = notify-send "Now Playing" "$(mpc --format '%title% \n%artist% - %album%' current)"
 #
 ##
 ## Note: Custom command that will be executed each time player state
@@ -375,7 +375,7 @@ progressbar_look = █
 #
 ## Available values: classic, alternative.
 ##
-#user_interface = classic
+user_interface = alternative
 #
 #data_fetching_delay = yes
 #
@@ -398,7 +398,7 @@ progressbar_look = █
 #statusbar_visibility = yes
 #
 ## Show the "Connected to ..." message on startup
-#connected_message_on_startup = yes
+connected_message_on_startup = no
 #
 #titles_visibility = yes
 #
@@ -446,7 +446,7 @@ progressbar_look = █
 ##
 ## Note: You can define startup screen by choosing screen from the list above.
 ##
-#startup_screen = playlist
+startup_screen = browser
 #
 ##
 ## Note: You can define startup slave screen by choosing screen from the list
@@ -468,13 +468,13 @@ progressbar_look = █
 #
 #ask_before_clearing_playlists = yes
 #
-#clock_display_seconds = no
+clock_display_seconds = yes
 #
-#display_volume_level = yes
+display_volume_level = yes
 #
-#display_bitrate = no
+display_bitrate = yes
 #
-#display_remaining_time = no
+display_remaining_time = yes
 #
 ## Available values: none, basic, extended, perl.
 ##
@@ -525,13 +525,13 @@ progressbar_look = █
 ##       database and local one for searching in current playlist)
 ##
 #
-#search_engine_default_search_mode = 1
+search_engine_default_search_mode = 2
 #
-#external_editor = nano
+external_editor = nvim
 #
 ## Note: set to yes if external editor is a console application.
 ##
-#use_console_editor = yes
+use_console_editor = yes
 #
 ##### colors definitions #####
 ##
