@@ -12,15 +12,15 @@ if [ ! -x "$(command -v wal)" ] ; then {
 CACHE="$HOME/.cache/wal"
 CONFIG="$HOME/.config"
         
+# Define cached wallpaper to use
+WAL_CACHE="$CACHE/wal_cache"
+
 # Define and protect command behavior
 CAT="command cat"
 CP="command cp --reflink=auto --no-preserve=mode,ownership"
 LN="command ln -s"
 LS="command ls"
 WAL="command wal"
-
-# Define cached wallpaper to use
-WAL_CACHE="$CACHE/wal_cache"
 
 # If feh is executable, set the desktop wallpaper
 if [ -x "$(command -v feh)" ] ; then { 
@@ -29,7 +29,7 @@ if [ -x "$(command -v feh)" ] ; then {
 } fi
 
 # Generate the colorscheme
-$WAL --saturate 0.4 --cols16 -nq -i "$($CAT "$WAL_CACHE")"
+$WAL --saturate 0.5 --cols16 -nq -i "$($CAT "$WAL_CACHE")"
 
 # Select new random wallpaper and cache it
 WALLPAPER_DIR="$HOME/pictures/wallpapers/space"

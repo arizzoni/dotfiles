@@ -1,0 +1,30 @@
+#!/usr/bin/sh
+# Pywal colorscheme and wallpaper selection removal script
+
+# If pywal is not executable, exit
+if [ ! -x "$(command -v wal)" ] ; then {
+    echo "Error: wal not found"
+    echo "Aborting script"
+    exit 1
+} fi
+
+# Define directories
+CACHE="$HOME/.cache/wal"
+WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
+RMWAL_DIR="$WALLPAPER_DIR/rmwal"
+
+# Define cached wallpaper to use
+CURRENT_WALLPAPER="$CACHE/wal"
+        
+# Define and protect command behavior
+CAT="command cat"
+MV="command mv"
+MKDIR="command mkdir"
+
+if [ ! -d "$RMWAL_DIR" ] ; then {
+    $MKDIR "$RMWAL_DIR"
+} fi
+
+if [ -f "$CURRENT_WALLPAPER" ] ; then {
+    $MV "$($CAT "$CURRENT_WALLPAPER")" "$RMWAL_DIR"
+} fi
