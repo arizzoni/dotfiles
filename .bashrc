@@ -1,14 +1,8 @@
 #p!/usr/bin/env bash
 
 ## Startup
-# If not running interactively, don't do anything [[ $- != *i* ]] && return
-
-# Start a tmux session if not in a graphical session
-if [[ -z "${DISPLAY}" ]] && [[ -z "${TMUX}" ]] ; then {
-    if [[ -x "$(command -v tmux)" ]] ; then {
-        exec tmux new
-    } fi
-} fi
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
 # Wal colors
 if [[ -f "$HOME/.cache/wal/sequences" ]] ; then {
@@ -34,12 +28,15 @@ shopt -s promptvars
 shopt -s sourcepath
 set -o braceexpand
 set -o noclobber
+set -o vi
 
 # Bash Completions
-if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
-    source '/usr/share/bash-completion/bash_completion'
-} elif [[ -f /etc/bash_completion ]] ; then {
-    source '/etc/bash_completion'
+if ! shopt -oq posix ; then {
+    if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
+        . '/usr/share/bash-completion/bash_completion'
+    } elif [[ -f /etc/bash_completion ]] ; then {
+        . '/etc/bash_completion'
+    } fi
 } fi
 
 
@@ -53,7 +50,7 @@ function __init_styles(){
     # not support all the required commands, the raw escape codes are used in 
     # some cases.
 
-    # NOTE: Tested on Alacritty, Kitty, Zutty, Cool-Retro-Term, Guake,
+    # NOTE: Tested on Alacritty, Kitty, Neovide, Zutty, Cool-Retro-Term, Guake,
     # Gnome-Console, and Gnome-Terminal.
     
     if [[ -x "$(command -v tput bold)" ]] ; then {
@@ -104,7 +101,7 @@ function __init_styles(){
 
     # Define text colors
     if [[ -x "$(command -v tput setaf 0)" ]] ; then {
-        # fg_color0="\033[30m" # Don't need black foreground color
+        __fg_color0=$(tput setaf 0)
         __fg_color1=$(tput setaf 1)
         __fg_color2=$(tput setaf 2)
         __fg_color3=$(tput setaf 3)
@@ -112,7 +109,16 @@ function __init_styles(){
         __fg_color5=$(tput setaf 5)
         __fg_color6=$(tput setaf 6)
         __fg_color7=$(tput setaf 7)
+        __fg_color8=$(tput setaf 8)
+        __fg_color9=$(tput setaf 9)
+        __fg_color10=$(tput setaf 10)
+        __fg_color11=$(tput setaf 11)
+        __fg_color12=$(tput setaf 12)
+        __fg_color13=$(tput setaf 13)
+        __fg_color14=$(tput setaf 14)
+        __fg_color15=$(tput setaf 15)
     } else {
+        __fg_color0=""
         __fg_color1=""
         __fg_color2=""
         __fg_color3=""
@@ -120,12 +126,20 @@ function __init_styles(){
         __fg_color5=""
         __fg_color6=""
         __fg_color7=""
+        __fg_color8=""
+        __fg_color9=""
+        __fg_color10=""
+        __fg_color11=""
+        __fg_color12=""
+        __fg_color13=""
+        __fg_color14=""
+        __fg_color15=""
     } fi
 }
 
 # NOTE: "\[" and "\]" are used below so that bash can calculate the number of
-# printed characters. If not escaped, the shell will lose track of where it is
-# when printing characters.
+# printed characters. If non-printed characters are not escaped, the shell 
+# will lose track of where it is.
 
 function __context(){
     # Set user and host context in the format user@host.
@@ -154,7 +168,7 @@ function __git_info(){
     # If the current directory is inside a git repository, then show the
     # current branch in the prompt.
 
-    if git branch &> /dev/null; then {
+    if git branch &> /dev/null ; then {
         echo " \[${__fg_color5}\](git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__remove_italic}\])\[${__reset}\]"
     } fi
 }
@@ -182,33 +196,68 @@ function __working_dir(){
     __parent_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-3 | rev )
     __depth=${PWD//[!\/]} # extract the '/' from pwd
     
-    # There are only a few cases that are possible:
-    case ${#__depth} in
-        1|2)
-            # Show current directory
-            if [[ $PWD = "/" ]] ; then {
-                echo " \[${__fg_color4}\]/\[$__status_line\]/\[$__finish_status_line\]\[${__reset}\]"
-            } elif [[ $PWD = "$HOME" ]] ; then {
-                echo " \[${__fg_color4}\]${__current_dir}\[$__status_line\]${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
-            } else {
-                echo " \[${__fg_color4}\]/${__current_dir}\[$__status_line\]/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
-            } fi
-            ;; 
-        3)
-            # Only show one parent
-            __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-1 )
-            echo " \[${__fg_color4}\]\[${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line\]${__parent_dir}/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
-            ;;
-        4)
-            # Show two parents
-            __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-2 )
-            echo " \[${__fg_color4}\]\[${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line\]${__parent_dir}/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
-            ;;
-        *)
-            # Show two parents and an ellipsis
-            __parent_dir=$(echo "$__parent_dir" | cut -d'/' -f-2 )
-            echo "\[${__fg_color4}\]\[${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line\].../${__parent_dir}/${__current_dir}\[$__finish_status_line\]\[${__reset}\]"
-    esac
+    # REFACTOR: This could be one case statement with a check for $TERM at the end.
+    # __command='foo' ; if $TERM = 'alacritty' __command+='bar' ; echo $__command
+
+    if [[ $TERM = 'alacritty' ]] || [[ $TERM = 'xterm-kitty' ]] ; then {
+        # There are only a few possible cases. In Alacritty and Kitty, print
+        # the current directory with potentially truncated parents to the 
+        # statusline.
+        case ${#__depth} in
+            1|2)
+                # Show current directory
+                if [[ $PWD = "/" ]] ; then {
+                    echo " \[${__fg_color12}\]/\[$__status_line/$__finish_status_line${__reset}\]"
+                } elif [[ $PWD = "$HOME" ]] ; then {
+                    echo " \[${__fg_color12}\]${__current_dir}\[$__status_line${__current_dir}$__finish_status_line${__reset}\]"
+                } else {
+                    echo " \[${__fg_color12}\]/${__current_dir}\[$__status_line/${__current_dir}$__finish_status_line${__reset}\]"
+                } fi
+                ;; 
+            3)
+                # Only show one parent
+                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-1 )
+                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
+                ;;
+            4)
+                # Show two parents
+                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-2 )
+                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
+                ;;
+            *)
+                # Show two parents and an ellipsis
+                __parent_dir=$(echo "$__parent_dir" | cut -d'/' -f-2 )
+                echo " \[${__fg_color12}${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line.../${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
+        esac
+    } else {
+        # In other terminals, don't worry about the statusline.
+        case ${#__depth} in
+            1|2)
+                # Show current directory
+                if [[ $PWD = "/" ]] ; then {
+                    echo " \[${__fg_color12}\]/\[${__reset}\]"
+                } elif [[ $PWD = "$HOME" ]] ; then {
+                    echo " \[${__fg_color12}\]${__current_dir}\[${__reset}\]"
+                } else {
+                    echo " \[${__fg_color12}\]/${__current_dir}\[${__reset}\]"
+                } fi
+                ;; 
+            3)
+                # Only show one parent
+                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-1 )
+                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                ;;
+            4)
+                # Show two parents
+                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-2 )
+                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                ;;
+            *)
+                # Show two parents and an ellipsis
+                __parent_dir=$(echo "$__parent_dir" | cut -d'/' -f-2 )
+                echo " \[${__fg_color12}${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+        esac
+    } fi
 }
 
 function __prompt_character(){
@@ -235,10 +284,10 @@ function __interactive_prompt(){
 function __debug_prompt(){
     # Set the prompt for debugging. Used in debug mode.
 
-    local __prompt_character
-    __prompt_character='+'
+    local __character
+    __character='+'
     
-    echo "\[${__fg_color7}${__italic}\]${__prompt_character}\[${__reset}\]"
+    echo "\[${__fg_color7}${__bold}${__italic}\]${__character}\[${__reset}\]"
 }
 
 function __set_prompts(){
@@ -259,7 +308,7 @@ function __set_prompts(){
     PS1="$(__exit_status $exit_code)$(__context)$(__working_dir)$(__git_info)$(__virtualenv_info)$(__prompt_character)"
 
     # Secondary prompt when a command needs more input
-    PS2="$(__exit_status exit_code)$(__context)$(__prompt_character)"
+    PS2="$(__exit_status $exit_code)$(__context)$(__prompt_character)"
 
     # Bash select interactive menus
     PS3="$(__interactive_prompt)"
@@ -274,7 +323,7 @@ PROMPT_COMMAND=__set_prompts
 ## Aliases
 
 # XDG compliance
-alias wget='wget --hsts-file="$XDG_CACHE_HOME"/wget-hsts'
+alias wget='wget --hsts-file="$XDG_STATE_HOME"/wget-hsts'
 alias gpg='gpg2 --homedir "$XDG_DATA_HOME"/gnupg'
 alias gdb='gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 
@@ -318,59 +367,90 @@ change_dir() {
 
     builtin cd "${__dir}" && ls
     
-    # Handle Python virtualenvs automatically
+    # Handle Python virtualenvs automatically:
     if [[ -x "$(command -v python)" ]] ; then {
         # If python is installed and a parent directory has a virtual
         # environment, then activate it. Otherwise if a virtual environment
         # is active and a parent directory does not contain a virtual
         # environment, then deactivate the active virtual environment.
 
-        for _env_dir in "venv" ".venv" ; do {
+        for __env_dir in "venv" ".venv" ; do {
             __current_dir=$(realpath .)
             __found=""
-            # Recursively search parent directories for _env_dir
+            # Recursively search parent directories for __env_dir:
             while [[ -z "$__found" ]] && [[ -n "$__current_dir" ]] ; do {
-                if [[ -e "$__current_dir/$_env_dir" ]] ; then {
-                    __found="$__current_dir/$_env_dir"
+                if [[ -e "$__current_dir/$__env_dir" ]] ; then {
+                    __found="$__current_dir/$__env_dir"
                 } fi
                 __current_dir=${__current_dir%/*}
             } done
         } done
-
+        
+        # If __env_dir was not found, deactivate. Otherwise activate the found
+        # environment.
         if [[ -z "$__found" ]] ; then {
             if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
                 deactivate
             } fi
         } else {
-        . "$__found/bin/activate"
+            . "$__found/bin/activate"
         } fi
     } fi
 }
 
 alias cd='change_dir'
 
-# Change to parent directory N times
-function change_dir_up {
-    local count
-    local path
+extract (){
+    # Wrapper for various compression/extraction utilities. Extracts the file
+    # given as the first argument to the function.
 
-    count=$1
-    path=""
-    
-    if [ -z "${count}" ]; then {
-        count=1
+    if [ -f "$1" ] ; then {
+        case $1 in
+            *.tar.bz2)
+                tar xjf "$1"
+                ;;
+            *.tar.gz)
+                tar xzf "$1"
+                ;;
+            *.bz2)
+                bunzip2 "$1"
+                ;;
+            *.rar)
+                unrar x "$1"
+                ;;
+            *.gz)
+                gunzip "$1"
+                ;;
+            *.tar)
+                tar xf "$1"
+                ;;
+            *.tbz2)
+                tar xjf "$1"
+                ;;
+            *.tgz)
+                tar xzf "$1"
+                ;;
+            *.zip)
+                unzip "$1"
+                ;;
+            *.Z)
+                uncompress "$1"
+                ;;
+            *.7z)
+                7z x "$1"
+                ;;
+            *)
+                echo "'$1' cannot be extracted via ex()"
+                ;;
+        esac
+    } else {
+        echo "'$1' is not a valid file"
     } fi
-    
-    for i in $(seq 1 "${count}"); do {
-        path="${path}../"
-    } done
-    
-    cd $path || return
 }
 
-alias up=change_dir_up
+alias ex=extract
 
-function ipy(){
+function ipython_wrapper(){
     if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
         if . "$VIRTUAL_ENV/bin/activate" ; then {
             ipython
@@ -384,8 +464,9 @@ function ipy(){
     } fi
 }
 
-alias ipython=ipy
+alias ipython=ipython_wrapper
 
+# Julia
 if [[ -x "$(command -v julia)" ]] ; then {
     alias julia='julia --banner=no'
 } fi
@@ -399,7 +480,7 @@ if [[ -x "$(command -v  bat)" ]] ; then { # If bat is installed prefer it
 
 # ncmpcpp
 if [[ -x "$(command -v ncmpcpp)" ]] ; then {
-    alias mpc="ncmpcpp -s browser --quiet"
+    alias mpc="ncmpcpp --quiet"
 } fi
 
 # Minicom
@@ -408,17 +489,17 @@ if [[ -x "$(command -v minicom)" ]] ; then {
         --statlinefmt=" Minicom %V | %b | %T | %D "'
     } fi
 
-# Clock
-if [[ -x "$(command -v toilet)" ]] ; then {
-    alias clock='watch -tc -n0.1 "tput setaf 001 ; date +%r \
-        | toilet -f smmono12 -W -t -F crop -F border ; tput sgr0"'
-    } fi
-
 # Distribution-specific Aliases
 if [[ -f /etc/arch-release ]] ; then {
     # Pacdiff
     if [[ -x "$(command -v pacdiff)" ]] ; then {
         alias pacdiff='DIFFPROG=$EDITOR pacdiff'
+    } fi
+
+    if [[ -x "$(command -v paru)" ]] && [[ -x "$(command -v pacdiff)" ]] ; then {
+        alias paru='paru && pacdiff'
+    } else {
+        alias pacman='pacman && pacdiff'
     } fi
 } fi
 
@@ -433,6 +514,9 @@ if [[ -x "$(command -v fzy)" ]] ; then {
 
 # Fastfetch
 if [[ -x "$(command -v fastfetch)" ]] ; then {
-    alias fastfetch="fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small"
-    command fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small
+    alias fastfetch="fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break \
+        --logo arch_small"
 } fi
+
+# Welcome Message
+fastfetch && cd .

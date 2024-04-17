@@ -19,7 +19,7 @@ export GTK_RC_FILES="$XDG_CONFIG_HOME/gtk-1.0/gtkrc":"$XDG_CONFIG_HOME/gtk-1.0/g
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc":"$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine"
 
 # Bash
-export HISTFILE="$HOME/.cache/bash_history" # Bash History
+export HISTFILE="$XDG_STATE_HOME/bash_history" # Bash History
 export HISTCONTROL=erasedups:ignoredups:ignorespace # Don't save duplicate commands
 export HISTSIZE=1000 # History size limit (in memory)
 export HISTFILESIZE=10000 # History size limit (on disk)
