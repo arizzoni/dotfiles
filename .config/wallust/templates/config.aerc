@@ -1,0 +1,82 @@
+# aerc wal styleset
+
+*.default=true
+
+# present in 'Send this email?' dialog
+title.fg={{color3}}
+title.bg={{color0}}
+title.bold=true
+
+# used in setup and in 'From:' etc
+header.bold=true
+header.fg={{color5}}
+
+# decorative lines
+border.fg={{color1}}
+
+# requires attention
+*error.bold=true
+*error.fg={{color1}}
+*error.blink=true
+*warning.fg={{color3}}
+*warning.blink=true
+*success.fg={{color2}}
+
+# statusline
+statusline_default.fg={{color7}}
+statusline_*.bg={{color0}}
+
+# message list colors
+msglist_deleted.fg={{color7}}
+msglist_unread.fg={{color7}}
+msglist_unread.bold=true
+msglist_default.fg={{color7}}
+msglist_marked.fg={{color3}}
+msglist_marked.reverse=true
+msglist_flagged.fg={{color7}}
+# msglist_flagged.bg={{color1}}
+msglist_flagged.bold=true
+
+# inbox etc
+dirlist_default.fg={{color7}}
+dirlist_unread.fg={{color7}}
+dirlist_unread.bold=true
+
+# highlight selected item
+*.selected.bg={{color0}}
+*.selected.fg={{color1}}
+*.selected.bold=true
+
+# primarily used in account setup
+selector_default.fg={{color7}}
+selector_chooser.bold=true
+selector_focused.bg={{color2}}
+selector_focused.bold=true
+
+# command completion
+completion_default.bg={{color0}}
+completion_gutter.bg={{color0}}
+completion_pill.bg={{color0}}
+
+#dynamic
+*msglist_answered.fg = {{color6}}
+
+[viewer]
+header.fg={{color7}}
+header.bold=true    
+signature.fg=3   
+signature.dim=true    
+diff_meta.fg={{color3}}
+diff_meta.bold=true    
+diff_chunk.dim=true    
+diff_add.fg={{color2}}   
+diff_del.fg={{color1}}
+quote_1.fg={{color6}}   
+quote_2.fg={{color7}}
+quote_3.fg={{color6}}    
+quote_4.fg={{color7}}   
+quote_3.dim=true
+quote_4.dim=true
+quote_x.fg={{color7}}
+quote_x.dim=true
+
