@@ -2,8 +2,8 @@
 # Neovide configuration file
 
 [font]
-normal = ["Iosevka", "Symbols Nerd Font"]
-bold = ["Iosevka Slab", "Symbols Nerd Font"]
-italic = ["Iosevka Curly", "Symbols Nerd Font"]
-bold_italic = ["Iosevka Curly Slab", "Symbols Nerd Font"]
+normal = ["Iosevka", "Symbols Nerd Font Mono"]
+bold = ["Iosevka Slab", "Symbols Nerd Font Mono"]
+italic = ["Iosevka Curly", "Symbols Nerd Font Mono"]
+bold_italic = ["Iosevka Curly Slab", "Symbols Nerd Font Mono"]
 size = 18
