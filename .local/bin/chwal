@@ -1,17 +1,80 @@
 #!/usr/bin/sh
 # Pywal colorscheme and wallpaper selection
 
+Help()
+{
+    # Display Help
+    echo "Wrapper around wal for managing wallpapers. The default behavior"
+    echo "changes wallpaper and sets global colors. If the WM is AwesomeWM,"
+    echo "the script will restart it."
+    echo
+    echo "Syntax: chwal -[r|h|V]"
+    echo "Options:"
+    echo "  r     Mark the current wallpaper for deletion by moving it to"
+    echo "        \$WALLPAPER_DIR/rmwal/\$CURRENT_WALLPAPER"
+    echo "  h     Print this Help message and exit."
+    echo "  V     Print software version and exit."
+    echo
+}
+
 # If pywal is not executable, exit
-if [ ! -x "$(command -v wal)" ] ; then {
-    echo "Error: wal not found"
-    echo "Aborting script"
+if [ ! -x "$(command -v wal)" ] && [ ! -x "$(command -v wallust)" ] ; then {
+    echo "Error: Required programs wal and/or wallust not found."
+    echo "Aborting script."
     exit 1
 } fi
 
-# Define directories
-CACHE="$HOME/.cache/wal"
+while getopts ":hrV" option; do {
+    case $option in
+        r) 
+            # Define directories
+            CACHE="$HOME/.cache/wal"
+            WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
+            RMWAL_DIR="$WALLPAPER_DIR/rmwal"
+
+            # Define cached wallpaper to use
+            CURRENT_WALLPAPER="$CACHE/wal"
+                    
+            # Define and protect command behavior
+            CAT="command cat"
+            MV="command mv"
+            MKDIR="command mkdir"
+
+            if [ -f "$CURRENT_WALLPAPER" ] ; then {
+                if [ ! -d "$RMWAL_DIR" ] ; then {
+                    $MKDIR "$RMWAL_DIR"
+                } fi
+                $MV "$($CAT "$CURRENT_WALLPAPER")" "$RMWAL_DIR"
+            } fi
+
+            exit 0
+            ;;
+        h) # Display Help
+            Help
+            exit 0
+            ;;
+        V) # Version
+            echo "chwal 0.1"
+            exit 0
+            ;;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            exit 1
+            ;;
+    esac
+} done
+
+if [ -x "$(command -v wal)" ] ; then {
+    CACHE="$HOME/.cache/wal"
+    WAL="command wal --saturate 0.5 --cols16 -nq -i"
+} else {
+    CACHE="$HOME/.cache/wallust"
+    WAL="command wallust run -q"
+} fi
+
+# Define config directory
 CONFIG="$HOME/.config"
-        
+
 # Define cached wallpaper to use
 WAL_CACHE="$CACHE/wal_cache"
 
@@ -19,8 +82,12 @@ WAL_CACHE="$CACHE/wal_cache"
 CAT="command cat"
 CP="command cp --reflink=auto --no-preserve=mode,ownership"
 LN="command ln -s"
-LS="command ls"
-WAL="command wal"
+
+if [ -x "$(command -v fd)" ] ; then {
+    FIND="command fd"
+    } else {
+    FIND="command find"
+} fi
 
 # If feh is executable, set the desktop wallpaper
 if [ -x "$(command -v feh)" ] ; then { 
@@ -29,16 +96,16 @@ if [ -x "$(command -v feh)" ] ; then {
 } fi
 
 # Generate the colorscheme
-$WAL --saturate 0.5 --cols16 -nq -i "$($CAT "$WAL_CACHE")"
+$WAL "$($CAT "$WAL_CACHE")"
 
 # Select new random wallpaper and cache it
 WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
-WALLPAPER="$($LS "$WALLPAPER_DIR" --recursive | shuf | head -n 1)"
-echo "$WALLPAPER_DIR/$WALLPAPER" >| "$WAL_CACHE"
+WALLPAPER="$($FIND . "$WALLPAPER_DIR" | shuf | head -n 1)"
+echo "$WALLPAPER" >| "$WAL_CACHE"
 
 # Copy the image to /usr/share/backgrounds so that LightDM can use it
 WALLPAPER_CACHE="/usr/share/backgrounds/wal"
-$CP "$WALLPAPER_DIR/$WALLPAPER" "$WALLPAPER_CACHE"
+$CP "$WALLPAPER" "$WALLPAPER_CACHE"
 
 # Apply colorscheme to Alacritty
 if [ -x "$(command -v alacritty)" ] &&                                         \
@@ -75,8 +142,8 @@ if [ -x "$(command -v pywalfox)" ] ; then {
 } fi
 
 # Apply pywal colorscheme to KiCad
-if [ -f ~/Projects/kiwal/kiwal.py ] ; then {
-    command python ~/Projects/kiwal/kiwal.py
+if [ -f ~/projects/kiwal/kiwal.py ] ; then {
+    command python ~/projects/kiwal/kiwal.py
 } fi
 
 if [ -x "$(command -v xrdb)" ] ; then {
