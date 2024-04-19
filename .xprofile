@@ -7,9 +7,25 @@ export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
 export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
-"$HOME/.local/bin/chwal"
-# "$HOME/.local/bin/monitors" &
-amixer set Master 0% # make sure audio is quiet at startup
+# Update user-dirs
+if [ -x "$(command -v xdg-user-dirs-update)" ] ; then {
+    xdg-user-dirs-update
+} fi
+
+# Wallpaper + colors script
+if [ -x "$HOME/.local/bin/chwal" ] ; then {
+    "$HOME/.local/bin/chwal"
+} fi
+
+# Monitors
+if [ -x "$HOME/.local/bin/monitors" ] ; then {
+    "$HOME/.local/bin/monitors" &
+} fi
+
+# Make sure audio is quiet at startup
+if [ -x "$(command -v amixer)" ] ; then {
+    amixer set Master 0%
+} fi
 
 # Compositor
 if [ -x "$(command -v picom)" ] ; then {
