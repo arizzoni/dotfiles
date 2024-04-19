@@ -41,18 +41,16 @@ if ! shopt -oq posix ; then {
 
 
 ## PSX Prompts
+function __set_prompts(){
+    # This function is called every time the prompt is shown, getting the
+    # necessary variables each time the prompt renders.
 
-# Define text styles
-function __init_styles(){
-    # This code is put into a function so it only runs when called by the
-    # __set_prompt() function to keep the scope local to the prompt. The tput
-    # command is used to check for the terminal's capabilities, but as it does
-    # not support all the required commands, the raw escape codes are used in 
-    # some cases.
-
-    # NOTE: Tested on Alacritty, Kitty, Neovide, Zutty, Cool-Retro-Term, Guake,
-    # Gnome-Console, and Gnome-Terminal.
+    # TODO: Keep refactoring to use pure bash
     
+    # Collect previous exit code for exit_status()
+    local exit_code=$? # This has to be the first thing in the function
+    
+    # Define test styles
     if [[ -x "$(command -v tput bold)" ]] ; then {
         __bold=$(tput bold)
         __remove_bold="\e[2m"
@@ -135,172 +133,179 @@ function __init_styles(){
         __fg_color14=""
         __fg_color15=""
     } fi
-}
 
-# NOTE: "\[" and "\]" are used below so that bash can calculate the number of
-# printed characters. If non-printed characters are not escaped, the shell 
-# will lose track of where it is.
+    # Prompt component definitions
 
-function __context(){
-    # Set user and host context in the format user@host.
+    # NOTE: "\[" and "\]" are used below so that bash can calculate the number of
+    # printed characters. If non-printed characters are not escaped, the shell 
+    # will lose track of where it is.
 
-    local __user
-    local __host
-    local __separator
+    function __context(){
+        # Set user and host context in the format user@host.
 
-    __user=$USER
-    __host=$HOSTNAME
-    __separator="@"
+        local __user
+        local __host
+        local __separator
 
-    echo "\[${__fg_color2}${__bold}\]${__user}\[${__reset}\]${__separator}\[${__fg_color3}${__bold}\]${__host}\[${__reset}\]"
-}
+        __user=$USER
+        __host=$HOSTNAME
+        __separator="@"
 
-function __virtualenv_info(){
-    # If there is a virtual environment in the current directory, then
-    # activate it and show it in the prompt.
-    
-    if [[ -n "$VIRTUAL_ENV" ]]; then {
-        echo " \[${__fg_color5}\](venv:\[${__italic}\]${VIRTUAL_ENV##*/}\[${__reset}\])"
-    } fi
-}
+        echo "\[${__fg_color2}${__bold}\]${__user}\[${__reset}\]${__separator}\[${__fg_color3}${__bold}\]${__host}\[${__reset}\]"
+    }
 
-function __git_info(){
-    # If the current directory is inside a git repository, then show the
-    # current branch in the prompt.
-
-    if git branch &> /dev/null ; then {
-        echo " \[${__fg_color5}\](git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__remove_italic}\])\[${__reset}\]"
-    } fi
-}
-
-function __exit_status(){
-    # If the previous process did not return exit code '0', then show an
-    # indicator in the prompt.
-
-    if [[ ! $1 == 0 ]] ; then {
-        echo "\[${__fg_color1}${__bold}\]⨉ \[${__reset}\]"
-    } fi
-}
-
-function __working_dir(){
-    # Show the current working directory with '~' replacing the usual
-    # '/home/$USER'. If the current working directory has more than four
-    # directories in its path, then only show the last three and replace the
-    # rest with '.../'. Also sets window title.
+    function __virtualenv_info(){
+        # If there is a virtual environment in the current directory, then
+        # activate it and show it in the prompt.
         
-    local __current_dir
-    local __parent_dir
-    local __depth
-    
-    __current_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-1 | rev )
-    __parent_dir=$( echo "$PWD" | sed 's/\/home\/air/~/g' | rev | cut -d'/' -f-3 | rev )
-    __depth=${PWD//[!\/]} # extract the '/' from pwd
-    
-    # REFACTOR: This could be one case statement with a check for $TERM at the end.
-    # __command='foo' ; if $TERM = 'alacritty' __command+='bar' ; echo $__command
+        if [[ -n ${VIRTUAL_ENV+x} ]]; then {
+            echo " \[${__fg_color5}\](venv:\[${__italic}\]${VIRTUAL_ENV##*/})\[${__reset}\]"
+        } fi
+    }
 
-    if [[ $TERM = 'alacritty' ]] || [[ $TERM = 'xterm-kitty' ]] ; then {
-        # There are only a few possible cases. In Alacritty and Kitty, print
-        # the current directory with potentially truncated parents to the 
-        # statusline.
+    function __git_info(){
+        # If the current directory is inside a git repository, then show the
+        # current branch in the prompt.
+
+        if git branch &> /dev/null ; then {
+            echo " \[${__fg_color5}\](git:\[${__italic}\]$(git rev-parse --abbrev-ref HEAD)\[${__remove_italic}\])\[${__reset}\]"
+        } fi
+    }
+
+    function __exit_status(){
+        # If the previous process did not return exit code '0', then show an
+        # indicator in the prompt.
+
+        if [[ ! $1 == 0 ]] ; then {
+            local __character='⨉ '
+            echo "\[${__fg_color1}${__bold}\]${__character}\[${__reset}\]"
+        } fi
+    }
+
+    function __working_dir(){
+        # Show the current working directory with '~' replacing the usual
+        # '/home/$USER'. If the current working directory has more than four
+        # directories in its path, then only show the last three and replace the
+        # rest with '.../'. Also sets window title.
+            
+        local __current_dir
+        local __parent_dir
+        local __depth
+
+        __current_dir="${PWD//\/home\/air/\~}" # Replace '/home/air' with '~'
+        __current_dir="${__current_dir%/}" # Strip trailing '/'
+        __current_dir="${__current_dir##*/}" # Strip everything before the last '/'
+
+        __parent_dir="${PWD//\/home\/air/\~}" # Replace '/home/air' with '~'
+        __parent_dir="${__parent_dir%/}" # Strip trailing '/'
+        __parent_dir="${__parent_dir##/*}" # Strip everything after the last '/'
+
+        __depth=${PWD//[!\/]} # extract the '/' from pwd
+        
+        # If the terminal supports the statusline, then use it
         case ${#__depth} in
             1|2)
                 # Show current directory
                 if [[ $PWD = "/" ]] ; then {
-                    echo " \[${__fg_color12}\]/\[$__status_line/$__finish_status_line${__reset}\]"
+                    if [[ $(command tput tsl) ]] ; then {
+                        echo " \[${__fg_color12}\]/\[$__status_line/$__finish_status_line${__reset}\]"
+                    } else {
+                        echo " \[${__fg_color12}\]/\[${__reset}\]"
+                    } fi
                 } elif [[ $PWD = "$HOME" ]] ; then {
-                    echo " \[${__fg_color12}\]${__current_dir}\[$__status_line${__current_dir}$__finish_status_line${__reset}\]"
+                    if [[ $(command tput tsl) ]] ; then {
+                        echo " \[${__fg_color12}\]${__current_dir}\[$__status_line${__current_dir}$__finish_status_line${__reset}\]"
+                    } else {
+                        echo " \[${__fg_color12}\]${__current_dir}\[${__reset}\]"
+                    } fi
                 } else {
-                    echo " \[${__fg_color12}\]/${__current_dir}\[$__status_line/${__current_dir}$__finish_status_line${__reset}\]"
+                    if [[ $(command tput tsl) ]] ; then {
+                        echo " \[${__fg_color12}\]/${__current_dir}\[$__status_line/${__current_dir}$__finish_status_line${__reset}\]"
+                    } else {
+                        echo " \[${__fg_color12}\]/${__current_dir}\[${__reset}\]"
+                    } fi
                 } fi
                 ;; 
             3)
                 # Only show one parent
-                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-1 )
-                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
-                ;;
-            4)
-                # Show two parents
-                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-2 )
-                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
-                ;;
-            *)
-                # Show two parents and an ellipsis
-                __parent_dir=$(echo "$__parent_dir" | cut -d'/' -f-2 )
-                echo " \[${__fg_color12}${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line.../${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
-        esac
-    } else {
-        # In other terminals, don't worry about the statusline.
-        case ${#__depth} in
-            1|2)
-                # Show current directory
-                if [[ $PWD = "/" ]] ; then {
-                    echo " \[${__fg_color12}\]/\[${__reset}\]"
-                } elif [[ $PWD = "$HOME" ]] ; then {
-                    echo " \[${__fg_color12}\]${__current_dir}\[${__reset}\]"
+                __parent_dir=${__parent_dir%/*}
+                
+                if [[ $(command tput tsl) ]] ; then {
+                    echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
                 } else {
-                    echo " \[${__fg_color12}\]/${__current_dir}\[${__reset}\]"
+                    echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
                 } fi
-                ;; 
-            3)
-                # Only show one parent
-                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-1 )
-                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
                 ;;
             4)
                 # Show two parents
-                __parent_dir=$( echo "$__parent_dir" | cut -d'/' -f-2 )
-                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                __parent_dir=${__parent_dir%/*}
+
+                if [[ $(command tput tsl) ]] ; then {
+                    echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
+                } else {
+                    echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                } fi
                 ;;
             *)
-                # Show two parents and an ellipsis
-                __parent_dir=$(echo "$__parent_dir" | cut -d'/' -f-2 )
-                echo " \[${__fg_color12}${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                # Show three parents and an ellipsis
+                
+                # This is tough to read - the __parent variable only holds the
+                # single directory name of the immediate parent, and the 
+                # __grandparent variable is the next directory up after that.
+                
+                # To get these, we use bash string manipulation patterns to
+                # trim off the ends of the path from __parent_dir. For more
+                # details, consult the Bash manual.
+
+                # Handling the strings like this with pure Bash is measurably
+                # faster than using pipes and sed, cut, rev, etc.
+
+                __parent=${__parent_dir%/*} # Trim last part after '/'
+                __parent=${__parent%/} # Strip trailing '/'
+                __grandparent=${__parent%/*} # Trim last part after '/'
+                __parent=${__parent##*/} # keep the last part after '/'
+                __grandparent=${__grandparent%/} # Strip trailing '/'
+                __grandparent=${__grandparent##*/} # keep the last part after '/'
+
+                __parent_dir="${__grandparent}/${__parent}"
+
+                if [[ $(command tput tsl) ]] ; then {
+                    echo " \[${__fg_color12}${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[$__status_line.../${__parent_dir}/${__current_dir}$__finish_status_line${__reset}\]"
+                } else {
+                    echo " \[${__fg_color12}${__dim}\].../${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                } fi
+                ;;
         esac
-    } fi
-}
+    }
 
-function __prompt_character(){
-    # If the current user has root EUID then show '#' as the prompt character,
-    # otherwise show '$'.
+    function __prompt_character(){
+        # If the current user has root EUID then show '#' as the prompt character,
+        # otherwise show '$'.
 
-    if [[ $EUID -ne 0 ]] ; then {
-        echo " \[${__fg_color7}${__italic}${__bold}\]\$\[${__reset}\] "
-    } else {
-        echo " \[${__fg_color7}${__italic}${__bold}\]\#\[${__reset}\] "
-    } fi
-}
+        if [[ $EUID -ne 0 ]] ; then {
+            echo " \[${__fg_color7}${__italic}${__bold}\]\$\[${__reset}\] "
+        } else {
+            echo " \[${__fg_color7}${__italic}${__bold}\]\#\[${__reset}\] "
+        } fi
+    }
 
-function __interactive_prompt(){
-    # Set the prompt for interactive menus. Usually overwritten by the active
-    # program.
-    
-    local __prompt
-    __prompt="Please enter a number from the above list:\n"
+    function __interactive_prompt(){
+        # Set the prompt for interactive menus. Usually overwritten by the active
+        # program.
+        
+        local __prompt
+        __prompt="Please enter a number from the above list:\n"
+        echo "\[${__fg_color7}${__italic}\]${__prompt}\[${__reset}\]"
+    }
 
-    echo "\[${__fg_color7}${__italic}\]${__prompt}\[${__reset}\]"
-}
+    function __debug_prompt(){
+        # Set the prompt for debugging. Used in debug mode.
 
-function __debug_prompt(){
-    # Set the prompt for debugging. Used in debug mode.
+        local __character
+        __character='+'
+        echo "\[${__fg_color7}${__bold}${__italic}\]${__character}\[${__reset}\]"
+    }
 
-    local __character
-    __character='+'
-    
-    echo "\[${__fg_color7}${__bold}${__italic}\]${__character}\[${__reset}\]"
-}
-
-function __set_prompts(){
-    # This function is called every time the prompt is shown, getting the
-    # necessary variables each time the prompt renders.
-    
-    # Collect previous exit code for exit_status()
-    local exit_code=$? # This has to be the first thing in the function
-    
-    # Initialize style and color variables defined above so that the variables
-    # stay local in scope.
-    __init_styles
-    
     # Not used - displayed after each command, before any output
     PS0=''
 
@@ -366,6 +371,42 @@ change_dir() {
     } fi
 
     builtin cd "${__dir}" && ls
+
+    # Search current and parent directories for .env or env files, then
+    # export the variables contained within. The required format for a
+    # .env or env file is:
+    # VARIABLE1=VALUE1
+    # VARIABLE2=VALUE2
+    for __env_dir in "env" ".env" ; do {
+            __current_dir=$(realpath .)
+            __found=""
+            # Recursively search parent directories for __env_dir:
+            while [[ -z "$__found" ]] && [[ -n "$__current_dir" ]] ; do {
+                if [[ -e "$__current_dir/$__env_dir" ]] ; then {
+                    __found="$__current_dir/$__env_dir"
+                } fi
+                __current_dir=${__current_dir%/*}
+            } done
+        } done
+
+        # If __env_dir was not found, if DOTENV is set, then unset all of the
+        # environment variables in the DOTENV file.
+        # If __env_dir was found, export the environment variables in the file
+        # and set DOTENV to the path of the file.
+        if [[ -z "$__found" ]] ; then {
+            if [[ -n ${DOTENV+x} ]] ; then {
+                while read -r __variable ; do
+                    __variable=${__variable%=*} # everything up the '='
+                    unset "${__variable?}"
+                done <"$DOTENV"
+                unset DOTENV
+            } fi
+        } else {
+            while read -r __variable ; do
+                export "${__variable?}"
+            done <"$__found"
+            export DOTENV="$__found"
+        } fi
     
     # Handle Python virtualenvs automatically:
     if [[ -x "$(command -v python)" ]] ; then {
