@@ -7,15 +7,18 @@ export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
 export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
-# Update user-dirs
-if [ -x "$(command -v xdg-user-dirs-update)" ] ; then {
-    xdg-user-dirs-update
-} fi
 
 # Wallpaper + colors script
 if [ -x "$HOME/.local/bin/chwal" ] ; then {
     "$HOME/.local/bin/chwal"
 } fi
+
+# Update user-dirs
+if [ -x "$(command -v xdg-user-dirs-update)" ] ; then {
+    xdg-user-dirs-update
+} fi
+
+xrdb merge "$HOME/.Xresources"
 
 # Monitors
 if [ -x "$HOME/.local/bin/monitors" ] ; then {
