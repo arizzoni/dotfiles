@@ -11,7 +11,6 @@ return {
     "hrsh7th/cmp-nvim-lsp-document-symbol", -- LSP completion
     "hrsh7th/cmp-nvim-lsp-signature-help",  -- LSP completion
     "hrsh7th/cmp-buffer",                   -- Buffer completion
-    "hrsh7th/cmp-calc",                     -- Math completion
     "hrsh7th/cmp-path",                     -- Completion for paths
     "hrsh7th/cmp-cmdline",                  -- Completion for command line
     "hrsh7th/cmp-nvim-lua",                 -- Neovim Lua completion source
@@ -29,6 +28,7 @@ return {
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup {}
     local kind_icons = {
+      -- TODO: replace these with unicode symbols
       Text = "",
       Method = "󰆧",
       Function = "󰊕",
@@ -71,7 +71,7 @@ return {
         fields = { "kind", "abbr", "menu" },
         format = function(_, vim_item)
           vim_item.menu = string.format('(%s)', vim_item.kind)
-          vim_item.kind = string.format(' %s ', kind_icons[vim_item.kind])
+          -- vim_item.kind = string.format(' %s ', kind_icons[vim_item.kind])
           return vim_item
         end
       },
@@ -90,7 +90,7 @@ return {
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         -- ["<C-Space>"] = cmp.mapping.complete {},
-        ["<Tab>"] = cmp.mapping.confirm {
+        ["<Tab><Tab>"] = cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
@@ -121,7 +121,6 @@ return {
         { name = "nvim_lsp_signature_help" },
         { name = "path" },
         { name = "dap" },
-        { name = "calc" },
         { name = "cmdline" },
         { name = "treesitter" },
         { name = "luasnip" },

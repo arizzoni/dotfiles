@@ -21,7 +21,6 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_antialiasing = true
 	vim.g.neovide_cursor_animate_command_line = true
 	vim.g.neovide_cursor_vfx_mode = ""
-	require('oil').open('~')
 end
 
 -- Searching
@@ -82,10 +81,10 @@ vim.g.timeoutlen = 300
 vim.g.virtualedit = "block,insert"
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column
-vim.fn.sign_define('DiagnosticSignError', { text = '𝐄', texthl = 'DiagnosticSignError' })
-vim.fn.sign_define('DiagnosticSignWarn', { text = '𝐖', texthl = 'DiagnosticSignWarn' })
-vim.fn.sign_define('DiagnosticSignInfo', { text = '𝐈', texthl = 'DiagnosticSignInfo' })
-vim.fn.sign_define('DiagnosticSignHint', { text = '𝐇', texthl = 'DiagnosticSignHint' })
+vim.fn.sign_define('DiagnosticSignError', { text = '󰅗', texthl = 'DiagnosticSignError' })
+vim.fn.sign_define('DiagnosticSignWarn', { text = '󰀧', texthl = 'DiagnosticSignWarn' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = '󰏬', texthl = 'DiagnosticSignInfo' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '󰞋', texthl = 'DiagnosticSignHint' })
 
 -- Disable arrow keys
 vim.keymap.set({ "n", "v", "i" }, "<Up>", "<Nop>", { noremap = true, silent = true })

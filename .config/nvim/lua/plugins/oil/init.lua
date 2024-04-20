@@ -1,8 +1,6 @@
 -- Set lualine as statusline
 return {
   'stevearc/oil.nvim',
-  -- Optional dependencies
-  event = "VeryLazy",
   opts = {
     -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
     -- Set to false if you still want to use netrw.
@@ -10,14 +8,15 @@ return {
     -- Id is automatically added at the beginning, and name at the end
     -- See :help oil-columns
     columns = {
-      "type",
-      "permissions",
       "size",
+      "permissions",
       "mtime",
+      "type",
+      -- "icon",
     },
     -- Configuration for the floating keymaps help window
     keymaps_help = {
-      border = "rounded",
+      border = "single",
     },
     -- Set to false to disable all of the above keymaps
     use_default_keymaps = true,
@@ -76,7 +75,7 @@ return {
       min_height = { 5, 0.1 },
       -- optionally define an integer/float for the exact height of the preview window
       height = nil,
-      border = "rounded",
+      border = "single",
       win_options = {
         winblend = 0,
       },
@@ -91,7 +90,7 @@ return {
       max_height = { 10, 0.9 },
       min_height = { 5, 0.1 },
       height = nil,
-      border = "rounded",
+      border = "single",
       minimized_border = "none",
       win_options = {
         winblend = 0,
@@ -99,7 +98,7 @@ return {
     },
     -- Configuration for the floating SSH window
     ssh = {
-      border = "rounded",
+      border = "single",
     },
   },
 }

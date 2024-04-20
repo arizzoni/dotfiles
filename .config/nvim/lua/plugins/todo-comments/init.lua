@@ -5,13 +5,14 @@ return {
   opts = {
     signcolumn = false,
     keywords = {
-      FIX  = { icon = "󰅗", color = "error", alt = { "BUG" } },
-      TODO = { icon = "󰄲", color = "info", alt = { "DONE" } },
-      HACK = { icon = "󰅨", color = "warning", alt = { "REFACTOR" } },
+      ERROR  = { icon = "󰅗", color = "error", alt = { "BUG", "FIX", "FIXME" } },
       WARN = { icon = "󰀧", color = "warning", alt = { "WARNING", "XXX" } },
+      INFO = { icon = "󰏬", color = "info", alt = { "REF", "NOTE" } },
+      HINT = { icon = "󰞋", color = "hint", alt = { "HELP" } },
+      TODO = { icon = "󰄲", color = "default", alt = { "DONE" } },
+      HACK = { icon = "󰅨", color = "default", alt = { "REFACTOR" } },
       PERF = { icon = "󰒔", color = "default", alt = { "OPT", "PERF", "OPTIMIZE", "PERFORMANCE" } },
-      NOTE = { icon = "󰏬", color = "hint", alt = { "HINT", "REF", "INFO" } },
-      TEST = { icon = "󰅫", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      TEST = { icon = "󰅫", color = "default", alt = { "TESTING", "PASSED", "FAILED" } },
     },
     colors = {
       error = { "DiagnosticError", "ErrorMsg" },
@@ -26,3 +27,12 @@ return {
     },
   },
 }
+
+-- ERROR: 
+-- WARN:
+-- INFO:
+-- HINT:
+-- TODO:
+-- HACK:
+-- PERF:
+-- TEST:
