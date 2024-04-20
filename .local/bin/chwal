@@ -6,7 +6,7 @@ Help()
     # Display Help
     echo "Wrapper around wal for managing wallpapers. The default behavior"
     echo "changes wallpaper and sets global colors. If the WM is AwesomeWM,"
-    echo "the script will restart it."
+    echo "the script will restart it to apply the new colorscheme."
     echo
     echo "Syntax: chwal -[r|h|V]"
     echo "Options:"
