@@ -1,4 +1,4 @@
-#p!/usr/bin/env bash
+#!/usr/bin/env bash
 
 ## Startup
 # If not running interactively, don't do anything
@@ -45,8 +45,6 @@ function __set_prompts(){
     # This function is called every time the prompt is shown, getting the
     # necessary variables each time the prompt renders.
 
-    # TODO: Keep refactoring to use pure bash
-    
     # Collect previous exit code for exit_status()
     local exit_code=$? # This has to be the first thing in the function
     
@@ -372,6 +370,8 @@ change_dir() {
 
     builtin cd "${__dir}" && ls
 
+    # TODO: Try to refactor this into one for loop
+
     # Search current and parent directories for .env or env files, then
     # export the variables contained within. The required format for a
     # .env or env file is:
@@ -551,6 +551,10 @@ if [[ -x "$(command -v fzy)" ]] ; then {
     } else {
     alias fzf='find . | fzy'
     } fi
+} fi
+
+if [[ -x "$(command -v kmon)" ]] ; then {
+    alias kmon='sudo kmon --color=white --accent-color=cyan'
 } fi
 
 # Fastfetch
