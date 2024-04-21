@@ -35,6 +35,7 @@ if ! shopt -oq posix ; then {
     if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
         . '/usr/share/bash-completion/bash_completion'
     } elif [[ -f /etc/bash_completion ]] ; then {
+        # shellcheck disable=SC1091
         . '/etc/bash_completion'
     } fi
 } fi
@@ -434,6 +435,7 @@ change_dir() {
                 deactivate
             } fi
         } else {
+            # shellcheck disable=SC1091
             . "$__found/bin/activate"
         } fi
     } fi
@@ -445,7 +447,7 @@ extract (){
     # Wrapper for various compression/extraction utilities. Extracts the file
     # given as the first argument to the function.
 
-    if [ -f "$1" ] ; then {
+    if [[ -f "$1" ]] ; then {
         case $1 in
             *.tar.bz2)
                 tar xjf "$1"
@@ -493,6 +495,7 @@ alias ex=extract
 
 function ipython_wrapper(){
     if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
+        # shellcheck disable=SC1091
         if . "$VIRTUAL_ENV/bin/activate" ; then {
             ipython
             deactivate
@@ -554,7 +557,7 @@ if [[ -x "$(command -v fzy)" ]] ; then {
 } fi
 
 if [[ -x "$(command -v kmon)" ]] ; then {
-    alias kmon='sudo kmon --color=white --accent-color=cyan'
+    alias kmon='sudo kmon --color=white --accent-color=blue'
 } fi
 
 # Fastfetch
