@@ -13,7 +13,6 @@ return {
       "jsonlint",
       "shellcheck",
       "yamllint",
-      "flake8",
     },
     automatic_installation = true,
     handlers = {},
@@ -25,7 +24,6 @@ return {
       cmake = { 'cmakelint', },
       cpp = { 'cpplint', },
       json = { 'jsonlint', },
-      python = { 'flake8', },
       sh = { 'shellcheck', },
       yaml = { 'yamllint', },
     }
@@ -35,7 +33,7 @@ return {
       "-x"
     }
 
-    vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost", "InsertLeave" }, {
+    vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost" }, {
       callback = function()
         require("lint").try_lint()
       end,
