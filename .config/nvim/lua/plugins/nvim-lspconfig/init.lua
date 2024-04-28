@@ -105,11 +105,17 @@ return {
               enabled = true,
               executable = "flake8",
             },
+            pylsp_isort = {
+              enabled = true,
+            },
             jedi_completion = {
               enabled = true,
               fuzzy = true,
             },
             mccabe = {
+              enabled = true,
+            },
+            pylsp_mypy = {
               enabled = true,
             },
             pycodestyle = {
