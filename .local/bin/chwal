@@ -59,6 +59,7 @@ while getopts ":hrV" option; do {
             ;;
         \?) # Invalid option
             echo "Error: Invalid option"
+            echo "Syntax: chwal -[r|h|V]"
             exit 1
             ;;
     esac
@@ -66,7 +67,7 @@ while getopts ":hrV" option; do {
 
 if [ -x "$(command -v wal)" ] ; then {
     CACHE="$HOME/.cache/wal"
-    WAL="command wal --saturate 0.5 --cols16 -nq -i"
+    WAL="command wal --backend colorz --cols16 --saturate 0.5 -nq -i"
 } else {
     CACHE="$HOME/.cache/wallust"
     WAL="command wallust run -q"
