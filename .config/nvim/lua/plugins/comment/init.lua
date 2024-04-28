@@ -2,6 +2,7 @@ return {
   -- "gc" to comment visual regions/lines, etc.
   "numToStr/Comment.nvim",
   name = "Comment.nvim",
+  event = "VeryLazy",
   opts = {
     ---Add a space b/w comment and the line
     padding = true,
@@ -45,5 +46,4 @@ return {
     ---Function to call after (un)comment
     post_hook = nil,
   },
-  -- lazy = false,
 }
