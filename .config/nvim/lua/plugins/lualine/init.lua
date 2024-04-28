@@ -37,19 +37,22 @@ return {
       lualine_z = {},
     },
     tabline = {
-      lualine_a = {
+      lualine_a = { 'tabs' },
+      lualine_b = { 'windows' },
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = { 'searchcount', 'selectioncount' },
+      lualine_z = {
         {
           'buffers',
-          mode = 1,
-          path = 3,
-          use_mode_colors = true,
+          mode = 3,
+          symbols = {
+            modified = '~',
+            alternate_file = '#',
+            directory = 'dir'
+          },
         }
       },
-      lualine_b = { 'tabs' },
-      lualine_c = { 'windows' },
-      lualine_x = { 'searchcount', 'selectioncount' },
-      lualine_y = {},
-      lualine_z = {},
     },
   },
 }
