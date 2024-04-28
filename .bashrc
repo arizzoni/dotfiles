@@ -205,6 +205,9 @@ function __set_prompts () {
         local __home_character
 
         __home_character='~'
+
+        __current_dir="${PWD//\/home\/air/$__home_character}" # Replace '/home/air' with '~'
+        __depth=${__current_dir//[!\/]} # extract the '/' from pwd
         
         if [[ "$PWD" = "$HOME" ]] ; then {
             # If the terminal supports the statusline, then use it
@@ -217,13 +220,13 @@ function __set_prompts () {
             local __current_dir __parent_dir __depth
 
             __current_dir="${PWD//\/home\/air/$__home_character}" # Replace '/home/air' with '~'
+            __depth=${__current_dir//[!\/]} # extract the '/' from pwd
             __current_dir="${__current_dir%/}" # Strip trailing '/'
 
             # Remove path elements, from the left, until it is the right size
             while (( ${#__depth} > 2 )) ; do
                 __current_dir="${__current_dir#*/}"
                 __depth=${__current_dir//[!\/]} # only take the '/'
-
                 # If we had to do the while loop, then on the last iteration
                 # add '.../' to the beginning of the string
                 if (( ${#__depth} == 2 )) ; then {
