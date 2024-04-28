@@ -7,6 +7,7 @@ return {
     "sindrets/diffview.nvim",
     "nvim-telescope/telescope.nvim",
   },
+  event = "VeryLazy",
   config = true,
   opts = {
     graph_style = "unicode",
