@@ -8,7 +8,7 @@ util.external = {
   screen_locker = "light-locker-command -l",
   browser = "firefox",
   mail = "evolution",
-  screenshot = "maim -u -m 10 | tee $HOME/pictures/screenshots/$(date +%FT%T).png | xclip -selection clipboard -t image/png",
+  screenshot = "maim -u -m 10 -i $(xdotool getactivewindow) | tee $HOME/pictures/screenshots/$(date +%FT%T).png | xclip -selection clipboard -t image/png",
   screenshot_region = "maim -u -s -m 10 | tee $HOME/pictures/screenshots/$(date +%FT%T).png | xclip -selection clipboard -t image/png",
   music = "alacritty -e ncmpcpp -s browser -S visualizer",
 }

@@ -95,8 +95,8 @@ theme.menu_fg_focus                             = theme.fg_focus
 
 
 -- Theme settings
-theme.font                                      = "Iosevka, Symbols Nerd Font 14"
-theme.prompt_font                               = "Iosevka Term, Symbols Nerd Font Mono 13"
+theme.font                                      = "Iosevka, Symbols Nerd Font 12"
+theme.prompt_font                               = "Iosevka Term, Symbols Nerd Font Mono 11"
 
 theme.opacity                                   = 1.0
 theme.corner_radius                             = 0
