@@ -8,17 +8,10 @@ export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
 
-# Wallpaper + colors script
-if [ -x "$HOME/.local/bin/chwal" ] ; then {
-    "$HOME/.local/bin/chwal"
-} fi
-
 # Update user-dirs
 if [ -x "$(command -v xdg-user-dirs-update)" ] ; then {
     xdg-user-dirs-update
 } fi
-
-xrdb merge "$HOME/.Xresources"
 
 # Monitors
 if [ -x "$HOME/.local/bin/monitors" ] ; then {
@@ -42,8 +35,15 @@ if [ -x "$(command -v light-locker)" ] ; then {
 
 # Udiskie
 if [ -x "$(command -v udiskie)" ] ; then {
-    udiskie -s -f 'alacritty -e xplr' &
+    udiskie -f 'alacritty -e xplr' &
 } fi
+
+# Wallpaper + colors script
+if [ -x "$HOME/.local/bin/chwal" ] ; then {
+    "$HOME/.local/bin/chwal"
+} fi
+
+xrdb merge "$HOME/.Xresources"
 
 # KeepassXC
 if [ -x "$(command -v keepassxc)" ] ; then {
