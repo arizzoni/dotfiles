@@ -27,35 +27,6 @@ return {
     local luasnip = require "luasnip"
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup {}
-    local kind_icons = {
-      -- TODO: replace these with unicode symbols
-      Text = "",
-      Method = "󰆧",
-      Function = "󰊕",
-      Constructor = "",
-      Field = "󰇽",
-      Variable = "󰂡",
-      Class = "󰠱",
-      Interface = "",
-      Module = "",
-      Property = "󰜢",
-      Unit = "",
-      Value = "󰎠",
-      Enum = "",
-      Keyword = "󰌋",
-      Snippet = "",
-      Color = "󰏘",
-      File = "󰈙",
-      Reference = "",
-      Folder = "󰉋",
-      EnumMember = "",
-      Constant = "󰏿",
-      Struct = "",
-      Event = "",
-      Operator = "󰆕",
-      TypeParameter = "󰅲",
-    }
-
     return {
       view = {
         entries = "custom"
@@ -90,7 +61,7 @@ return {
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         -- ["<C-Space>"] = cmp.mapping.complete {},
-        ["<Tab><Tab>"] = cmp.mapping.confirm {
+        ["<C-Tab>"] = cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
