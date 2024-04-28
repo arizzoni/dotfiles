@@ -21,6 +21,7 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_antialiasing = true
 	vim.g.neovide_cursor_animate_command_line = true
 	vim.g.neovide_cursor_vfx_mode = ""
+	vim.cmd("Oil")
 end
 
 -- Searching
@@ -108,10 +109,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = highlight_group,
 	pattern = "*",
 })
-
--- [[ Core Modules ]]
-require("core.terminal")
-require("core.netrw")
 
 if require('lushwal') ~= nil then
 	vim.cmd.colorscheme("lushwal")
