@@ -190,46 +190,50 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
       local charge = tonumber(string.match(words[4], "%d+"))
 
-      if charging == true then
-        if charge <= 100 and charge > 90 then
-          battery_icon = "󰂅 "
-        elseif charge <= 90 and charge > 80 then
-          battery_icon = "󰂋 "
-        elseif charge <= 80 and charge > 70 then
-          battery_icon = "󰂊 "
-        elseif charge <= 70 and charge > 60 then
-          battery_icon = "󰂉 "
-        elseif charge <= 60 and charge > 50 then
-          battery_icon = "󰂈 "
-        elseif charge <= 50 and charge > 40 then
-          battery_icon = "󰂇 "
-        elseif charge <= 40 and charge > 0 then
-          battery_icon = "󰂆 "
-        end
-      elseif charging == false then
-        if charge <= 100 and charge > 90 then
-          battery_icon = "󰁹 "
-        elseif charge <= 90 and charge > 80 then
-          battery_icon = "󰂂 "
-        elseif charge <= 80 and charge > 70 then
-          battery_icon = "󰂁 "
-        elseif charge <= 70 and charge > 60 then
-          battery_icon = "󰂀 "
-        elseif charge <= 60 and charge > 50 then
-          battery_icon = "󰁿 "
-        elseif charge <= 50 and charge > 40 then
-          battery_icon = "󰁾 "
-        elseif charge <= 40 and charge > 30 then
-          battery_icon = "󰁽 "
-        elseif charge <= 30 and charge > 20 then
-          battery_icon = "󰁻 "
-        elseif charge <= 20 and charge > 10 then
-          battery_icon = "󰁺 "
-        elseif charge <= 10 and charge > 0 then
-          battery_icon = "󰂎 "
+      if charge ~= nil then
+        if charging == true then
+          if charge <= 100 and charge > 90 then
+            battery_icon = "󰂅 "
+          elseif charge <= 90 and charge > 80 then
+            battery_icon = "󰂋 "
+          elseif charge <= 80 and charge > 70 then
+            battery_icon = "󰂊 "
+          elseif charge <= 70 and charge > 60 then
+            battery_icon = "󰂉 "
+          elseif charge <= 60 and charge > 50 then
+            battery_icon = "󰂈 "
+          elseif charge <= 50 and charge > 40 then
+            battery_icon = "󰂇 "
+          elseif charge <= 40 and charge > 0 then
+            battery_icon = "󰂆 "
+          end
+        elseif charging == false then
+          if charge <= 100 and charge > 90 then
+            battery_icon = "󰁹 "
+          elseif charge <= 90 and charge > 80 then
+            battery_icon = "󰂂 "
+          elseif charge <= 80 and charge > 70 then
+            battery_icon = "󰂁 "
+          elseif charge <= 70 and charge > 60 then
+            battery_icon = "󰂀 "
+          elseif charge <= 60 and charge > 50 then
+            battery_icon = "󰁿 "
+          elseif charge <= 50 and charge > 40 then
+            battery_icon = "󰁾 "
+          elseif charge <= 40 and charge > 30 then
+            battery_icon = "󰁽 "
+          elseif charge <= 30 and charge > 20 then
+            battery_icon = "󰁻 "
+          elseif charge <= 20 and charge > 10 then
+            battery_icon = "󰁺 "
+          elseif charge <= 10 and charge > 0 then
+            battery_icon = "󰂎 "
+          end
         end
       end
-      widget:set_text(battery_icon .. tostring(charge) .. "%" .. " ")
+      if charge ~= nil then
+        widget:set_text(battery_icon .. tostring(charge) .. "%" .. " ")
+      end
     end
   )
   -- Keyboard map indicator and switcher

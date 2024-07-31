@@ -1,156 +1,59 @@
 #!/usr/bin/sh
 # Pywal colorscheme and wallpaper selection
 
-Help()
-{
-    # Display Help
-    echo "Wrapper around wal for managing wallpapers. The default behavior"
-    echo "changes wallpaper and sets global colors. If the WM is AwesomeWM,"
-    echo "the script will restart it to apply the new colorscheme."
-    echo
-    echo "Syntax: chwal -[r|h|V]"
-    echo "Options:"
-    echo "  r     Mark the current wallpaper for deletion by moving it to"
-    echo "        \$WALLPAPER_DIR/rmwal/\$CURRENT_WALLPAPER"
-    echo "  h     Print this Help message and exit."
-    echo "  V     Print software version and exit."
-    echo
-}
-
-# If pywal is not executable, exit
-if [ ! -x "$(command -v wal)" ] && [ ! -x "$(command -v wallust)" ] ; then {
-    echo "Error: Required programs wal and/or wallust not found."
+# If wallust is not executable, exit
+if [ ! -x "$(command -v wallust)" ] ; then {
+    echo "Error: Required program wallust not found."
     echo "Aborting script."
     exit 1
 } fi
 
-while getopts ":hrV" option; do {
-    case $option in
-        r) 
-            # Define directories
-            CACHE="$HOME/.cache/wal"
-            WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
-            RMWAL_DIR="$WALLPAPER_DIR/rmwal"
-
-            # Define cached wallpaper to use
-            CURRENT_WALLPAPER="$CACHE/wal"
-                    
-            # Define and protect command behavior
-            CAT="command cat"
-            MV="command mv"
-            MKDIR="command mkdir"
-
-            if [ -f "$CURRENT_WALLPAPER" ] ; then {
-                if [ ! -d "$RMWAL_DIR" ] ; then {
-                    $MKDIR "$RMWAL_DIR"
-                } fi
-                $MV "$($CAT "$CURRENT_WALLPAPER")" "$RMWAL_DIR"
-            } fi
-
-            exit 0
-            ;;
-        h) # Display Help
-            Help
-            exit 0
-            ;;
-        V) # Version
-            echo "chwal 0.1"
-            exit 0
-            ;;
-        \?) # Invalid option
-            echo "Error: Invalid option"
-            echo "Syntax: chwal -[r|h|V]"
-            exit 1
-            ;;
-    esac
-} done
-
-if [ -x "$(command -v wal)" ] ; then {
-    CACHE="$HOME/.cache/wal"
-    WAL="command wal --backend colorz --cols16 --saturate 0.5 -nq -i"
-} else {
-    CACHE="$HOME/.cache/wallust"
-    WAL="command wallust run -q"
-} fi
-
-# Define config directory
-CONFIG="$HOME/.config"
-
-# Define cached wallpaper to use
-WAL_CACHE="$CACHE/wal_cache"
-
 # Define and protect command behavior
 CAT="command cat"
 CP="command cp --reflink=auto --no-preserve=mode,ownership"
-LN="command ln -s"
-
 if [ -x "$(command -v fd)" ] ; then {
     FIND="command fd"
     } else {
     FIND="command find"
 } fi
+WAL="command wallust run --quiet"
+
+# Define directories
+WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
+
+# Define cached wallpaper to use
+WAL_CACHE="$HOME/.cache/wallust/wallpaper"
+
+# Define wallpaper cache in /usr/share/ for LightDM
+WALLPAPER_CACHE="/usr/share/backgrounds/wal"
 
 # If feh is executable, set the desktop wallpaper
 if [ -x "$(command -v feh)" ] ; then { 
-    FEH="command feh --bg-fill --no-fehbg"
+    FEH="command feh --bg-fill --no-fehbg --force-aliasing "
     $FEH "$($CAT "$WAL_CACHE")"
 } fi
 
-# Generate the colorscheme
+# Generate the colorscheme and update config files
 $WAL "$($CAT "$WAL_CACHE")"
 
 # Select new random wallpaper and cache it
-WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
 WALLPAPER="$($FIND . "$WALLPAPER_DIR" | shuf | head -n 1)"
 echo "$WALLPAPER" >| "$WAL_CACHE"
 
 # Copy the image to /usr/share/backgrounds so that LightDM can use it
-WALLPAPER_CACHE="/usr/share/backgrounds/wal"
 $CP "$WALLPAPER" "$WALLPAPER_CACHE"
-
-# Apply colorscheme to Alacritty
-if [ -x "$(command -v alacritty)" ] &&                                         \
-    [ ! -e "$CONFIG/alacritty/alacritty_colors.toml" ] &&                      \
-    [ -e "$CACHE/alacritty_colors.toml" ] ; then {
-        $LN "$CACHE/alacritty_colors.toml"                                     \
-            "$CONFIG/alacritty/alacritty_colors.toml"
-} fi
-
-# Apply pywal colorscheme to Zathura 
-if [ -x "$(command -v zathura)" ] &&                                           \
-    [ ! -e "$CONFIG/zathura/zathurarc" ] &&                                    \
-    [ -e "$CACHE/zathurarc.wal" ] ; then { 
-        $LN "$CACHE/zathura.wal" "$CONFIG/zathura/zathurarc"
-} fi
-
-# Apply colorscheme to CAVA
-if [ -x "$(command -v cava)" ] &&                                              \
-    [ ! -e "$CONFIG/cava/config" ] &&                                          \
-    [ -e "$CACHE/cava.wal" ] ; then {
-        $LN "$CACHE/cava.wal" "$CONFIG/cava/config"
-} fi
-
-# Apply colorscheme to AERC
-if [ -x "$(command -v aerc)" ] &&                                              \
-    [ ! -e "$CONFIG/aerc/stylesets/wal" ] &&                                   \
-    [ -e "$CACHE/aerc.wal" ] ; then {
-        $LN "$CACHE/aerc.wal" "$CONFIG/aerc/stylesets/wal"
-} fi
 
 # Apply pywal colorscheme to Firefox
 if [ -x "$(command -v pywalfox)" ] ; then {
     command pywalfox update
 } fi
 
-# Apply pywal colorscheme to KiCad
-if [ -f ~/projects/kiwal/kiwal.py ] ; then {
-    command python ~/projects/kiwal/kiwal.py
-} fi
-
+# Apply colorscheme to Xresources
 if [ -x "$(command -v xrdb)" ] ; then {
-    xrdb -merge "$CACHE/colors.Xresources"
+    xrdb -merge -quiet ~/.config/Xresources
 } fi
 
+# Restart AwesomeWM to apply the new colorscheme
 if [ "$XDG_SESSION_DESKTOP" = 'awesome' ] ; then {
-    echo 'awesome.restart()' | awesome-client 1>&2
+    echo 'awesome.restart()' | awesome-client
 } fi

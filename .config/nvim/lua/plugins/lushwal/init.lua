@@ -1,8 +1,6 @@
 -- Pywal Color Scheme
 return {
-  -- 'oncomouse/lushwal.nvim',
-  'arizzoni/lushwal.nvim',
-  branch = 'terminal_colors',
+  'oncomouse/lushwal.nvim',
   name = "lushwal.nvim",
   cmd = { "LushwalCompile" }, -- Specify command to recompile wal colors
   event = "VeryLazy",
@@ -100,9 +98,12 @@ return {
           MasonHeading({ gui = "bold" }),
 
           -- Vim Illuminate
-          IlluminatedWordText = { gui = "bold" },
-          IlluminatedWordRead = { gui = "bold" },
-          IlluminatedWordWrite = { gui = "bold" },
+          IlluminatedWordText({ gui = "bold" }),
+          IlluminatedWordRead({ gui = "bold" }),
+          IlluminatedWordWrite({ gui = "bold" }),
+
+          WhichKeyBorder({ fg = colors.color8, bg = colors.bg }),
+          TelescopeBorder({ fg = colors.color8, bg = colors.bg }),
           ---@diagnostic enable undefined_global
         }
       end)

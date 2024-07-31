@@ -1,0 +1,11 @@
+[Unit]
+Description=Task: mute mic on startup
+Requires=sound.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/amixer set 'Capture' '0%'
+RemainAfterExit=false
+
+[Install]
+WantedBy=default.target

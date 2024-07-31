@@ -1,3 +1,8 @@
 # Machine-generated file - use setup menu in minicom to change parameters.
-pu mfcolor          WHITE
-pu sbcolor          BLUE
+pu mfcolor          RED
+pu sfcolor          BLACK
+pu sbcolor          RED
+pu port             /dev/ttyACM0
+pu baudrate         9600
+pu linewrap         Yes
+pu line_timestamp   extended

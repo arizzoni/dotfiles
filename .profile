@@ -63,6 +63,6 @@ if [ -x "$(command -v nvim)" ] ; then {
 } fi
 
 # bashrc 
-if [ -f "$HOME/.bashrc" ] ; then {
+if [ -f "$HOME/.bashrc" ] && [ "$SHELL" = '/usr/bin/bash' ] ; then {
     . "$HOME/.bashrc"
 } fi

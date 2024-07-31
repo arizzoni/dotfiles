@@ -1,7 +1,7 @@
 --[[ core/init.lua ]]
 
 --[[ Settings ]]
-vim.opt.updatetime = 167     -- Decrease update time
+vim.opt.updatetime = 40    -- Decrease update time
 vim.g.transparent_enabled = true
 vim.opt.termguicolors = true -- Make sure the terminal supports this
 vim.opt.title = true
@@ -21,7 +21,6 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_antialiasing = true
 	vim.g.neovide_cursor_animate_command_line = true
 	vim.g.neovide_cursor_vfx_mode = ""
-	vim.cmd("Oil")
 end
 
 -- Searching

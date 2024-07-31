@@ -14,7 +14,7 @@ return {
     hide_numbers = true,
     autochdir = false,
     shade_terminals = false,
-    start_in_insert = false,
+    start_in_insert = true,
     insert_mappings = false,
     terminal_mappings = true,
     persist_size = true,
@@ -58,12 +58,12 @@ return {
       end
     end
 
-    vim.api.nvim_set_keymap("n", "<leader>E", "<cmd>lua aerc_toggle()<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>mp", "<cmd>lua ncmpcpp_toggle()<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", [[<C-\>]], "<cmd>lua repl_toggle()<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("v", "<leader>sl", "<cmd>ToggleTermSendVisualLines<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>sc", "<cmd>ToggleTermSendCurrentLine<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("v", "<leader>ss", "<cmd>ToggleTermSendVisualSelection<CR>", { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", "<leader>E", "<cmd>lua aerc_toggle()<CR>", { noremap = true, silent = true, desc = '[E]-mail' })
+    vim.api.nvim_set_keymap("n", "<leader>mp", "<cmd>lua ncmpcpp_toggle()<CR>", { noremap = true, silent = true, desc = '[M]usic [P]layer' })
+    vim.api.nvim_set_keymap("n", [[<C-\>]], "<cmd>lua repl_toggle()<CR>", { noremap = true, silent = true, desc = 'Toggle REPL' })
+    vim.api.nvim_set_keymap("v", "<leader>sl", "<cmd>ToggleTermSendVisualLines<CR>", { noremap = true, silent = true, desc = '[S]end Selected [L]ines to REPL' })
+    vim.api.nvim_set_keymap("n", "<leader>sl", "<cmd>ToggleTermSendCurrentLine<CR>", { noremap = true, silent = true, desc = '[S]end [C]urrent Line to REPL' })
+    vim.api.nvim_set_keymap("v", "<leader>ss", "<cmd>ToggleTermSendVisualSelection<CR>", { noremap = true, silent = true, desc = '[S]end [S]election to REPL' })
 
     local term_enter_group = vim.api.nvim_create_augroup("TerminalEnter", { clear = true })
     vim.api.nvim_create_autocmd({ "TermOpen" }, {

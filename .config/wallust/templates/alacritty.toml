@@ -1,0 +1,139 @@
+ipc_socket = true
+live_config_reload = true
+
+import = [
+"~/.cache/wal/alacritty_colors.toml",
+]
+
+[cursor]
+blink_interval = 750
+blink_timeout = 5
+thickness = 0.15
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "On"
+shape = "Underline"
+
+[font]
+builtin_box_drawing = true
+size = 12
+
+[font.normal]
+family = "Iosevka Term"
+
+[font.bold]
+family = "Iosevka Term Slab"
+style = "Bold"
+
+[font.bold_italic]
+family = "Iosevka Term Curly Slab"
+style = "Bold Italic"
+
+[font.italic]
+family = "Iosevka Term Curly"
+style = "Italic"
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 10000
+multiplier = 2
+
+[shell]
+program = "/bin/bash"
+
+[window]
+decorations = "None"
+decorations_theme_variant = "None"
+opacity = 0.8
+# opacity = {{ alpha_dec }} # BUG:
+dynamic_padding = true
+startup_mode = "Windowed"
+dynamic_title = true
+
+[window.padding]
+x = 0 
+y = 0
+
+[colors]
+draw_bold_text_with_bright_colors = false
+transparent_background_colors = true
+
+[colors.primary]
+background            = "{{background}}"
+foreground            = "{{foreground}}"
+dim_foreground        = "{{color7}}"
+bright_foreground     = "{{color15}}"
+
+[colors.cursor]
+text                  = "{{background}}"
+cursor                = "{{foreground}}"
+
+[colors.vi_mode_cursor]
+text                  = "{{background}}"
+cursor                = "{{color8}}"
+
+[colors.search.matches]
+foreground            = "{{color3}}"
+background            = "{{background}}"
+
+[colors.search.focused_match]
+foreground            = "{{color3}}"
+background            = "{{color8}}"
+
+[colors.hints.start]
+foreground            = "{{color4}}"
+background            = "{{background}}"
+
+[colors.hints.end]
+foreground            = "{{color4}}"
+background            = "{{background}}"
+
+[colors.line_indicator]
+foreground            = "None"
+background            = "None"
+
+[colors.footer_bar]
+foreground            = "{{color1}}"
+background            = "{{background}}"
+
+[colors.selection]
+text                  = "{{color6}}"
+background            = "{{color8}}"
+
+[colors.normal]
+black                 = "{{color0}}"
+red                   = "{{color1}}"
+green                 = "{{color2}}"
+yellow                = "{{color3}}"
+blue                  = "{{color4}}"
+magenta               = "{{color5}}"
+cyan                  = "{{color6}}"
+white                 = "{{color7}}"
+
+[colors.bright]
+black                 = "{{color8}}"
+red                   = "{{color9}}"
+green                 = "{{color10}}"
+yellow                = "{{color11}}"
+blue                  = "{{color12}}"
+magenta               = "{{color13}}"
+cyan                  = "{{color14}}"
+white                 = "{{color15}}"
+
+# Alacritty will automatically calculate the dim colors based on the existing
+# normal colors. Uncomment to have dim colors the same as normal colors with 
+# the exception that white is still dimmed.
+# [colors.dim]
+# black                 = "{{color0}}"
+# red                   = "{{color1}}"
+# green                 = "{{color2}}"
+# yellow                = "{{color3}}"
+# blue                  = "{{color4}}"
+# magenta               = "{{color5}}"
+# cyan                  = "{{color6}}"
+# white                 = "{{color8}}"
+
+# vim: filetype=toml

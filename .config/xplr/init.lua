@@ -22,7 +22,6 @@ os.execute(
     xpm_path
   )
 )
-
 require("xpm").setup({
   plugins = {
     -- Let xpm manage itself
@@ -34,15 +33,6 @@ require("xpm").setup({
   auto_install = true,
   auto_cleanup = true,
 })
-
-require("fzf").setup{
-  mode = "default",
-  key = "ctrl-f",
-  bin = "fzf",
-  args = "--preview 'pistol {}'",
-  recursive = false,  -- If true, search all files under $PWD
-  enter_dir = false,  -- Enter if the result is directory
-}
 
 require("alacritty").setup{
   mode = "default",

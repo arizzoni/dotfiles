@@ -1,0 +1,10 @@
+[Unit]
+Description=FantomHD backup
+Requires=run-media-air-FantomHD.mount
+After=run-media-air-FantomHD.mount
+
+[Service]
+ExecStart=/home/air/.local/bin/system-backup
+
+[Install]
+WantedBy=run-media-air-FantomHD.mount

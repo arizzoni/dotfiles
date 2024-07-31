@@ -7,45 +7,22 @@ export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
 export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
-
-# Update user-dirs
-if [ -x "$(command -v xdg-user-dirs-update)" ] ; then {
-    xdg-user-dirs-update
-} fi
-
-# Monitors
-if [ -x "$HOME/.local/bin/monitors" ] ; then {
-    "$HOME/.local/bin/monitors" &
-} fi
-
-# Make sure audio is quiet at startup
-if [ -x "$(command -v amixer)" ] ; then {
-    amixer set Master 0%
-} fi
-
 # Compositor
 if [ -x "$(command -v picom)" ] ; then {
     picom &
 } fi
 
-# Screen locker
+# Screen Locker
 if [ -x "$(command -v light-locker)" ] ; then {
-    light-locker --lock-on-suspend --lock-on-lid --no-late-locking &
+    light-locker --lock-on-suspend --lock-on-lid --idle-hint --no-late-locking &
 } fi
 
-# Udiskie
-if [ -x "$(command -v udiskie)" ] ; then {
-    udiskie -f 'alacritty -e xplr' &
+# XRDB colors
+if [ -x "$(command -v xrdb)" ] ; then {
+    xrdb merge "$HOME/.Xresources"
 } fi
 
 # Wallpaper + colors script
 if [ -x "$HOME/.local/bin/chwal" ] ; then {
     "$HOME/.local/bin/chwal"
-} fi
-
-xrdb merge "$HOME/.Xresources"
-
-# KeepassXC
-if [ -x "$(command -v keepassxc)" ] ; then {
-    keepassxc &
 } fi

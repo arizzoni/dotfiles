@@ -1,0 +1,10 @@
+[Unit]
+Description=screen-locker daemon
+
+[Service]
+Type=simple
+ExecStart=/bin/light-locker --lock-on-lid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

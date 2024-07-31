@@ -4,11 +4,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Wal colors
-if [[ -f "$HOME/.cache/wal/sequences" ]] ; then {
-    cat "$HOME/.cache/wal/sequences"
-} fi
-
 
 ## Bash options
 
@@ -145,7 +140,7 @@ function __set_prompts () {
 
     # NOTE: "\[" and "\]" are used below so that bash can calculate the number of
     # printed characters. If non-printed characters are not escaped, the shell 
-    # will lose track of where it is.
+    # will lose track of where the prompt is.
 
     function __context () {
         # Set user and host context in the format user@host.
@@ -171,6 +166,9 @@ function __set_prompts () {
     function __git_info () {
         # If the current directory is inside a git repository, then show the
         # current branch in the prompt.
+
+        # TODO: number of files changed, number of entries in stash, ahead by x
+        # commits, number of files changed but not staged, untracked files, 
 
         if git branch &> /dev/null ; then {
             local __character
@@ -205,14 +203,11 @@ function __set_prompts () {
         local __home_character
 
         __home_character='~'
-
-        __current_dir="${PWD//\/home\/air/$__home_character}" # Replace '/home/air' with '~'
-        __depth=${__current_dir//[!\/]} # extract the '/' from pwd
         
         if [[ "$PWD" = "$HOME" ]] ; then {
             # If the terminal supports the statusline, then use it
             if [[ -n "$__to_status_line" ]] ; then {
-                echo " \[${__fg_color12}\]${__home_character}\[${__to_status_line}~${__from_status_line}${__reset}\]"
+                echo " \[${__fg_color12}\]${__home_character}\[${__to_status_line}${__home_character}${__from_status_line}${__reset}\]"
             } else {
                 echo " \[${__fg_color12}\]${__home_character}\[${__reset}\]"
             } fi
@@ -226,9 +221,11 @@ function __set_prompts () {
             # Remove path elements, from the left, until it is the right size
             while (( ${#__depth} > 2 )) ; do
                 __current_dir="${__current_dir#*/}"
-                __depth=${__current_dir//[!\/]} # only take the '/'
+                # Only take the '/' so we can count them to find the depth
+                __depth=${__current_dir//[!\/]}
                 # If we had to do the while loop, then on the last iteration
-                # add '.../' to the beginning of the string
+                # add '.../' to the beginning of the string. The two numbers
+                # here must be the same - '2' seems to be the most pleasant.
                 if (( ${#__depth} == 2 )) ; then {
                     __current_dir=".../${__current_dir}"
                 } fi
@@ -305,6 +302,9 @@ alias gdb='gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+
+# Let sudo keep the current environment
+alias sudo='sudo -E'
 
 # ls
 function ls () {
@@ -513,11 +513,14 @@ if [[ -x "$(command -v julia)" ]] ; then {
     alias julia='julia --banner=no'
 } fi
 
+# MATLAB
+if [[ -x "$(command -v matlab)" ]] ; then {
+    alias matlab='matlab -nodesktop -nosplash'
+} fi
+
 # cat
 if [[ -x "$(command -v bat)" ]] ; then { # If bat is installed prefer it
-    alias cat="bat --theme=ansi"
-} else {
-    alias cat="cat --number-nonblank"
+    alias bat="bat --theme=ansi"
 } fi
 
 # ncmpcpp
@@ -533,15 +536,42 @@ if [[ -x "$(command -v minicom)" ]] ; then {
 
 # Distribution-specific Aliases
 if [[ -f /etc/arch-release ]] ; then {
-    # Pacdiff
-    if [[ -x "$(command -v pacdiff)" ]] ; then {
-        alias pacdiff='DIFFPROG=$EDITOR pacdiff'
-    } fi
+    # If the mirrorlist hasn't been updated in more than a week, update it and
+    # select the 10 fastest mirrors in America and Canada that support https.
+    # Requires rankmirrors from pacman-contrib package.
+    function mirror-update () {
+        local __mirrorlist_epoch __current_epoch __delta_epoch
+        __mirrorlist_epoch=$(date -r /etc/pacman.d/mirrorlist +%s)
+        __current_epoch=$(date +%s)
+        __delta_epoch=$(( __current_epoch - __mirrorlist_epoch ))
+        if [[ $__delta_epoch -gt 604800 ]] ; then {
+            echo 'Updating mirrorlist.'
+            sudo sh -c \
+                "cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
+                && curl -s 'https://archlinux.org/mirrorlist/?country=US&country=CA&protocol=https&use_mirror_status=on' \
+                | sed -e 's/^#Server/Server/' -e '/^#/d' \
+                | rankmirrors -n 10 - \
+                >| /etc/pacman.d/mirrorlist"
+        } fi
+        unset __mirrorlist_epoch __current_epoch __delta_epoch
+    }
 
-    if [[ -x "$(command -v paru)" ]] && [[ -x "$(command -v pacdiff)" ]] ; then {
-        alias paru='paru && pacdiff'
-    } else {
-        alias pacman='pacman && pacdiff'
+    if [[ -x "$(command -v pacdiff)" ]] ; then {
+        if [[ -x "$(command -v paru)" ]] ; then {
+            function paru () {
+                mirror-update \
+                    && command paru "$@" \
+                    && sudo DIFFPROG="$EDITOR -d" pacdiff \
+                    && command paccache -r
+                }
+        } else {
+            function pacman () {
+                mirror-update \
+                    && sudo command pacman "$@" \
+                    && sudo DIFFPROG="$EDITOR -d" pacdiff \
+                    && command paccache -r
+                }
+        } fi
     } fi
 } fi
 

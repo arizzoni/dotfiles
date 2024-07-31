@@ -139,6 +139,14 @@ return {
           },
         },
       },
+      typst_lsp = {
+        typst_lsp = {
+          cmd = "typst-lsp",
+          settings = {
+            exportPdf = "onType",
+          },
+        },
+      },
     }
 
     -- nvim-cmp supports additional completion capabilities,

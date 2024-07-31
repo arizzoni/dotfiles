@@ -3,16 +3,29 @@ return {
   "nvim-telescope/telescope.nvim",
   event = "VeryLazy",
   name = "telescope.nvim",
-  branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim",
+  branch = "0.1.x", dependencies = {
+    {
+      "nvim-lua/plenary.nvim",
+      event = "VeryLazy",
+    },
+    {
     "nvim-telescope/telescope-symbols.nvim",
+      event = "VeryLazy",
+    },
+    {
     "nvim-telescope/telescope-dap.nvim",
+      event = "VeryLazy",
+    },
+    {
     "nvim-telescope/telescope-ui-select.nvim",
+      event = "VeryLazy",
+    },
     {
       "nvim-telescope/telescope-fzy-native.nvim",
       cond = function()
         return vim.fn.executable "make" == 1
       end,
-    }
+    },
   },
   opts = { defaults = { borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
       mappings = {

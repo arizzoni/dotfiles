@@ -1,9 +1,10 @@
 # config.toml
 # Neovide configuration file
+vsync = true
 
 [font]
 normal = ["Iosevka", "Symbols Nerd Font Mono"]
 bold = ["Iosevka Slab", "Symbols Nerd Font Mono"]
 italic = ["Iosevka Curly", "Symbols Nerd Font Mono"]
 bold_italic = ["Iosevka Curly Slab", "Symbols Nerd Font Mono"]
-size = 18
+size = 14

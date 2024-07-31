@@ -1,0 +1,10 @@
+[Unit]
+Description=USB Storage Automount Service
+
+[Service]
+Type=simple
+ExecStart=/bin/udiskie
+Restart=always
+
+[Install]
+WantedBy=default.target

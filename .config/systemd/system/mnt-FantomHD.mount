@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount Backup Drive
+Requires=basic.target
+After=basic.target
+
+[Mount]
+What=/dev/disk/by-uuid/f6efa149-3572-4132-9f83-275c38071a08
+Where=/mnt/FantomHD
+
+[Install]
+WantedBy=default.target

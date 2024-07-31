@@ -17,7 +17,7 @@ shape = "Underline"
 
 [font]
 builtin_box_drawing = true
-size = 13
+size = 12
 
 [font.normal]
 family = "Iosevka Term"
@@ -48,6 +48,7 @@ program = "/bin/bash"
 decorations = "None"
 decorations_theme_variant = "None"
 opacity = 0.8
+# opacity =  # BUG:
 dynamic_padding = true
 startup_mode = "Windowed"
 dynamic_title = true
@@ -59,3 +60,80 @@ y = 0
 [colors]
 draw_bold_text_with_bright_colors = false
 transparent_background_colors = true
+
+[colors.primary]
+background            = "#000000"
+foreground            = "#E6E6E6"
+dim_foreground        = "#5B6869"
+bright_foreground     = "#DCEBEC"
+
+[colors.cursor]
+text                  = "#000000"
+cursor                = "#E6E6E6"
+
+[colors.vi_mode_cursor]
+text                  = "#000000"
+cursor                = "#8DA2A4"
+
+[colors.search.matches]
+foreground            = "#2F74B0"
+background            = "#000000"
+
+[colors.search.focused_match]
+foreground            = "#2F74B0"
+background            = "#8DA2A4"
+
+[colors.hints.start]
+foreground            = "#487D40"
+background            = "#000000"
+
+[colors.hints.end]
+foreground            = "#487D40"
+background            = "#000000"
+
+[colors.line_indicator]
+foreground            = "None"
+background            = "None"
+
+[colors.footer_bar]
+foreground            = "#53A7B0"
+background            = "#000000"
+
+[colors.selection]
+text                  = "#B44A2B"
+background            = "#8DA2A4"
+
+[colors.normal]
+black                 = "#000000"
+red                   = "#53A7B0"
+green                 = "#AE8B49"
+yellow                = "#2F74B0"
+blue                  = "#487D40"
+magenta               = "#8F6232"
+cyan                  = "#B44A2B"
+white                 = "#5B6869"
+
+[colors.bright]
+black                 = "#8DA2A4"
+red                   = "#6FDEEA"
+green                 = "#E8B962"
+yellow                = "#3F9BEB"
+blue                  = "#54944A"
+magenta               = "#AF7435"
+cyan                  = "#D23F13"
+white                 = "#DCEBEC"
+
+# Alacritty will automatically calculate the dim colors based on the existing
+# normal colors. Uncomment to have dim colors the same as normal colors with 
+# the exception that white is still dimmed.
+# [colors.dim]
+# black                 = "#000000"
+# red                   = "#53A7B0"
+# green                 = "#AE8B49"
+# yellow                = "#2F74B0"
+# blue                  = "#487D40"
+# magenta               = "#8F6232"
+# cyan                  = "#B44A2B"
+# white                 = "#8DA2A4"
+
+# vim: filetype=toml

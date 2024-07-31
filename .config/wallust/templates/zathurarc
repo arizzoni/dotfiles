@@ -1,42 +1,44 @@
+set font 'monospace normal 16'
+
 # Allow recolor
-set recolor 'true'
+set recolor "true"
 
-# Don't allow original hue when recoloring
-set recolor-keephue 'false'
+# Don"t allow original hue when recoloring
+set recolor-keephue "false"
 
-# Don't keep original image colors while recoloring
-set recolor-reverse-video 'false'
+# Don"t keep original image colors while recoloring
+set recolor-reverse-video "false"
 
 # Command line completion entries
-set completion-fg '{{color7}}'
-set completion-bg '{{background}}'
+set completion-fg "{{color7}}"
+set completion-bg "{{background}}"
 
 # Command line completion group elements
-set completion-group-fg '{{color8}}'
-set completion-group-bg '{{background}}'
+set completion-group-fg "{{color8}}"
+set completion-group-bg "{{background}}"
 
 # Current command line completion element
-set completion-highlight-fg '{{background}}'
-set completion-highlight-bg '{{color7}}'
+set completion-highlight-fg "{{background}}"
+set completion-highlight-bg "{{color7}}"
 
 # Default foreground/background color
-set default-bg rgba({{background | red}},{{ background | green }},{{ background | blue }},0.8)
+set default-bg rgba({{background | red }},{{ background | green }},{{ background | blue }},0.8)
 
 # Input bar
-set inputbar-fg '{{foreground}}'
-set inputbar-bg '{{color7}}'
+set inputbar-fg "{{foreground}}"
+set inputbar-bg "{{color7}}"
 
 # Notification
-set notification-fg '{{background}}'
-set notification-bg '{{color2}}'
+set notification-fg "{{background}}"
+set notification-bg "{{color2}}"
 
 # Error notification
-set notification-error-fg '{{background}}'
-set notification-error-bg '{{color1}}'
+set notification-error-fg "{{background}}"
+set notification-error-bg "{{color1}}"
 
 # Warning notification
-set notification-warning-fg '{{background}}'
-set notification-warning-bg '{{color3}}'
+set notification-warning-fg "{{background}}"
+set notification-warning-bg "{{color3}}"
 
 # TODO: Tab
 # set tabbar-fg
@@ -47,27 +49,27 @@ set notification-warning-bg '{{color3}}'
 # set tabbar-focus-bg
 
 # Status bar
-set statusbar-fg '{{color7}}'
-set statusbar-bg '{{background}}'
+set statusbar-fg "{{color7}}"
+set statusbar-bg "{{background}}"
 
 # Highlighting parts of the document (e.g. show search results)
-set highlight-color '{{color1}}'
-set highlight-active-color '{{color2}}'
+set highlight-color rgba({{color1 | red }},{{ color1 | green }},{{ color1 | blue }},0.2)
+set highlight-active-color rgba({{color2 | red }},{{ color2 | green }},{{ color2 | blue }},0.2)
 
 # Represent light/dark colors in recoloring mode
 set recolor-lightcolor rgba(0,0,0,0)
-set recolor-darkcolor '{{color7}}'
+set recolor-darkcolor "{{color7}}"
 
-# 'Loading...' text
-set render-loading-fg '{{color3}}'
-set render-loading-bg '{{color0}}'
+# "Loading..." text
+set render-loading-fg "{{color3}}"
+set render-loading-bg "{{color0}}"
 
 # Index mode
-set index-fg '{{color3}}'
-set index-bg '{{color0}}'
+set index-fg "{{color3}}"
+set index-bg "{{color0}}"
 
 # Selected element in index mode
-set index-active-fg '{{color4}}'
-set index-active-bg '{{color7}}'
+set index-active-fg "{{color4}}"
+set index-active-bg "{{color7}}"
 
 # vim: filetype=zathurarc

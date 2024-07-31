@@ -1,16 +1,16 @@
-# wallust 3.*
+# wallust 3.x
 
-backend = 'wal'
+# backend = 'wal'
 color_space = 'lab'
-# threshold = 19
-palette = 'dark16'
-# check_contrast = true
-saturation = 40
-alpha = 100
+threshold = 12
+palette = 'softdark16'
+check_contrast = true
+saturation = 45
+alpha = 80
 
 [ templates ]
-alacritty.template = 'templates/alacritty_colors.toml'
-alacritty.target = '~/.config/alacritty/alacritty_colors.toml'
+alacritty.template = 'templates/alacritty.toml'
+alacritty.target = '~/.config/alacritty/alacritty.toml'
 
 zathura.template = 'templates/zathurarc'
 zathura.target = '~/.config/zathura/zathurarc'
@@ -21,8 +21,11 @@ cava.target = '~/.config/cava/config'
 aerc.template = 'templates/config.aerc'
 aerc.target = '~/.config/aerc/stylesets/wal'
 
-xresources.template = 'templates/colors.Xresources'
-xresources.target = '~/.cache/wallust/colors.Xresources'
-
 json.template = 'templates/colors.json'
 json.target = '~/.cache/wal/colors.json'
+
+kicad.template = 'templates/kicad_colorscheme.json'
+kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'
+
+xresources.template = 'templates/Xresources'
+xresources.target = '~/.config/Xresources'

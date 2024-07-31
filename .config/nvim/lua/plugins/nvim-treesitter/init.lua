@@ -31,13 +31,13 @@ return {
     ignore_install = {},
 
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { "bash", "bibtex", "c", "clojure", "comment", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "julia", "latex", "lua", "make", "markdown_inline", "perl", "pip_requirements", "psv", "python", "PyPA manifest", "readline", "ssh_config", "tsv", "query", "yaml", "tmux", "toml", "vimdoc", "vim", "xml", "zathurarc" },
+    ensure_installed = { "bash", "bibtex", "c", "clojure", "comment", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "julia", "latex", "lua", "make", "markdown_inline", "perl", "pip_requirements", "psv", "python", "PyPA manifest", "readline", "ssh_config", "tsv", "typst", "query", "yaml", "tmux", "toml", "vimdoc", "vim", "xml", "zathurarc" },
 
     -- Autoinstall languages that are not installed. Defaults to false
-    auto_install = false,
+    auto_install = true,
     highlight = {
       enable = true,
-      disable = { "tex" },
+      disable = { "latex", "tex" },
     },
     indent = { enable = true },
     incremental_selection = {
@@ -94,4 +94,8 @@ return {
       },
     },
   },
+  init = function()
+    vim.treesitter.language.register("latex", "tex")
+    vim.treesitter.language.register("tex", "latex")
+  end,
 }

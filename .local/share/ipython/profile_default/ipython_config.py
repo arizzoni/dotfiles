@@ -1,39 +1,39 @@
 """Configuration file for ipython."""
 
-from pygments.token import(
-    Token,
-    Keyword,
-    Name,
-    Comment,
-    String,
-    Error,
-    Number,
-    Operator,
-    Generic
-        )
-
-
-class WalStyle(object):
-    """Override colors."""
-
-    style_overrides_linux = {
-        Token.Prompt: 'bg:#073642 #839496',
-        Token.PromptNum: 'bg:#073642 #859900 bold',
-        Token.OutPrompt: 'bg:#073642 #839496',
-        Token.OutPromptNum: 'bg:#073642 #dc322f bold',
-        Keyword: 'bg:#073642 #dc322f bold',
-        Name: 'bg:#073642 #dc322f bold',
-        Comment: 'bg:#073642 #dc322f bold',
-        String: 'bg:#073642 #dc322f bold',
-        Error: 'bg:#073642 #dc322f bold',
-        Number: 'bg:#073642 #dc322f bold',
-        Operator: 'bg:#073642 #dc322f bold',
-        Generic: 'bg:#073642 #dc322f bold',
-    }
-
-    def overrides_linux(self):
-        """Override prompt colors."""
-        return self.style_overrides_linux
+# from pygments.token import(
+#     Token,
+#     Keyword,
+#     Name,
+#     Comment,
+#     String,
+#     Error,
+#     Number,
+#     Operator,
+#     Generic
+#         )
+#
+#
+# class WalStyle(object):
+#     """Override colors."""
+#
+#     style_overrides_linux = {
+#         Token.Prompt: 'bg:#073642 #839496',
+#         Token.PromptNum: 'bg:#073642 #859900 bold',
+#         Token.OutPrompt: 'bg:#073642 #839496',
+#         Token.OutPromptNum: 'bg:#073642 #dc322f bold',
+#         Keyword: 'bg:#073642 #dc322f bold',
+#         Name: 'bg:#073642 #dc322f bold',
+#         Comment: 'bg:#073642 #dc322f bold',
+#         String: 'bg:#073642 #dc322f bold',
+#         Error: 'bg:#073642 #dc322f bold',
+#         Number: 'bg:#073642 #dc322f bold',
+#         Operator: 'bg:#073642 #dc322f bold',
+#         Generic: 'bg:#073642 #dc322f bold',
+#     }
+#
+#     def overrides_linux(self):
+#         """Override prompt colors."""
+#         return self.style_overrides_linux
 
 c = get_config()  # noqa
 
@@ -72,7 +72,6 @@ c = get_config()  # noqa
 c.InteractiveShellApp.exec_lines = [
         'import numpy as np',
         'from matplotlib import pyplot as plt',
-        'plt.style.use(["dark_background", "fast"])',
         ]
 
 # A list of dotted module names of IPython extensions to load.
@@ -313,7 +312,6 @@ c.TerminalIPythonApp.exec_PYTHONSTARTUP = True
 c.TerminalIPythonApp.exec_lines = [
         'import numpy as np',
         'from matplotlib import pyplot as plt',
-        'plt.style.use(["dark_background", "fast"])',
         ]
 
 # A list of dotted module names of IPython extensions to load.

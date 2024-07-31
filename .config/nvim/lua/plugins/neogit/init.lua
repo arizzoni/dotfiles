@@ -1,7 +1,6 @@
 -- Set lualine as statusline
 return {
   "NeogitOrg/neogit",
-  branch = "nightly",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "sindrets/diffview.nvim",
@@ -188,7 +187,7 @@ return {
         ["u"] = "Unstage",
         ["U"] = "UnstageStaged",
         ["$"] = "CommandHistory",
-        ["#"] = "Console",
+        -- ["#"] = "Console",
         ["Y"] = "YankSelected",
         ["<c-r>"] = "RefreshBuffer",
         ["<enter>"] = "GoToFile",

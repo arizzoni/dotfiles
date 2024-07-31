@@ -3,13 +3,14 @@ return {
   "mfussenegger/nvim-dap",
   name = "nvim-dap",
   event = "VeryLazy",
-  opts = {},
+  -- opts = {},
   dependencies = {
     {
       "jay-babu/mason-nvim-dap.nvim",
       name = "mason-nvim-dap",
+      event = "VeryLazy",
       dependencies = {
-        "williamboman/mason.nvim",
+        { "williamboman/mason.nvim", event = "VeryLazy" },
         "mfussenegger/nvim-dap",
       },
       opts = {

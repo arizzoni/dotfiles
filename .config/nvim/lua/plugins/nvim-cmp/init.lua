@@ -99,6 +99,7 @@ return {
         { name = "git" },
         { name = "latex_symbols" },
         { name = "rg" },
+        { name = "otter" },
       },
       enabled = function()
         local context = require("cmp.config.context")
