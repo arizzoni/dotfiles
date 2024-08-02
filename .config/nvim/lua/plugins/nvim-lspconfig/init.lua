@@ -3,9 +3,9 @@ return {
   name = "nvim-lspconfig",
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
-    { "williamboman/mason.nvim", config = true },
+    { "williamboman/mason.nvim",     config = true },
     "williamboman/mason-lspconfig.nvim",
-    { "folke/neodev.nvim",       opts = {} },
+    { "folke/neodev.nvim",           opts = {} },
     { "kosorin/awesome-code-doc" },
     { "p00f/clangd_extensions.nvim", opts = {} },
   },
@@ -82,8 +82,8 @@ return {
             checkThirdParty = false,
             library = {
               ["/home/air/.local/share/nvim/lazy/awesome-code-doc"] = true,
+            },
           },
-        },
           format = {
             enable = true,
             defaultConfig = {
@@ -137,6 +137,37 @@ return {
               code_actions = { enabled = true },
             },
           },
+        },
+      },
+      texlab = {
+        texlab = {
+          cmd = "texlab",
+          fileypes = { "tex", "plaintex", "bib", "cls" },
+          settings = {
+            texlab = {
+              auxDirectory = ".",
+              bibtexFormatter = "texlab",
+              build = {
+                args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                executable = "latexmk",
+                forwardSearchAfter = false,
+                onSave = false
+              },
+              chktex = {
+                onEdit = true,
+                onOpenAndSave = true
+              },
+              diagnosticsDelay = 300,
+              formatterLineLength = 80,
+              forwardSearch = {
+                args = {}
+              },
+              latexFormatter = "latexindent",
+              latexindent = {
+                modifyLineBreaks = false
+              }
+            }
+          }
         },
       },
       typst_lsp = {
