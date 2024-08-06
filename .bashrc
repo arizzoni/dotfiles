@@ -525,7 +525,7 @@ if [[ -x "$(command -v bat)" ]] ; then { # If bat is installed prefer it
 
 # ncmpcpp
 if [[ -x "$(command -v ncmpcpp)" ]] ; then {
-    alias mpc="ncmpcpp --quiet"
+    alias ncmpc="ncmpcpp --quiet"
 } fi
 
 # Minicom

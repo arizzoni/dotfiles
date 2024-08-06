@@ -2,7 +2,7 @@
 
 # backend = 'wal'
 color_space = 'lab'
-threshold = 12
+threshold = 10
 palette = 'softdark16'
 check_contrast = true
 saturation = 45

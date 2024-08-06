@@ -69,3 +69,4 @@ URxvt*depth: 32
 
 ! Xcursor
 xcursor.size: 24
+xcursor.theme: capitaine-cursors-light

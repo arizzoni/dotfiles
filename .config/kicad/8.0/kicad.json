@@ -74,7 +74,7 @@
     "last_imperial_units": 0,
     "last_metric_units": 1,
     "last_received_update": "",
-    "last_update_check_time": "2024-07-31T13:33:12",
+    "last_update_check_time": "2024-08-02T17:41:58",
     "max_undo_items": 0,
     "open_projects": [
       "/home/air/projects/baseboard/hardware/baseboard.kicad_pro"
@@ -227,8 +227,8 @@
     "maximized": true,
     "mru_path": "/home/air/projects/baseboard/hardware/",
     "perspective": "layout2|name=MainToolbar;caption=;state=139644;dir=4;layer=2;row=0;pos=0;prop=100000;bestw=42;besth=275;minw=-1;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=ProjectTree;caption=Project Files;state=1532;dir=4;layer=1;row=0;pos=0;prop=100000;bestw=250;besth=-1;minw=250;minh=-1;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|name=Launcher;caption=Editors;state=508;dir=5;layer=0;row=0;pos=0;prop=100000;bestw=710;besth=560;minw=710;minh=560;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|dock_size(4,2,0)=42|dock_size(4,1,0)=250|dock_size(5,0,0)=710|",
-    "pos_x": 0,
-    "pos_y": 0,
+    "pos_x": 3200,
+    "pos_y": 360,
     "size_x": 1280,
     "size_y": 720,
     "zoom_factors": []

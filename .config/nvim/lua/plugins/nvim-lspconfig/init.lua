@@ -29,7 +29,7 @@ return {
       nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
       nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
       -- nmap("<leader>ds", vim.lsp.buf.document_symbol, "[D]ocument [S]ymbols")
-      -- nmap("<leader>sh", vim.lsp.buf.signature_help, "[D]ocument [S]ymbols")
+      nmap("<leader>sh", vim.lsp.buf.signature_help, "[S]ignature [H]elp")
       nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
       nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
       nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
@@ -148,7 +148,7 @@ return {
               auxDirectory = ".",
               bibtexFormatter = "texlab",
               build = {
-                args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                args = { "-lualatex", "-interaction=nonstopmode", "-synctex=1", "%f" },
                 executable = "latexmk",
                 forwardSearchAfter = false,
                 onSave = false
@@ -168,14 +168,6 @@ return {
               }
             }
           }
-        },
-      },
-      typst_lsp = {
-        typst_lsp = {
-          cmd = "typst-lsp",
-          settings = {
-            exportPdf = "onType",
-          },
         },
       },
     }

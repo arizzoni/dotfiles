@@ -1,53 +1,8 @@
 {
     "packages": [
         {
-            "current_version": "1.0.12",
-            "install_timestamp": 1715710529,
-            "package": {
-                "author": {
-                    "contact": {
-                        "github": "https://github.com/MitjaNemec"
-                    },
-                    "name": "Mitja Nemec"
-                },
-                "description": "copies 3D models to the project local subfolder",
-                "description_full": "Copies footprint models to the project local subfolder and remaps all the links within the used footprints.\n !!! Warning! If you update the footprint the link between the footprint and 3D model will be reset. You'll need to re-run the plugin in order to remap the links. You can make the layout file completely independent if you also export the footprints to project local librarary via menu File/Export/Footprints to new library and update the footprint to refer to new library.",
-                "identifier": "com.github.MitjaNemec.Archive3DModels",
-                "license": "GPL-2.0",
-                "name": "Archive 3D Models",
-                "resources": {
-                    "homepage": "https://github.com/MitjaNemec/Archive3DModels"
-                },
-                "tags": [
-                    "pcbnew",
-                    "models"
-                ],
-                "type": "plugin",
-                "versions": [
-                    {
-                        "download_sha256": "fcba1c75e7764246def5196db3b9115c36a814410a1e9ad9ae12f37047df1ed7",
-                        "download_size": 16402,
-                        "download_url": "https://github.com/MitjaNemec/Archive3DModels/releases/download/1.0.12/Archive3DModels-1.0.12-pcm.zip",
-                        "install_size": 35840,
-                        "kicad_version": "6.0",
-                        "kicad_version_max": "8.1",
-                        "platforms": [
-                            "linux",
-                            "macos",
-                            "windows"
-                        ],
-                        "status": "stable",
-                        "version": "1.0.12"
-                    }
-                ]
-            },
-            "pinned": false,
-            "repository_id": "46f88614eade3439",
-            "repository_name": "KiCad official repository"
-        },
-        {
             "current_version": "0.3",
-            "install_timestamp": 1715710528,
+            "install_timestamp": 1722630425,
             "package": {
                 "author": {
                     "contact": {
@@ -101,55 +56,8 @@
             "repository_name": "KiCad official repository"
         },
         {
-            "current_version": "4.4.1",
-            "install_timestamp": 1720449507,
-            "package": {
-                "author": {
-                    "contact": {
-                        "github": "https://github.com/bennymeg"
-                    },
-                    "name": "Benny Megidish"
-                },
-                "description": "JLC PCB fabrication toolkit\nAutomate PCB fabrication process in conjunction with JLC PCB",
-                "description_full": "Toolkit for automating PCB fabrication process with KiCad and JLC PCB. \n\n OPTIONS: \n• Include Component Part Number in Production Files \n Add an 'MPN' field with the LCSC component part number to the footprint component options.  \n\n• Ignore Footprint in Production Files \n Select 'Exclude from position files' or 'Exclude from BOM' in the footprint properties fabrication attributes in order to ignore the footprint from the relevant file.",
-                "identifier": "com.github.bennymeg.JLC-Plugin-for-KiCad",
-                "license": "Apache-2.0",
-                "maintainer": {
-                    "contact": {
-                        "github": "https://github.com/bennymeg"
-                    },
-                    "name": "Benny Megidish"
-                },
-                "name": "Fabrication Toolkit",
-                "resources": {
-                    "homepage": "https://github.com/bennymeg/JLC-Plugin-for-KiCad"
-                },
-                "tags": [
-                    "jlc",
-                    "production",
-                    "fabrication",
-                    "toolkit"
-                ],
-                "type": "plugin",
-                "versions": [
-                    {
-                        "download_sha256": "0dd039c9f8863033ed4847b89feae1013574051866aa9a4e4e7fbb364cd16ae3",
-                        "download_size": 17701,
-                        "download_url": "https://github.com/bennymeg/JLC-Plugin-for-KiCad/releases/download/4.4.1/JLC-Plugin-for-KiCad-4.4.1.zip",
-                        "install_size": 43365,
-                        "kicad_version": "6.00",
-                        "status": "stable",
-                        "version": "4.4.1"
-                    }
-                ]
-            },
-            "pinned": false,
-            "repository_id": "46f88614eade3439",
-            "repository_name": "KiCad official repository"
-        },
-        {
             "current_version": "8.0.5",
-            "install_timestamp": 1719429384,
+            "install_timestamp": 1722630425,
             "package": {
                 "author": {
                     "contact": {
@@ -257,49 +165,8 @@
             "repository_name": "KiCad official repository"
         },
         {
-            "current_version": "1.2",
-            "install_timestamp": 1717770218,
-            "package": {
-                "author": {
-                    "contact": {
-                        "web": "https://github.com/pointhi/kicad-color-schemes/"
-                    },
-                    "name": "Thomas Pointhuber"
-                },
-                "description": "Designed for printing",
-                "description_full": "Designed for printing",
-                "identifier": "com.github.pointhi.kicad-color-schemes.black-white",
-                "license": "CC0-1.0",
-                "maintainer": {
-                    "contact": {
-                        "web": "https://github.com/pointhi/kicad-color-schemes/"
-                    },
-                    "name": "Thomas Pointhuber"
-                },
-                "name": "Black-White Theme",
-                "resources": {
-                    "Github": "https://github.com/pointhi/kicad-color-schemes"
-                },
-                "type": "colortheme",
-                "versions": [
-                    {
-                        "download_sha256": "a6efe8dcbaf9d5e579dd9f565ed8c02ad30a896761b2c2fcc1911c7df8bce754",
-                        "download_size": 3972,
-                        "download_url": "https://github.com/pointhi/kicad-color-schemes/releases/download/2021-12-05/com.github.pointhi.kicad-color-schemes.black-white_v1.2_pcm.zip",
-                        "install_size": 5161,
-                        "kicad_version": "5.99",
-                        "status": "stable",
-                        "version": "1.2"
-                    }
-                ]
-            },
-            "pinned": false,
-            "repository_id": "46f88614eade3439",
-            "repository_name": "KiCad official repository"
-        },
-        {
             "current_version": "2.9.0",
-            "install_timestamp": 1717616895,
+            "install_timestamp": 1722630425,
             "package": {
                 "author": {
                     "contact": {

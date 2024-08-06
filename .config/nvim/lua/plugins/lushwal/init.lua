@@ -1,6 +1,7 @@
 -- Pywal Color Scheme
 return {
-  'oncomouse/lushwal.nvim',
+  -- 'oncomouse/lushwal.nvim',
+  dir = "/home/air/projects/lushwal.nvim/",
   name = "lushwal.nvim",
   cmd = { "LushwalCompile" }, -- Specify command to recompile wal colors
   event = "VeryLazy",
@@ -8,69 +9,59 @@ return {
     -- Lush colorscheming engine
     { 'rktjmp/lush.nvim' },
     -- Shipwright
-    -- { 'rktjmp/shipwright.nvim' },
+    { 'rktjmp/shipwright.nvim' },
   },
   config = function()
-    local lush = require("lush")
-    local lushwal = require("lushwal.base")
-    local get_colors = require("lushwal.colors")
-    local colors = get_colors()
-
     vim.g.lushwal_configuration = {
-      compile_to_vimscript = false,             -- if we don't compile we don't need shipwright
+      compile_to_vimscript = true,
       terminal_colors = true,
-      color_overrides = function(c)
-        local overrides = {                     -- we don't want colors that aren't from pywal
-          grey = c.color8.mix(c.color7, 30),    -- Darker mid-grey
-          br_grey = c.color8.mix(c.color7, 65), -- Mid-grey
-          orange = c.color1,
-          purple = c.color4,
-          pink = c.color4,
-          amaranth = c.color1,
-          brown = c.color1,
+      color_overrides = function(colors)
+        local overrides = { -- we don't want colors that aren't from pywal
+          grey = colors.color7,
+          br_grey = colors.color15,
+          orange = colors.color1,
+          purple = colors.color4,
+          pink = colors.color4,
+          amaranth = colors.color1,
+          brown = colors.color1,
         }
-        return vim.tbl_extend("force", c, overrides)
+        return vim.tbl_extend("force", colors, overrides)
       end,
       addons = {
         gitsigns_nvim = true,
         indent_blankline_nvim = true,
         markdown = true,
         native_lsp = true,
-        neogit = true,
         nvim_cmp = true,
         telescope_nvim = true,
         treesitter = true,
         which_key_nvim = true,
       },
-    }
-
-    -- we can apply modifications ontop of the existing colorscheme
-    local spec = lush.extends({ lushwal }).with(
-      function()
+      lush_overrides = function(colors)
         return {
           ---@diagnostic disable undefined_global
-          Comment { gui = "italic" },
-          CursorLineNr { gui = "bold" },
-          SpellRare { fg = colors.color14, bg = colors.background, gui = "underline" },
-          String { gui = "italic" },
-          Character { gui = "italic" },
-          Number { fg = colors.color4 },
-          Boolean { gui = "italic" },
-          Float { Number },
-          Statement { gui = "bold" },
-          Conditional { gui = "bold" },
-          Repeat { gui = "bold" },
-          Label { gui = "bold" },
-          Operator { gui = "bold" },
-          Keyword { gui = "bold" },
-          Exception { gui = "bold" },
-          PreProc { gui = "bold" },
-          Include { gui = "bold" },
-          Define { fg = colors.color2, bg = colors.background, gui = "bold" },
-          Type { gui = "italic" },
-          Structure { fg = colors.color10, bg = colors.background, gui = "italic" },
-          Special { gui = "bold" },
-          SpecialComment { Comment, gui = "NONE" },
+          Comment({ gui = "italic" }),
+          CursorLineNr({ gui = "bold" }),
+          SpellRare({ fg = colors.color14, bg = colors.background, gui = "underline" }),
+          String({ gui = "italic" }),
+          Character({ gui = "italic" }),
+          Number({ fg = colors.color4 }),
+          Boolean({ gui = "italic" }),
+          Float({ Number }),
+          Statement({ gui = "bold" }),
+          Conditional({ gui = "bold" }),
+          Repeat({ gui = "bold" }),
+          Label({ gui = "bold" }),
+          Operator({ gui = "bold" }),
+          Keyword({ gui = "bold" }),
+          Exception({ gui = "bold" }),
+          PreProc({ gui = "bold" }),
+          Include({ gui = "bold" }),
+          Define({ fg = colors.color2, bg = colors.background, gui = "bold" }),
+          Type({ gui = "italic" }),
+          Structure({ fg = colors.color10, bg = colors.background, gui = "italic" }),
+          Special({ gui = "bold" }),
+          SpecialComment({ gui = "NONE" }),
 
           -- Lazy
           LazyH1({ gui = "bold" }),
@@ -98,17 +89,17 @@ return {
           MasonHeading({ gui = "bold" }),
 
           -- Vim Illuminate
-          IlluminatedWordText({ gui = "bold" }),
+          IlluminatedWordText({ gui = "bold", }),
           IlluminatedWordRead({ gui = "bold" }),
           IlluminatedWordWrite({ gui = "bold" }),
 
-          WhichKeyBorder({ fg = colors.color8, bg = colors.bg }),
-          TelescopeBorder({ fg = colors.color8, bg = colors.bg }),
+          -- UI Borders
+          FloatBorder({ fg = colors.color8, bg = colors.background }),
+          WhichKeyBorder({ FloatBorder }),
+          TelescopeBorder({ FloatBorder }),
           ---@diagnostic enable undefined_global
         }
-      end)
-
-    -- then pass the extended spec to lush for application
-    lush(spec)
+      end,
+    }
   end
 }

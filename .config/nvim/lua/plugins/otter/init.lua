@@ -28,6 +28,7 @@ return {
     handle_leading_whitespace = false,
   },
   config = function()
+    local otter = require('otter')
     -- table of embedded languages to look for.
     -- default = nil, which will activate
     -- any embedded languages found
@@ -41,7 +42,7 @@ return {
     -- uses injections if nil or not set
     local tsquery = nil
 
-    require("otter").activate(languages, completion, diagnostics, tsquery)
+    otter.activate(languages, completion, diagnostics, tsquery)
   end,
 
 
