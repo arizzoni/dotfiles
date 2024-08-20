@@ -88,11 +88,6 @@ return {
           MasonWarning({ gui = "bold" }),
           MasonHeading({ gui = "bold" }),
 
-          -- Vim Illuminate
-          IlluminatedWordText({ gui = "bold", }),
-          IlluminatedWordRead({ gui = "bold" }),
-          IlluminatedWordWrite({ gui = "bold" }),
-
           -- UI Borders
           FloatBorder({ fg = colors.color8, bg = colors.background }),
           WhichKeyBorder({ FloatBorder }),

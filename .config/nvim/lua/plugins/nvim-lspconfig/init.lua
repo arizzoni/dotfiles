@@ -1,6 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   name = "nvim-lspconfig",
+  event = "VeryLazy",
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
     { "williamboman/mason.nvim",     config = true },
@@ -8,8 +9,10 @@ return {
     { "folke/neodev.nvim",           opts = {} },
     { "kosorin/awesome-code-doc" },
     { "p00f/clangd_extensions.nvim", opts = {} },
+    { "nvim-telescope/telescope.nvim" },
   },
   init = function()
+    local pickers = require("telescope.builtin")
     -- [[ Configure LSP ]]
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(_, bufnr)
@@ -26,13 +29,14 @@ return {
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
       nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
       -- nmap("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
-      nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-      nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+      nmap("gr", pickers.lsp_references, "[G]oto [R]eferences")
+      -- nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+      nmap("gI", pickers.lsp_implementations, "[G]oto [I]mplementation")
+      -- nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+      nmap("<leader>D", pickers.lsp_type_definitions, "Type [D]efinition")
       -- nmap("<leader>ds", vim.lsp.buf.document_symbol, "[D]ocument [S]ymbols")
-      nmap("<leader>sh", vim.lsp.buf.signature_help, "[S]ignature [H]elp")
-      nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-      nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-      nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+      nmap("<leader>ds", pickers.lsp_document_symbols, "[D]ocument [S]ymbols")
+      nmap("<leader>ws", pickers.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
       -- See `:help K` for why this keymap
       nmap("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -97,12 +101,13 @@ return {
       matlab_ls = {},
       pylsp = {
         pylsp = {
+          filetypes = { 'py', 'pytxcode' },
           plugins = {
             autopep8 = {
               enabled = true,
             },
             flake8 = {
-              enabled = true,
+              enabled = false,
               executable = "flake8",
             },
             pylsp_isort = {
@@ -126,10 +131,10 @@ return {
               convention = "numpy",
             },
             pyflakes = {
-              enabled = false,
+              enabled = true,
             },
             pylint = {
-              enabled = false,
+              enabled = true,
               executable = "pylint"
             },
             rope_autoimport = {
@@ -191,6 +196,7 @@ return {
           capabilities = capabilities,
           on_attach = on_attach,
           settings = servers[server_name],
+          filetypes=(servers[server_name] or {}).filetypes,
         }
       end,
     }

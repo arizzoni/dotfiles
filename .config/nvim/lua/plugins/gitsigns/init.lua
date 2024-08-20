@@ -2,6 +2,7 @@ return {
   -- Adds git releated signs to the gutter, as well as utilities for managing changes
   "lewis6991/gitsigns.nvim",
   name = "gitsigns.nvim",
+  event = "VeryLazy",
   opts = {
     attach_to_untracked = false,
     signs = {

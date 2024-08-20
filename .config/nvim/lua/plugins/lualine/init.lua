@@ -5,6 +5,7 @@ return {
     'arkav/lualine-lsp-progress',
   },
   name = "lualine.nvim",
+  lazy = false,
   opts = {
     options = {
       icons_enabled = false,

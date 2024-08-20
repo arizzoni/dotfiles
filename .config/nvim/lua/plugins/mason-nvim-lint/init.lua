@@ -2,6 +2,7 @@
 return {
   "rshkarin/mason-nvim-lint",
   name = "mason-nvim-lint",
+  event = "VeryLazy",
   dependencies = {
     "williamboman/mason.nvim", -- Snippet Engine
     "mfussenegger/nvim-lint",  -- Linter

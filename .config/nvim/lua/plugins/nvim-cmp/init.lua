@@ -2,6 +2,7 @@
 return {
   "hrsh7th/nvim-cmp",
   name = "nvim-cmp",
+  event = "VeryLazy",
   dependencies = {
     -- Snippet Engine & its associated nvim-cmp source
     "L3MON4D3/LuaSnip",                     -- Snippet Engine
@@ -21,6 +22,7 @@ return {
     "lukas-reineke/cmp-rg",                 -- Ripgrep autocompletion
     "kdheepak/cmp-latex-symbols",           -- LaTeX symbol autocompletion
     "windwp/nvim-autopairs",                -- Autopairs completion
+    "amarakon/nvim-cmp-fonts",
   },
   opts = function()
     local cmp = require "cmp"
@@ -100,6 +102,7 @@ return {
         { name = "latex_symbols" },
         { name = "rg" },
         { name = "otter" },
+        { name = "fonts", option = { space_filter = "="} },
       },
       enabled = function()
         local context = require("cmp.config.context")

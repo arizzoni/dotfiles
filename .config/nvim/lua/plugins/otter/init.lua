@@ -1,6 +1,7 @@
 return {
   "jmbuhr/otter.nvim",
   ft = 'tex',
+  event = "VeryLazy",
   opts = {
     lsp = {
       hover = {
@@ -20,12 +21,12 @@ return {
       -- to disk on save of main buffer.
       -- usefule for some linters that require actual files
       -- otter files are deleted on quit or main buffer close
-      write_to_disk = false,
+      write_to_disk = true,
     },
     strip_wrapping_quote_characters = { "'", '"', "`" },
     -- Otter may not work the way you expect when entire code blocks are indented (eg. in Org files)
     -- When true, otter handles these cases fully. This is a (minor) performance hit
-    handle_leading_whitespace = false,
+    handle_leading_whitespace = true,
   },
   config = function()
     local otter = require('otter')
@@ -44,6 +45,4 @@ return {
 
     otter.activate(languages, completion, diagnostics, tsquery)
   end,
-
-
 }
