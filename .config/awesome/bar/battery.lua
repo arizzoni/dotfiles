@@ -1,5 +1,3 @@
-local M = {}
-
 local awful = require("awful")
 -- Create a battery widget
 
@@ -15,7 +13,7 @@ local awful = require("awful")
 -- TODO: add status icons for battery health
 -- TODO: add support for multiple batteries
 -- TODO: Dropdown Menu
-M.mybattery = awful.widget.watch("acpi -V", 1,
+mybattery = awful.widget.watch("acpi -V", 1,
   function(widget, stdout)
     local battery_icon = ""
     local words = {}
@@ -75,4 +73,4 @@ M.mybattery = awful.widget.watch("acpi -V", 1,
   end
 )
 
-return M
+return mybattery

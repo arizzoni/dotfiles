@@ -4,13 +4,13 @@ util.external = {
   terminal = "alacritty",
   editor = "nvim",
   editor_cmd = "neovide",
-  file_manager = "alacritty -e xplr",
+  file_manager = "neovide -- -c :Oil",
   screen_locker = "light-locker-command -l",
   browser = "firefox",
   mail = "evolution",
   screenshot = "maim -u -m 10 -i $(xdotool getactivewindow) | tee $HOME/pictures/screenshots/$(date +%FT%T).png | xclip -selection clipboard -t image/png",
   screenshot_region = "maim -u -s -m 10 | tee $HOME/pictures/screenshots/$(date +%FT%T).png | xclip -selection clipboard -t image/png",
-  music = "alacritty -e ncmpcpp -s browser -S visualizer",
+  music = "alacritty -e ncmpcpp -q -s browser -S visualizer",
 }
 
 function util.split(inputstr, sep)

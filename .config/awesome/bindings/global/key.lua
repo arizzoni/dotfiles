@@ -166,6 +166,15 @@ awful.keyboard.append_global_keybindings({
   ),
 
   awful.key(
+    { modkey, },
+    "i",
+    function()
+      awful.spawn(util.external.file_manager)
+    end,
+    { description = "open editor", group = "launcher" }
+  ),
+
+  awful.key(
     { modkey, "Control" },
     "r",
     awesome.restart,
