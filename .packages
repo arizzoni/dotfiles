@@ -1,7 +1,0 @@
-sudo pacman -S --needed base base-devel git
-cd /tmp/
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si
-cd
-paru -S --needed aerc alacritty arandr arch-wiki-docs arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb arm-none-eabi-newlib autorandr awesome-luajit-git bash-completion bat biber bluez bluez-utils capitaine-cursors cava clamav cups cups-pdf dosfstools evolution evolution-ews fastfetch fd feh firefox firefox-dark-reader firefox-ublock-origin firewalld freecad htop kicad kmon less librecad libreoffice-fresh light-locker lightdm lightdm-slick-greeter linux linux-docs linux-firmware linux-headers linux-lts linux-lts-docs linux-lts-headers luarocks maim materia-gtk-theme minicom mpd mpv ncmpcpp neovim ni-visa npm nvidia-dkms nvtop openocd-picoprobe openrct2 pacman-contrib papirus-icon-theme parallel parallel-docs pico-sdk picotool picom python-docs python-numpy-docs python-pandas-docs python-pywalfox python-scipy-docs python-sympy-docs qjackctl ripgrep steam stow texlive ttc-iosevka ttc-iosevka-aile ttc-iosevka-curly ttc-iosevka-curly-slab ttc-iosevka-etoile ttc-iosevka-slab ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono udiskie unrar unzip w3m wallust-git wget xclip zathura zip zoom

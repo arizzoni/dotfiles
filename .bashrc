@@ -4,6 +4,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Source global definitions
+if [ -r /etc/bash.bashrc ]; then {
+    . /etc/bash.bashrc
+} fi
 
 ## Bash options
 
@@ -28,9 +32,9 @@ set -o vi
 
 # Bash Completions
 if ! shopt -oq posix ; then {
-    if [[ -f /usr/share/bash-completion/bash_completion ]]; then {
+    if [[ -r /usr/share/bash-completion/bash_completion ]]; then {
         . '/usr/share/bash-completion/bash_completion'
-    } elif [[ -f /etc/bash_completion ]] ; then {
+    } elif [[ -r /etc/bash_completion ]] ; then {
         # shellcheck source=/dev/null
         . '/etc/bash_completion'
     } fi
@@ -515,7 +519,7 @@ if [[ -x "$(command -v julia)" ]] ; then {
 
 # MATLAB
 if [[ -x "$(command -v matlab)" ]] ; then {
-    alias matlab='matlab -nodesktop -nosplash'
+    alias matlab='LD_PRELOAD=/usr/lib/libstdc++.so.6.0.33 command matlab'
 } fi
 
 # cat
@@ -525,7 +529,7 @@ if [[ -x "$(command -v bat)" ]] ; then { # If bat is installed prefer it
 
 # ncmpcpp
 if [[ -x "$(command -v ncmpcpp)" ]] ; then {
-    alias ncmpc="ncmpcpp --quiet"
+    alias ncmpcpp="ncmpcpp --quiet"
 } fi
 
 # Minicom
@@ -534,8 +538,15 @@ if [[ -x "$(command -v minicom)" ]] ; then {
         --statlinefmt=" Minicom %V | %b | %T | %D "'
     } fi
 
+# Neovide
+if [[ -x "$(command -v neovide)" ]] ; then {
+    if [[ -x "$(command -v devour)" ]] ; then {
+        alias nvim='devour neovide'
+    } fi
+} fi
+
 # Distribution-specific Aliases
-if [[ -f /etc/arch-release ]] ; then {
+if [[ -r /etc/arch-release ]] ; then {
     # If the mirrorlist hasn't been updated in more than a week, update it and
     # select the 10 fastest mirrors in America and Canada that support https.
     # Requires rankmirrors from pacman-contrib package.
@@ -562,14 +573,14 @@ if [[ -f /etc/arch-release ]] ; then {
                 mirror-update \
                     && command paru "$@" \
                     && sudo DIFFPROG="$EDITOR -d" pacdiff \
-                    && command paccache -r
+                    && command paccache -r -q
                 }
         } else {
             function pacman () {
                 mirror-update \
-                    && sudo command pacman "$@" \
+                    && command pacman "$@" \
                     && sudo DIFFPROG="$EDITOR -d" pacdiff \
-                    && command paccache -r
+                    && command paccache -r -q
                 }
         } fi
     } fi
@@ -594,7 +605,10 @@ if [[ -x "$(command -v fastfetch)" ]] ; then {
         --logo arch_small"
 } fi
 
-alias school='cd ~/documents/academic/graduate/2024-autumn/'
+alias school='cd ~/documents/academic/graduate/au24/'
+
+alias wifi-info="rfkill --output-all | head -n 2 && iwctl station wlan0 show | tail -n 20"
+alias bt-info="rfkill --output-all | head -n 1 && rfkill --output-all | tail -n 1 && bluetoothctl show"
 
 
 ## Welcome Message

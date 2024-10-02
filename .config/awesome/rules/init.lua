@@ -39,6 +39,19 @@ ruled.client.connect_signal("request::rules", function()
     }
   }
 
+  -- Add titlebars to normal clients and dialogs
+  ruled.client.append_rule {
+    id         = "titlebars",
+    rule_any   = { type = { "normal", "dialog" } },
+    properties = { titlebars_enabled = true }
+  }
+
+  ruled.client.append_rule {
+    id         = "titlebars",
+    rule_any   = { class = { "Alacritty", "firefox", "Zathura", "neovide", "discord" } },
+    properties = { titlebars_enabled = false }
+  }
+
   -- Floating clients.
   ruled.client.append_rule {
     id         = "floating",
@@ -46,7 +59,8 @@ ruled.client.connect_signal("request::rules", function()
       instance = { "copyq", "pinentry" },
       class    = {
         "Arandr", "Blueman-manager", "Gpick", "Kruler", "Sxiv",
-        "Tor Browser", "Wpa_gui", "veromix", "xtightvncviewer"
+        "Tor Browser", "Wpa_gui", "veromix", "xtightvncviewer",
+        "Matlab R2024a Update 6", "Matlab-GLEE"
       },
       -- Note that the name property shown in xprop might be set slightly after creation of the client
       -- and the name shown there might not match defined rules here.
@@ -59,14 +73,9 @@ ruled.client.connect_signal("request::rules", function()
         "pop-up",                -- e.g. Google Chrome's (detached) Developer Tools.
       }
     },
-    properties = { floating = true }
-  }
-
-  -- Add titlebars to normal clients and dialogs
-  ruled.client.append_rule {
-    id         = "titlebars",
-    rule_any   = { type = { "normal", "dialog" } },
-    properties = { titlebars_enabled = false }
+    properties = {
+      floating = true,
+      },
   }
 
   -- Set Firefox to always map on the tag named "2" on screen 1.

@@ -7,6 +7,13 @@ export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
 export ALTUSERXSESSION="$XDG_CACHE_HOME/X11/Xsession"
 export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
+autorandr -c two
+
+unclutter --jitter 10 --exclude-root --ignore-scrolling --start-hidden &
+
+# Configure graphics tablet
+xsetwacom set 'Wacom Intuos BT M Pen stylus' MapToOutput HEAD-0
+
 # Compositor
 if [ -x "$(command -v picom)" ] ; then {
     picom &
@@ -15,11 +22,12 @@ if [ -x "$(command -v picom)" ] ; then {
 # Screen Locker
 if [ -x "$(command -v light-locker)" ] ; then {
     light-locker --lock-on-suspend --lock-on-lid --idle-hint --no-late-locking &
+    light-locker-command -i &
 } fi
 
 # XRDB colors
 if [ -x "$(command -v xrdb)" ] ; then {
-    xrdb merge "$HOME/.Xresources"
+    xrdb merge "$HOME/.config/Xresources"
 } fi
 
 # Wallpaper + colors script

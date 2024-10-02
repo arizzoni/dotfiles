@@ -26,6 +26,10 @@ return {
         return vim.fn.executable "make" == 1
       end,
     },
+    {
+      "jalvesaq/dict.nvim",
+      config = true,
+    },
   },
   opts = { defaults = { borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
       mappings = {
@@ -111,6 +115,10 @@ return {
           borderchars = border,
         })
       end, { desc = "[S]earch [D]iagnostics" })
+
+      vim.keymap.set("n", "<leader>d", function()
+        require('dict').lookup()
+      end, { desc = "[D]ictionary Lookup" })
     end
   end
 }

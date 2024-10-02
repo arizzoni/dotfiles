@@ -8,4 +8,6 @@ support for the following languages, and weaker support for some others.
     2. Python
     3. Bash
     4. TeX/LaTeX
-    5. C/C++
+    5. Matlab
+    6. Julia
+    7. C/C++

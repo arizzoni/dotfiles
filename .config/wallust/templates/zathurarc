@@ -72,4 +72,8 @@ set index-bg "{{color0}}"
 set index-active-fg "{{color4}}"
 set index-active-bg "{{color7}}"
 
+# Set the dual page display to have the first page on the left
+map D set "first-page-column 1:1"
+map <C-d> set "first-page-column 1:2"
+
 # vim: filetype=zathurarc

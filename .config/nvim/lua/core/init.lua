@@ -1,7 +1,7 @@
 --[[ core/init.lua ]]
 
 --[[ Settings ]]
-vim.opt.updatetime = 40    -- Decrease update time
+vim.opt.updatetime = 40      -- Decrease update time
 vim.g.transparent_enabled = true
 vim.opt.termguicolors = true -- Make sure the terminal supports this
 vim.opt.title = true
@@ -12,6 +12,8 @@ vim.opt.undofile = true -- Save undo history
 
 -- Neovide Settings
 if vim.g.neovide then
+	-- vim.env.TERM = "alacritty"
+	vim.opt.termguicolors = true -- Make sure the terminal supports this
 	vim.g.neovide_theme = 'auto'
 	vim.g.neovide_transparency = 0.8
 	vim.g.neovide_refresh_rate = 60
@@ -21,6 +23,8 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_antialiasing = true
 	vim.g.neovide_cursor_animate_command_line = true
 	vim.g.neovide_cursor_vfx_mode = ""
+	vim.g.neovide_text_gamma = 0.8
+	vim.g.neovide_text_contrast = 0.1
 end
 
 -- Searching
@@ -33,6 +37,7 @@ vim.opt.timeoutlen = 300
 
 -- Language support
 vim.g.shell = "bash"
+vim.g.shell = nil
 vim.g.python3_host_prog = vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/python") -- Python executable
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -59,7 +64,7 @@ vim.wo.cursorcolumn = false
 vim.wo.cursorline = true
 vim.wo.cursorlineopt = "number"
 vim.g.equalalways = false
-vim.g.expandtab = true
+vim.o.expandtab = true
 vim.g.fillchars = "lastline:."
 vim.g.hlsearch = false
 vim.g.ignorecase = true
@@ -67,10 +72,10 @@ vim.wo.linebreak = true
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.g.scroll = 0
-vim.g.scrolloff = 8
-vim.g.shiftround = true
-vim.g.shiftwidth = 2
-vim.g.showbreak = "↵"
+vim.o.scrolloff = math.floor(0.33 * vim.o.lines)
+vim.o.shiftround = true
+vim.o.shiftwidth = 2
+vim.o.showbreak = "↵"
 vim.g.showcmd = false
 vim.g.showtabline = 2
 vim.g.sidescrolloff = 8

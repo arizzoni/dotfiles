@@ -10,7 +10,7 @@ return {
       -- `:h events` that cause the diagnostics to update. Set to:
       -- { "BufWritePost", "InsertLeave", "TextChanged" } for less performant
       -- but more instant diagnostic updates
-      diagnostic_update_events = { "InsertLeave" },
+      diagnostic_update_events = { "BufWritePost", "InsertLeave", "TextChanged" },
     },
     buffers = {
       -- if set to true, the filetype of the otterbuffers will be set.

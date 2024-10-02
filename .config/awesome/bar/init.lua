@@ -14,19 +14,6 @@ menubar.utils.terminal = util.external.terminal -- Set the terminal for applicat
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
 
--- {{{ Menu
--- Create a launcher widget and a main menu
--- local mymainmenu = awful.menu({
---   items = { { "Terminal", util.external.terminal },
---     { "File Manager", util.external.file_manager },
---     { "Web Browser",  util.external.browser },
---     { "e-Mail",       util.external.mail },
---     { "Screenshot",   util.external.screenshot },
---     { "Music Player", util.external.music },
---   }
--- })
-local mymainmenu = require("menu.mainmenu"):toggle()
-
 local mylauncher = awful.widget.launcher({
   image = beautiful.awesome_icon,
   menu = mymainmenu,

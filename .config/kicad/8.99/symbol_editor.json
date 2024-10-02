@@ -73,6 +73,17 @@
     "label_delta": 1,
     "pin_step": 100
   },
+  "selection_filter": {
+    "graphics": true,
+    "images": true,
+    "labels": true,
+    "lockedItems": false,
+    "otherItems": true,
+    "pins": true,
+    "symbols": true,
+    "text": true,
+    "wires": true
+  },
   "show_hidden_lib_fields": true,
   "show_hidden_lib_pins": true,
   "show_pin_electrical_type": true,

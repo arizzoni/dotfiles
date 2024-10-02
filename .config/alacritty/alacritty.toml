@@ -62,78 +62,78 @@ draw_bold_text_with_bright_colors = false
 transparent_background_colors = true
 
 [colors.primary]
-background            = "#000000"
-foreground            = "#E6E6E6"
-dim_foreground        = "#706F67"
-bright_foreground     = "#F4F3E9"
+background            = "#010101"
+foreground            = "#C9C9C9"
+dim_foreground        = "#737068"
+bright_foreground     = "#F7F4EB"
 
 [colors.cursor]
-text                  = "#000000"
-cursor                = "#E6E6E6"
+text                  = "#010101"
+cursor                = "#C9C9C9"
 
 [colors.vi_mode_cursor]
-text                  = "#000000"
-cursor                = "#AEADA0"
+text                  = "#010101"
+cursor                = "#B2AEA2"
 
 [colors.search.matches]
-foreground            = "#5D66B8"
-background            = "#000000"
+foreground            = "#BE9442"
+background            = "#010101"
 
 [colors.search.focused_match]
-foreground            = "#5D66B8"
-background            = "#AEADA0"
+foreground            = "#BE9442"
+background            = "#B2AEA2"
 
 [colors.hints.start]
-foreground            = "#BB8814"
-background            = "#000000"
+foreground            = "#4081BF"
+background            = "#010101"
 
 [colors.hints.end]
-foreground            = "#BB8814"
-background            = "#000000"
+foreground            = "#4081BF"
+background            = "#010101"
 
 [colors.line_indicator]
 foreground            = "None"
 background            = "None"
 
 [colors.footer_bar]
-foreground            = "#BBB25E"
-background            = "#000000"
+foreground            = "#BFA968"
+background            = "#010101"
 
 [colors.selection]
-text                  = "#976E10"
-background            = "#AEADA0"
+text                  = "#2D7F8C"
+background            = "#B2AEA2"
 
 [colors.normal]
-black                 = "#000000"
-red                   = "#BBB25E"
-green                 = "#BEAF3C"
-yellow                = "#5D66B8"
-blue                  = "#BB8814"
-magenta               = "#3B74B0"
-cyan                  = "#976E10"
-white                 = "#706F67"
+black                 = "#919191"
+red                   = "#BFA968"
+green                 = "#6689BF"
+yellow                = "#BE9442"
+blue                  = "#4081BF"
+magenta               = "#BE6F23"
+cyan                  = "#2D7F8C"
+white                 = "#737068"
 
 [colors.bright]
-black                 = "#AEADA0"
-red                   = "#F9ED7D"
-green                 = "#FDEA50"
-yellow                = "#7C88F5"
-blue                  = "#FAB51B"
-magenta               = "#4F9BEB"
-cyan                  = "#BB8304"
-white                 = "#F4F3E9"
+black                 = "#B2AEA2"
+red                   = "#FFE18B"
+green                 = "#88B7FF"
+yellow                = "#FEC558"
+blue                  = "#55ACFF"
+magenta               = "#FE942F"
+cyan                  = "#3CAABA"
+white                 = "#F7F4EB"
 
 # Alacritty will automatically calculate the dim colors based on the existing
 # normal colors. Uncomment to have dim colors the same as normal colors with 
 # the exception that white is still dimmed.
 # [colors.dim]
-# black                 = "#000000"
-# red                   = "#BBB25E"
-# green                 = "#BEAF3C"
-# yellow                = "#5D66B8"
-# blue                  = "#BB8814"
-# magenta               = "#3B74B0"
-# cyan                  = "#976E10"
-# white                 = "#AEADA0"
+# black                 = "#919191"
+# red                   = "#BFA968"
+# green                 = "#6689BF"
+# yellow                = "#BE9442"
+# blue                  = "#4081BF"
+# magenta               = "#BE6F23"
+# cyan                  = "#2D7F8C"
+# white                 = "#B2AEA2"
 
 # vim: filetype=toml

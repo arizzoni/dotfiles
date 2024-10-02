@@ -4,16 +4,16 @@ return {
   dir = "/home/air/projects/lushwal.nvim/",
   name = "lushwal.nvim",
   cmd = { "LushwalCompile" }, -- Specify command to recompile wal colors
-  event = "VeryLazy",
+  lazy = false,
   dependencies = {
     -- Lush colorscheming engine
     { 'rktjmp/lush.nvim' },
     -- Shipwright
-    { 'rktjmp/shipwright.nvim' },
+    -- { 'rktjmp/shipwright.nvim' },
   },
-  config = function()
+  init = function()
     vim.g.lushwal_configuration = {
-      compile_to_vimscript = true,
+      compile_to_vimscript = false,
       terminal_colors = true,
       color_overrides = function(colors)
         local overrides = { -- we don't want colors that aren't from pywal
@@ -36,16 +36,20 @@ return {
         telescope_nvim = true,
         treesitter = true,
         which_key_nvim = true,
+        personal = true,
       },
-      lush_overrides = function(colors)
+      lush_overrides = function(scheme)
         return {
           ---@diagnostic disable undefined_global
+          Underlined({ gui = "underline" }),
+          Bold ({ gui = "bold" }),
+          Italic({ gui = "italic" }),
           Comment({ gui = "italic" }),
           CursorLineNr({ gui = "bold" }),
-          SpellRare({ fg = colors.color14, bg = colors.background, gui = "underline" }),
+          SpellRare({ gui = "underline" }),
           String({ gui = "italic" }),
           Character({ gui = "italic" }),
-          Number({ fg = colors.color4 }),
+          -- Number({ fg = scheme.color4 }),
           Boolean({ gui = "italic" }),
           Float({ Number }),
           Statement({ gui = "bold" }),
@@ -57,9 +61,9 @@ return {
           Exception({ gui = "bold" }),
           PreProc({ gui = "bold" }),
           Include({ gui = "bold" }),
-          Define({ fg = colors.color2, bg = colors.background, gui = "bold" }),
+          Define({ gui = "bold" }),
           Type({ gui = "italic" }),
-          Structure({ fg = colors.color10, bg = colors.background, gui = "italic" }),
+          Structure({ gui = "italic" }),
           Special({ gui = "bold" }),
           SpecialComment({ gui = "NONE" }),
 
@@ -89,7 +93,7 @@ return {
           MasonHeading({ gui = "bold" }),
 
           -- UI Borders
-          FloatBorder({ fg = colors.color8, bg = colors.background }),
+          FloatBorder({ fg = scheme.color8, bg = scheme.background }),
           WhichKeyBorder({ FloatBorder }),
           TelescopeBorder({ FloatBorder }),
           ---@diagnostic enable undefined_global

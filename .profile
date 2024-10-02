@@ -6,15 +6,23 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
+export PICO_SDK_PATH="/usr/share/pico-sdk"
+
+# Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/config"
 
+# NPM
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
+# Cuda
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
+
+# Docker
 export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
 
+# Gnome
 export GTK_RC_FILES="$XDG_CONFIG_HOME/gtk-1.0/gtkrc":"$XDG_CONFIG_HOME/gtk-1.0/gtkrc.mine"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc":"$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine"
 

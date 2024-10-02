@@ -707,7 +707,7 @@ c.TerminalInteractiveShell.highlight_matching_brackets = True
 # The name or class of a Pygments style to use for syntax
 #          highlighting. To see available styles, run `pygmentize -L styles`.
 #  Default: traitlets.Undefined
-c.TerminalInteractiveShell.highlighting_style = "friendly_grayscale"
+c.TerminalInteractiveShell.highlighting_style = "algol_nu"
 
 # Override highlighting format for specific tokens
 #  Default: {}

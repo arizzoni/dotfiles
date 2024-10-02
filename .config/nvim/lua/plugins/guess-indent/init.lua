@@ -1,6 +1,7 @@
 return {
   'nmac427/guess-indent.nvim',
-  lazy = false,
+  enabled = false,
+  -- lazy = false,
   event = "VeryLazy",
   opts = {
     auto_cmd = true,             -- Set to false to disable automatic execution
@@ -16,7 +17,7 @@ return {
       "prompt",
     },
     on_tab_options = { -- A table of vim options when tabs are detected
-      ["expandtab"] = false,
+      ["expandtab"] = true,
     },
     on_space_options = {      -- A table of vim options when spaces are detected
       ["expandtab"] = true,
