@@ -1,12 +1,13 @@
 # wallust 3.x
 
-# backend = 'wal'
-color_space = 'lab'
-threshold = 10
-palette = 'softdark16'
+backend = 'kmeans'
+color_space = 'lch'
+threshold = 11
+palette = 'ansidark'
+fallback_generator = "complementary"
 check_contrast = true
-saturation = 40
-alpha = 80
+saturation = 50
+alpha = 90
 
 [ templates ]
 alacritty.template = 'alacritty.toml'

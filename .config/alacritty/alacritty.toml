@@ -47,7 +47,7 @@ program = "/bin/bash"
 [window]
 decorations = "None"
 decorations_theme_variant = "None"
-opacity = 0.8
+opacity = 0.9
 # opacity =  # BUG:
 dynamic_padding = true
 startup_mode = "Windowed"
@@ -62,78 +62,78 @@ draw_bold_text_with_bright_colors = false
 transparent_background_colors = true
 
 [colors.primary]
-background            = "#010101"
-foreground            = "#C9C9C9"
-dim_foreground        = "#737068"
-bright_foreground     = "#F7F4EB"
+background            = "#101B29"
+foreground            = "#D8C2AB"
+dim_foreground        = "#D8C2AB"
+bright_foreground     = "#D8C2AB"
 
 [colors.cursor]
-text                  = "#010101"
-cursor                = "#C9C9C9"
+text                  = "#101B29"
+cursor                = "#D8C2AB"
 
 [colors.vi_mode_cursor]
-text                  = "#010101"
-cursor                = "#B2AEA2"
+text                  = "#101B29"
+cursor                = "#525E6E"
 
 [colors.search.matches]
-foreground            = "#BE9442"
-background            = "#010101"
+foreground            = "#EE3B12"
+background            = "#101B29"
 
 [colors.search.focused_match]
-foreground            = "#BE9442"
-background            = "#B2AEA2"
+foreground            = "#EE3B12"
+background            = "#525E6E"
 
 [colors.hints.start]
-foreground            = "#4081BF"
-background            = "#010101"
+foreground            = "#3477C1"
+background            = "#101B29"
 
 [colors.hints.end]
-foreground            = "#4081BF"
-background            = "#010101"
+foreground            = "#3477C1"
+background            = "#101B29"
 
 [colors.line_indicator]
 foreground            = "None"
 background            = "None"
 
 [colors.footer_bar]
-foreground            = "#BFA968"
-background            = "#010101"
+foreground            = "#694C26"
+background            = "#101B29"
 
 [colors.selection]
-text                  = "#2D7F8C"
-background            = "#B2AEA2"
+text                  = "#BC4B6D"
+background            = "#525E6E"
 
 [colors.normal]
-black                 = "#919191"
-red                   = "#BFA968"
-green                 = "#6689BF"
-yellow                = "#BE9442"
-blue                  = "#4081BF"
-magenta               = "#BE6F23"
-cyan                  = "#2D7F8C"
-white                 = "#737068"
+black                 = "#2F3D50"
+red                   = "#694C26"
+green                 = "#962622"
+yellow                = "#EE3B12"
+blue                  = "#3477C1"
+magenta               = "#C17D34"
+cyan                  = "#BC4B6D"
+white                 = "#D8C2AB"
 
 [colors.bright]
-black                 = "#B2AEA2"
-red                   = "#FFE18B"
-green                 = "#88B7FF"
-yellow                = "#FEC558"
-blue                  = "#55ACFF"
-magenta               = "#FE942F"
-cyan                  = "#3CAABA"
-white                 = "#F7F4EB"
+black                 = "#525E6E"
+red                   = "#694C26"
+green                 = "#962622"
+yellow                = "#EE3B12"
+blue                  = "#3477C1"
+magenta               = "#C17D34"
+cyan                  = "#BC4B6D"
+white                 = "#D8C2AB"
 
 # Alacritty will automatically calculate the dim colors based on the existing
 # normal colors. Uncomment to have dim colors the same as normal colors with 
 # the exception that white is still dimmed.
 # [colors.dim]
-# black                 = "#919191"
-# red                   = "#BFA968"
-# green                 = "#6689BF"
-# yellow                = "#BE9442"
-# blue                  = "#4081BF"
-# magenta               = "#BE6F23"
-# cyan                  = "#2D7F8C"
-# white                 = "#B2AEA2"
+# black                 = "#2F3D50"
+# red                   = "#694C26"
+# green                 = "#962622"
+# yellow                = "#EE3B12"
+# blue                  = "#3477C1"
+# magenta               = "#C17D34"
+# cyan                  = "#BC4B6D"
+# white                 = "#525E6E"
 
 # vim: filetype=toml

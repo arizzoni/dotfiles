@@ -15,7 +15,7 @@ if vim.g.neovide then
 	-- vim.env.TERM = "alacritty"
 	vim.opt.termguicolors = true -- Make sure the terminal supports this
 	vim.g.neovide_theme = 'auto'
-	vim.g.neovide_transparency = 0.8
+	vim.g.neovide_transparency = 0.9
 	vim.g.neovide_refresh_rate = 60
 	vim.g.neovide_refresh_rate_idle = 6
 	vim.g.neovide_cursor_animation_length = 0.125
@@ -75,7 +75,7 @@ vim.g.scroll = 0
 vim.o.scrolloff = math.floor(0.33 * vim.o.lines)
 vim.o.shiftround = true
 vim.o.shiftwidth = 2
-vim.o.showbreak = "↵"
+vim.o.showbreak = "↵ "
 vim.g.showcmd = false
 vim.g.showtabline = 2
 vim.g.sidescrolloff = 8

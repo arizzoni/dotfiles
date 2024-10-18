@@ -268,11 +268,11 @@
     "thickness": 3
   },
   "simulator": {
-    "cursors_panel_height": 205,
-    "measurements_panel_height": 74,
-    "plot_panel_height": 741,
+    "cursors_panel_height": 201,
+    "measurements_panel_height": 70,
+    "plot_panel_height": 697,
     "plot_panel_width": 979,
-    "signal_panel_height": 438,
+    "signal_panel_height": 410,
     "white_background": false,
     "window": {
       "display": 0,
@@ -295,11 +295,11 @@
   },
   "system": {
     "file_history": [
-      "/home/air/projects/ergodue/pcb/cad/ErgoDUE.kicad_sch",
       "/home/air/projects/baseboard/hardware/baseboard.kicad_sch",
-      "/home/air/documents/academic/graduate/2024-autumn/ECE5025/hw/one/sim/sim.kicad_sch",
       "/home/air/projects/compressor/compressor.kicad_sch",
       "/home/air/projects/harmonic_ctl_pol_asym_gain/harmonic_ctl_pol_asym_gain.kicad_sch",
+      "/home/air/projects/ergodue/pcb/cad/ErgoDUE.kicad_sch",
+      "/home/air/documents/academic/graduate/2024-autumn/ECE5025/hw/one/sim/sim.kicad_sch",
       "/home/air/projects/compander/compander.kicad_sch",
       "/home/air/projects/scratch/compressor/compressor/compressor.kicad_sch",
       "/home/air/projects/harmonic-injector/harmonic-injector.kicad_sch",

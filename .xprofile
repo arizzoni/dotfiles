@@ -22,7 +22,7 @@ if [ -x "$(command -v picom)" ] ; then {
 # Screen Locker
 if [ -x "$(command -v light-locker)" ] ; then {
     light-locker --lock-on-suspend --lock-on-lid --idle-hint --no-late-locking &
-    light-locker-command -i &
+    light-locker-command -i & disown
 } fi
 
 # XRDB colors

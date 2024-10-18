@@ -1,6 +1,6 @@
 return {
   "jmbuhr/otter.nvim",
-  ft = 'tex',
+  ft = {'tex', 'typst'},
   event = "VeryLazy",
   opts = {
     lsp = {

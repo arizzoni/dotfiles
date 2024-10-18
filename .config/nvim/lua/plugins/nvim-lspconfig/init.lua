@@ -4,7 +4,7 @@ return {
   event = "VeryLazy",
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
-    { "williamboman/mason.nvim",      config = true },
+    { "williamboman/mason.nvim",config = true },
     "williamboman/mason-lspconfig.nvim",
     { "folke/neodev.nvim",            opts = {} },
     { "kosorin/awesome-code-doc" },
@@ -178,6 +178,17 @@ return {
           }
         },
       },
+      tinymist = {
+        command = "tinymist",
+        single_file_support = true,
+        root_dir = function()
+          return vim.fn.getcwd()
+        end,
+        settings = {
+          exportPdf = "onType"
+          -- serverPath = ""
+        }
+      },
     }
 
     -- nvim-cmp supports additional completion capabilities,
@@ -195,7 +206,7 @@ return {
     mason_lspconfig.setup_handlers {
 
       function(server_name)
-        if server_name == julials then
+        if server_name == servers.julials then
           On_new_config = function(new_config, _)
             local julia = vim.fn.expand("~/.local/share/julia/environments/nvim-lspconfig/bin/julia")
             if require("lspconfig").util.path.is_file(julia) then
