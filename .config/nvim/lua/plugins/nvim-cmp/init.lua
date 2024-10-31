@@ -15,20 +15,40 @@ return {
     "hrsh7th/cmp-path",                     -- Completion for paths
     "hrsh7th/cmp-cmdline",                  -- Completion for command line
     "hrsh7th/cmp-nvim-lua",                 -- Neovim Lua completion source
-    "rcarriga/cmp-dap",                     -- DAP completion source
     "micangl/cmp-vimtex",                   -- Vimtex completion source
-    "ray-x/cmp-treesitter",                 -- Treesitter Autocompletion
-    "petertriho/cmp-git",                   -- Adds git autocompletion
-    "lukas-reineke/cmp-rg",                 -- Ripgrep autocompletion
-    "kdheepak/cmp-latex-symbols",           -- LaTeX symbol autocompletion
     "windwp/nvim-autopairs",                -- Autopairs completion
-    "amarakon/nvim-cmp-fonts",
   },
   opts = function()
     local cmp = require "cmp"
     local luasnip = require "luasnip"
     require("luasnip.loaders.from_vscode").lazy_load()
     luasnip.config.setup {}
+    -- If you want insert `(` after select function or method item
+    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+    cmp.event:on(
+      'confirm_done',
+      cmp_autopairs.on_confirm_done()
+    )
+    cmp.setup.cmdline('/', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' }
+      }
+    }
+    )
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' }
+      }, {
+        {
+          name = 'cmdline',
+          option = {
+            ignore_cmds = { 'Man', '!' }
+          }
+        }
+      })
+    })
     return {
       view = {
         entries = "custom"
@@ -58,16 +78,16 @@ return {
         },
       },
       mapping = cmp.mapping.preset.insert {
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        -- ["<C-n>"] = cmp.mapping.select_next_item(),
+        -- ["<C-p>"] = cmp.mapping.select_prev_item(),
+        -- ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        -- ["<C-f>"] = cmp.mapping.scroll_docs(4),
         -- ["<C-Space>"] = cmp.mapping.complete {},
-        ["<C-Tab>"] = cmp.mapping.confirm {
+        ["<Tab>"] = cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
-        ["<C-Space>"] = cmp.mapping(function(fallback)
+        ["<C-j>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
           elseif luasnip.expand_or_locally_jumpable() then
@@ -76,7 +96,7 @@ return {
             fallback()
           end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        ["<C-k>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
           elseif luasnip.locally_jumpable(-1) then
@@ -87,22 +107,16 @@ return {
         end, { "i", "s" }),
       },
       sources = {
-        { name = "nvim_lsp" },
-        { name = "cmp-vimtex" },
-        { name = "nvim_lua" },
-        { name = "nvim_lsp_document_symbol" },
-        { name = "nvim_lsp_signature_help" },
-        { name = "path" },
-        { name = "dap" },
-        { name = "cmdline" },
-        { name = "treesitter" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "git" },
-        { name = "latex_symbols" },
-        { name = "rg" },
-        { name = "otter" },
-        { name = "fonts", option = { space_filter = "="} },
+        { name = "luasnip", keyword_length = 2 },
+        { name = "nvim_lsp", keyword_length = 2 },
+        { name = "nvim_lsp_document_symbol", keyword_length = 2 },
+        { name = "nvim_lsp_signature_help", keyword_length = 2 },
+        { name = "buffer", keyword_length = 2 },
+        { name = "path", keyword_length = 2 },
+        { name = "cmdline", keyword_length = 2 },
+        { name = "nvim_lua", keyword_length = 2 },
+        { name = "cmp-vimtex", keyword_length = 2 },
+        { name = "autopairs", keyword_length = 2 },
       },
       enabled = function()
         local context = require("cmp.config.context")
@@ -115,13 +129,4 @@ return {
       end
     }
   end,
-  init = function()
-    -- If you want insert `(` after select function or method item
-    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-    local cmp = require('cmp')
-    cmp.event:on(
-      'confirm_done',
-      cmp_autopairs.on_confirm_done()
-    )
-  end
 }

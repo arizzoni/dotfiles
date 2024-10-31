@@ -24,6 +24,20 @@ return {
         on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
       }
     },
+    {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      opts = {
+        enable_autocmd = false,
+      },
+      init = function()
+        local get_option = vim.filetype.get_option
+        vim.filetype.get_option = function(filetype, option)
+          return option == "commentstring"
+              and require("ts_context_commentstring.internal").calculate_commentstring()
+              or get_option(filetype, option)
+        end
+      end,
+    },
   },
   build = function()
     require("nvim-treesitter.install").update({ with_sync = true })()
@@ -39,10 +53,10 @@ return {
       ensure_installed = { "bash", "bibtex", "c", "clojure", "comment", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "julia", "latex", "lua", "make", "markdown_inline", "matlab", "perl", "psv", "python", "pymanifest", "readline", "requirements", "ssh_config", "tsv", "typst", "query", "yaml", "tmux", "toml", "vimdoc", "vim", "xml", "zathurarc" },
 
       -- Autoinstall languages that are not installed. Defaults to false
-      auto_install = true,
+      auto_install = false,
       highlight = {
         enable = true,
-        disable = { "latex", "tex" },
+        additional_vim_regex_highlighting = false,
       },
       indent = { enable = true },
       incremental_selection = {
@@ -99,9 +113,5 @@ return {
         },
       },
     })
-  end,
-  init = function()
-    vim.treesitter.language.register("latex", "tex")
-    vim.treesitter.language.register("tex", "latex")
   end,
 }

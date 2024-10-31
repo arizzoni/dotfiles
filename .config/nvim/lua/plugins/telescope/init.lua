@@ -116,9 +116,9 @@ return {
         })
       end, { desc = "[S]earch [D]iagnostics" })
 
-      vim.keymap.set("n", "<leader>d", function()
+      vim.keymap.set("n", "<leader>k", function()
         require('dict').lookup()
-      end, { desc = "[D]ictionary Lookup" })
+      end, { desc = "Dictionary Loo[k]up" })
     end
   end
 }

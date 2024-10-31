@@ -133,7 +133,7 @@ c.TerminalInteractiveShell.highlighting_style_overrides = {
     Generic.Subheading: "ansiwhite",
     Generic.Traceback: "ansiwhite"
 }
-c.TerminalInteractiveShell.pdb = True
+c.TerminalInteractiveShell.pdb = False
 c.TerminalInteractiveShell.prompt_includes_vi_mode = False
 # The format for line numbering, will be passed `line` (int, 1 based) the
 #  current line number and `rel_line` the relative line number. for example to

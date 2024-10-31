@@ -179,14 +179,12 @@ return {
         },
       },
       tinymist = {
-        command = "tinymist",
-        single_file_support = true,
-        root_dir = function()
-          return vim.fn.getcwd()
+        root_dir = function(filename, bufnr)
+          return vim.loop.cwd()
         end,
         settings = {
-          exportPdf = "onType"
-          -- serverPath = ""
+          formatterMode = "typststyle",
+          rootPath = "-"
         }
       },
     }

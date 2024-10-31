@@ -1,9 +1,10 @@
-ipc_socket = true
-live_config_reload = true
-
+[general]
 import = [
 "~/.cache/wal/alacritty_colors.toml",
 ]
+ipc_socket = true
+live_config_reload = true
+
 
 [cursor]
 blink_interval = 750
@@ -41,7 +42,7 @@ hide_when_typing = true
 history = 10000
 multiplier = 2
 
-[shell]
+[terminal.shell]
 program = "/bin/bash"
 
 [window]
@@ -62,78 +63,78 @@ draw_bold_text_with_bright_colors = false
 transparent_background_colors = true
 
 [colors.primary]
-background            = "#101B29"
-foreground            = "#D8C2AB"
-dim_foreground        = "#D8C2AB"
-bright_foreground     = "#D8C2AB"
+background            = "#081323"
+foreground            = "#CADBF5"
+dim_foreground        = "#CADBF5"
+bright_foreground     = "#CADBF5"
 
 [colors.cursor]
-text                  = "#101B29"
-cursor                = "#D8C2AB"
+text                  = "#081323"
+cursor                = "#CADBF5"
 
 [colors.vi_mode_cursor]
-text                  = "#101B29"
-cursor                = "#525E6E"
+text                  = "#081323"
+cursor                = "#495567"
 
 [colors.search.matches]
-foreground            = "#EE3B12"
-background            = "#101B29"
+foreground            = "#C66011"
+background            = "#081323"
 
 [colors.search.focused_match]
-foreground            = "#EE3B12"
-background            = "#525E6E"
+foreground            = "#C66011"
+background            = "#495567"
 
 [colors.hints.start]
-foreground            = "#3477C1"
-background            = "#101B29"
+foreground            = "#D46119"
+background            = "#081323"
 
 [colors.hints.end]
-foreground            = "#3477C1"
-background            = "#101B29"
+foreground            = "#D46119"
+background            = "#081323"
 
 [colors.line_indicator]
 foreground            = "None"
 background            = "None"
 
 [colors.footer_bar]
-foreground            = "#694C26"
-background            = "#101B29"
+foreground            = "#624821"
+background            = "#081323"
 
 [colors.selection]
-text                  = "#BC4B6D"
-background            = "#525E6E"
+text                  = "#985821"
+background            = "#495567"
 
 [colors.normal]
-black                 = "#2F3D50"
-red                   = "#694C26"
-green                 = "#962622"
-yellow                = "#EE3B12"
-blue                  = "#3477C1"
-magenta               = "#C17D34"
-cyan                  = "#BC4B6D"
-white                 = "#D8C2AB"
+black                 = "#243348"
+red                   = "#624821"
+green                 = "#167BC9"
+yellow                = "#C66011"
+blue                  = "#D46119"
+magenta               = "#3F4986"
+cyan                  = "#985821"
+white                 = "#CADBF5"
 
 [colors.bright]
-black                 = "#525E6E"
-red                   = "#694C26"
-green                 = "#962622"
-yellow                = "#EE3B12"
-blue                  = "#3477C1"
-magenta               = "#C17D34"
-cyan                  = "#BC4B6D"
-white                 = "#D8C2AB"
+black                 = "#495567"
+red                   = "#624821"
+green                 = "#167BC9"
+yellow                = "#C66011"
+blue                  = "#D46119"
+magenta               = "#3F4986"
+cyan                  = "#985821"
+white                 = "#CADBF5"
 
 # Alacritty will automatically calculate the dim colors based on the existing
 # normal colors. Uncomment to have dim colors the same as normal colors with 
 # the exception that white is still dimmed.
 # [colors.dim]
-# black                 = "#2F3D50"
-# red                   = "#694C26"
-# green                 = "#962622"
-# yellow                = "#EE3B12"
-# blue                  = "#3477C1"
-# magenta               = "#C17D34"
-# cyan                  = "#BC4B6D"
-# white                 = "#525E6E"
+# black                 = "#243348"
+# red                   = "#624821"
+# green                 = "#167BC9"
+# yellow                = "#C66011"
+# blue                  = "#D46119"
+# magenta               = "#3F4986"
+# cyan                  = "#985821"
+# white                 = "#495567"
 
 # vim: filetype=toml

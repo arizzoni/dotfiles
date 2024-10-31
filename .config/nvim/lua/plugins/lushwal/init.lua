@@ -36,7 +36,6 @@ return {
         telescope_nvim = true,
         treesitter = true,
         which_key_nvim = true,
-        personal = true,
       },
       lush_overrides = function(scheme)
         return {

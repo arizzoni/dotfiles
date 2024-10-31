@@ -1,9 +1,10 @@
-ipc_socket = true
-live_config_reload = true
-
+[general]
 import = [
 "~/.cache/wal/alacritty_colors.toml",
 ]
+ipc_socket = true
+live_config_reload = true
+
 
 [cursor]
 blink_interval = 750
@@ -41,7 +42,7 @@ hide_when_typing = true
 history = 10000
 multiplier = 2
 
-[shell]
+[terminal.shell]
 program = "/bin/bash"
 
 [window]

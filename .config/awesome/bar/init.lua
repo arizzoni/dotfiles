@@ -2,6 +2,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 local menubar = require("menubar")
+local gears = require("gears")
 
 local bindings = require("bindings")
 local modkey = bindings.mod.super
@@ -56,7 +57,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
   s.mycalendar_popup = awful.widget.calendar_popup.month({
     position = "tr",
     screen = s,
-    opacity = 1,
+    opacity = beautiful.tooltip_opacity,
     bg = beautiful.notification_bg,
     font = beautiful.font,
     spacing = beautiful.corner_radius,
@@ -70,7 +71,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       padding = beautiful.corner_radius,
       border_width = 0,
       border_color = beautiful.fg_urgent,
-      opacity = 1,
+      opacity = beautiful.tooltip_opacity,
     },
     style_header = {
       fg_color = beautiful.fg_urgent,
@@ -78,7 +79,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       padding = beautiful.corner_radius,
       border_width = 0,
       border_color = beautiful.bg_urgent,
-      opacity = 1,
+      opacity = beautiful.tooltip_opacity,
     },
     style_weekday = {
       fg_color = beautiful.fg_urgent,
@@ -86,7 +87,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       padding = beautiful.corner_radius,
       border_width = 0,
       border_color = beautiful.bg_urgent,
-      opacity = 1,
+      opacity = beautiful.tooltip_opacity,
     },
     style_weeknumber = {
       fg_color = beautiful.fg_urgent,
@@ -94,7 +95,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       padding = beautiful.corner_radius,
       border_width = 0,
       border_color = beautiful.bg_urgent,
-      opacity = 1,
+      opacity = beautiful.tooltip_opacity,
     },
     style_normal = {
       fg_color = beautiful.fg_urgent,
@@ -102,7 +103,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       padding = beautiful.corner_radius,
       border_width = 0,
       border_color = beautiful.bg_urgent,
-      opacity = 1,
+      opacity = beautiful.tooltip_opacity,
     },
     style_focus = {
       fg_color = beautiful.bg_focus,
@@ -110,7 +111,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       padding = beautiful.corner_radius,
       border_width = beautiful.border_width,
       border_color = beautiful.bg_focus,
-      opacity = 1,
+      opacity = beautiful.tooltip_opacity,
     }
   })
   s.mycalendar_popup:attach(s.mytextclock, "tr")
@@ -172,8 +173,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
   -- Create the wibox
   s.mywibox = awful.wibar {
     position = "top",
+    shape = function(cr, width, height)
+      gears.shape.rounded_rect(cr, width, height, beautiful.corner_radius)
+    end,
     screen   = s,
     height   = 32,
+    opacity  = beautiful.tooltip_opacity,
     widget   = {
       layout = wibox.layout.align.horizontal,
       {       -- Left widgets

@@ -3,7 +3,6 @@
 --[[ Settings ]]
 vim.opt.updatetime = 40      -- Decrease update time
 vim.g.transparent_enabled = true
-vim.opt.termguicolors = true -- Make sure the terminal supports this
 vim.opt.title = true
 
 -- Backup and undo
@@ -12,8 +11,6 @@ vim.opt.undofile = true -- Save undo history
 
 -- Neovide Settings
 if vim.g.neovide then
-	-- vim.env.TERM = "alacritty"
-	vim.opt.termguicolors = true -- Make sure the terminal supports this
 	vim.g.neovide_theme = 'auto'
 	vim.g.neovide_transparency = 0.9
 	vim.g.neovide_refresh_rate = 60
@@ -42,6 +39,13 @@ vim.g.python3_host_prog = vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/p
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
+vim.g.typst_embedded_languages = {
+	'python',
+	'julia',
+	'matlab',
+	'lua',
+	'bash',
+}
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -57,7 +61,7 @@ vim.opt.signcolumn = "yes"
 -- vim.wo.breakindent = true
 vim.g.cmdwinheight = 3
 vim.o.cmdheight = 0
-vim.g.colorcolumn = "+1"
+vim.g.colorcolumn = "80"
 vim.wo.concealcursor = "nvc"
 vim.bo.copyindent = true
 vim.wo.cursorcolumn = false
@@ -75,7 +79,7 @@ vim.g.scroll = 0
 vim.o.scrolloff = math.floor(0.33 * vim.o.lines)
 vim.o.shiftround = true
 vim.o.shiftwidth = 2
-vim.o.showbreak = "↵ "
+vim.o.showbreak = "↵   "
 vim.g.showcmd = false
 vim.g.showtabline = 2
 vim.g.sidescrolloff = 8

@@ -106,7 +106,7 @@ theme.border_width                              = 0
 theme.gap_single_client                         = true
 
 theme.tooltip_font                              = theme.font
-theme.tooltip_opacity                           = theme.opacity
+theme.tooltip_opacity                           = 0.9
 theme.tooltip_border_width                      = theme.border_width
 
 theme.mouse_finder_timeout                      = 1.0
@@ -124,7 +124,7 @@ theme.hotkeys_description_font                  = theme.font
 theme.notification_font                         = theme.font
 theme.notification_border_width                 = theme.border_width
 theme.notification_shape                        = shape.rounded_rect
-theme.notification_opacity                      = theme.opacity
+theme.notification_opacity                      = theme.tooltip_opacity
 
 theme.menu_border_width                         = theme.border_width
 theme.menu_submenu_icon                         = themes_path .. "default/submenu.png"
@@ -185,7 +185,7 @@ theme.calendar_style_month                      = {
   markup = nil,
   fg_color = theme.fg_focus,
   bg_color = theme.bg_normal,
-  opacity = theme.opacity,
+  opacity = theme.tooltip_opacity,
 }
 
 return theme

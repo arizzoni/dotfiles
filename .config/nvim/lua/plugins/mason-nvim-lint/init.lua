@@ -14,6 +14,7 @@ return {
       "jsonlint",
       "shellcheck",
       "yamllint",
+      "selene",
     },
     automatic_installation = true,
     handlers = {},
@@ -25,6 +26,7 @@ return {
       cmake = { 'cmakelint', },
       cpp = { 'cpplint', },
       json = { 'jsonlint', },
+      lua = { 'selene' },
       sh = { 'shellcheck', },
       yaml = { 'yamllint', },
     }

@@ -1,6 +1,6 @@
 return {
   "jmbuhr/otter.nvim",
-  ft = {'tex', 'typst'},
+  ft = { 'tex', 'typst', 'tex.python' },
   event = "VeryLazy",
   opts = {
     lsp = {
@@ -11,6 +11,13 @@ return {
       -- { "BufWritePost", "InsertLeave", "TextChanged" } for less performant
       -- but more instant diagnostic updates
       diagnostic_update_events = { "BufWritePost", "InsertLeave", "TextChanged" },
+      root_dir = function(_, bufnr)
+        return vim.fs.root(bufnr or 0, {
+          ".git",
+          "_quarto.yml",
+          "package.json",
+        }) or vim.fn.getcwd(0)
+      end,
     },
     buffers = {
       -- if set to true, the filetype of the otterbuffers will be set.
@@ -33,7 +40,7 @@ return {
     -- table of embedded languages to look for.
     -- default = nil, which will activate
     -- any embedded languages found
-    local languages = { 'python', 'lua', 'matlab', 'julia' }
+    local languages = { 'julia', 'lua', 'matlab', 'python' }
 
     -- enable completion/diagnostics
     -- defaults are true
