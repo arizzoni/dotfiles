@@ -187,6 +187,7 @@ return {
           rootPath = "-"
         }
       },
+      vhdl_ls = {},
     }
 
     -- nvim-cmp supports additional completion capabilities,
