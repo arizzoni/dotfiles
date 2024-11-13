@@ -1,9 +1,7 @@
 return {
-  'windwp/nvim-autopairs',
+  url = 'https://www.github.com/windwp/nvim-autopairs',
   event = "InsertEnter",
   config = true,
-  -- use opts = {} for passing setup options
-  -- this is equalent to setup({}) function
   opts = {
     disable_filetype = { "TelescopePrompt" },
     disable_in_macro = true,        -- disable when recording or executing a macro

@@ -541,9 +541,16 @@ if [[ -x "$(command -v minicom)" ]] ; then {
 # Neovide
 if [[ -x "$(command -v neovide)" ]] ; then {
     if [[ -x "$(command -v devour)" ]] ; then {
-        alias nvim='devour neovide'
+        alias nvim='devour neovide -- '
     } fi
 } fi
+
+# Diff
+if [[ -x "$(command -v nvim)" ]] ; then {
+    alias diff='nvim -d'
+} fi
+
+alias diff='nvim -d'
 
 # Distribution-specific Aliases
 if [[ -r /etc/arch-release ]] ; then {
@@ -559,7 +566,7 @@ if [[ -r /etc/arch-release ]] ; then {
             echo 'Updating mirrorlist.'
             sudo sh -c \
                 "cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
-                && curl -s 'https://archlinux.org/mirrorlist/?country=US&country=CA&protocol=https&use_mirror_status=on' \
+                && curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' \
                 | sed -e 's/^#Server/Server/' -e '/^#/d' \
                 | rankmirrors -n 10 - \
                 >| /etc/pacman.d/mirrorlist"

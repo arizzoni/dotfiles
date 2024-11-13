@@ -1,25 +1,26 @@
 -- Set lualine as statusline
 return {
-  'nvim-lualine/lualine.nvim',
+  url = 'https://www.github.com/nvim-lualine/lualine.nvim',
   dependencies = {
-    'arkav/lualine-lsp-progress',
+    url = 'https://www.github.com/arkav/lualine-lsp-progress',
   },
   name = "lualine.nvim",
   lazy = false,
   opts = {
     options = {
       icons_enabled = false,
-      theme = 'auto',
+      theme = 'wal',
       globalstatus = true,
       component_separators = '|',
       section_separators = ''
     },
     extensions = {
-      'fugitive',
-      'lazy',
-      'man',
-      'mason',
-      'quickfix',
+      "lazy",
+      "mason",
+      "man",
+      "oil",
+      "quickfix",
+      "toggleterm",
     },
     sections = {
       lualine_a = { 'mode' },

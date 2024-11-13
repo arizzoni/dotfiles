@@ -1,6 +1,6 @@
 -- Show pending keybinds
 return {
-  "folke/which-key.nvim",
+  url = "https://www.github.com/folke/which-key.nvim",
   name = "which-key.nvim",
   event = "VeryLazy",
   init = function()

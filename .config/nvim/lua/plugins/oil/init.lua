@@ -1,7 +1,6 @@
 return {
-  'stevearc/oil.nvim',
-  -- event = "VeryLazy",
-  lazy = false,
+  url = 'https://www.github.com/stevearc/oil.nvim',
+  event = "VeryLazy",
   opts = {
     default_file_explorer = true,
     columns = {

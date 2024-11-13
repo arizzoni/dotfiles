@@ -1,7 +1,7 @@
 --[[ core/init.lua ]]
 
 --[[ Settings ]]
-vim.opt.updatetime = 40      -- Decrease update time
+vim.opt.updatetime = 10 -- Decrease update time
 vim.g.transparent_enabled = true
 vim.opt.title = true
 
@@ -9,9 +9,11 @@ vim.opt.title = true
 vim.opt.writebackup = true
 vim.opt.undofile = true -- Save undo history
 
+vim.opt.termguicolors = true
+
 -- Neovide Settings
 if vim.g.neovide then
-	vim.g.neovide_theme = 'auto'
+	vim.g.neovide_theme = "auto"
 	vim.g.neovide_transparency = 0.9
 	vim.g.neovide_refresh_rate = 60
 	vim.g.neovide_refresh_rate_idle = 6
@@ -30,7 +32,7 @@ vim.opt.smartcase = true
 
 -- Input
 vim.opt.timeout = true
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 10
 
 -- Language support
 vim.g.shell = "bash"
@@ -40,11 +42,11 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.typst_embedded_languages = {
-	'python',
-	'julia',
-	'matlab',
-	'lua',
-	'bash',
+	"python",
+	"julia",
+	"matlab",
+	"lua",
+	"bash",
 }
 
 -- Diagnostic keymaps
@@ -61,7 +63,7 @@ vim.opt.signcolumn = "yes"
 -- vim.wo.breakindent = true
 vim.g.cmdwinheight = 3
 vim.o.cmdheight = 0
-vim.g.colorcolumn = "80"
+vim.o.colorcolumn = "+1"
 vim.wo.concealcursor = "nvc"
 vim.bo.copyindent = true
 vim.wo.cursorcolumn = false
@@ -90,10 +92,10 @@ vim.g.timeoutlen = 300
 vim.g.virtualedit = "block,insert"
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column
-vim.fn.sign_define('DiagnosticSignError', { text = '󰅗', texthl = 'DiagnosticSignError' })
-vim.fn.sign_define('DiagnosticSignWarn', { text = '󰀧', texthl = 'DiagnosticSignWarn' })
-vim.fn.sign_define('DiagnosticSignInfo', { text = '󰏬', texthl = 'DiagnosticSignInfo' })
-vim.fn.sign_define('DiagnosticSignHint', { text = '󰞋', texthl = 'DiagnosticSignHint' })
+vim.fn.sign_define("DiagnosticSignError", { text = "×", texthl = "DiagnosticSignError" }) --  󰅗
+vim.fn.sign_define("DiagnosticSignWarn", { text = "!", texthl = "DiagnosticSignWarn" }) --  󰀧
+vim.fn.sign_define("DiagnosticSignInfo", { text = "∗", texthl = "DiagnosticSignInfo" }) -- 󰏬
+vim.fn.sign_define("DiagnosticSignHint", { text = "?", texthl = "DiagnosticSignHint" }) -- 󰞋
 
 -- Disable arrow keys
 vim.keymap.set({ "n", "v", "i" }, "<Up>", "<Nop>", { noremap = true, silent = true })
@@ -118,8 +120,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
-if require('lushwal') ~= nil then
-	vim.cmd.colorscheme("lushwal")
+if require("wal") ~= nil then
+	vim.cmd.colorscheme("wal")
 else
 	vim.cmd.colorscheme("quiet")
 end

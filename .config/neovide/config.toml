@@ -18,7 +18,8 @@ wsl = false
 size = 12
 hinting = "full"
 edging = "antialias"
-normal = ["Iosevka", "Symbols Nerd Font Mono"]
-bold = ["Iosevka Slab", "Symbols Nerd Font Mono"]
-italic = ["Iosevka Curly", "Symbols Nerd Font Mono"]
-bold_italic = ["Iosevka Curly Slab", "Symbols Nerd Font Mono"]
+
+normal = [ [ "Iosevka", "Normal" ], [ "Symbols Nerd Font Mono", "Normal" ] ]
+bold = [ [ "Iosevka Slab", "Bold" ], [ "Symbols Nerd Font Mono", "Bold" ] ]
+italic = [ [ "Iosevka Curly", "Italic" ], [ "Symbols Nerd Font Mono", "Italic" ] ]
+bold_italic = [ [ "Iosevka Slab", "Bold Italic" ], [ "Symbols Nerd Font Mono", "Bold Italic" ] ]

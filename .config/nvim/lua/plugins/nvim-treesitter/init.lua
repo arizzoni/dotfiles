@@ -1,6 +1,6 @@
 -- Highlight, edit, and navigate code
 return {
-  "nvim-treesitter/nvim-treesitter",
+  url = "https://www.github.com/nvim-treesitter/nvim-treesitter",
   name = "nvim-treesitter",
   -- lazy = false,
   event = "VeryLazy",
@@ -8,7 +8,7 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "nvim-treesitter/nvim-treesitter-refactor",
     {
-      "nvim-treesitter/nvim-treesitter-context",
+      url = "https://www.github.com/nvim-treesitter/nvim-treesitter-context",
       opts = {
         enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
         max_lines = 1,           -- How many lines the window should span. Values <= 0 mean no limit.
@@ -25,7 +25,7 @@ return {
       }
     },
     {
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      url = "https://www.github.com/JoosepAlviste/nvim-ts-context-commentstring",
       opts = {
         enable_autocmd = false,
       },

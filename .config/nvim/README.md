@@ -11,3 +11,9 @@ support for the following languages, and weaker support for some others.
     5. Matlab
     6. Julia
     7. C/C++
+
+## Todo
+lazy statusline component
+clean up lsp file
+condense files
+

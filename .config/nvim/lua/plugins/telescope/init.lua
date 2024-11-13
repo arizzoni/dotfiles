@@ -1,37 +1,43 @@
+local util = require('util')
+
 -- Fuzzy Finder (files, lsp, etc)
 return {
-  "nvim-telescope/telescope.nvim",
+  url = "https://www.github.com/nvim-telescope/telescope.nvim",
   event = "VeryLazy",
   name = "telescope.nvim",
-  branch = "0.1.x", dependencies = {
+  branch = "0.1.x",
+  dependencies = {
     {
-      "nvim-lua/plenary.nvim",
+      url = "https://www.github.com/nvim-lua/plenary.nvim",
       event = "VeryLazy",
     },
     {
-    "nvim-telescope/telescope-symbols.nvim",
+      url = "https://www.github.com/nvim-telescope/telescope-symbols.nvim",
       event = "VeryLazy",
     },
     {
-    "nvim-telescope/telescope-dap.nvim",
+      url = "https://www.github.com/nvim-telescope/telescope-dap.nvim",
       event = "VeryLazy",
     },
     {
-    "nvim-telescope/telescope-ui-select.nvim",
+      url = "https://www.github.com/nvim-telescope/telescope-ui-select.nvim",
       event = "VeryLazy",
     },
     {
-      "nvim-telescope/telescope-fzy-native.nvim",
+      url = "https://www.github.com/nvim-telescope/telescope-fzy-native.nvim",
       cond = function()
         return vim.fn.executable "make" == 1
       end,
     },
     {
-      "jalvesaq/dict.nvim",
-      config = true,
+      url = "https://www.github.com/jalvesaq/dict.nvim",
+      event = "VeryLazy",
+      config = {},
     },
   },
-  opts = { defaults = { borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+  opts = {
+    defaults = {
+      borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
       mappings = {
         i = {
           ["<C-u>"] = false,
@@ -59,66 +65,66 @@ return {
     local border = { "─", "│", "─", "│", "┌", "┐", "┘", "└" }
 
     if pickers ~= nil and themes ~= nil then
-      vim.keymap.set("n", "<leader>?", function()
-        pickers.oldfiles(themes.get_ivy{
+      util.nmap("<leader>?", function()
+        pickers.oldfiles(themes.get_ivy {
           borderchars = border,
         })
-      end, { desc = "[?] Find recently opened files" })
+      end,vim.api.nvim_get_current_buf(), "[?] Find recently opened files" )
 
-      vim.keymap.set("n", "<leader><space>", function()
-        pickers.buffers(themes.get_ivy{
+      util.nmap("<leader><space>", function()
+        pickers.buffers(themes.get_ivy {
           borderchars = border,
         })
-      end, { desc = "[ ] Find existing buffers" })
+      end,vim.api.nvim_get_current_buf(), "[ ] Find existing buffers" )
 
-      vim.keymap.set("n", "<leader>/", function()
+      util.nmap("<leader>/", function()
         pickers.current_buffer_fuzzy_find(themes.get_cursor {
           previewer = false,
           borderchars = border,
         })
-      end, { desc = "[/] Fuzzily search in current buffer" })
+      end,vim.api.nvim_get_current_buf(), "[/] Fuzzily search in current buffer" )
 
-      vim.keymap.set("n", "<leader>gf", function()
+      util.nmap("<leader>gf", function()
         pickers.git_files(themes.get_ivy {
           borderchars = border,
         })
-      end, { desc = "Search [G]it [F]iles" })
+      end,vim.api.nvim_get_current_buf(), "Search [G]it [F]iles" )
 
-      vim.keymap.set("n", "<leader>sf", function()
+      util.nmap("<leader>sf", function()
         pickers.find_files(themes.get_ivy {
           borderchars = border,
         })
-      end, { desc = "[S]earch [F]iles" })
+      end,vim.api.nvim_get_current_buf(), "[S]earch [F]iles" )
 
-      vim.keymap.set("n", "<leader>sh", function()
+      util.nmap("<leader>sh", function()
         pickers.help_tags(themes.get_ivy {
           borderchars = border,
         })
-      end, { desc = "[S]earch [H]elp" })
+      end,vim.api.nvim_get_current_buf(), "[S]earch [H]elp" )
 
-      vim.keymap.set("n", "<leader>sw", function()
+      util.nmap("<leader>sw", function()
         pickers.grep_string(themes.get_cursor {
           previewer = false,
           borderchars = border,
         })
-      end, { desc = "[S]earch current [W]ord" })
+      end,vim.api.nvim_get_current_buf(), "[S]earch current [W]ord" )
 
-      vim.keymap.set("n", "<leader>sg", function()
+      util.nmap("<leader>sg", function()
         pickers.live_grep(themes.get_ivy {
           borderchars = border,
         })
-      end, { desc = "[S]earch by [G]rep" })
+      end,vim.api.nvim_get_current_buf(), "[S]earch by [G]rep" )
 
-      vim.keymap.set("n", "<leader>sd", function()
+      util.nmap("<leader>sd", function()
         pickers.diagnostics(themes.get_ivy {
           previewer = false,
           borderchars = border,
         })
-      end, { desc = "[S]earch [D]iagnostics" })
+      end,vim.api.nvim_get_current_buf(), "[S]earch [D]iagnostics" )
 
-      vim.keymap.set("n", "<leader>k", function()
+      util.nmap("<leader>k", function()
         require('dict').lookup()
-      end, { desc = "Dictionary Loo[k]up" })
+      end,vim.api.nvim_get_current_buf(), "Dictionary Loo[k]up" )
     end
   end
 }

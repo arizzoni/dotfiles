@@ -1,5 +1,5 @@
     return {
-      "sindrets/diffview.nvim",
+      url = "https://www.github.com/sindrets/diffview.nvim",
       event = "VeryLazy",
       config = function()
         local actions = require("diffview.actions")
@@ -8,7 +8,7 @@
           enhanced_diff_hl = false, -- See |diffview-config-enhanced_diff_hl|
           git_cmd = { "git" },    -- The git executable followed by default args.
           hg_cmd = { "hg" },      -- The hg executable followed by default args.
-          use_icons = false,       -- Requires nvim-web-devicons
+          use_icons = true,       -- Requires nvim-web-devicons
           show_help_hints = true, -- Show hints for how to open the help panel
           watch_index = true,     -- Update views and index buffers when the git index changes.
           icons = {               -- Only applies when use_icons is true.
@@ -34,7 +34,7 @@
             default = {
               -- Config for changed files, and staged files in diff views.
               layout = "diff2_horizontal",
-              disable_diagnostics = false, -- Temporarily disable diagnostics for diff buffers while in the view.
+              disable_diagnostics = true, -- Temporarily disable diagnostics for diff buffers while in the view.
               winbar_info = false,       -- See |diffview-config-view.x.winbar_info|
             },
             merge_tool = {
@@ -46,7 +46,7 @@
             file_history = {
               -- Config for changed files in file history views.
               layout = "diff2_horizontal",
-              disable_diagnostics = false, -- Temporarily disable diagnostics for diff buffers while in the view.
+              disable_diagnostics = true, -- Temporarily disable diagnostics for diff buffers while in the view.
               winbar_info = false,       -- See |diffview-config-view.x.winbar_info|
             },
           },

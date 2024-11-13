@@ -5,15 +5,16 @@ return {
   name = "lushwal.nvim",
   cmd = { "LushwalCompile" }, -- Specify command to recompile wal colors
   lazy = false,
+  enabled = false,
   dependencies = {
     -- Lush colorscheming engine
     { 'rktjmp/lush.nvim' },
     -- Shipwright
-    -- { 'rktjmp/shipwright.nvim' },
+    { 'rktjmp/shipwright.nvim' },
   },
   init = function()
     vim.g.lushwal_configuration = {
-      compile_to_vimscript = false,
+      compile_to_vimscript = true,
       terminal_colors = true,
       color_overrides = function(colors)
         local overrides = { -- we don't want colors that aren't from pywal
@@ -37,11 +38,11 @@ return {
         treesitter = true,
         which_key_nvim = true,
       },
-      lush_overrides = function(scheme)
+      lush_overrides = function()
         return {
           ---@diagnostic disable undefined_global
           Underlined({ gui = "underline" }),
-          Bold ({ gui = "bold" }),
+          Bold({ gui = "bold" }),
           Italic({ gui = "italic" }),
           Comment({ gui = "italic" }),
           CursorLineNr({ gui = "bold" }),
@@ -92,9 +93,11 @@ return {
           MasonHeading({ gui = "bold" }),
 
           -- UI Borders
-          FloatBorder({ fg = scheme.color8, bg = scheme.background }),
+          -- FloatBorder({ fg = scheme.color8, bg = scheme.background }),
           WhichKeyBorder({ FloatBorder }),
           TelescopeBorder({ FloatBorder }),
+
+          -- ColorColumn({ fg = scheme.color1, bg = scheme.color1 }),
           ---@diagnostic enable undefined_global
         }
       end,

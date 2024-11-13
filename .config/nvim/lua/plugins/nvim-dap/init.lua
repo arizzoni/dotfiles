@@ -1,17 +1,20 @@
--- Autocompletion
+local util = require('util')
+
 return {
-  "mfussenegger/nvim-dap",
+  url = "https://www.github.com/mfussenegger/nvim-dap",
   name = "nvim-dap",
   event = "VeryLazy",
   -- opts = {},
   dependencies = {
     {
-      "jay-babu/mason-nvim-dap.nvim",
+      url = "https://www.github.com/jay-babu/mason-nvim-dap.nvim",
       name = "mason-nvim-dap",
       event = "VeryLazy",
       dependencies = {
-        { "williamboman/mason.nvim", event = "VeryLazy" },
-        "mfussenegger/nvim-dap",
+        {
+          url = "https://www.github.com/williamboman/mason.nvim",
+          event = "VeryLazy",
+        },
       },
       opts = {
         ensure_installed = {
@@ -25,6 +28,7 @@ return {
   },
   config = function()
     local dap = require('dap')
+
     dap.adapters.python = function(cb, config)
       if config.request == 'attach' then
         ---@diagnostic disable-next-line: undefined-field
@@ -50,15 +54,13 @@ return {
         })
       end
     end
+
     dap.configurations.python = {
       {
         -- The first three options are required by nvim-dap
         type = 'python', -- the type here established the link to the adapter definition: `dap.adapters.python`
         request = 'launch',
         name = "Launch file",
-
-        -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
         program = "${file}", -- This configuration will launch the current file if used.
         pythonPath = function()
           local virtual_env = os.getenv("VIRTUAL_ENV")
@@ -141,40 +143,40 @@ return {
 
     -- Keymaps
 
-    vim.keymap.set("n", "<leader>db", function()
+    util.nmap("<leader>db", function()
       dap.toggle_breakpoint()
-    end, { desc = "[D]ebugger toggle [b]reakpoint" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger toggle [b]reakpoint" )
 
-    vim.keymap.set("n", "<leader>dd", function()
+    util.nmap("<leader>dd", function()
       dap.continue()
-    end, { desc = "[Dd]ebugger continue" })
+    end, vim.api.nvim_get_current_buf(), "[Dd]ebugger continue" )
 
-    vim.keymap.set("n", "<leader>dt", function()
+    util.nmap("<leader>dt", function()
       dap.run_to_cursor()
-    end, { desc = "[D]ebugger Run [T]o Cursor" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger Run [T]o Cursor" )
 
-    vim.keymap.set("n", "<leader>dB", function()
+    util.nmap("<leader>dB", function()
       dap.clear_breakpoints()
-    end, { desc = "[D]ebugger Clear [B]reakpoints" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger Clear [B]reakpoints" )
 
-    vim.keymap.set("n", "<leader>dO", function()
+    util.nmap("<leader>dO", function()
       dap.step_out()
-    end, { desc = "[D]ebugger step [O]ut" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger step [O]ut" )
 
-    vim.keymap.set("n", "<leader>do", function()
+    util.nmap("<leader>do", function()
       dap.step_over()
-    end, { desc = "[D]ebugger step [o]ver" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger step [o]ver" )
 
-    vim.keymap.set("n", "<leader>di", function()
+    util.nmap("<leader>di", function()
       dap.step_into()
-    end, { desc = "[D]ebugger step [i]nto" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger step [i]nto" )
 
-    vim.keymap.set("n", "<leader>ds", function()
+    util.nmap("<leader>ds", function()
       dap.step_back()
-    end, { desc = "[D]ebugger [s]tep back" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger [s]tep back" )
 
-    vim.keymap.set("n", "<leader>ds", function()
+    util.nmap("<leader>ds", function()
       dap.step_back()
-    end, { desc = "[D]ebugger [s]tep back" })
+    end, vim.api.nvim_get_current_buf(), "[D]ebugger [s]tep back" )
   end
 }
