@@ -19,7 +19,7 @@ if [ -x "$(command -v fd)" ] ; then {
 WAL="command wallust run --quiet"
 
 # Define directories
-WALLPAPER_DIR="$HOME/pictures/wallpapers/space"
+WALLPAPER_DIR="$HOME/pictures/wallpapers/space/"
 
 # Define cached wallpaper to use
 WAL_CACHE="$HOME/.cache/wallust/wallpaper"

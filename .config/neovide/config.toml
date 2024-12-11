@@ -22,4 +22,4 @@ edging = "antialias"
 normal = [ [ "Iosevka", "Normal" ], [ "Symbols Nerd Font Mono", "Normal" ] ]
 bold = [ [ "Iosevka Slab", "Bold" ], [ "Symbols Nerd Font Mono", "Bold" ] ]
 italic = [ [ "Iosevka Curly", "Italic" ], [ "Symbols Nerd Font Mono", "Italic" ] ]
-bold_italic = [ [ "Iosevka Slab", "Bold Italic" ], [ "Symbols Nerd Font Mono", "Bold Italic" ] ]
+bold_italic = [ [ "Iosevka Curly Slab", "Bold Italic" ], [ "Symbols Nerd Font Mono", "Bold Italic" ] ]

@@ -27,47 +27,6 @@ return {
 			url = "https://www.github.com/nvim-telescope/telescope.nvim"
 		},
 		{
-			url = "https://www.github.com/littleendianroot/mason-conform",
-			opts = {
-				ensure_installed = {
-					-- "ruff", "shfmt", "shellharden", "lua_ls", "bibtex-tidy",
-				},
-			},
-			dependencies = {
-				url = "https://www.github.com/stevearc/conform.nvim",
-				event = { "BufWritePre" },
-				cmd = { "ConformInfo" },
-				-- This will provide type hinting with LuaLS
-				---@module "conform"
-				---@type conform.setupOpts
-				opts = {
-					-- Define your formatters
-					formatters_by_ft = {
-						-- sh = { "shfmt", "shellharden" },
-						-- lua = { "lua_ls" },
-						-- python = { "ruff" },
-						-- bibtex = { "bibtex-tidy" },
-					},
-					-- Set default options
-					default_format_opts = {
-						lsp_format = "fallback",
-					},
-					-- Set up format-on-save
-					format_on_save = { timeout_ms = 500 },
-					-- Customize formatters
-					formatters = {
-						shfmt = {
-							prepend_args = { "-i", "2" },
-						},
-					},
-				},
-				init = function()
-					-- If you want the formatexpr, here is the place to set it
-					vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-				end,
-			},
-		},
-		{
 			url = "https://www.github.com/rshkarin/mason-nvim-lint",
 			name = "mason-nvim-lint",
 			event = "VeryLazy",
@@ -144,8 +103,7 @@ return {
 
 			-- Create a command `:Format` local to the LSP buffer
 			vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-				-- vim.lsp.buf.format()
-				require("conform").format({ async = true })
+				vim.lsp.buf.format()
 			end, { desc = "Format current buffer with LSP" })
 		end
 
@@ -225,7 +183,7 @@ return {
 							enabled = false,
 						},
 						pylsp_mypy = {
-							enabled = true,
+							enabled = false,
 						},
 						pycodestyle = {
 							enabled = false,
@@ -285,7 +243,7 @@ return {
 			texlab = {
 				texlab = {
 					cmd = "texlab",
-					fileypes = { "tex", "plaintex", "bib", "cls" },
+					fileypes = { "tex", "plaintex", "bib" },
 					settings = {
 						texlab = {
 							auxDirectory = "aux",

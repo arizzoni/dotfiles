@@ -1,5 +1,4 @@
 # .inputrc
-# vim: sw=4 ts=4
 
 # Enable vi mode
 set editing-mode vi
@@ -31,3 +30,4 @@ set colored-completion-prefix On
 # Color the common prefix in menu-complete
 set menu-complete-display-prefix On
 
+# vim: sw=4 ts=4 tw=80

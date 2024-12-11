@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 
 ## Startup
 # If not running interactively, don't do anything
@@ -12,23 +12,11 @@ if [ -r /etc/bash.bashrc ]; then {
 ## Bash options
 
 # Bash Shell Options
-shopt -s checkwinsize
-shopt -s direxpand
-shopt -s dotglob
-shopt -s globstar
-shopt -s histappend
-shopt -s histreedit
-shopt -s histverify
-shopt -s hostcomplete
-shopt -s no_empty_cmd_completion
-shopt -s nocaseglob
-shopt -s progcomp
-shopt -s progcomp_alias
-shopt -s promptvars
-shopt -s sourcepath
-set -o braceexpand
-set -o noclobber
-set -o vi
+shopt -s checkwinsize direxpand dotglob globstar histappend histreedit \
+    histverify hostcomplete no_empty_cmd_completion nocaseglob progcomp \
+    progcomp_alias promptvars sourcepath
+set -o braceexpand noclobber vi
+stty -ixon
 
 # Bash Completions
 if ! shopt -oq posix ; then {
@@ -42,14 +30,14 @@ if ! shopt -oq posix ; then {
 
 
 ## PSX Prompts
-function __set_prompts () {
+__set_prompts () {
     # This function is called every time the prompt is shown, getting the
     # necessary variables each time the prompt renders.
 
-    # Collect previous exit code for exit_status()
+    # Collect previous exit code for exit_status ()
     local __exit_code=$? # This has to be the first thing in the function
     
-    # Define test styles
+    # Define text styles
     if [[ $(tput bold) ]] ; then {
         local __bold __remove_bold
         __bold="$(tput bold)"
@@ -142,51 +130,57 @@ function __set_prompts () {
 
     # Prompt component definitions
 
-    # NOTE: "\[" and "\]" are used below so that bash can calculate the number of
-    # printed characters. If non-printed characters are not escaped, the shell 
-    # will lose track of where the prompt is.
-
-    function __context () {
+    __context () {
         # Set user and host context in the format user@host.
 
         local __user __host __separator_character
 
-        __user=$USER
-        __host=$HOSTNAME
+        __user=$(id -un)
+        __host=$(uname -n)
         __separator_character="@"
 
-        echo "\[${__fg_color2}${__bold}\]${__user}\[${__reset}\]${__separator_character}\[${__fg_color3}${__bold}\]${__host}\[${__reset}\]"
+        printf '\[%s%s\]%s\[%s\]%s\[%s%s\]%s\[%s\]' \
+            "${__fg_color2}" "${__bold}" "${__user}" "${__reset}" \
+            "${__separator_character}" \
+            "${__fg_color3}" "${__bold}" "${__host}" "${__reset}"
     }
 
-    function __virtualenv_info () {
+    __virtualenv_info () {
         # If there is a virtual environment in the current directory, then
         # activate it and show it in the prompt.
         
-        if [[ -n ${VIRTUAL_ENV+x} ]]; then {
-            echo " \[${__fg_color5}\](venv:${VIRTUAL_ENV##*/})\[${__reset}\]"
+        local __venv
+        __venv=${VIRTUAL_ENV}
+        
+        if [[ -n "$__venv" ]]; then {
+            printf ' \[%s\](venv:%s)\[%s\]' \
+            "${__fg_color5}" "${__venv##*/}" "${__reset}"
         } fi
     }
 
-    function __git_info () {
+    __git_info () {
         # If the current directory is inside a git repository, then show the
         # current branch in the prompt.
 
-        # TODO: number of files changed, number of entries in stash, ahead by x
-        # commits, number of files changed but not staged, untracked files, 
+        # TODO: number of files changed, number of entries in stash, ahead by
+        # x commits, number of files changed but not staged, untracked files 
 
         if git branch &> /dev/null ; then {
-            local __character
+            local __character __status __head
             __character=''
+            __status=$(git status --porcelain)
+            __head=$(git rev-parse --abbrev-ref HEAD)
 
-            if [[ "$(git status --porcelain)" ]] ; then {
-                __character="$__character ~"
+            if [[ "$__status" ]] ; then {
+                __character=" ~"
             } fi
 
-            echo " \[${__fg_color5}\](git:$(git rev-parse --abbrev-ref HEAD)${__character})\[${__reset}\]"
+            printf ' \[%s\](git:%s)%s\[%s\]' \
+                "${__fg_color5}" "${__head}" "${__character}" "${__reset}"
         } fi
     }
 
-    function __exit_status () {
+    __exit_status () {
         # If the previous process did not return exit code '0', then show an
         # indicator in the prompt.
 
@@ -194,33 +188,58 @@ function __set_prompts () {
             local __character
             __character='⨉ '
 
-            echo "\[${__fg_color1}${__bold}\]${__character}\[${__reset}\]"
+            printf "\[%s%s\]%s\[%s\]" \
+                "${__fg_color1}" "${__bold}" "${__character}" "${__reset}"
         } fi
     }
 
-    function __working_dir () {
+    __working_dir () {
         # Show the current working directory with '~' replacing the usual
         # '/home/$USER'. If the current working directory has more than four
-        # directories in its path, then only show the last three and replace the
-        # rest with '.../'. Also sets statusline.
+        # directories in its path, then only show the last three and replace
+        # the rest with '.../'. Also sets statusline.
 
-        local __home_character
+        local __home_character __user __pwd __home
 
-        __home_character='~'
+        __uid=$(id -u)
+        __pwd=$(pwd)
+        __user_data=$(getent passwd "$__uid")
+        __home="${__user_data#*::}"
+        __home="${__home%:*}"
+        __user="${__home##*/}"
+
+        if [[ $__uid = 0 ]] ; then {
+            __home_character=''
+        } else {
+            __home_character='~'
+        } fi
         
-        if [[ "$PWD" = "$HOME" ]] ; then {
+        if [[ "$__pwd" == "$__home" ]] ; then {
             # If the terminal supports the statusline, then use it
             if [[ -n "$__to_status_line" ]] ; then {
-                echo " \[${__fg_color12}\]${__home_character}\[${__to_status_line}${__home_character}${__from_status_line}${__reset}\]"
+                printf ' \[%s\]%s\[%s%s%s%s\]' \
+                    "${__fg_color12}" "${__home_character}" \
+                    "${__to_status_line}" "${__home_character}" \
+                    "${__from_status_line}" "${__reset}"
             } else {
-                echo " \[${__fg_color12}\]${__home_character}\[${__reset}\]"
+                printf ' \[%s\]%s\[%s\]' \
+                    "${__fg_color12}" "${__home_character}" "${__reset}"
             } fi
         } else {
             local __current_dir __parent_dir __depth
+            
+        if [[ $__uid = 0 ]] ; then {
+            __current_dir="${__pwd}"
+        } else {
+            # Replace '/home/$__user' with '$__home_character'
+            __current_dir="${__pwd//\/home\/$__user/$__home_character}"
+        } fi
 
-            __current_dir="${PWD//\/home\/air/$__home_character}" # Replace '/home/air' with '~'
-            __depth=${__current_dir//[!\/]} # extract the '/' from pwd
-            __current_dir="${__current_dir%/}" # Strip trailing '/'
+            # extract the '/' from pwd
+            __depth=${__current_dir//[!\/]}
+
+            # Strip trailing '/'
+            __current_dir="${__current_dir%/}"
 
             # Remove path elements, from the left, until it is the right size
             while (( ${#__depth} > 2 )) ; do
@@ -235,50 +254,70 @@ function __set_prompts () {
                 } fi
             done
 
-            __parent_dir="${__current_dir%/*}" # Strip everything after the last '/'
-            __current_dir="${__current_dir##*/}" # Strip everything before the last '/'
+            # Strip everything after the last '/'
+            __parent_dir="${__current_dir%/*}"
+            
+            # Strip everything before the last '/'
+            __current_dir="${__current_dir##*/}"
 
             if [[ -n "$__to_status_line" ]] ; then {
-                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__to_status_line}/${__current_dir}${__from_status_line}${__reset}\]"
+                printf ' \[%s%s\]%s/\[%s\]%s\[%s/%s%s%s\]' \
+                    "${__fg_color12}" "${__dim}" "${__parent_dir}" \
+                    "${__remove_dim}" "${__current_dir}" \
+                    "${__to_status_line}" "${__current_dir}" \
+                    "${__from_status_line}" "${__reset}\]"
             } else {
-                echo " \[${__fg_color12}${__dim}\]${__parent_dir}/\[${__remove_dim}\]${__current_dir}\[${__reset}\]"
+                printf ' \[%s%s\]%s/\[%s\]%s\[%s\]' \
+                "${__fg_color12}" "${__dim}" "${__parent_dir}" \
+                "${__remove_dim}" "${__current_dir}" "${__reset}"
             } fi
         } fi
     }
 
-    function __prompt_character () {
-        # If the current user has root EUID then show '#' as the prompt character,
-        # otherwise show '$'.
+    __prompt_character () {
+        # If the current user has root EUID then show '#' as the prompt
+        # character otherwise show '$'.
 
-        if [[ $EUID -ne 0 ]] ; then {
-            echo " \[${__fg_color7}${__italic}${__bold}\]\$\[${__reset}\] "
-        } else {
-            echo " \[${__fg_color7}${__italic}${__bold}\]\#\[${__reset}\] "
+        local __character __uid
+
+        __character='\$'
+        __uid=$(id -u)
+
+        if [[ "$__uid" -eq 0 ]] ; then {
+            __character='\$'
         } fi
+
+        printf ' \[%s%s%s\]%s\[%s\] ' \
+            "${__fg_color7}" "${__italic}" "${__bold}" \
+            "${__character}" "${__reset}"
     }
 
-    function __interactive_prompt () {
-        # Set the prompt for interactive menus. Usually overwritten by the active
-        # program.
+    __interactive_prompt () {
+        # Set the prompt for interactive menus. Usually overwritten by the
+        # active program.
         
         local __prompt
         __prompt="Please enter a number from the above list:\n"
-        echo "\[${__fg_color7}${__italic}\]${__prompt}\[${__reset}\]"
+        printf '\[%s%s\]%s\[%s\]' \
+            "${__fg_color7}" "${__italic}" "${__prompt}" "${__reset}"
     }
 
-    function __debug_prompt () {
+    __debug_prompt () {
         # Set the prompt for debugging. Used in debug mode.
 
         local __character
         __character='+'
-        echo "\[${__fg_color7}${__bold}${__italic}\]${__character}\[${__reset}\]"
+        printf '\[%s%s%s\]%s\[%s\]' \
+            "${__fg_color7}" "${__bold}" "${__italic}" \
+            "${__character}" "${__reset}"
     }
 
     # Not used - displayed after each command, before any output
     PS0=''
 
     # Normal prompt shown before each command
-    PS1="$(__exit_status $__exit_code)$(__context)$(__working_dir)$(__git_info)$(__virtualenv_info)$(__prompt_character)"
+    PS1="$(__exit_status $__exit_code)$(__context)$(__working_dir)"
+    PS1="${PS1}$(__git_info)$(__virtualenv_info)$(__prompt_character)"
 
     # Secondary prompt when a command needs more input
     PS2="$(__exit_status $__exit_code)$(__context)$(__prompt_character)"
@@ -289,10 +328,12 @@ function __set_prompts () {
     # Bash prompt used for tracing a script in debug mode
     PS4="$(__debug_prompt)"
 
-    unset __exit_status __context __working_dir __git_info __virtualenv_info __prompt_character __interactive_prompt __debug_prompt
+    unset \
+        __exit_status __context __working_dir __git_info __virtualenv_info \
+        __prompt_character __interactive_prompt __debug_prompt
 }
 
-PROMPT_COMMAND=__set_prompts
+PROMPT_COMMAND=( __set_prompts )
 
 
 ## Aliases
@@ -303,72 +344,90 @@ alias gpg='gpg2 --homedir "$XDG_DATA_HOME"/gnupg'
 alias gdb='gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 
 # Set interactive behavior as default for 'dangerous' shell utilities
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+rm () { command rm -i "${@}"; }
+cp () { command cp -i "${@}"; }
+mv () { command mv -i "${@}"; }
 
-# Let sudo keep the current environment
-alias sudo='sudo -E'
+# Let sudo keep the current environment variables
+sudo () { command sudo -E "${@}"; }
 
 # ls
-function ls () {
+ls () {
     local __files
     if [[ $# -eq 0 ]] ; then {
         __files=( "$PWD"/* )
         if [[ -e ${__files[0]} || -L ${__files[0]} ]] ; then {
-            command ls -dh --color=auto --time-style=long-iso --sort=extension --group-directories-first ./[!.]*
+            command \
+                ls -dh --color=auto --time-style=long-iso \
+                --sort=extension --group-directories-first \
+                ./[!.]*
         } fi
     } else {
         __files=( "$@"/[!.]* )
         if [[ -e ${__files[0]} || -L ${__files[0]} ]] ; then {
             for __directory in "$@" ; do {
-                command ls -dh --color=auto --time-style=long-iso --sort=extension --group-directories-first "${__directory%/}"/[!.]*
+                command \
+                    ls -dh --color=auto --time-style=long-iso \
+                    --sort=extension --group-directories-first \
+                    "${__directory%/}"/[!.]*
             } done
         } fi
     } fi
 }
 
-function ll () {
+ll () {
     local __files
     if [[ $# -eq 0 ]] ; then {
         __files=( "$PWD"/* )
         if [[ -e ${__files[0]} || -L ${__files[0]} ]] ; then {
-            command ls -ldh --color=auto --time-style=long-iso --sort=extension --group-directories-first ./[!.]*
+            command \
+                ls -ldh --color=auto --time-style=long-iso \
+                --sort=extension --group-directories-first \
+                ./[!.]*
         } fi
     } else {
         __files=( "$@"/[!.]* )
         if [[ -e ${__files[0]} || -L ${__files[0]} ]] ; then {
             for __directory in "$@" ; do {
-                command ls -ldh --color=auto --time-style=long-iso --sort=extension --group-directories-first "${__directory%/}"/[!.]*
+                command \
+                    ls -ldh --color=auto --time-style=long-iso \
+                    --sort=extension --group-directories-first \
+                    "${__directory%/}"/[!.]*
             } done
         } fi
     } fi
 }
 
-function la () {
+la () {
     local __files
     if [[ $# -eq 0 ]] ; then {
         __files=( "$PWD"/* )
         if [[ -e ${__files[0]} || -L ${__files[0]} ]] ; then {
-            command ls -ldh --color=auto --time-style=long-iso --sort=extension --group-directories-first ./*
+            command \
+                ls -ldh --color=auto --time-style=long-iso \
+                --sort=extension --group-directories-first \
+                ./*
         } fi
     } else {
         __files=( "$@"/* )
         if [[ -e ${__files[0]} || -L ${__files[0]} ]] ; then {
             for __directory in "$@" ; do {
-                command ls -ldh --color=auto --time-style=long-iso --sort=extension --group-directories-first "${__directory%/}"/*
+                command \
+                    ls -ldh --color=auto --time-style=long-iso \
+                    --sort=extension --group-directories-first \
+                    "${__directory%/}"/*
             } done
         } fi
     } fi
 }
 
 # cd
-function cd () {
+cd () {
     # Change default behavior by calling the ls alias after changing
     # directories. If python is installed, manage virtual environment
     # activation automatically.
 
-    local __dir __current_dir __found
+    local __dir __current_dir __found __dir_uid __dir_gid __uid __gid
 
     __dir="$*"
 
@@ -376,7 +435,21 @@ function cd () {
         __dir="$HOME"
     } fi
 
+    __dir=$(realpath "$__dir")
+
     builtin cd "${__dir}" || return 1
+
+    __uid=$(id -u)
+    __gid=$(id -g)
+    __dir_uid=$(stat -c "%u" "$__dir")
+    __dir_gid=$(stat -c "%g" "$__dir")
+
+    # If the directory is not owned by the current user or group, then don't
+    # blindly export environment variables. A manual export is fine.
+    if [[ "$__uid" -ne "$__dir_uid" ]] || \
+        [[ "$__gid" -ne "$__dir_gid" ]] ; then {
+        return 1
+    } fi
 
     # Search current and parent directories for .env or env files, then
     # export the variables contained within. The required format for a
@@ -446,9 +519,21 @@ function cd () {
             . "$__found/bin/activate"
         } fi
     } fi
+    unset __dir __current_dir __found __dir_uid __dir_gid __uid __gid
 }
 
-function extract () {
+# Fzy
+fzy () {
+    if [[ -x "$(command -v fzy)" ]] ; then {
+        if [[ -x "$(command -v fd)" ]] ; then {
+            alias fzf='fd . | fzy'
+        } else {
+        alias fzf='find . | fzy'
+        } fi
+    } fi
+}
+
+extract () {
     # Wrapper for various compression/extraction utilities. Extracts the file
     # given as the first argument to the function.
 
@@ -488,103 +573,106 @@ function extract () {
                 7z x "$1"
                 ;;
             *)
-                echo "'$1' cannot be extracted via ex()"
+                printf '%s cannot be extracted via extract ()' "$1"
                 ;;
         esac
     } else {
-        echo "'$1' is not a valid file"
+                printf '%s is not a valid file' "$1"
     } fi
 }
 
-function ipython () {
-    if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
-        # shellcheck source=/dev/null
-        if . "$VIRTUAL_ENV/bin/activate" ; then {
-            "$VIRTUAL_ENV/bin/ipython"
-            deactivate
+# Neovim
+if [[ -x "$(command -v nvim)" ]] ; then {
+    if [[ -x "$(command -v neovide)" ]] ; then {
+        if [[ -x "$(command -v devour)" ]] ; then {
+            alias nvim='devour neovide '
+            alias diff='devour neovide -- -d -O'
+        } else {
+            alias nvim='neovide '
+            alias diff='neovide -- -d -O'
         } fi
-    } elif [[ -e "$WORKON_HOME/ipython/bin/activate" ]] ; then  {
-        # shellcheck source=/dev/null
-        if . "$WORKON_HOME/ipython/bin/activate" ; then {
-            "$WORKON_HOME/ipython/bin/ipython"
-            deactivate
-        } fi
+    } else {
+            alias nvim='nvim'
+            alias diff='nvim -d'
     } fi
-}
+} fi
 
-# Julia
-if [[ -x "$(command -v julia)" ]] ; then {
-    alias julia='julia --banner=no'
+# Python
+if [[ -x "$(command -v python)" ]] ; then {
+    # IPython
+    ipython () {
+        if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
+            # shellcheck source=/dev/null
+            if . "$VIRTUAL_ENV/bin/activate" ; then {
+                "$VIRTUAL_ENV/bin/ipython"
+                deactivate
+            } fi
+        } elif [[ -e "$WORKON_HOME/ipython/bin/activate" ]] ; then  {
+            # shellcheck source=/dev/null
+            if . "$WORKON_HOME/ipython/bin/activate" ; then {
+                "$WORKON_HOME/ipython/bin/ipython"
+                deactivate
+            } fi
+        } fi
+    }
+
+    # Python UV
+    if [[ -x "$(command -v uv)" ]] ; then {
+        alias pip='uv pip'
+    } fi
 } fi
 
 # MATLAB
 if [[ -x "$(command -v matlab)" ]] ; then {
-    alias matlab='LD_PRELOAD=/usr/lib/libstdc++.so.6.0.33 command matlab'
+    matlab () {
+        LD_PRELOAD=/usr/lib/libstdc++.so.6.0.33 command matlab
+    }
+
+    matlab-run () {
+        matlab -nodesktop -nosplash -r "$1"
+    }
 } fi
-
-# cat
-if [[ -x "$(command -v bat)" ]] ; then { # If bat is installed prefer it
-    alias bat="bat --theme=ansi"
-} fi
-
-# ncmpcpp
-if [[ -x "$(command -v ncmpcpp)" ]] ; then {
-    alias ncmpcpp="ncmpcpp --quiet"
-} fi
-
-# Minicom
-if [[ -x "$(command -v minicom)" ]] ; then {
-    alias minicom='minicom --color=on \
-        --statlinefmt=" Minicom %V | %b | %T | %D "'
-    } fi
-
-# Neovide
-if [[ -x "$(command -v neovide)" ]] ; then {
-    if [[ -x "$(command -v devour)" ]] ; then {
-        alias nvim='devour neovide -- '
-    } fi
-} fi
-
-# Diff
-if [[ -x "$(command -v nvim)" ]] ; then {
-    alias diff='nvim -d'
-} fi
-
-alias diff='nvim -d'
 
 # Distribution-specific Aliases
 if [[ -r /etc/arch-release ]] ; then {
-    # If the mirrorlist hasn't been updated in more than a week, update it and
-    # select the 10 fastest mirrors in America and Canada that support https.
-    # Requires rankmirrors from pacman-contrib package.
-    function mirror-update () {
+    __mirror-update () {
+        # If the mirrorlist hasn't been updated in more than a week, update it
+        # and select the 10 fastest mirrors that support https. Requires the
+        # rankmirrors program from the pacman-contrib package.
+
         local __mirrorlist_epoch __current_epoch __delta_epoch
         __mirrorlist_epoch=$(date -r /etc/pacman.d/mirrorlist +%s)
         __current_epoch=$(date +%s)
         __delta_epoch=$(( __current_epoch - __mirrorlist_epoch ))
+
+       printf -v __mirrorlist_url '%s' \
+            'https://archlinux.org/mirrorlist/' \
+            '?country=CA&country=US&protocol=https&use_mirror_status=on'
+
         if [[ $__delta_epoch -gt 604800 ]] ; then {
-            echo 'Updating mirrorlist.'
+            printf 'Updating mirrorlist.\n'
             sudo sh -c \
-                "cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
-                && curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' \
+                cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
+                && curl -s "$__mirrorlist_url" \
                 | sed -e 's/^#Server/Server/' -e '/^#/d' \
-                | rankmirrors -n 10 - \
-                >| /etc/pacman.d/mirrorlist"
+                | rankmirrors -n 5 - \
+                >| /etc/pacman.d/mirrorlist
         } fi
+
         unset __mirrorlist_epoch __current_epoch __delta_epoch
     }
 
     if [[ -x "$(command -v pacdiff)" ]] ; then {
         if [[ -x "$(command -v paru)" ]] ; then {
-            function paru () {
-                mirror-update \
+            paru () {
+                __mirror-update \
                     && command paru "$@" \
                     && sudo DIFFPROG="$EDITOR -d" pacdiff \
                     && command paccache -r -q
                 }
         } else {
-            function pacman () {
-                mirror-update \
+            pacman () {
+                __mirror-update \
                     && command pacman "$@" \
                     && sudo DIFFPROG="$EDITOR -d" pacdiff \
                     && command paccache -r -q
@@ -593,30 +681,15 @@ if [[ -r /etc/arch-release ]] ; then {
     } fi
 } fi
 
-# Fzy
-if [[ -x "$(command -v fzy)" ]] ; then {
-    if [[ -x "$(command -v fd)" ]] ; then {
-        alias fzf='fd . | fzy'
-    } else {
-    alias fzf='find . | fzy'
-    } fi
+# Minicom
+if [[ -x "$(command -v minicom)" ]] ; then {
+    alias minicom='minicom --color=on \
+        --statlinefmt=" Minicom %V | %b | %T | %D "'
 } fi
-
-if [[ -x "$(command -v kmon)" ]] ; then {
-    alias kmon='sudo kmon --color=white --accent-color=blue'
-} fi
-
-# Fastfetch
-if [[ -x "$(command -v fastfetch)" ]] ; then {
-    alias fastfetch="fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break \
-        --logo arch_small"
-} fi
-
-alias school='cd ~/documents/academic/graduate/au24/'
-
-alias wifi-info="rfkill --output-all | head -n 2 && iwctl station wlan0 show | tail -n 20"
-alias bt-info="rfkill --output-all | head -n 1 && rfkill --output-all | tail -n 1 && bluetoothctl show"
 
 
 ## Welcome Message
-fastfetch && cd . && ll .
+fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small \
+    && cd . && ll .
+
+# vim: sw=4 ts=4 tw=80

@@ -95,9 +95,9 @@ theme.menu_fg_focus                             = theme.fg_focus
 
 
 -- Theme settings
-theme.font                                      = "Inter, Symbols Nerd Font 12"
-theme.prompt_font                               = "Iosevka Term, Symbols Nerd Font Mono 12"
-theme.popup_font                                = "Inter, Symbols Nerd Font 10"
+theme.font                                      = "sans-serif 12"
+theme.prompt_font                               = "monospace 11"
+theme.popup_font                                = "sans-serif 10"
 
 theme.opacity                                   = 1.0
 theme.corner_radius                             = 0
