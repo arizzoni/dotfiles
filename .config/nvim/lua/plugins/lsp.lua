@@ -203,6 +203,7 @@ return {
 				},
 				ruff = {
 					init_options = {
+						filetypes = { "py", "pytxcode" },
 						settings = {
 							logLevel = "debug",
 							analyze = {
@@ -352,7 +353,7 @@ return {
 			-- table of embedded languages to look for.
 			-- default = nil, which will activate
 			-- any embedded languages found
-			local languages = { "julia", "lua", "matlab", "python" }
+			local languages = { "python", "lua", "matlab" }
 
 			-- enable completion/diagnostics
 			-- defaults are true

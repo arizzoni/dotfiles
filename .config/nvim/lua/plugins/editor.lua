@@ -15,7 +15,7 @@ return {
       enable_bracket_in_quote = true,   --
       enable_abbr = false,              -- trigger abbreviation
       break_undo = true,                -- switch for basic rule break undo sequence
-      check_ts = false,
+      check_ts = true,
       map_cr = true,
       map_bs = true,   -- map the <BS> key
       map_c_h = false, -- Map the <C-h> key to delete a pair
@@ -37,8 +37,8 @@ return {
       "hrsh7th/cmp-path",                     -- Completion for paths
       "hrsh7th/cmp-cmdline",                  -- Completion for command line
       "hrsh7th/cmp-nvim-lua",                 -- Neovim Lua completion source
-      "micangl/cmp-vimtex",                   -- Vimtex completion source
       "windwp/nvim-autopairs",                -- Autopairs completion
+      "micangl/cmp-vimtex",                   -- Vimtex completion source
       "dmitmel/cmp-digraphs",                 -- Vim digraph completion
     },
     opts = function()
@@ -166,13 +166,11 @@ return {
   },
   {
     url = "https://www.github.com/kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    -- event = "VeryLazy",
-    opts = {},
+    event = "VeryLazy",
+    opts = true,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    name = "indent-blankline.nvim",
+    url = "https://www.github.com/lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
     main = "ibl",
     opts = {
@@ -194,7 +192,7 @@ return {
     "mbbill/undotree",
   },
   {
-    "lervag/vimtex",
+    url = "https://www.github.com/lervag/vimtex",
     lazy = false,
     ft = "tex",
     init = function()
