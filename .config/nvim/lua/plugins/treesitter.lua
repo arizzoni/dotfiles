@@ -1,8 +1,6 @@
--- Highlight, edit, and navigate code
 return {
   url = "https://www.github.com/nvim-treesitter/nvim-treesitter",
   name = "nvim-treesitter",
-  -- lazy = false,
   event = "VeryLazy",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -50,7 +48,7 @@ return {
       ignore_install = {},
 
       -- Add languages to be installed here that you want installed for treesitter
-      ensure_installed = { "bash", "bibtex", "c", "clojure", "comment", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "julia", "latex", "lua", "make", "markdown_inline", "matlab", "perl", "psv", "python", "pymanifest", "readline", "requirements", "ssh_config", "tsv", "typst", "query", "yaml", "tmux", "toml", "vhdl", "vimdoc", "vim", "xml", "zathurarc" },
+      ensure_installed = { "bash", "bibtex", "c", "clojure", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "latex", "lua", "make", "markdown_inline", "matlab", "perl", "psv", "python", "pymanifest", "readline", "requirements", "ssh_config", "tsv", "typst", "query", "yaml", "tmux", "toml", "vhdl", "vimdoc", "vim", "xml", "zathurarc" },
 
       -- Autoinstall languages that are not installed. Defaults to false
       auto_install = false,
@@ -58,7 +56,9 @@ return {
         enable = true,
         additional_vim_regex_highlighting = false,
       },
-      indent = { enable = true },
+      indent = {
+        enable = true
+      },
       incremental_selection = {
         enable = true,
         keymaps = {

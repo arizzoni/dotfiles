@@ -9,5 +9,5 @@ if vim.fn.has("nvim-0.9.0") == 0 then
 end
 
 return {
-  { "folke/lazy.nvim", version = "*" },
+  { url = "https://www.github.com/folke/lazy.nvim", version = "*" },
 }

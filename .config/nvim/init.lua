@@ -2,7 +2,6 @@
 
 -- No startup message (has to be first)
 vim.opt.shortmess:append("I")
-vim.g.termguicolors = true
 
 -- Set <space> as the leader key
 vim.g.mapleader = " "
@@ -30,4 +29,4 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
 -- Setup configuration
-require("core")
+require("config")
