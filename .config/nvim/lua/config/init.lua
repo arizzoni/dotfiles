@@ -1,9 +1,9 @@
 --[[ core/init.lua ]]
+local util = require("util")
 
-vim.cmd.colorscheme("default")
-
-require('config.options')
-require('config.neovide')
+require("config.options")
+require("config.neovide")
+require("config.lsp")
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column
 vim.fn.sign_define("DiagnosticSignError", { text = "×", texthl = "DiagnosticSignError" }) --  󰅗

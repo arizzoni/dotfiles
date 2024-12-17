@@ -4,28 +4,6 @@ return {
   url = "https://www.github.com/mfussenegger/nvim-dap",
   name = "nvim-dap",
   event = "VeryLazy",
-  -- opts = {},
-  dependencies = {
-    {
-      url = "https://www.github.com/jay-babu/mason-nvim-dap.nvim",
-      name = "mason-nvim-dap",
-      event = "VeryLazy",
-      dependencies = {
-        {
-          url = "https://www.github.com/williamboman/mason.nvim",
-          event = "VeryLazy",
-        },
-      },
-      opts = {
-        ensure_installed = {
-          "python",
-          "bash",
-        },
-        automatic_installation = true,
-        handlers = {},
-      }
-    },
-  },
   config = function()
     local dap = require('dap')
 
