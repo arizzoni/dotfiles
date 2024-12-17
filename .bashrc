@@ -6,6 +6,7 @@
 
 # Source global definitions
 if [ -r /etc/bash.bashrc ]; then {
+        # shellcheck source=/dev/null
     . /etc/bash.bashrc
 } fi
 
@@ -21,6 +22,7 @@ stty -ixon
 # Bash Completions
 if ! shopt -oq posix ; then {
     if [[ -r /usr/share/bash-completion/bash_completion ]]; then {
+        # shellcheck source=/dev/null
         . '/usr/share/bash-completion/bash_completion'
     } elif [[ -r /etc/bash_completion ]] ; then {
         # shellcheck source=/dev/null

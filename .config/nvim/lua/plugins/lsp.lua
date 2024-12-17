@@ -11,12 +11,15 @@ return {
 				lua = { "selene" },
 			}
 
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+			local shellcheck = lint.linters.shellcheck
+			shellcheck.args = { "-x" }
+
+			vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost", "InsertLeave" }, {
 				callback = function()
 					lint.try_lint()
 				end,
 			})
-		end
+		end,
 	},
 	{
 		url = "http://www.github.com/jmbuhr/otter.nvim",
@@ -74,4 +77,3 @@ return {
 		end,
 	}
 }
--- vim: ts=2 sw=2 tw=120
