@@ -1,10 +1,6 @@
 [general]
-import = [
-"~/.cache/wal/alacritty_colors.toml",
-]
 ipc_socket = true
 live_config_reload = true
-
 
 [cursor]
 blink_interval = 750
