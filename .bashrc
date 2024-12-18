@@ -658,34 +658,22 @@ if [[ -x "$(command -v matlab)" ]] ; then {
 
 # Distribution-specific Aliases
 if [[ -r /etc/arch-release ]] ; then {
-    __mirror-update () {
-        # If the mirrorlist hasn't been updated in more than a week, update it
-        # and select the 10 fastest mirrors that support https. Requires the
-        # rankmirrors program from the pacman-contrib package.
-
-        local __mirrorlist_epoch __current_epoch __delta_epoch
-
-        __mirrorlist_epoch=$(date -r /etc/pacman.d/mirrorlist +%s)
-        __current_epoch=$(date +%s)
-        __delta_epoch=$(( __current_epoch - __mirrorlist_epoch ))
-
-        # Use printf to set the variable so the url string can be split up
-       printf -v __mirrorlist_url '%s' \
-            'https://archlinux.org/mirrorlist/' \
-            '?country=CA&country=US&protocol=https&use_mirror_status=on'
-
-        if [[ $__delta_epoch -gt 604800 ]] ; then {
-            printf 'Updating mirrorlist.\n'
-            sudo sh -c \
-                cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
-                && curl -s "$__mirrorlist_url" \
-                | sed -e 's/^#Server/Server/' -e '/^#/d' \
-                | rankmirrors -n 5 - \
-                >| /etc/pacman.d/mirrorlist
-        } fi
-
-        unset __mirrorlist_epoch __current_epoch __delta_epoch
-    }
+        __mirror-update () {
+            local __mirrorlist_epoch __current_epoch __delta_epoch
+            __mirrorlist_epoch=$(date -r /etc/pacman.d/mirrorlist +%s)
+            __current_epoch=$(date +%s)
+            __delta_epoch=$(( __current_epoch - __mirrorlist_epoch ))
+            if [[ $__delta_epoch -gt 604800 ]] ; then {
+                echo 'Updating mirrorlist.'
+                sudo sh -c \
+                    "cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
+                    && curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' \
+                    | sed -e 's/^#Server/Server/' -e '/^#/d' \
+                    | rankmirrors -n 5 -p \
+                    >| /etc/pacman.d/mirrorlist"
+            } fi
+            unset __mirrorlist_epoch __current_epoch __delta_epoch
+        }
 
     if [[ -x "$(command -v pacdiff)" ]] ; then {
         if [[ -x "$(command -v paru)" ]] ; then {

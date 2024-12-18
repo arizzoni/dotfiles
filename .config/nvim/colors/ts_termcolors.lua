@@ -1,4 +1,4 @@
-vim.cmd('colo default')
+vim.cmd("colo default")
 vim.g.colors_name = "ts_termcolors"
 
 local function set_hl(group, options)
@@ -192,13 +192,6 @@ set_hl("IblScope", { link = "Normal", nocombine = true })
 set_hl("LazyProgressDone", { link = "Float", bold = true })
 set_hl("LazyProgressTodo", { link = "Float", bold = true })
 
-set_hl("TelescopeBorder", { link = "FloatBorder" })
-set_hl("TelescopeNormal", { link = "Float" })
-set_hl("TelescopePrompt", { link = "Float" })
-set_hl("TelescopePromptBorder", { link = "FloatBorder" })
-set_hl("TelescopePromptTitle", { link = "FloatBorder" })
-set_hl("TelescopeResultsComment", { link = "Comment" })
-
 set_hl("TreesitterContext", { link = "Comment" })
 set_hl("TreesitterContextBottom", { link = "Comment" })
 set_hl("TreesitterContextSeparator", { link = "Comment" })
@@ -319,80 +312,89 @@ set_hl("@variable.member", { link = "Variable" })
 set_hl("@variable.parameter", { link = "Variable" })
 set_hl("@variable.parameter.builtin", { link = "Variable" })
 
-set_hl("@lsp.type.boolean", { link = "@boolean" })
-set_hl("@lsp.type.builtinType", { link = "@type.builtin" })
-set_hl("@lsp.type.comment", { link = "@comment" })
-set_hl("@lsp.type.decorator", { link = "@attribute" })
-set_hl("@lsp.type.deriveHelper", { link = "@attribute" })
-set_hl("@lsp.type.enum", { link = "@type" })
-set_hl("@lsp.type.enumMember", { link = "@constant" })
-set_hl("@lsp.type.escapeSequence", { link = "@string.escape" })
-set_hl("@lsp.type.formatSpecifier", { link = "@markup.list" })
-set_hl("@lsp.type.generic", { link = "@variable" })
-set_hl("@lsp.type.interface", { link = "@attribute" })
-set_hl("@lsp.type.keyword", { link = "@keyword" })
-set_hl("@lsp.type.lifetime", { link = "@keyword.storage" })
-set_hl("@lsp.type.namespace", { link = "@module" })
-set_hl("@lsp.type.namespace.python", { link = "@variable" })
-set_hl("@lsp.type.number", { link = "@number" })
-set_hl("@lsp.type.operator", { link = "@operator" })
-set_hl("@lsp.type.parameter", { link = "@variable.parameter" })
-set_hl("@lsp.type.property", { link = "@property" })
-set_hl("@lsp.type.selfKeyword", { link = "@variable.builtin" })
-set_hl("@lsp.type.selfTypeKeyword", { link = "@variable.builtin" })
-set_hl("@lsp.type.string", { link = "@string" })
-set_hl("@lsp.type.typeAlias", { link = "@type.definition" })
-set_hl("@lsp.type.unresolvedReference", { link = "@annotation" })
-set_hl("@lsp.type.variable", { link = "@variable" })
-set_hl("@lsp.typemod.class.defaultLibrary", { link = "@type.builtin" })
-set_hl("@lsp.typemod.enum.defaultLibrary", { link = "@type.builtin" })
-set_hl("@lsp.typemod.enumMember.defaultLibrary", { link = "@constant.builtin" })
-set_hl("@lsp.typemod.function.defaultLibrary", { link = "@function.builtin" })
-set_hl("@lsp.typemod.keyword.async", { link = "@keyword.coroutine" })
-set_hl("@lsp.typemod.keyword.injected", { link = "@keyword" })
-set_hl("@lsp.typemod.macro.defaultLibrary", { link = "@function.builtin" })
-set_hl("@lsp.typemod.method.defaultLibrary", { link = "@function.builtin" })
-set_hl("@lsp.typemod.operator.injected", { link = "@operator" })
-set_hl("@lsp.typemod.string.injected", { link = "@string" })
-set_hl("@lsp.typemod.struct.defaultLibrary", { link = "@type.builtin" })
-set_hl("@lsp.typemod.type.defaultLibrary", { link = "@type.builtin" })
-set_hl("@lsp.typemod.typeAlias.defaultLibrary", { link = "@type.builtin" })
-set_hl("@lsp.typemod.variable.callable", { link = "@function" })
-set_hl("@lsp.typemod.variable.defaultLibrary", { link = "@variable.builtin" })
-set_hl("@lsp.typemod.variable.injected", { link = "@variable" })
-set_hl("@lsp.typemod.variable.static", { link = "@constant" })
+local lsp_group = vim.api.nvim_create_augroup("lsp", { clear = false })
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = lsp_group,
+  pattern = "*",
+  callback = function()
+    set_hl("@lsp.type.boolean", { link = "@boolean" })
+    set_hl("@lsp.type.builtinType", { link = "@type.builtin" })
+    set_hl("@lsp.type.comment", { link = "@comment" })
+    set_hl("@lsp.type.decorator", { link = "@attribute" })
+    set_hl("@lsp.type.deriveHelper", { link = "@attribute" })
+    set_hl("@lsp.type.enum", { link = "@type" })
+    set_hl("@lsp.type.enumMember", { link = "@constant" })
+    set_hl("@lsp.type.escapeSequence", { link = "@string.escape" })
+    set_hl("@lsp.type.formatSpecifier", { link = "@markup.list" })
+    set_hl("@lsp.type.generic", { link = "@variable" })
+    set_hl("@lsp.type.interface", { link = "@attribute" })
+    set_hl("@lsp.type.keyword", { link = "@keyword" })
+    set_hl("@lsp.type.lifetime", { link = "@keyword.storage" })
+    set_hl("@lsp.type.namespace", { link = "@module" })
+    set_hl("@lsp.type.namespace.python", { link = "@variable" })
+    set_hl("@lsp.type.number", { link = "@number" })
+    set_hl("@lsp.type.operator", { link = "@operator" })
+    set_hl("@lsp.type.parameter", { link = "@variable.parameter" })
+    set_hl("@lsp.type.property", { link = "@property" })
+    set_hl("@lsp.type.selfKeyword", { link = "@variable.builtin" })
+    set_hl("@lsp.type.selfTypeKeyword", { link = "@variable.builtin" })
+    set_hl("@lsp.type.string", { link = "@string" })
+    set_hl("@lsp.type.typeAlias", { link = "@type.definition" })
+    set_hl("@lsp.type.unresolvedReference", { link = "@annotation" })
+    set_hl("@lsp.type.variable", { link = "@variable" })
+    set_hl("@lsp.typemod.class.defaultLibrary", { link = "@type.builtin" })
+    set_hl("@lsp.typemod.enum.defaultLibrary", { link = "@type.builtin" })
+    set_hl("@lsp.typemod.enumMember.defaultLibrary", { link = "@constant.builtin" })
+    set_hl("@lsp.typemod.function.defaultLibrary", { link = "@function.builtin" })
+    set_hl("@lsp.typemod.keyword.async", { link = "@keyword.coroutine" })
+    set_hl("@lsp.typemod.keyword.injected", { link = "@keyword" })
+    set_hl("@lsp.typemod.macro.defaultLibrary", { link = "@function.builtin" })
+    set_hl("@lsp.typemod.method.defaultLibrary", { link = "@function.builtin" })
+    set_hl("@lsp.typemod.operator.injected", { link = "@operator" })
+    set_hl("@lsp.typemod.string.injected", { link = "@string" })
+    set_hl("@lsp.typemod.struct.defaultLibrary", { link = "@type.builtin" })
+    set_hl("@lsp.typemod.type.defaultLibrary", { link = "@type.builtin" })
+    set_hl("@lsp.typemod.typeAlias.defaultLibrary", { link = "@type.builtin" })
+    set_hl("@lsp.typemod.variable.callable", { link = "@function" })
+    set_hl("@lsp.typemod.variable.defaultLibrary", { link = "@variable.builtin" })
+    set_hl("@lsp.typemod.variable.injected", { link = "@variable" })
+    set_hl("@lsp.typemod.variable.static", { link = "@constant" })
+  end
+})
 
 -- Lualine
-local ts_termcolors = {
-  normal = {
-    a = { link = "LineNr", bg = 1, gui = "bold" },
-    b = { link = "LineNr", bg = 9 },
-    c = { link = "LineNr" },
-  },
-  insert = {
-    a = { link = "LineNr", bg = 2, gui = "bold" },
-    b = { link = "LineNr", bg = 10 },
-    c = { link = "LineNr", bg = 10 },
-  },
-  replace = {
-    a = { link = "LineNr", bg = 3, gui = "bold" },
-    b = { link = "LineNr", bg = 11 },
-    c = { link = "LineNr", bg = 11 },
-  },
-  visual = {
-    a = { link = "LineNr", bg = 4, gui = "bold" },
-    b = { link = "LineNr", bg = 12 },
-    c = { link = "LineNr", bg = 12 },
-  },
-  command = {
-    a = { link = "LineNr", bg = 5, gui = "bold" },
-    b = { link = "LineNr", bg = 13 },
-    c = { link = "LineNr", bg = 0 },
-  },
-  inactive = {
-    a = { link = "LineNr", bg = 8, gui = "bold" },
-    b = { link = "LineNr", bg = 8 },
-    c = { link = "LineNr", bg = 0 },
-  },
-}
-require("lualine").setup({ options = { theme = ts_termcolors } })
+if require("lualine") then
+  local ts_termcolors = {
+    normal = {
+      a = { link = "LineNr", bg = 1, gui = "bold" },
+      b = { link = "LineNr", bg = 9 },
+      c = { link = "LineNr" },
+    },
+    insert = {
+      a = { link = "LineNr", bg = 2, gui = "bold" },
+      b = { link = "LineNr", bg = 10 },
+      c = { link = "LineNr", bg = 10 },
+    },
+    replace = {
+      a = { link = "LineNr", bg = 3, gui = "bold" },
+      b = { link = "LineNr", bg = 11 },
+      c = { link = "LineNr", bg = 11 },
+    },
+    visual = {
+      a = { link = "LineNr", bg = 4, gui = "bold" },
+      b = { link = "LineNr", bg = 12 },
+      c = { link = "LineNr", bg = 12 },
+    },
+    command = {
+      a = { link = "LineNr", bg = 5, gui = "bold" },
+      b = { link = "LineNr", bg = 13 },
+      c = { link = "LineNr", bg = 0 },
+    },
+    inactive = {
+      a = { link = "LineNr", bg = 8, gui = "bold" },
+      b = { link = "LineNr", bg = 8 },
+      c = { link = "LineNr", bg = 0 },
+    },
+  }
+  require("lualine").setup({ options = { theme = ts_termcolors } })
+end

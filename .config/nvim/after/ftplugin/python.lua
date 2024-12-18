@@ -1,3 +1,5 @@
+vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "virtualenvs/neovim/bin")
+
 vim.bo.textwidth = 88
 
 local root_dir = vim.fs.dirname(
@@ -16,7 +18,7 @@ local root_dir = vim.fs.dirname(
 
 local ruff = vim.lsp.start({
 	name = "ruff",
-	cmd = { vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/ruff"), "server" },
+	cmd = { "/home/air/.local/share/virtualenvs/neovim/bin/ruff", "server" }, -- TODO get this working properly
 	filetypes = { "python" },
 	root_dir = root_dir,
 	single_file_support = true,
