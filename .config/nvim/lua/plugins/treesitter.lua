@@ -8,18 +8,16 @@ return {
     {
       url = "https://www.github.com/nvim-treesitter/nvim-treesitter-context",
       opts = {
-        enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 1,           -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        enable = true,
+        max_lines = 1,
+        min_window_height = 0,
         line_numbers = true,
-        multiline_threshold = 1, -- Maximum number of lines to show for a single context
-        trim_scope = 'outer',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = 'cursor',         -- Line used to calculate context. Choices: 'cursor', 'topline'
-        -- Separator between context and content. Should be a single character string, like '-'.
-        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        multiline_threshold = 1,
+        trim_scope = "outer",
+        mode = "cursor",
         separator = nil,
-        zindex = 20,     -- The Z-index of the context window
-        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+        zindex = 20,
+        on_attach = nil,
       }
     },
     {
@@ -46,11 +44,7 @@ return {
       sync_install = true,
       modules = {},
       ignore_install = {},
-
-      -- Add languages to be installed here that you want installed for treesitter
-      ensure_installed = { "bash", "bibtex", "c", "clojure", "cpp", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "latex", "lua", "make", "markdown_inline", "matlab", "perl", "psv", "python", "pymanifest", "readline", "requirements", "ssh_config", "tsv", "typst", "query", "yaml", "tmux", "toml", "vhdl", "vimdoc", "vim", "xml", "zathurarc" },
-
-      -- Autoinstall languages that are not installed. Defaults to false
+      ensure_installed = { "bash", "bibtex", "csv", "git_config", "git_rebase", "gitattributes", "gitcommit", "gitignore", "gpg", "ini", "json", "latex", "lua", "make", "markdown_inline", "perl", "psv", "python", "pymanifest", "readline", "requirements", "ssh_config", "tsv", "query", "yaml", "tmux", "toml", "vimdoc", "vim", "xml", "zathurarc" },
       auto_install = false,
       highlight = {
         enable = true,
@@ -71,9 +65,8 @@ return {
       textobjects = {
         select = {
           enable = true,
-          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true,
           keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
             ["aa"] = "@parameter.outer",
             ["ia"] = "@parameter.inner",
             ["af"] = "@function.outer",
@@ -84,7 +77,7 @@ return {
         },
         move = {
           enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
+          set_jumps = true,
           goto_next_start = {
             ["]m"] = "@function.outer",
             ["]]"] = "@class.outer",

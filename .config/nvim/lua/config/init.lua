@@ -2,7 +2,6 @@
 local util = require("util")
 
 require("config.options")
-require("config.neovide")
 require("config.lsp")
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column

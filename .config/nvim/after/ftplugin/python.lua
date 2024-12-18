@@ -1,3 +1,5 @@
+vim.bo.textwidth = 88
+
 local root_dir = vim.fs.dirname(
 	vim.fs.find({
 		"pyproject.toml",
@@ -14,7 +16,7 @@ local root_dir = vim.fs.dirname(
 
 local ruff = vim.lsp.start({
 	name = "ruff",
-	cmd = { "ruff", "server" },
+	cmd = { vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/ruff"), "server" },
 	filetypes = { "python" },
 	root_dir = root_dir,
 	single_file_support = true,
@@ -26,8 +28,8 @@ local ruff = vim.lsp.start({
 					preview = true,
 				},
 				format = {
-					line_length = 88,
-					indent_width = 4,
+					line_length = vim.bo.textwidth,
+					indent_width = vim.bo.shiftwidth,
 					indent_style = "spaces",
 					quote_style = "double",
 					preview = true,
@@ -61,13 +63,13 @@ vim.lsp.buf_attach_client(0, ruff)
 
 local pylsp = vim.lsp.start({
 	name = "pylsp",
-	cmd = { "pylsp" },
+	cmd = { vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/pylsp") },
 	filetypes = { "python" },
 	root_dir = root_dir,
 	single_file_support = true,
 	settings = {
 		pylsp = {
-			filetypes = { "py", "pytxcode" },
+			filetypes = { "python" },
 			plugins = {
 				autopep8 = {
 					enabled = false,
@@ -118,10 +120,9 @@ local pylsp = vim.lsp.start({
 vim.lsp.buf_attach_client(0, pylsp)
 
 -- Disable Ruff hover capability in favor of Pylsp
-local client = vim.lsp.get_client_by_id(args.data.client_id)
-if client.name == "ruff" then
-	-- Disable hover in favor of Py_lsp
-	client.server_capabilities.hoverProvider = false
-else
-	return
+for _, client in ipairs(vim.lsp.get_active_clients()) do
+	if client.name == "ruff" then
+		-- Disable hover in favor of Py_lsp
+		client.server_capabilities.hoverProvider = false
+	end
 end

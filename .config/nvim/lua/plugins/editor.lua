@@ -5,31 +5,29 @@ return {
     config = true,
     opts = {
       disable_filetype = { "TelescopePrompt" },
-      disable_in_macro = true,        -- disable when recording or executing a macro
-      disable_in_visualblock = false, -- disable when insert after visual block mode
+      disable_in_macro = true,
+      disable_in_visualblock = false,
       disable_in_replace_mode = true,
       ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
       enable_moveright = true,
-      enable_afterquote = true,         -- add bracket pairs after quote
-      enable_check_bracket_line = true, --- check bracket in same line
-      enable_bracket_in_quote = true,   --
-      enable_abbr = false,              -- trigger abbreviation
-      break_undo = true,                -- switch for basic rule break undo sequence
+      enable_afterquote = true,
+      enable_check_bracket_line = true,
+      enable_bracket_in_quote = true,
+      enable_abbr = false,
+      break_undo = true,
       check_ts = true,
       map_cr = true,
-      map_bs = true,   -- map the <BS> key
-      map_c_h = false, -- Map the <C-h> key to delete a pair
-      map_c_w = false, -- map <c-w> to delete a pair if possible
+      map_bs = true,
+      map_c_h = false,
+      map_c_w = false,
     },
   },
   {
     url = "https://www.github.com/hrsh7th/nvim-cmp",
     event = "VeryLazy",
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
       "L3MON4D3/LuaSnip",                     -- Snippet Engine
       "saadparwaiz1/cmp_luasnip",             -- Luasnip source
-      -- Adds LSP completion capabilities
       "hrsh7th/cmp-nvim-lsp",                 -- LSP completion
       "hrsh7th/cmp-nvim-lsp-document-symbol", -- LSP completion
       "hrsh7th/cmp-nvim-lsp-signature-help",  -- LSP completion
@@ -45,12 +43,13 @@ return {
       local cmp = require "cmp"
       local luasnip = require "luasnip"
       require("luasnip.loaders.from_vscode").lazy_load()
-      -- If you want insert `(` after select function or method item
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
       cmp.event:on(
         "confirm_done",
         cmp_autopairs.on_confirm_done()
       )
+
       cmp.enabled = function()
         -- disable completion in comments
         local context = require "cmp.config.context"
@@ -62,6 +61,7 @@ return {
               and not context.in_syntax_group("Comment")
         end
       end
+
       cmp.setup.cmdline("/", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
@@ -69,6 +69,7 @@ return {
         }
       }
       )
+
       cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
@@ -82,6 +83,7 @@ return {
           }
         })
       })
+
       return {
         view = {
           entries = "custom"
@@ -97,7 +99,6 @@ return {
           fields = { "kind", "abbr", "menu" },
           format = function(_, vim_item)
             vim_item.menu = string.format("(%s)", vim_item.kind)
-            -- vim_item.kind = string.format(' %s ', kind_icons[vim_item.kind])
             return vim_item
           end
         },
@@ -184,9 +185,6 @@ return {
         highlight = { "Function" },
       },
     }
-  },
-  {
-    "tpope/vim-sleuth",
   },
   {
     "mbbill/undotree",

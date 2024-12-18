@@ -2,7 +2,7 @@ local util = require('util')
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function()
-		local bufnr = vim.fn.bufnr()
+		local bufnr = vim.api.nvim_get_current_buf()
 		util.nmap("<leader>rn", vim.lsp.buf.rename, bufnr, "[R]e[n]ame")
 		util.nmap("<leader>ca", vim.lsp.buf.code_action, bufnr, "[C]ode [A]ction")
 		util.nmap("gd", vim.lsp.buf.definition, bufnr, "[G]oto [D]efinition")

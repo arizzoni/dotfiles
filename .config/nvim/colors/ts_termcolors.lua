@@ -1,3 +1,4 @@
+vim.cmd('colo default')
 vim.g.colors_name = "ts_termcolors"
 
 local function set_hl(group, options)
