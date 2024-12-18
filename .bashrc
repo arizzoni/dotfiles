@@ -524,16 +524,24 @@ cd () {
     unset __dir __current_dir __found __dir_uid __dir_gid __uid __gid
 }
 
-# Fzy
-fzy () {
-    if [[ -x "$(command -v fzy)" ]] ; then {
-        if [[ -x "$(command -v fd)" ]] ; then {
-            alias fzf='fd . | fzy'
-        } else {
-        alias fzf='find . | fzy'
-        } fi
+# fzy () { # TODO
+#     # Wrapper for fzy to emulate fzf behavior
+#     if [[ -x "$(command -v fzy)" ]] ; then {
+#         if [[ -x "$(command -v fd)" ]] ; then {
+#             alias fzf='fd . | fzy'
+#         } else {
+#         alias fzf='find . | fzy'
+#         } fi
+#     } fi
+# }
+
+if [[ -x "$(command -v fzy)" ]] ; then {
+    if [[ -x "$(command -v fd)" ]] ; then {
+        alias fzf='fd . | fzy'
+    } else {
+    alias fzf='find . | fzy'
     } fi
-}
+} fi
 
 extract () {
     # Wrapper for various compression/extraction utilities. Extracts the file
@@ -583,20 +591,33 @@ extract () {
     } fi
 }
 
+loc () {
+    # Prints the number of lines in files with the provided suffixes.
+    # Usage: loc 'suffix1' 'suffix2' ... 'suffixN'
+    #        e.g. loc 'lua', loc 'py' 'toml', loc 'c' 'h'
+    
+    local __lines __extension
+
+    for __extension in "$@"; do {
+        __lines=$( \
+            find ./* -name "*.$__extension" -print0 \
+            | xargs -0 wc -l \
+            | grep total \
+        )
+        __lines="${__lines//[!0-9]/}"
+
+        if [[ -z $__lines ]] ; then {
+            __lines=0
+        } fi
+
+        printf '%s\n' "$__lines"
+    } done
+}
+
 # Neovim
 if [[ -x "$(command -v nvim)" ]] ; then {
-    if [[ -x "$(command -v neovide)" ]] ; then {
-        if [[ -x "$(command -v devour)" ]] ; then {
-            alias nvim='devour neovide '
-            alias diff='devour neovide -- -d -O'
-        } else {
-            alias nvim='neovide '
-            alias diff='neovide -- -d -O'
-        } fi
-    } else {
-            alias nvim='nvim'
-            alias diff='nvim -d'
-    } fi
+    alias nvim='nvim'
+    alias diff='nvim -d'
 } fi
 
 # Python
@@ -643,10 +664,12 @@ if [[ -r /etc/arch-release ]] ; then {
         # rankmirrors program from the pacman-contrib package.
 
         local __mirrorlist_epoch __current_epoch __delta_epoch
+
         __mirrorlist_epoch=$(date -r /etc/pacman.d/mirrorlist +%s)
         __current_epoch=$(date +%s)
         __delta_epoch=$(( __current_epoch - __mirrorlist_epoch ))
 
+        # Use printf to set the variable so the url string can be split up
        printf -v __mirrorlist_url '%s' \
             'https://archlinux.org/mirrorlist/' \
             '?country=CA&country=US&protocol=https&use_mirror_status=on'
@@ -693,5 +716,3 @@ if [[ -x "$(command -v minicom)" ]] ; then {
 ## Welcome Message
 fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small \
     && cd . && ll .
-
-# vim: sw=4 ts=4 tw=80
