@@ -1,3 +1,4 @@
+vim.o.termguicolors = false
 vim.cmd("colo default")
 vim.g.colors_name = "ts_termcolors"
 

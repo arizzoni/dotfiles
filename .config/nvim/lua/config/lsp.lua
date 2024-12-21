@@ -26,6 +26,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if client.supports_method("textDocument/hover") then
+      vim.api.nvim_create_autocmd("CursorHold", {
+        group = lsp_group,
+        pattern = "*",
+        callback = function()
+          vim.lsp.buf.hover()
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        group = lsp_group,
+        pattern = "*",
+        callback = function()
+          vim.lsp.buf.clear_references()
+        end,
+      })
+
       util.nmap("K", vim.lsp.buf.hover, bufnr, "Hover Documentation")
     end
 

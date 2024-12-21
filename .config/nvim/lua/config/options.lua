@@ -1,5 +1,11 @@
 -- Neovim Options
-vim.o.termguicolors = false
+local uname = vim.uv.os_uname()
+if uname.sysname == "Windows" then
+  vim.opt.shell = "powershell.exe"
+else
+  vim.opt.shell = "/bin/bash"
+end
+
 vim.o.title = true
 vim.o.writebackup = true
 vim.o.undofile = true
@@ -7,7 +13,6 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.timeout = true
 vim.o.timeoutlen = 30
-vim.g.shell = "bash"
 vim.g.python3_host_prog = vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/python")
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
