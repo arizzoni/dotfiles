@@ -1,3 +1,5 @@
+local line = require("config.line")
+
 vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "virtualenvs/neovim/bin")
 
 vim.bo.textwidth = 88
@@ -129,16 +131,16 @@ for _, client in ipairs(vim.lsp.get_active_clients()) do
   end
 end
 
-local term = require("config.terminal")
-
-local ipy_cmd = function()
-  if os.getenv("VIRTUAL_ENV") ~= nil then
-    return os.getenv("VIRTUAL_ENV") .. "/bin/ipython"
-  elseif os.getenv("WORKON_HOME") ~= nil then
-    return os.getenv("WORKON_HOME") .. "/ipython/bin/ipython"
-  else
-    return "ipython"
-  end
+local winbar = line.new()
+function GetWinBar()
+  return table.concat({
+    winbar.get_buf_number(),
+    winbar.get_filepath(),
+    winbar.get_git_branch(),
+    winbar.get_virtual_env(),
+    -- Horizontal fill
+    "%#StatusLine#%=",
+  })
 end
 
-local ipython = term.new(ipy_cmd)
+vim.opt.winbar = "%!v:lua.GetWinBar()"

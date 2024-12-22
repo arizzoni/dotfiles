@@ -1,4 +1,4 @@
--- Neovide Settings
+-- TODO: think about removing this
 if vim.g.neovide then
 	vim.g.neovide_theme = "auto"
 	vim.g.neovide_transparency = 0.9
