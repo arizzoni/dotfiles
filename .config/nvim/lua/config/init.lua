@@ -1,11 +1,22 @@
---[[ core/init.lua ]]
-
 require("config.options")
 require("config.lsp")
-require("config.keymaps")
-require("config.terminal")
+local statusline = require("config.statusline")
+local terminal = require("config.terminal")
 
 vim.cmd.colorscheme("ts_termcolors")
+
+-- Disable arrow keys
+vim.keymap.set({ "n", "v", "i" }, "<Up>", "<Nop>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v", "i" }, "<Down>", "<Nop>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v", "i" }, "<Left>", "<Nop>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v", "i" }, "<Right>", "<Nop>", { noremap = true, silent = true })
+
+-- Prevent space in normal and visual modes
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+-- Remaps for dealing with word wrap
+vim.keymap.set("n", "k", 'v:count == 0 ? "gk" : "k"', { expr = true, silent = true })
+vim.keymap.set("n", "j", 'v:count == 0 ? "gj" : "j"', { expr = true, silent = true })
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column
 vim.fn.sign_define("DiagnosticSignError", { text = "×", texthl = "DiagnosticSignError" })
@@ -23,14 +34,19 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Warning before leaving a modified buffer
-local on_leave_group = vim.api.nvim_create_augroup("OnLeave", { clear = true })
-vim.api.nvim_create_autocmd("BufLeave", {
-  group = on_leave_group,
-  pattern = "*",
-  callback = function()
-    if vim.api.nvim_buf_get_option(0, "modified") then
-      vim.inspect(print("Warning: Unsaved Changes!"))
-    end
-  end,
-})
+local line = statusline.new()
+function GetStatusLine()
+  return table.concat({
+    line.get_mode(),
+    line.get_diagnostics(),
+    line.get_filepath(),
+    line.get_virtual_env(),
+    line.get_git_branch(),
+    "%#StatusLine#%=",
+    "%#StatusLineLines# %l/%L %p%% ",
+  })
+end
+
+vim.opt.statusline = "%!v:lua.GetStatusLine()"
+
+local term = terminal.new()

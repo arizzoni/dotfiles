@@ -56,12 +56,23 @@ set_hl("Search", { ctermfg = 15, ctermbg = 11 })
 set_hl("IncSearch", { ctermfg = 15, ctermbg = 11 })
 set_hl("CurSearch", { ctermfg = 15, ctermbg = 11 })
 set_hl("SpecialKey", { ctermfg = 0 })
--- set_hl("SpellBad", { ctermfg = 0 })
--- set_hl("SpellCap", { ctermfg = 0 })
--- set_hl("SpellLocal", { ctermfg = 0 })
--- set_hl("SpellRare", { ctermfg = 0 })
-set_hl("StatusLine", { ctermfg = 15, ctermbg = 8 })
+set_hl("SpellBad", { underline = true, ctermfg = 1 })
+set_hl("SpellCap", { underline = true, ctermfg = 2 })
+set_hl("SpellLocal", { underline = true, ctermfg = 3 })
+set_hl("SpellRare", { underline = true, ctermfg = 4 })
+set_hl("StatusLine", { ctermfg = 15 })
 set_hl("StatusLineNC", { ctermfg = 8, ctermbg = 0 })
+set_hl("StatusLineNormal", { bold = true, ctermfg = 15, ctermbg = 1 })
+set_hl("StatusLineInsert", { bold = true, ctermfg = 15, ctermbg = 2 })
+set_hl("StatusLineVisual", { bold = true, ctermfg = 15, ctermbg = 3 })
+set_hl("StatusLineCommand", { bold = true, ctermfg = 15, ctermbg = 4 })
+set_hl("StatusLineReplace", { bold = true, ctermfg = 15, ctermbg = 5 })
+set_hl("StatusLineSelect", { bold = true, ctermfg = 15, ctermbg = 6 })
+set_hl("StatusLineTerminal", { bold = true, ctermfg = 15, ctermbg = 8 })
+set_hl("StatusLineDiagnostics", { ctermfg = 15, ctermbg = 0 })
+set_hl("StatusLineFilepath", { ctermfg = 8 })
+set_hl("StatusLineVersionControl", { ctermfg = 14 })
+set_hl("StatusLineLines", { ctermfg = 15, ctermbg = 1 })
 set_hl("TabLine", { ctermfg = 15, ctermbg = 8 })
 set_hl("TabLineFill", { ctermfg = 15, ctermbg = 8 })
 set_hl("TabLineSel", { ctermfg = 15, ctermbg = 8 })
@@ -362,40 +373,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     set_hl("@lsp.typemod.variable.static", { link = "@constant" })
   end
 })
-
--- Lualine
-if require("lualine") then
-  local ts_termcolors = {
-    normal = {
-      a = { link = "LineNr", bg = 1, gui = "bold" },
-      b = { link = "LineNr", bg = 9 },
-      c = { link = "LineNr" },
-    },
-    insert = {
-      a = { link = "LineNr", bg = 2, gui = "bold" },
-      b = { link = "LineNr", bg = 10 },
-      c = { link = "LineNr", bg = 10 },
-    },
-    replace = {
-      a = { link = "LineNr", bg = 3, gui = "bold" },
-      b = { link = "LineNr", bg = 11 },
-      c = { link = "LineNr", bg = 11 },
-    },
-    visual = {
-      a = { link = "LineNr", bg = 4, gui = "bold" },
-      b = { link = "LineNr", bg = 12 },
-      c = { link = "LineNr", bg = 12 },
-    },
-    command = {
-      a = { link = "LineNr", bg = 5, gui = "bold" },
-      b = { link = "LineNr", bg = 13 },
-      c = { link = "LineNr", bg = 0 },
-    },
-    inactive = {
-      a = { link = "LineNr", bg = 8, gui = "bold" },
-      b = { link = "LineNr", bg = 8 },
-      c = { link = "LineNr", bg = 0 },
-    },
-  }
-  require("lualine").setup({ options = { theme = ts_termcolors } })
-end

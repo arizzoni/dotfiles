@@ -1,3 +1,5 @@
+local util = require("util")
+
 local Terminal = {}
 
 function Terminal.new(shell)
@@ -11,9 +13,8 @@ function Terminal.new(shell)
   self.chan_id = nil
 
   if not self.win_opts then
-    local parent_win = vim.api.nvim_get_current_win()
     self.win_opts = {
-      width = math.floor(0.34 * vim.api.nvim_win_get_width(parent_win)),
+      width = math.floor(0.34 * vim.o.columns),
       vertical = true,
       split = "right",
     }
@@ -29,23 +30,11 @@ function Terminal.new(shell)
     end
   end
 
-  local term_group = vim.api.nvim_create_augroup("LocalTerm", { clear = true })
-  vim.api.nvim_create_autocmd("BufEnter", {
-    group = term_group,
-    callback = function()
-      if self.buf == vim.api.nvim_get_current_buf() then
-        vim.cmd("startinsert")
-      end
-    end,
-  })
-
   self.open = function()
     if not self.buf or not vim.api.nvim_buf_is_valid(self.buf) then
       self.buf = vim.api.nvim_create_buf(false, true)
       self.win = vim.api.nvim_open_win(self.buf, true, self.win_opts)
       self.chan_id = vim.fn.termopen(self.shell)
-      vim.api.nvim_set_option_value("number", false, { win = self.win })
-      vim.api.nvim_set_option_value("relativenumber", false, { win = self.win })
     else
       self.win = vim.api.nvim_open_win(self.buf, true, self.win_opts)
     end
@@ -134,6 +123,141 @@ function Terminal.new(shell)
     local line = vim.api.nvim_buf_get_lines(current_buf, cursor_pos[2] - 1, cursor_pos[2], false)[1]
     vim.api.nvim_chan_send(self.chan_id, line)
   end
+
+  local term_group = vim.api.nvim_create_augroup("LocalTerm", { clear = true })
+
+  vim.api.nvim_create_autocmd("TermOpen", {
+    group = term_group,
+    callback = function()
+      if self.buf == vim.api.nvim_get_current_buf() then
+        vim.api.nvim_set_option_value("number", false, { win = self.win })
+        vim.api.nvim_set_option_value("relativenumber", false, { win = self.win })
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("BufEnter", {
+    group = term_group,
+    callback = function()
+      if self.buf == vim.api.nvim_get_current_buf() then
+        vim.cmd("startinsert")
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("WinResized", {
+    pattern = { "*" },
+    group = term_group,
+    callback = function()
+      if self.win == vim.api.nvim_get_current_win() then
+        local target_width = math.floor(0.34 * vim.o.columns)
+        local target_height = vim.o.lines
+        if vim.api.nvim_win_get_width(self.win) ~= target_width then
+          vim.api.nvim_win_set_width(self.win, target_width)
+        end
+        if vim.api.nvim_win_get_height(self.win) ~= target_height then
+          vim.api.nvim_win_set_height(self.win, target_height)
+        end
+        vim.api.nvim_win_set_cursor(self.win, { 1, 0 })
+      end
+    end
+  })
+
+  vim.api.nvim_create_autocmd("TermClose", {
+    group = term_group,
+    callback = function()
+      if self.buf == vim.api.nvim_get_current_buf() then
+        vim.api.nvim_buf_delete(self.buf, { force = true, unload = false })
+      end
+    end,
+  })
+
+  util.nmap(
+    [[<C-enter>]],
+    self.toggle,
+    vim.api.nvim_get_current_buf(),
+    "Toggle REPL"
+  )
+
+  util.nmap(
+    "<leader>sl",
+    self.send_line,
+    vim.api.nvim_get_current_buf(),
+    "[S]end Selected [L]ine to REPL"
+  )
+
+  util.vmap(
+    "<leader>sl",
+    self.send_lines,
+    vim.api.nvim_get_current_buf(),
+    "[S]end Selected [L]ines to REPL"
+  )
+
+  util.vmap(
+    "<leader>ss",
+    self.send_selection,
+    vim.api.nvim_get_current_buf(),
+    "[S]end [S]election to REPL"
+  )
+
+  vim.api.nvim_create_autocmd(
+    { "TermOpen" },
+    {
+      pattern = { "*" },
+      group = term_group,
+      callback = function()
+        if vim.opt.buftype:get() == "terminal" then
+          util.tmap(
+            "<esc>",
+            [[<C-\><C-n>]],
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+
+          util.tmap(
+            "<C-w>h",
+            [[<Cmd>wincmd h<CR>]],
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+
+          util.tmap(
+            "<C-w>j",
+            [[<Cmd>wincmd j<CR>]],
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+
+          util.tmap(
+            "<C-w>k",
+            [[<Cmd>wincmd k<CR>]],
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+
+          util.tmap(
+            "<C-w>l",
+            [[<Cmd>wincmd l<CR>]],
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+
+          util.tmap(
+            "<C-w>w",
+            [[<C-\><C-n><C-w>]],
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+
+          util.tmap(
+            [[<C-enter>]],
+            self.toggle,
+            vim.api.nvim_get_current_buf(),
+            ""
+          )
+        end
+      end
+    })
 
   return self
 end

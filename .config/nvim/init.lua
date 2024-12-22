@@ -2,6 +2,7 @@
 
 -- No startup message (has to be first)
 vim.opt.shortmess:append("I")
+vim.opt.shortmess:append("F")
 
 -- Set <space> as the leader key
 vim.g.mapleader = " "
