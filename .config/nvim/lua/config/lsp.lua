@@ -1,8 +1,6 @@
 local util = require("util")
 
--- TODO: Add status indicator
-
-local lsp_group = vim.api.nvim_create_augroup("lsp", { clear = true })
+local lsp_group = vim.api.nvim_create_augroup("LSP", { clear = true })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = lsp_group,

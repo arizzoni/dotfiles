@@ -1,8 +1,5 @@
 local util = require("util")
 
--- TODO: Set a meaningful buffer name
--- TODO: Set terminal background to be a different color
-
 local Terminal = {}
 
 function Terminal.new(shell)
@@ -46,12 +43,6 @@ function Terminal.new(shell)
 	self.close = function()
 		if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
 			vim.api.nvim_win_close(self.win, true)
-		end
-	end
-
-	self.delete = function()
-		if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
-			vim.api.nvim_buf_delete(self.buf, { force = true })
 		end
 	end
 

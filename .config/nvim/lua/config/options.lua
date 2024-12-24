@@ -1,8 +1,8 @@
 local uname = vim.uv.os_uname()
 if uname.sysname == "Windows" then
-  vim.opt.shell = "powershell.exe"
+	vim.opt.shell = "powershell.exe"
 else
-  vim.opt.shell = "/bin/bash"
+	vim.opt.shell = "/bin/bash"
 end
 
 vim.o.title = true
@@ -30,18 +30,17 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.browsedir = "current"
-vim.g.cmdwinheight = 3
 vim.g.equalalways = false
-vim.g.showcmd = false
 vim.g.showtabline = 1
-vim.g.splitbelow = true
-vim.g.splitright = true
+vim.o.splitbelow = true
+vim.o.splitright = true
 vim.g.virtualedit = "block,insert"
+vim.g.ignorecase = true
 vim.g.smartcase = true
 
 vim.api.nvim_create_autocmd({ "BufNew", "BufWinEnter", "WinResized" }, {
-  callback = function()
-    vim.g.scrolloff = math.floor(0.34 * vim.api.nvim_win_get_height(0))
-    vim.g.sidescrolloff = math.floor(0.34 * vim.api.nvim_win_get_width(0))
-  end
+	callback = function()
+		vim.g.scrolloff = math.floor(0.34 * vim.api.nvim_win_get_height(0))
+		vim.g.sidescrolloff = math.floor(0.34 * vim.api.nvim_win_get_width(0))
+	end,
 })
