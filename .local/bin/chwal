@@ -2,20 +2,20 @@
 # Pywal colorscheme and wallpaper selection
 
 # If wallust is not executable, exit
-if [ ! -x "$(command -v wallust)" ] ; then {
+if [ ! -x "$(command -v wallust)" ]; then {
     echo "Error: Required program wallust not found."
     echo "Aborting script."
     exit 1
-} fi
+}; fi
 
 # Define and protect command behavior
 CAT="command cat"
 CP="command cp --reflink=auto --no-preserve=mode,ownership"
-if [ -x "$(command -v fd)" ] ; then {
+if [ -x "$(command -v fd)" ]; then {
     FIND="command fd"
-    } else {
+}; else {
     FIND="command find"
-} fi
+}; fi
 WAL="command wallust run --quiet"
 
 # Define directories
@@ -28,32 +28,27 @@ WAL_CACHE="$HOME/.cache/wallust/wallpaper"
 WALLPAPER_CACHE="/usr/share/backgrounds/wal"
 
 # If feh is executable, set the desktop wallpaper
-if [ -x "$(command -v feh)" ] ; then { 
+if [ -x "$(command -v feh)" ]; then {
     FEH="command feh --bg-fill --no-fehbg --force-aliasing "
     $FEH "$($CAT "$WAL_CACHE")"
-} fi
+}; fi
 
 # Generate the colorscheme and update config files
 $WAL "$($CAT "$WAL_CACHE")"
 
 # Select new random wallpaper and cache it
 WALLPAPER="$($FIND . "$WALLPAPER_DIR" | shuf | head -n 1)"
-echo "$WALLPAPER" >| "$WAL_CACHE"
+echo "$WALLPAPER" >|"$WAL_CACHE"
 
 # Copy the image to /usr/share/backgrounds so that LightDM can use it
 $CP "$WALLPAPER" "$WALLPAPER_CACHE"
 
-# Apply pywal colorscheme to Firefox
-if [ -x "$(command -v pywalfox)" ] ; then {
-    command pywalfox update
-} fi
-
 # Apply colorscheme to Xresources
-if [ -x "$(command -v xrdb)" ] ; then {
+if [ -x "$(command -v xrdb)" ]; then {
     xrdb -merge -quiet ~/.config/Xresources
-} fi
+}; fi
 
 # Restart AwesomeWM to apply the new colorscheme
-if [ "$XDG_SESSION_DESKTOP" = 'awesome' ] ; then {
-    echo 'awesome.restart()' | awesome-client
-} fi
+if [ "$XDG_SESSION_DESKTOP" = 'awesome' ]; then {
+    echo 'awesome.restart()' | awesome-client >/dev/null 2>&1
+}; fi
