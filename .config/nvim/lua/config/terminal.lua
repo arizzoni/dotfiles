@@ -2,6 +2,9 @@ local util = require("util")
 
 local Terminal = {}
 
+--- Constructor for the Terminal class. Initializes a terminal buffer and sets autocommands and keymaps.
+--- @param shell? string Program for the terminal to run, defaults to vim.opt.shell
+--- @return self
 function Terminal.new(shell)
 	local self = setmetatable({}, Terminal)
 	Terminal.__index = Terminal
@@ -12,14 +15,6 @@ function Terminal.new(shell)
 	self.buf = nil
 	self.chan_id = nil
 
-	if not self.win_opts then
-		self.win_opts = {
-			width = math.floor(0.34 * vim.o.columns),
-			vertical = true,
-			split = "right",
-		}
-	end
-
 	if not shell then
 		if vim.o.shell then
 			self.shell = vim.o.shell
@@ -28,6 +23,14 @@ function Terminal.new(shell)
 		else
 			self.shell = "/bin/bash"
 		end
+	end
+
+	if not self.win_opts then
+		self.win_opts = {
+			width = math.floor(0.34 * vim.o.columns),
+			vertical = true,
+			split = "right",
+		}
 	end
 
 	self.open = function()
@@ -128,16 +131,20 @@ function Terminal.new(shell)
 
 	vim.api.nvim_create_autocmd("TermOpen", {
 		group = term_group,
+		pattern = "*",
 		callback = function()
 			if self.buf == vim.api.nvim_get_current_buf() then
 				vim.api.nvim_set_option_value("number", false, { win = self.win })
 				vim.api.nvim_set_option_value("relativenumber", false, { win = self.win })
+				vim.api.nvim_set_option_value("scrolloff", 0, { win = self.win })
+				vim.api.nvim_set_option_value("sidescrolloff", 0, { win = self.win })
 			end
 		end,
 	})
 
 	vim.api.nvim_create_autocmd("BufEnter", {
 		group = term_group,
+		pattern = "*",
 		callback = function()
 			if self.buf == vim.api.nvim_get_current_buf() then
 				vim.cmd("startinsert")
@@ -151,6 +158,7 @@ function Terminal.new(shell)
 		callback = function()
 			if self.win == vim.api.nvim_get_current_win() then
 				local target_width = math.floor(0.34 * vim.o.columns)
+				local target_width = 82
 				local target_height = vim.o.lines
 				if vim.api.nvim_win_get_width(self.win) ~= target_width then
 					vim.api.nvim_win_set_width(self.win, target_width)
@@ -172,13 +180,10 @@ function Terminal.new(shell)
 		end,
 	})
 
-	util.nmap([[<C-enter>]], self.toggle, vim.api.nvim_get_current_buf(), "Toggle REPL")
-
-	util.nmap("<leader>sl", self.send_line, vim.api.nvim_get_current_buf(), "[S]end Selected [L]ine to REPL")
-
-	util.vmap("<leader>sl", self.send_lines, vim.api.nvim_get_current_buf(), "[S]end Selected [L]ines to REPL")
-
-	util.vmap("<leader>ss", self.send_selection, vim.api.nvim_get_current_buf(), "[S]end [S]election to REPL")
+	util.nmap([[<C-enter>]], self.toggle, vim.api.nvim_get_current_buf(), "Toggle Terminal")
+	util.nmap("<leader>sl", self.send_line, vim.api.nvim_get_current_buf(), "[S]end Current [L]ine to Terminal")
+	util.vmap("<leader>sl", self.send_lines, vim.api.nvim_get_current_buf(), "[S]end Selected [L]ines to Terminal")
+	util.vmap("<leader>ss", self.send_selection, vim.api.nvim_get_current_buf(), "[S]end [S]election to Terminal")
 
 	vim.api.nvim_create_autocmd({ "TermOpen" }, {
 		pattern = { "*" },
@@ -186,17 +191,11 @@ function Terminal.new(shell)
 		callback = function()
 			if vim.opt.buftype:get() == "terminal" then
 				util.tmap("<esc>", [[<C-\><C-n>]], vim.api.nvim_get_current_buf(), "")
-
 				util.tmap("<C-w>h", [[<Cmd>wincmd h<CR>]], vim.api.nvim_get_current_buf(), "")
-
 				util.tmap("<C-w>j", [[<Cmd>wincmd j<CR>]], vim.api.nvim_get_current_buf(), "")
-
 				util.tmap("<C-w>k", [[<Cmd>wincmd k<CR>]], vim.api.nvim_get_current_buf(), "")
-
 				util.tmap("<C-w>l", [[<Cmd>wincmd l<CR>]], vim.api.nvim_get_current_buf(), "")
-
 				util.tmap("<C-w>w", [[<C-\><C-n><C-w>]], vim.api.nvim_get_current_buf(), "")
-
 				util.tmap([[<C-enter>]], self.toggle, vim.api.nvim_get_current_buf(), "")
 			end
 		end,

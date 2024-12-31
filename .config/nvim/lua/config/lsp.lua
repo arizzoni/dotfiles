@@ -1,4 +1,9 @@
-local util = require("util")
+-- lsp.lua
+-- Neovim LSP configuration
+
+-- TODO:
+-- LSP Notifications
+-- LSP Detach
 
 local lsp_group = vim.api.nvim_create_augroup("LSP", { clear = true })
 
@@ -6,6 +11,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = lsp_group,
 	pattern = "*",
 	callback = function(args)
+		local util = require("util")
+
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		local bufnr = vim.api.nvim_get_current_buf()
 

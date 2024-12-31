@@ -2,7 +2,6 @@ return {
 	{
 		url = "https://www.github.com/windwp/nvim-autopairs",
 		event = "InsertEnter",
-		config = true,
 		opts = {
 			disable_filetype = { "TelescopePrompt" },
 			disable_in_macro = true,
@@ -161,47 +160,9 @@ return {
 	},
 	{
 		url = "https://www.github.com/kylechui/nvim-surround",
+		version = "*",
 		event = "VeryLazy",
-		opts = true,
-	},
-	{
-		url = "https://www.github.com/lukas-reineke/indent-blankline.nvim",
-		event = "VeryLazy",
-		main = "ibl",
-		opts = {
-			debounce = 100,
-			indent = {
-				char = {
-					" ",
-					"░",
-					"▒",
-					"▓",
-					"█",
-					"▓",
-					"▒",
-					"░",
-					" ",
-					"░",
-					"▒",
-					"▓",
-					"█",
-					"▓",
-					"▒",
-					"░",
-					" ",
-				},
-			},
-			whitespace = { remove_blankline_trail = true },
-			scope = {
-				show_start = true,
-				show_end = true,
-				show_exact_scope = true,
-				highlight = { "Function" },
-			},
-		},
-	},
-	{
-		"mbbill/undotree",
+		opts = {},
 	},
 	{
 		url = "https://www.github.com/lervag/vimtex",

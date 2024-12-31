@@ -1,10 +1,13 @@
+-- init.lua
+-- Personal neovim configuration entry script
+
 require("config.options")
 require("config.lsp")
 
 local line = require("config.statusline")
 local terminal = require("config.terminal")
 
-term = terminal.new()
+terminal.new()
 
 vim.cmd.colorscheme("ts_termcolors")
 
@@ -37,42 +40,45 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-local statusline = line.new()
-function GetStatusLine()
-	return table.concat({
-		statusline:get_mode(),
-		statusline:get_diagnostics(),
-		statusline:get_lsp_info(),
-		-- Horizontal fill
-		"%#StatusLine#%=",
-		statusline:get_file_info(),
-		statusline:get_cursor_pos(),
-	})
-end
+-- Open help in a vertical split
+local help_group = vim.api.nvim_create_augroup("Help", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+	group = help_group,
+	pattern = "help",
+	callback = function()
+		local current_win = vim.api.nvim_get_current_win()
+		local win_width = vim.api.nvim_win_get_width(current_win)
+		vim.api.nvim_win_set_config(current_win, {
+			width = math.max(math.floor(0.34 * win_width), vim.bo.textwidth + 4),
+			split = "right",
+		})
+		vim.wo.colorcolumn = ""
+	end,
+})
 
-vim.opt.statusline = "%!v:lua.GetStatusLine()"
+-- Statusline
+local statusline_group = vim.api.nvim_create_augroup("StatusLine", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	group = statusline_group,
+	pattern = "*",
+	callback = function()
+		if vim.api.nvim_buf_get_option(0, "buftype") == "" then
+			line:render()
+		else
+			vim.wo.statusline = " "
+		end
+	end,
+})
 
-local winbar = line.new()
-function GetWinBar()
-	return table.concat({
-		winbar:get_buf_number(),
-		winbar:get_filepath(),
-		winbar:get_git_branch(),
-		-- Horizontal fill
-		"%#StatusLine#%=",
-		winbar:get_tab_number(),
-	})
-end
-
-vim.opt.winbar = "%!v:lua.GetWinBar()"
-
-local tabline = line.new()
-function GetTabLine()
-	return table.concat({
-		tabline:get_tab_number(),
-		-- Horizontal fill
-		"%#StatusLine#%=",
-	})
-end
-
-vim.opt.tabline = "%!v:lua.GetTabLine()"
+-- Indentation Guides
+local indent_group = vim.api.nvim_create_augroup("IndentMarker", { clear = true })
+vim.api.nvim_create_autocmd({ "BufRead", "BufEnter", "TextChanged", "TextChangedI" }, {
+	group = indent_group,
+	pattern = "*",
+	callback = function()
+		if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "" then
+			local indent = require("config.indent")
+			indent.new()
+		end
+	end,
+})
