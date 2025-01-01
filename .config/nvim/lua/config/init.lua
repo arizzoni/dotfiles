@@ -69,16 +69,3 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 		end
 	end,
 })
-
--- Indentation Guides
-local indent_group = vim.api.nvim_create_augroup("IndentMarker", { clear = true })
-vim.api.nvim_create_autocmd({ "BufRead", "BufEnter", "TextChanged", "TextChangedI" }, {
-	group = indent_group,
-	pattern = "*",
-	callback = function()
-		if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "" then
-			local indent = require("config.indent")
-			indent.new()
-		end
-	end,
-})
