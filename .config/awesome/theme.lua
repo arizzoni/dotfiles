@@ -41,17 +41,19 @@ theme.mouse_finder_animate_timeout = true
 theme.mouse_finder_radius = 2 * theme.titlebar_size
 theme.mouse_finder_factor = 0.8
 
+theme.notification_font = theme.font
+theme.notification_border_width = theme.border_width
+theme.notification_shape = function(cr, width, height)
+	shape.rounded_rect(cr, width, height, theme.corner_radius)
+end
+theme.notification_opacity = theme.tooltip_opacity
+
 theme.hotkeys_border_width = theme.border_width
-theme.hotkeys_shape = shape.rounded_rect
+theme.hotkeys_shape = theme.notification_shape
 theme.hotkeys_opacity = theme.tooltip_opacity
 theme.hotkeys_group_margin = theme.font_size
 theme.hotkeys_font = theme.font
 theme.hotkeys_description_font = theme.font
-
-theme.notification_font = theme.font
-theme.notification_border_width = theme.border_width
-theme.notification_shape = shape.rounded_rect
-theme.notification_opacity = theme.tooltip_opacity
 
 theme.menu_border_width = theme.border_width
 theme.menu_submenu_icon = themes_path .. "default/submenu.png"
@@ -99,6 +101,18 @@ theme.titlebar_fg_normal = theme.fg_normal
 
 theme.titlebar_bg_focus = theme.bg_focus
 theme.titlebar_fg_focus = theme.fg_focus
+
+-- theme.progressbar_bg = theme.bg_normal
+theme.progressbar_bg = theme.bg_normal
+theme.progressbar_fg = theme.fg_normal
+theme.progressbar_shape = shape.rounded_rect
+theme.progressbar_border_color = theme.border_normal
+theme.progressbar_border_width = theme.border_width
+theme.progressbar_bar_shape = theme.notification_shape
+theme.progressbar_border_width = theme.border_width
+theme.progressbar_border_color = theme.border_normal
+theme.progressbar_margins = theme.useless_gap
+theme.progressbar_paddings = theme.useless_gap
 
 theme.tooltip_bg_color = theme.bg_normal
 theme.tooltip_fg_color = theme.fg_normal
