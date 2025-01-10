@@ -1,0 +1,11 @@
+[screen]
+any = true
+
+[client]
+any = true
+
+[root]
+any = true
+
+[tag]
+any = true

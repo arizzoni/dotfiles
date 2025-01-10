@@ -1,5 +1,14 @@
 local M = {}
 
+---@param context string
+---@param errmsg string
+---@return string errstr
+M.error = function(context, errmsg)
+	local errstr = table.concat({ context .. " Error: ", errmsg })
+	vim.api.nvim_err_writeln(errstr)
+	return errstr or ""
+end
+
 M.nmap = function(keys, func, bufnr, desc)
 	if desc then
 		desc = "N: " .. desc
@@ -26,6 +35,16 @@ M.tmap = function(keys, func, bufnr, desc)
 		desc = "T: " .. desc
 	end
 	vim.keymap.set("t", keys, func, { buffer = bufnr, desc = desc })
+end
+
+M.umap = function(keys, func, bufnr, desc)
+	if desc then
+		desc = "U: " .. desc
+	end
+	M.nmap(keys, func, bufnr, desc)
+	M.vmap(keys, func, bufnr, desc)
+	M.imap(keys, func, bufnr, desc)
+	M.tmap(keys, func, bufnr, desc)
 end
 
 M.augroup = function(name, func)

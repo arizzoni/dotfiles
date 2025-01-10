@@ -174,10 +174,10 @@ __set_prompts () {
             __head=$(git rev-parse --abbrev-ref HEAD)
 
             if [[ "$__status" ]] ; then {
-                __character=" ~"
+                __character="∆"
             } fi
 
-            printf ' \[%s\](git:%s)%s\[%s\]' \
+            printf ' \[%s\](git:%s %s)\[%s\]' \
                 "${__fg_color5}" "${__head}" "${__character}" "${__reset}"
         } fi
     }

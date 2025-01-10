@@ -2,9 +2,6 @@ local util = require("util")
 
 return {
 	{
-		"tpope/vim-fugitive",
-	},
-	{
 		-- Adds git related signs to the gutter, as well as utilities for managing changes
 		url = "https://www.github.com/lewis6991/gitsigns.nvim",
 		name = "gitsigns.nvim",

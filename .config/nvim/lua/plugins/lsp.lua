@@ -1,6 +1,7 @@
 return {
 	{
 		url = "http://www.github.com/mfussenegger/nvim-lint",
+		event = "VeryLazy",
 		config = function()
 			local lint = require("lint")
 
@@ -8,6 +9,7 @@ return {
 				sh = { "shellcheck" },
 				python = { "ruff" },
 				lua = { "selene" },
+				c = { "clangtidy" },
 			}
 
 			local shellcheck = lint.linters.shellcheck
@@ -23,13 +25,11 @@ return {
 	{
 		url = "http://www.github.com/jmbuhr/otter.nvim",
 		ft = { "tex" },
+		enabled = false,
 		event = "VeryLazy",
 		opts = {
 			lsp = {
-				-- hover = {
-				-- 	border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-				-- },
-				diagnostic_update_events = { "BufWritePost", "InsertLeave", "TextChanged" },
+				diagnostic_update_events = { "BufWritePost", "InsertLeave" },
 				root_dir = function(_, bufnr)
 					return vim.fs.root(bufnr or 0, {
 						".git",

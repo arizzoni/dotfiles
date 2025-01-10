@@ -27,12 +27,6 @@ WAL_CACHE="$HOME/.cache/wallust/wallpaper"
 # Define wallpaper cache in /usr/share/ for LightDM
 WALLPAPER_CACHE="/usr/share/backgrounds/wal"
 
-# If feh is executable, set the desktop wallpaper
-if [ -x "$(command -v feh)" ]; then {
-    FEH="command feh --bg-fill --no-fehbg --force-aliasing "
-    $FEH "$($CAT "$WAL_CACHE")"
-}; fi
-
 # Generate the colorscheme and update config files
 $WAL "$($CAT "$WAL_CACHE")"
 

@@ -1,12 +1,12 @@
 # wallust 3.x
 
-backend = 'kmeans'
+backend = 'fastresize'
 color_space = 'lch'
-threshold = 11
+threshold = 12
 palette = 'ansidark'
 fallback_generator = "complementary"
 check_contrast = true
-saturation = 50
+saturation = 53
 alpha = 90
 
 [ templates ]
@@ -30,3 +30,6 @@ kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'
 
 xresources.template = 'Xresources'
 xresources.target = '~/.config/Xresources'
+
+wallpaper.template = 'wallpaper'
+wallpaper.target = '~/.cache/wallust/wallpaper'

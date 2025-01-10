@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # .xprofile
-# vim: sw=4 ts=4
 
 export USERXSESSION="$XDG_CACHE_HOME/X11/xsession"
 export USERXSESSIONRC="$XDG_CACHE_HOME/X11/xsessionrc"
@@ -9,28 +8,26 @@ export ERRFILE="$XDG_CACHE_HOME/X11/xsession-errors"
 
 autorandr -c two
 
+# Configure Input Devices
 unclutter --jitter 10 --exclude-root --ignore-scrolling --start-hidden &
-
-# Configure graphics tablet
 xsetwacom set 'Wacom Intuos BT M Pen stylus' MapToOutput HEAD-0
 
 # Compositor
-if [ -x "$(command -v picom)" ] ; then {
+if [ -x "$(command -v picom)" ]; then {
     picom &
 } fi
 
 # Screen Locker
-if [ -x "$(command -v light-locker)" ] ; then {
+if [ -x "$(command -v light-locker)" ]; then {
     light-locker --lock-on-suspend --lock-on-lid --idle-hint --no-late-locking &
-    light-locker-command -i & disown
 } fi
 
 # XRDB colors
-if [ -x "$(command -v xrdb)" ] ; then {
+if [ -x "$(command -v xrdb)" ]; then {
     xrdb merge "$HOME/.config/Xresources"
-} fi
+}; fi
 
 # Wallpaper + colors script
-if [ -x "$HOME/.local/bin/chwal" ] ; then {
+if [ -x "$HOME/.local/bin/chwal" ]; then {
     "$HOME/.local/bin/chwal"
-} fi
+}; fi

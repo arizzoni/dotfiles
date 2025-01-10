@@ -1,32 +1,62 @@
 return {
 	{
-		url = "https://www.github.com/windwp/nvim-autopairs",
-		event = "InsertEnter",
+		url = "https://www.github.com/kylechui/nvim-surround",
+		version = "*",
+		event = "VeryLazy",
+		opts = {},
+	},
+	{
+		url = "https://www.github.com/lervag/vimtex",
+		lazy = false,
+		ft = "tex",
+		init = function()
+			vim.g.vimtex_syntax_enabled = 0
+			vim.g.tex_flavor = "latex"
+			vim.g.vimtex_view_method = "zathura"
+			vim.g.vimtex_format_enabled = true
+			vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
+		end,
+	},
+	{
+		url = "https://www.github.com/lukas-reineke/indent-blankline.nvim",
+		event = "VeryLazy",
+		main = "ibl",
 		opts = {
-			disable_filetype = { "TelescopePrompt" },
-			disable_in_macro = true,
-			disable_in_visualblock = false,
-			disable_in_replace_mode = true,
-			ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
-			enable_moveright = true,
-			enable_afterquote = true,
-			enable_check_bracket_line = true,
-			enable_bracket_in_quote = true,
-			enable_abbr = false,
-			break_undo = true,
-			check_ts = true,
-			map_cr = true,
-			map_bs = true,
-			map_c_h = false,
-			map_c_w = false,
+			debounce = 100,
+			indent = {
+				char = {
+					" ",
+					"░",
+					"▒",
+					"▓",
+					"█",
+					"▓",
+					"▒",
+					"░",
+					" ",
+					"░",
+					"▒",
+					"▓",
+					"█",
+					"▓",
+					"▒",
+					"░",
+					" ",
+				},
+			},
+			whitespace = { remove_blankline_trail = true },
+			scope = {
+				show_start = true,
+				show_end = true,
+				show_exact_scope = true,
+				highlight = { "Function" },
+			},
 		},
 	},
 	{
 		url = "https://www.github.com/hrsh7th/nvim-cmp",
 		event = "VeryLazy",
 		dependencies = {
-			"L3MON4D3/LuaSnip", -- Snippet Engine
-			"saadparwaiz1/cmp_luasnip", -- Luasnip source
 			"hrsh7th/cmp-nvim-lsp", -- LSP completion
 			"hrsh7th/cmp-nvim-lsp-document-symbol", -- LSP completion
 			"hrsh7th/cmp-nvim-lsp-signature-help", -- LSP completion
@@ -37,11 +67,31 @@ return {
 			"windwp/nvim-autopairs", -- Autopairs completion
 			"micangl/cmp-vimtex", -- Vimtex completion source
 			"dmitmel/cmp-digraphs", -- Vim digraph completion
+			{
+				url = "https://www.github.com/windwp/nvim-autopairs",
+				event = "InsertEnter",
+				opts = {
+					disable_filetype = { "TelescopePrompt" },
+					disable_in_macro = true,
+					disable_in_visualblock = false,
+					disable_in_replace_mode = true,
+					ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
+					enable_moveright = true,
+					enable_afterquote = true,
+					enable_check_bracket_line = true,
+					enable_bracket_in_quote = true,
+					enable_abbr = false,
+					break_undo = true,
+					check_ts = true,
+					map_cr = true,
+					map_bs = true,
+					map_c_h = false,
+					map_c_w = false,
+				},
+			},
 		},
 		opts = function()
 			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			require("luasnip.loaders.from_vscode").lazy_load()
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
@@ -96,15 +146,7 @@ return {
 						return vim_item
 					end,
 				},
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-					window = {
-						completion = cmp.config.window.bordered(),
-						documentation = cmp.config.window.bordered(),
-					},
-				},
+				snippet = {},
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item(),
 					["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -118,8 +160,6 @@ return {
 					["<C-j>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-						elseif luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
 						else
 							fallback()
 						end
@@ -127,15 +167,12 @@ return {
 					["<C-k>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
-						elseif luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
 						else
 							fallback()
 						end
 					end, { "i", "s" }),
 				}),
 				sources = {
-					{ name = "luasnip", keyword_length = 3 },
 					{ name = "nvim_lsp", keyword_length = 3 },
 					{ name = "nvim_lsp_document_symbol", keyword_length = 3 },
 					{ name = "nvim_lsp_signature_help", keyword_length = 3 },
@@ -159,21 +196,35 @@ return {
 		end,
 	},
 	{
-		url = "https://www.github.com/kylechui/nvim-surround",
-		version = "*",
+		url = "https://www.github.com/folke/which-key.nvim",
+		name = "which-key.nvim",
 		event = "VeryLazy",
-		opts = {},
-	},
-	{
-		url = "https://www.github.com/lervag/vimtex",
-		lazy = false,
-		ft = "tex",
 		init = function()
-			vim.g.vimtex_syntax_enabled = 0
-			vim.g.tex_flavor = "latex"
-			vim.g.vimtex_view_method = "zathura"
-			vim.g.vimtex_format_enabled = true
-			vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
+			vim.opt.timeout = true
+			vim.opt.timeoutlen = 300
 		end,
+		opts = {
+			preset = "modern",
+			icons = {
+				breadcrumb = "", -- symbol used in the command line area that shows your active key combo
+				separator = "→", -- symbol used between a key and it's label
+				group = "⇒", -- symbol prepended to a group,
+				mappings = false,
+			},
+			win = {
+				height = { min = 4, max = 25 }, -- min and max height of the columns
+				no_overlap = true,
+				border = "none", -- none, single, double, shadow
+				padding = { 1, 0, 0, 0 }, -- extra window padding [top, right, bottom, left]
+				title = true,
+				title_pos = "center",
+				zindex = 1000, -- positive value to position WhichKey above other floating windows.
+			},
+			layout = {
+				width = { min = 20, max = 50 }, -- min and max width of the columns
+				spacing = 10, -- spacing between columns
+				align = "center", -- align columns left, center or right
+			},
+		},
 	},
 }

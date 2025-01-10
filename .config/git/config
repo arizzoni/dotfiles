@@ -1,7 +1,9 @@
 [user]
 	name = Alex Rizzoni
 	email = rizzoni.alex@gmail.com
-	username = air
+        username = air
+[core]
+        autocrlf = input
 [init]
 	defaultBranch = main
 [color]

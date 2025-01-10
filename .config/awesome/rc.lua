@@ -2,12 +2,12 @@
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
--- Theme handling library
+local awful = require("awful")
+local wibox = require("wibox")
+local gears = require("gears")
 local beautiful = require("beautiful")
--- Notification library
 local naughty = require("naughty")
 
--- Direct imports
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
 
@@ -15,17 +15,37 @@ require("awful.autofocus")
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 naughty.connect_signal("request::display_error", function(message, startup)
-    naughty.notification {
-        urgency = "critical",
-        title   = "AwesomeWM Startup Error" .. (startup and " during startup!" or "!"),
-        message = message
-    }
+	naughty.notification({
+		urgency = "critical",
+		title = "AwesomeWM Startup Error" .. (startup and " during startup!" or "!"),
+		message = message,
+	})
 end)
 
---[[ Variable Definitions and Imports ]]
--- Themes define colours, icons, font and wallpapers.
-beautiful.init("~/.config/awesome/theme.lua")
-local util = require("util")
-local bindings = require("bindings")
-local rules = require("rules")
-local bar = require("bar")
+beautiful.init("/home/air/.config/awesome/theme.lua")
+
+require("util")
+require("bindings")
+require("rules")
+require("signals")
+
+local wal = require("widgets.wallpaper")
+local render_statusbar = require("bar")
+
+screen.connect_signal("request::desktop_decoration", function(s)
+	render_statusbar(s)
+end)
+
+screen.connect_signal("request::wallpaper", function(s)
+	local wallpaper = wal.new(s)
+	wallpaper:render()
+end)
+
+-- Run garbage collector regularly to prevent memory leaks
+gears.timer({
+	timeout = 30,
+	autostart = true,
+	callback = function()
+		collectgarbage()
+	end,
+})

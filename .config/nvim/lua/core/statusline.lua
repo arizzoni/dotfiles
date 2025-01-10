@@ -1,8 +1,11 @@
--- statusline.lua
+-- ~/.config/nvim/lua/core/statusline.lua
 -- Neovim status line configuration
 
 -- TODO:
--- Figure out how to render without global variables
+-- Global variables:
+--  Figure out how to render with window-local variables
+-- Write a __to_string() method:
+--  Maybe this solves the above problem?
 
 local util = require("util")
 
@@ -17,14 +20,9 @@ local util = require("util")
 ---@field mode_str string Cached editor mode string
 ---@field file_info_str string Cached file info string
 ---@field cursor_pos_string string Cached cursor position string
----@field bufnr number Cached buffer number
 ---@field winnr number Cached window number
----@field tabnr number Cached tabpage number
 local StatusLine = {}
-
-StatusLine.bufnr = nil
 StatusLine.winnr = nil
-StatusLine.tabnr = nil
 
 --- Constructor for the StatusLine class
 ---@return self
@@ -32,24 +30,15 @@ function StatusLine.new()
 	local self = setmetatable({}, StatusLine)
 	StatusLine.__index = StatusLine
 	vim.o.showmode = false
-	self.bufnr = vim.api.nvim_get_current_buf()
 	self.winnr = vim.api.nvim_get_current_win()
-	self.tabnr = vim.api.nvim_get_current_tabpage()
 	return self
-end
-
---- Local method to handle errors
----@private
----@param errmsg string
-function StatusLine.error(errmsg)
-	local errstr = table.concat({ "Status Line Error: ", errmsg })
-	vim.api.nvim_err_writeln(errstr)
 end
 
 --- File encoding, format, and type
 ---@return string file_info_str
 function StatusLine:get_file_info()
-	local opts = { buf = self.bufnr }
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
+	local opts = { buf = attached_buffer }
 	return table.concat({
 		"%#StatusLineFileInfo#",
 		"(",
@@ -65,16 +54,18 @@ end
 --- Cursor vertical and horizontal position
 ---@return string cursor_pos_str
 function StatusLine:get_cursor_pos()
-	return table.concat({ "%#StatusLineCursorPos#", " %l/%L:%c/", vim.bo[self.bufnr].textwidth, " " }) or ""
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
+	return table.concat({ "%#StatusLineCursorPos#", " %l/%L:%c/", vim.bo[attached_buffer].textwidth, " " }) or ""
 end
 
 --- Tab numbers
 ---@return string tabstr
 function StatusLine:get_tab_number()
+	local current_tab = vim.api.nvim_get_current_tabpage()
 	local tabs = vim.api.nvim_list_tabpages()
 	local tabstr = ""
 	for _, tabnr in ipairs(tabs) do
-		if tabnr == self.tabnr then
+		if tabnr == current_tab then
 			tabstr = table.concat({ tabstr, "%#TabLineCurrentTab#", " ", tabnr, " " })
 		else
 			tabstr = table.concat({ tabstr, "%#TabLineTabs#", " ", tabnr, " " })
@@ -86,15 +77,20 @@ end
 --- Buffer numbers
 ---@return string buf_str
 function StatusLine:get_buf_number()
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local bufs = vim.api.nvim_list_bufs()
 	local buf_str = ""
 	for _, bufnr in ipairs(bufs) do
-		if vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buftype") == "" then
+		if
+			vim.api.nvim_buf_is_valid(bufnr)
+			and vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == ""
+			and vim.api.nvim_buf_is_loaded(bufnr)
+		then
 			local mod_str = ""
-			if vim.api.nvim_buf_get_option(bufnr, "modified") then
+			if vim.api.nvim_get_option_value("modified", { buf = bufnr }) then
 				mod_str = "+"
 			end
-			if bufnr == self.bufnr then
+			if bufnr == attached_buffer then
 				buf_str = table.concat({ buf_str, "%#TabLineCurrentBuf#", " ", bufnr, mod_str, " " })
 			else
 				buf_str = table.concat({ buf_str, "%#TabLineBufs#", " ", bufnr, mod_str, " " })
@@ -107,7 +103,7 @@ end
 --- Filepath
 ---@return string path_str
 function StatusLine:get_filepath()
-	local attached_buffer = vim.api.nvim_win_get_buf(self.winnr)
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local buftype = vim.bo[attached_buffer].buftype
 
 	if buftype ~= "" then
@@ -117,25 +113,29 @@ function StatusLine:get_filepath()
 		local fullpath = vim.uv.fs_realpath(filename)
 		local pathlist = {}
 		local longpath = false
-		for element in string.gmatch(fullpath, "([^/\\]+)") do
-			table.insert(pathlist, element)
+		if fullpath then
+			for element in string.gmatch(fullpath, "([^/\\]+)") do
+				table.insert(pathlist, element)
+			end
+			while #pathlist > 2 do
+				table.remove(pathlist, 1)
+				longpath = true
+			end
+			local pathstring = table.concat(pathlist, "/")
+			if longpath then
+				pathstring = ".../" .. pathstring
+			end
+			return table.concat({ "%#StatusLineFilepath#", " ", pathstring })
+		else
+			return ""
 		end
-		while #pathlist > 2 do
-			table.remove(pathlist, 1)
-			longpath = true
-		end
-		local pathstring = table.concat(pathlist, "/")
-		if longpath then
-			pathstring = ".../" .. pathstring
-		end
-		return table.concat({ "%#StatusLineFilepath#", " ", pathstring })
 	end
 end
 
 --- Git branch and Git status
 ---@return string git_str
 function StatusLine:get_git_branch()
-	local attached_buffer = vim.api.nvim_win_get_buf(self.winnr)
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local buftype = vim.bo[attached_buffer].buftype
 	if buftype ~= "" then
 		return ""
@@ -160,7 +160,8 @@ end
 --- LSP name
 ---@return string lsp_str
 function StatusLine:get_lsp_info()
-	local clients = vim.lsp.get_clients({ bufnr = 0 })
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
+	local clients = vim.lsp.get_clients({ bufnr = attached_buffer })
 	local lsp_info = ""
 	if #clients > 0 then
 		local client = clients[1]
@@ -202,7 +203,8 @@ end
 --- Buffer diagnostics
 ---@return string diagnostic_str
 function StatusLine:get_diagnostics()
-	local diagnostics = vim.diagnostic.get(0)
+	local attached_buffer = vim.api.nvim_win_get_buf(0)
+	local diagnostics = vim.diagnostic.get(attached_buffer)
 	local diagnostic_str = ""
 	local error_count = 0
 	local warning_count = 0
@@ -252,37 +254,6 @@ function StatusLine:get_mode()
 		t = "%#StatusLineTerminal# TERMINAL ",
 	}
 	return modes[mode.mode] or mode.mode
-end
-
---- Render the statusline and winbar
----@return boolean success
-function StatusLine:render()
-	local statusline = StatusLine.new()
-	function GetStatusLine()
-		return table.concat({
-			statusline:get_mode(),
-			statusline:get_diagnostics(),
-			statusline:get_lsp_info(),
-			-- Horizontal fill
-			"%#StatusLine#%=",
-			statusline:get_file_info(),
-			statusline:get_cursor_pos(),
-		})
-	end
-	vim.wo.statusline = "%!v:lua.GetStatusLine()"
-	local winbar = StatusLine.new()
-	function GetWinBar()
-		return table.concat({
-			winbar:get_buf_number(),
-			winbar:get_filepath(),
-			winbar:get_git_branch(),
-			-- Horizontal fill
-			"%#StatusLine#%=",
-			winbar:get_tab_number(),
-		})
-	end
-	vim.wo.winbar = "%!v:lua.GetWinBar()"
-	return true
 end
 
 return StatusLine

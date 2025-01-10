@@ -82,5 +82,3 @@ if [ -x "$(command -v nvim)" ]; then {
 
 ## LS colors
 eval "$(dircolors)"
-
-# vim: sw=4 ts=4 tw=80
