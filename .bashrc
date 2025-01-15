@@ -667,10 +667,11 @@ if [[ -r /etc/arch-release ]] ; then {
                 echo 'Updating mirrorlist.'
                 sudo sh -c \
                     "cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup \
-                    && curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' \
+                    && curl -s 'https://archlinux.org/mirrorlist/?country=US&country=CA&protocol=https&use_mirror_status=on' \
                     | sed -e 's/^#Server/Server/' -e '/^#/d' \
-                    | rankmirrors -n 5 -p \
+                    | rankmirrors -n 5 - \
                     >| /etc/pacman.d/mirrorlist"
+
             } fi
             unset __mirrorlist_epoch __current_epoch __delta_epoch
         }
