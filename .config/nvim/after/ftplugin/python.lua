@@ -1,9 +1,7 @@
+local lspconfig = require("lspconfig")
 local line = require("core.statusline")
-local term = require("core.terminal")
 
 local bufnr = vim.api.nvim_get_current_buf()
-
-term.new()
 
 vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "virtualenvs/neovim/bin")
 vim.bo.textwidth = 88
@@ -20,7 +18,7 @@ local root_dir = vim.fs.dirname(vim.fs.find({
 	".venv",
 }, { upward = true })[1])
 
-local ruff = vim.lsp.start({
+local ruff = lspconfig.ruff.setup({
 	name = "ruff",
 	cmd = { "/home/air/.local/share/virtualenvs/neovim/bin/ruff", "server" }, -- TODO get this working properly
 	filetypes = { "python" },
@@ -65,15 +63,7 @@ local ruff = vim.lsp.start({
 	},
 })
 
-if ruff then
-	if not vim.lsp.buf_attach_client(bufnr, ruff) then
-		vim.api.nvim_err_writeln("Python: Ruff failed to attach to buffer")
-	end
-else
-	vim.api.nvim_err_writeln("Python: Ruff failed to initialize")
-end
-
-local pylsp = vim.lsp.start({
+local pylsp = lspconfig.pylsp.setup({
 	name = "pylsp",
 	cmd = { vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/pylsp") },
 	filetypes = { "python" },
@@ -128,14 +118,6 @@ local pylsp = vim.lsp.start({
 		description = { "Pylsp" },
 	},
 })
-
-if pylsp then
-	if not vim.lsp.buf_attach_client(bufnr, pylsp) then
-		vim.api.nvim_err_writeln("Python: PyLSP failed to attach to buffer")
-	end
-else
-	vim.api.nvim_err_writeln("Python: PyLSP failed to initialize")
-end
 
 -- Disable Ruff hover capability in favor of Pylsp
 if ruff and pylsp then

@@ -95,6 +95,17 @@ return {
 					node_decremental = "<M-space>",
 				},
 			},
+			injection = {
+			  enable = true,
+			  custom_injections = {
+			    ["latex"] = {
+			      ["python"] = "python",
+			      ["pythonq"] = "python",
+			      ["pythonrepl"] = "python",
+			      ["luacode"] = "lua",
+          },
+        },
+      },
 			textobjects = {
 				select = {
 					enable = true,

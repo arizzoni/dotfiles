@@ -1,8 +1,4 @@
-local term = require("core.terminal")
-
-local bufnr = vim.api.nvim_get_current_buf()
-
-term.new()
+local lspconfig = require("lspconfig")
 
 vim.bo.textwidth = 120
 vim.bo.shiftwidth = 2
@@ -18,7 +14,7 @@ local root_dir = vim.fs.dirname(vim.fs.find({
 	"selene.toml",
 }, { upward = true })[1])
 
-local luals = vim.lsp.start({
+lspconfig.lua_ls.setup({
 	name = "LuaLS",
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
@@ -39,14 +35,7 @@ local luals = vim.lsp.start({
 				},
 			},
 			format = {
-				enable = true,
-				defaultConfig = {
-					indent_style = "space",
-					indent_size = "2",
-					tab_width = "2",
-					quote_style = "double",
-					max_line_length = "120",
-				},
+				enable = false,
 			},
 			diagnostics = {
 				globals = { "vim" },
@@ -60,11 +49,3 @@ local luals = vim.lsp.start({
 		description = { "LuaLS" },
 	},
 })
-
-if luals then
-	if not vim.lsp.buf_attach_client(bufnr, luals) then
-		vim.api.nvim_err_writeln("Lua: LuaLS failed to attach to buffer")
-	end
-else
-	vim.api.nvim_err_writeln("Lua: LuaLS failed to initialize")
-end

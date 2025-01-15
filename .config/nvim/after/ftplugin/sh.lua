@@ -1,9 +1,6 @@
-local term = require("core.terminal")
 local line = require("core.statusline")
 
 local bufnr = vim.api.nvim_get_current_buf()
-
-term.new()
 
 vim.bo.textwidth = 80
 vim.bo.softtabstop = 4

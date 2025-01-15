@@ -1,21 +1,11 @@
+local util = require('util')
+
 return {
 	{
 		url = "https://www.github.com/kylechui/nvim-surround",
 		version = "*",
 		event = "VeryLazy",
 		opts = {},
-	},
-	{
-		url = "https://www.github.com/lervag/vimtex",
-		lazy = false,
-		ft = "tex",
-		init = function()
-			vim.g.vimtex_syntax_enabled = 0
-			vim.g.tex_flavor = "latex"
-			vim.g.vimtex_view_method = "zathura"
-			vim.g.vimtex_format_enabled = true
-			vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
-		end,
 	},
 	{
 		url = "https://www.github.com/lukas-reineke/indent-blankline.nvim",
@@ -227,4 +217,250 @@ return {
 			},
 		},
 	},
+	{
+  url = "https://www.github.com/akinsho/toggleterm.nvim",
+  version = "*",
+  event = "VeryLazy",
+  opts = {
+    size = function(term)
+      if term.direction == "horizontal" then
+        return 15
+      elseif term.direction == "vertical" then
+        return 84
+      end
+    end,
+    open_mapping = nil,
+    hide_numbers = true,
+    autochdir = false,
+    shade_terminals = false,
+    start_in_insert = true,
+    insert_mappings = false,
+    terminal_mappings = true,
+    persist_size = false,
+    persist_mode = false,
+    direction = "vertical",
+    close_on_exit = true,
+    shell = vim.o.shell,
+    auto_scroll = true,
+  },
+  init = function()
+    local toggleterm = require("toggleterm")
+		local ns_id = vim.api.nvim_create_namespace("Terminal")
+    local trim_spaces = true
+
+    local set_opfunc = vim.fn[vim.api.nvim_exec([[
+      func s:set_opfunc(val)
+        let &opfunc = a:val
+      endfunc
+      echon get(function('s:set_opfunc'), 'name')
+    ]], true)]
+
+    local ipy_cmd = function()
+      if os.getenv("VIRTUAL_ENV") ~= nil then
+        return os.getenv("VIRTUAL_ENV") .. "/bin/ipython"
+      elseif os.getenv("WORKON_HOME") ~= nil then
+        return os.getenv("WORKON_HOME") .. "/ipython/bin/ipython"
+      else
+        return "ipython"
+      end
+    end
+
+    local Terminal = require("toggleterm.terminal").Terminal
+    local ipython = Terminal:new({ cmd = ipy_cmd(), hidden = true })
+    local julia = Terminal:new({ cmd = "julia --banner=no", hidden = true })
+    local bash = Terminal:new({ cmd = "bash", hidden = true })
+    local matlab = Terminal:new({ cmd = "matlab -nodesktop", hidden = true })
+
+    local repl_toggle = function()
+      if vim.bo.filetype == "python" or ipython:is_open() then
+        ipython:toggle()
+      elseif vim.bo.filetype == "julia" or julia:is_open() then
+        julia:toggle()
+      elseif vim.bo.filetype == "matlab" or matlab:is_open() then
+        matlab:toggle()
+      else
+        bash:toggle()
+      end
+    end
+
+    util.vmap("<leader><C-enter>", function()
+      set_opfunc(function(motion_type)
+        toggleterm.send_lines_to_terminal(motion_type, false, { args = vim.v.count})
+      end)
+        vim.api.nvim_feedkeys("g@", "v", false)
+      end, vim.api.nvim_get_current_buf(), "Send Motion to Terminal")
+
+    util.nmap("<leader><C-enter>", function()
+      set_opfunc(function(motion_type)
+        toggleterm.send_lines_to_terminal(motion_type, false, { args = vim.v.count})
+      end)
+        vim.api.nvim_feedkeys("g@", "n", false)
+      end, vim.api.nvim_get_current_buf(), "Send Motion to Terminal")
+
+    util.nmap("<leader><leader><C-enter>", function()
+      set_opfunc(function(motion_type)
+        toggleterm.send_lines_to_terminal(motion_type, false, { args = vim.v.count})
+      end)
+        vim.api.nvim_feedkeys("ggg@G''", "n", false)
+      end, vim.api.nvim_get_current_buf(), "Send File to Terminal")
+
+    util.nmap([[<C-enter>]], repl_toggle, vim.api.nvim_get_current_buf(), "Toggle REPL")
+
+    util.nmap("<leader>sl",function()
+        local current_buf = vim.api.nvim_get_current_buf()
+        local cursor_pos = vim.fn.getpos(".")
+        local start_line = cursor_pos[2] - 1
+        local start_col = 0
+        local end_line = cursor_pos[2]
+        local end_col = -1
+
+        vim.api.nvim_buf_add_highlight(current_buf, ns_id, "IncSearch", start_line, start_col, end_col)
+        vim.defer_fn(function()
+          vim.api.nvim_buf_clear_namespace(current_buf, ns_id, start_line - 1, end_line)
+        end, 100)
+
+        toggleterm.send_lines_to_terminal("single_line", trim_spaces, {args = vim.v.count})
+      end,
+      vim.api.nvim_get_current_buf(),
+      "[S]end [L]ine to Terminal")
+
+    util.vmap("<leader>sl", function()
+        local current_buf = vim.api.nvim_get_current_buf()
+
+        local start_pos = vim.fn.getpos("'<")
+        local end_pos = vim.fn.getpos("'>")
+        local start_line = start_pos[2] - 1
+        local start_col = start_pos[3] - 1
+        local end_line = end_pos[2]
+        local end_col = -1
+
+        vim.api.nvim_buf_add_highlight(current_buf, ns_id, "IncSearch", start_line, start_col, end_col)
+        vim.defer_fn(function()
+          vim.api.nvim_buf_clear_namespace(current_buf, ns_id, start_line - 1, end_line)
+        end, 100)
+
+        toggleterm.send_lines_to_terminal("visual_lines", trim_spaces, {args = vim.v.count})
+      end,
+      vim.api.nvim_get_current_buf(),
+      "[S]end [L]ines to Terminal")
+
+    util.vmap("<leader>ss", function()
+        local current_buf = vim.api.nvim_get_current_buf()
+
+        local start_pos = vim.fn.getpos("'<")
+        local end_pos = vim.fn.getpos("'>")
+        local start_line = start_pos[2] - 1
+        local start_col = start_pos[3] - 1
+        local end_line = end_pos[2]
+        local end_col = end_pos[3]
+
+        vim.api.nvim_buf_add_highlight(current_buf, ns_id, "IncSearch", start_line, start_col, end_col)
+        vim.defer_fn(function()
+          vim.api.nvim_buf_clear_namespace(current_buf, ns_id, start_line - 1, end_line)
+        end, 100)
+
+        toggleterm.send_lines_to_terminal("visual_selection", trim_spaces, {args = vim.v.count})
+      end,
+      vim.api.nvim_get_current_buf(),
+      "[S]end [S]election to Terminal")
+
+    local term_enter_group = vim.api.nvim_create_augroup("TerminalEnter", { clear = true })
+    vim.api.nvim_create_autocmd({ "TermOpen" }, {
+      pattern = { "*" },
+      group = term_enter_group,
+      callback = function()
+        if vim.opt.buftype:get() == "terminal" then
+          util.tmap("<esc>", [[<C-\><C-n>]], vim.api.nvim_get_current_buf(), "")
+          util.tmap("<C-w>h", [[<Cmd>wincmd h<CR>]], vim.api.nvim_get_current_buf(), "")
+          util.tmap("<C-w>j", [[<Cmd>wincmd j<CR>]], vim.api.nvim_get_current_buf(), "")
+          util.tmap("<C-w>k", [[<Cmd>wincmd k<CR>]], vim.api.nvim_get_current_buf(), "")
+          util.tmap("<C-w>l", [[<Cmd>wincmd l<CR>]], vim.api.nvim_get_current_buf(), "")
+          util.tmap("<C-w>w", [[<C-\><C-n><C-w>]], vim.api.nvim_get_current_buf(), "")
+          util.tmap([[<C-enter>]], repl_toggle, vim.api.nvim_get_current_buf(), "Toggle REPL")
+        end
+      end
+    })
+
+      -- TODO Reimplement this for toggleterm, doesn't seem to work properly
+    -- vim.api.nvim_create_autocmd({ "WinResized", "WinLeave", "WinEnter" }, {
+    --   pattern = { "*" },
+    --   group = term_enter_group,
+    --   callback = function()
+    --       local bufnr = vim.api.nvim_get_current_buf()
+    --       if vim.api.nvim_get_option_value("filetype", {buf = bufnr}) == 'terminal' then
+    --         -- local target_width = math.floor(0.34 * vim.o.columns) -- or 84
+    --         local target_width = 84
+    --         local target_height = vim.o.lines
+    --
+    --         if vim.api.nvim_win_get_width(bufnr) ~= target_width then
+    --           vim.api.nvim_win_set_width(bufnr, target_width)
+    --         end
+    --         if vim.api.nvim_win_get_height(bufnr) ~= target_height then
+    --           vim.api.nvim_win_set_height(bufnr, target_height)
+    --         end
+    --       end
+    --   end,
+    -- })
+
+    vim.api.nvim_create_autocmd("TermClose", {
+      group = term_enter_group,
+      callback = function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        if vim.api.nvim_get_option_value("filetype", {buf = bufnr}) then
+          vim.api.nvim_buf_delete(bufnr, { force = true, unload = false })
+        end
+      end,
+    })
+  end,
+  },
+  {
+    url = 'https://www.github.com/stevearc/oil.nvim',
+    event = "VeryLazy",
+    opts = {
+      default_file_explorer = true,
+      columns = {
+        -- "icon",
+        "permissions",
+        "size",
+        "mtime",
+      },
+      buf_options = {
+        buflisted = false,
+        bufhidden = "hide",
+      },
+      win_options = {
+        wrap = false,
+        signcolumn = "no",
+        cursorcolumn = false,
+        foldcolumn = "0",
+        spell = false,
+        list = false,
+        conceallevel = 3,
+        concealcursor = "nvic",
+      },
+      lsp_file_methods = {
+        enabled = true,
+        timeout_ms = 1000,
+        autosave_changes = false,
+      },
+      constrain_cursor = "name",
+      watch_for_changes = true,
+      view_options = {
+        show_hidden = true,
+        is_hidden_file = function(name, _)
+          local m = name:match("^%.")
+          return m ~= nil
+        end,
+        is_always_hidden = function(_, _)
+          return false
+        end,
+        natural_order = "fast",
+        case_insensitive = false,
+        sort = {
+          { "type", "asc" },
+          { "name", "asc" },
+        },
+      },
+    },
+  }
 }
