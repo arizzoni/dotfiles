@@ -1,6 +1,6 @@
 # wallust 3.x
 
-backend = 'fastresize'
+backend = 'kmeans'
 color_space = 'lch'
 threshold = 12
 palette = 'ansidark'

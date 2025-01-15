@@ -78,4 +78,8 @@ map <C-d> set "first-page-column 1:2"
 
 set selection-clipboard clipboard
 
+# LaTeX stuff
+set synctex true
+set synctex-editor-command "texlab inverse-search -i %{input} -l %{line}"
+
 # vim: filetype=zathurarc
