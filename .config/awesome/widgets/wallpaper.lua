@@ -3,99 +3,73 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 
-local Wallpaper = {}
+return function(s)
+	local todofile = "/home/air/.todo"
 
-function Wallpaper.new(screen)
-	local self = setmetatable({}, Wallpaper)
-	self.__index = Wallpaper
-	self.screen = screen
-	self.todofile = "/home/air/.todo"
-
-	self.image = wibox.widget({
+	local image = wibox.widget({
 		image = gears.surface.crop_surface({
 			surface = gears.surface.load_uncached(beautiful.wallpaper),
-			ratio = self.screen.geometry.width / self.screen.geometry.height,
+			ratio = s.geometry.width / s.geometry.height,
 		}),
 		widget = wibox.widget.imagebox,
 	})
 
-	self.background = wibox.widget({
-		self.image,
+	local background = wibox.widget({
+		image,
 		valign = "center",
 		halign = "center",
 		tiled = false,
 		widget = wibox.container.tile,
 	})
 
-	self.watch, self.watch_timer = awful.widget.watch("cat " .. self.todofile, 1)
+	local todo, _ = awful.widget.watch("cat " .. todofile, 600)
+	local updates, _ = awful.widget.watch("checkupdates", 600)
 
-	self.timer = wibox.widget({
-		{
-			{
-				max_value = 1,
-				value = 0.5,
-				opacity = beautiful.opacity / 3,
-				widget = wibox.widget.progressbar,
-			},
-			direction = "east",
-			layout = wibox.container.rotate,
-		},
-		{
-			text = "50%",
-			valign = "center",
-			halign = "center",
-			widget = wibox.widget.textbox,
-		},
-		visible = false,
-		layout = wibox.layout.stack,
-	})
-
-	self.overlay = wibox.widget({
+	local overlay = wibox.widget({
 		{
 			valign = "top",
 			halign = "left",
 			tiled = false,
-			widget = self.watch,
+			widget = todo,
 		},
 		{
 			valign = "top",
 			halign = "left",
 			tiled = false,
-			widget = self.timer,
+			widget = updates,
 		},
 		layout = wibox.layout.flex.horizontal,
 	})
 
-	self.render = function()
-		self.wallpaper = awful.wallpaper({
-			screen = self.screen,
-			widget = {
-				self.background,
+	s.wallpaper = awful.wallpaper({
+		screen = s,
+		widget = {
+			background,
+			{
 				{
-					{
-						self.overlay,
-						fg = beautiful.fg_normal,
-						widget = wibox.container.background,
-					},
-					left = 2 * beautiful.useless_gap,
-					right = 2 * beautiful.useless_gap,
-					bottom = 2 * beautiful.useless_gap,
-					top = 32 + 2 * beautiful.useless_gap,
-					widget = wibox.container.margin,
+					overlay,
+					fg = beautiful.fg_normal,
+					widget = wibox.container.background,
 				},
-				layout = wibox.layout.stack,
+				left = 2 * beautiful.useless_gap,
+				right = 2 * beautiful.useless_gap,
+				bottom = 2 * beautiful.useless_gap,
+				top = 32 + 2 * beautiful.useless_gap,
+				widget = wibox.container.margin,
 			},
-		})
-		return true
-	end
+			layout = wibox.layout.stack,
+		},
+	})
 
-	self.watch:connect_signal("widget::redraw_needed", function()
-		if self.wallpaper then
-			self.wallpaper:repaint()
+	todo:connect_signal("widget::redraw_needed", function()
+		if s.wallpaper then
+			s.wallpaper:repaint()
 		end
 	end)
 
-	return self
+	updates:connect_signal("widget::redraw_needed", function()
+		if s.wallpaper then
+			s.wallpaper:repaint()
+		end
+	end)
 end
-
-return Wallpaper

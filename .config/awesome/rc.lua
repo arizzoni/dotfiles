@@ -29,7 +29,7 @@ require("bindings")
 require("rules")
 require("signals")
 
-local wal = require("widgets.wallpaper")
+local render_wallpaper = require("widgets.wallpaper")
 local render_statusbar = require("bar")
 
 screen.connect_signal("request::desktop_decoration", function(s)
@@ -37,8 +37,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 end)
 
 screen.connect_signal("request::wallpaper", function(s)
-	local wallpaper = wal.new(s)
-	wallpaper:render()
+	render_wallpaper(s)
 end)
 
 -- Run garbage collector regularly to prevent memory leaks
