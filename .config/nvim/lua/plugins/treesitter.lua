@@ -55,6 +55,7 @@ return {
 				"gitcommit",
 				"gitignore",
 				"gpg",
+				"hyprlang",
 				"ini",
 				"json",
 				"latex",
@@ -96,16 +97,16 @@ return {
 				},
 			},
 			injection = {
-			  enable = true,
-			  custom_injections = {
-			    ["latex"] = {
-			      ["python"] = "python",
-			      ["pythonq"] = "python",
-			      ["pythonrepl"] = "python",
-			      ["luacode"] = "lua",
-          },
-        },
-      },
+				enable = true,
+				custom_injections = {
+					["latex"] = {
+						["python"] = "python",
+						["pythonq"] = "python",
+						["pythonrepl"] = "python",
+						["luacode"] = "lua",
+					},
+				},
+			},
 			textobjects = {
 				select = {
 					enable = true,

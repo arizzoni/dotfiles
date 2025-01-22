@@ -82,6 +82,6 @@
     "pdf_viewer_name": "zathura",
     "text_editor": "alacritty -e nvim",
     "use_system_pdf_viewer": false,
-    "working_dir": "/home/air/projects/baseboard/hardware"
+    "working_dir": "/home/air"
   }
 }

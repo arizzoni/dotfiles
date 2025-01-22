@@ -22,8 +22,7 @@ return function(s)
 		widget = wibox.container.tile,
 	})
 
-	local todo, _ = awful.widget.watch("cat " .. todofile, 600)
-	local updates, _ = awful.widget.watch("checkupdates", 600)
+	local todo, _ = awful.widget.watch("cat " .. todofile, 60)
 
 	local overlay = wibox.widget({
 		{
@@ -31,12 +30,6 @@ return function(s)
 			halign = "left",
 			tiled = false,
 			widget = todo,
-		},
-		{
-			valign = "top",
-			halign = "left",
-			tiled = false,
-			widget = updates,
 		},
 		layout = wibox.layout.flex.horizontal,
 	})
@@ -62,12 +55,6 @@ return function(s)
 	})
 
 	todo:connect_signal("widget::redraw_needed", function()
-		if s.wallpaper then
-			s.wallpaper:repaint()
-		end
-	end)
-
-	updates:connect_signal("widget::redraw_needed", function()
 		if s.wallpaper then
 			s.wallpaper:repaint()
 		end

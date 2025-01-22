@@ -107,7 +107,7 @@ return {
 	},
 	{
 		url = "http://www.github.com/mfussenegger/nvim-lint",
-		event = "VeryLazy",
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local lint = require("lint")
 
@@ -123,8 +123,12 @@ return {
 			shellcheck.args = { "-x" }
 
 			vim.api.nvim_create_autocmd({ "LspAttach", "InsertLeave", "BufWritePost" }, {
+				pattern = "*",
+				group = vim.api.nvim_create_augroup("LintGroup", { clear = true }),
 				callback = function()
-					lint.try_lint()
+					if vim.bo.modifiable then
+						lint.try_lint()
+					end
 				end,
 			})
 		end,
@@ -170,10 +174,9 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				python = { "ruff_format", "ruff_organize_imports" },
-				sh = { "shfmt" },
 				bash = { "shfmt" },
-				tex = { "tex-fmt" },
 				latex = { "tex-fmt" },
+				["*"] = { "injected" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
@@ -186,16 +189,20 @@ return {
 				lang_to_ft = {
 					bash = "sh",
 					latex = "tex",
-					tex = "tex",
 					python = "py",
 					lua = "lua",
 				},
 				lang_to_ext = {
-					bash = { "sh", "bash" },
-					latex = { "tex", "cls", "sty" },
-					tex = { "tex", "cls", "sty" },
+					bash = "sh",
+					latex = "tex",
 					python = "py",
 					lua = "lua",
+				},
+				lang_to_formatters = {
+					lua = { "stylua" },
+					python = { "ruff_format", "ruff_organize_imports" },
+					bash = { "shfmt" },
+					latex = { "tex-fmt" },
 				},
 			}
 		end,

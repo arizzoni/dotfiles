@@ -4,6 +4,3 @@ Description=Task: Change Wallpaper
 [Service]
 Type=oneshot
 ExecStart=/home/air/.local/bin/chwal
-
-[Install]
-WantedBy=graphical-session.target

@@ -1,0 +1,83 @@
+font = "monospace"
+font-size = 16
+font-features = ""
+font-variations = ""
+hint-font = true
+text-color = #E5CBBD
+
+prompt-color = #E5CBBD
+prompt-background = #02954E6
+prompt-background-padding = 0
+prompt-background-corner-radius = 0
+
+placeholder-color = #6495123E6
+placeholder-background = #02954E6
+placeholder-background-padding = 0
+placeholder-background-corner-radius = 0
+
+input-background = #02954E6
+input-background-padding = 0
+input-background-corner-radius = 0
+
+default-result-color = #774921
+default-result-background = #02954E6
+default-result-background-padding = 0
+default-result-background-corner-radius = 0
+alternate-result-color = #44689B
+alternate-result-background = #02954E6
+alternate-result-background-padding = 0
+alternate-result-background-corner-radius = 0
+
+selection-color = #6495123E6
+selection-background = #02954E6
+selection-background-padding = 0
+selection-background-corner-radius = 0
+selection-match-color = #02954E6
+
+text-cursor-style = bar
+text-cursor-color = #E5CBBD
+text-cursor-background = #02954E6
+text-cursor-corner-radius = 0
+text-cursor-thickness = 2
+
+prompt-text = ": "
+prompt-padding = 0
+placeholder-text = "... "
+num-results = 0
+result-spacing = 0
+horizontal = false
+min-input-width = 0
+
+width = 100%
+height = 100%
+background-color = #02954E6
+outline-width = 0
+outline-color = #001D36
+border-width = 0
+border-color = #001D36
+corner-radius = 0
+padding-top = 480
+padding-bottom = 480
+padding-left = 1080
+padding-right = 1080
+clip-to-padding = true
+scale = true
+
+anchor = center
+exclusive-zone = -1
+margin-top = 0
+margin-bottom = 0
+margin-left = 0
+margin-right = 0
+hide-cursor = false
+text-cursor = true
+history = true
+# history-file = /path/to/histfile
+matching-algorithm = fuzzy
+require-match = true
+auto-accept-single = false
+hide-input = false
+hidden-character = "*"
+physical-keybindings = true
+print-index = false
+drun-launch = false

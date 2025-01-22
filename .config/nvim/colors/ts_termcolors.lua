@@ -41,7 +41,7 @@ set_hl("Normal", { ctermfg = 15 })
 set_hl("NormalNC", { ctermfg = 15 })
 set_hl("NormalSB", { ctermfg = 15 })
 set_hl("NormalFloat", { ctermfg = 15 })
-set_hl("Float", { ctermfg = 15, ctermbg = 8 })
+set_hl("Float", { ctermfg = 15 })
 set_hl("FloatBorder", { bold = true, ctermfg = 15, ctermbg = 8 })
 set_hl("FloatTitle", { bold = true, ctermfg = 15, ctermbg = 8 })
 set_hl("Pmenu", { ctermfg = 15, ctermbg = 0 })
@@ -324,7 +324,7 @@ set_hl("@variable.member", { link = "Variable" })
 set_hl("@variable.parameter", { link = "Variable" })
 set_hl("@variable.parameter.builtin", { link = "Variable" })
 
-local lsp_group = vim.api.nvim_create_augroup("lsp", { clear = false })
+local lsp_group = vim.api.nvim_create_augroup("LspGroup", { clear = false })
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = lsp_group,
 	pattern = "*",

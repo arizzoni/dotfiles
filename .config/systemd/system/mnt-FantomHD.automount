@@ -1,9 +1,0 @@
-[Unit]
-Description=Automount Backup Drive
-
-[Automount]
-Where=/mnt/FantomHD
-
-[Install]
-Also=run-media-air-FantomHD.mount
-WantedBy=default.target

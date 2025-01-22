@@ -1,5 +1,5 @@
 [Unit]
 Description=KeepassXC Password Manager
-; Requires=default.target
-; After=default.target
+Requires=keepassxc.service
+After=keepassxc.service
 AllowIsolate=yes

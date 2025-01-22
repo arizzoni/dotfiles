@@ -1,7 +1,7 @@
 [Unit]
 Description=KeepassXC
-Requires=default.target
-After=default.target
+Requires=multi-user.target
+After=multi-user.target
 
 [Service]
 Type=simple
@@ -10,4 +10,4 @@ Restart=always
 RestartSec=1
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical.target
