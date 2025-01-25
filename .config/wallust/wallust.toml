@@ -31,8 +31,8 @@ kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'
 xresources.template = 'Xresources'
 xresources.target = '~/.config/Xresources'
 
-wallpaper.template = 'wallpaper'
-wallpaper.target = '~/.cache/wallust/wallpaper'
+path.template = 'path'
+path.target = '~/.cache/wallust/path'
 
 hyprcolors.template = 'hyprcolors.conf'
 hyprcolors.target = '~/.config/hypr/hyprcolors.conf'
