@@ -4,8 +4,8 @@
 
 # Define directories
 WALLPAPER_DIR="$HOME/pictures/wallpapers/space/"
-WAL_CACHE="$HOME/.cache/wallust/wallpaper"
-CHWAL_CACHE="$HOME/.cache/wallust/wal"
+WALLPAPER_PATH="$HOME/.cache/wallust/path"
+WALLPAPER_CACHE="$HOME/.cache/wallust/wallpaper"
 RMWAL_DIR="$WALLPAPER_DIR/rmwal"
 
 # Define command behavior
@@ -39,7 +39,7 @@ _help() {
 
 _wal() {
     # Generate the colorscheme and update config files
-    if ! $WAL "$($CAT "$WAL_CACHE")"; then {
+    if ! $WAL "$($CAT "$WALLPAPER_PATH")"; then {
         echo "Error: Could not generate colorscheme."
         return 1
     }; fi
@@ -47,11 +47,11 @@ _wal() {
 
 _rmwal() {
     # Mark the current wallpaper for removal
-    if [ -f "$($CAT "$WAL_CACHE")" ]; then {
+    if [ -f "$($CAT "$WALLPAPER_PATH")" ]; then {
         if [ ! -d "$RMWAL_DIR" ]; then {
             $MKDIR "$RMWAL_DIR"
         }; fi
-        $MV "$($CAT "$WAL_CACHE")" "$RMWAL_DIR"
+        $MV "$($CAT "$WALLPAPER_PATH")" "$RMWAL_DIR"
     }; fi
     return 0
 }
@@ -67,9 +67,9 @@ _ldwal() {
 
 _newal() {
     # Select new random wallpaper and cache it
-    WALLPAPER="$($FIND . "$WALLPAPER_DIR" | shuf | head -n 1)"
-    echo "$WALLPAPER" >|"$WAL_CACHE"
-    command cp "$(cat "$WAL_CACHE")" "$CHWAL_CACHE"
+    WALLPAPER="$($FIND "$WALLPAPER_DIR" | shuf | head -n 1)"
+    echo "$WALLPAPER" >|"$WALLPAPER_PATH"
+    command cp "$(cat "$WALLPAPER_PATH")" "$WALLPAPER_CACHE"
     return
 }
 
@@ -85,8 +85,8 @@ _reload() {
 
     # Reload Hyprland wallpaper
     if [ "$XDG_SESSION_DESKTOP" = 'Hyprland' ]; then {
-        hyprctl hyprpaper preload "$($CAT "$WAL_CACHE")" >/dev/null 2>&1 &&
-            hyprctl hyprpaper wallpaper ",$($CAT "$WAL_CACHE")" >/dev/null 2>&1
+        hyprctl hyprpaper preload "$($CAT "$WALLPAPER_PATH")" >/dev/null 2>&1 &&
+            hyprctl hyprpaper wallpaper ",$($CAT "$WALLPAPER_PATH")" >/dev/null 2>&1
     }; fi
 }
 
@@ -127,7 +127,7 @@ while getopts ":d:lrVh" option; do {
         ;;
     \?) # Invalid option
         echo "Error: Invalid option"
-        echo "Syntax: chwal -[r|h|V]"
+        _help
         exit 1
         ;;
     esac
