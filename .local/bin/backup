@@ -1,0 +1,99 @@
+#!/bin/sh
+# Basic wrapper script around Duplicity.
+
+SRC="/home"
+DEST="file:///run/media/$USER/FantomHD"
+DUPLICITY="command duplicity"
+
+_version() {
+    echo "backup 0.1"
+    return 0
+}
+
+_help() {
+    _version
+    echo "Simple wrapper around duplicity for managing backups."
+    echo
+    echo "Usage: backup -[h|r|V]"
+    echo "  -h    Print this help message and exit."
+    echo "  -r    Restore from most recent backup."
+    echo "  -V    Print software version and exit."
+    echo
+    return 0
+}
+
+_backup() {
+    notify-send 'Starting Backup'
+
+    if ! $DUPLICITY --verbosity notice \
+        --time "now" \
+        --full-if-older-than 90D \
+        --num-retries 3 \
+        --no-encryption \
+        --include "$SRC/$USER/.local/bin" \
+        --include "$SRC/$USER/.config" \
+        --include "$SRC/$USER/.dotfiles" \
+        --include "$SRC/$USER/.gnupg" \
+        --include "$SRC/$USER/.ssh" \
+        --exclude "$SRC/$USER/.*" \
+        backup "$SRC" "$DEST"; then {
+            notify-send 'Error: Backup Incomplete'
+            return 1
+        }; else {
+            notify-send 'Backup Complete'
+            return 0
+        }; fi
+}
+
+_restore() {
+    notify-send 'Restoring From Backup'
+
+    if ! $DUPLICITY --verbosity notice \
+        --time "now" \
+        --full-if-older-than 90D \
+        --num-retries 3 \
+        --asynchronous-upload \
+        --volsize 650 \
+        --no-encryption \
+        --archive-dir "/var/cache/duplicity/$USER" \
+        --log-file "/var/log/duplicity/$USER/duplicity.log" \
+        --include "$USER/.local/bin" \
+        --include "$USER/.config" \
+        --include "$USER/.dotfiles" \
+        --include "$USER/.gnupg" \
+        --include "$USER/.ssh" \
+        --exclude "$USER/.*" \
+        "$DEST" "$SRC"; then {
+            notify-send 'Error: Restore Incomplete'
+            return 1
+        }; else {
+            notify-send 'Backup Restored'
+            return 0
+        }; fi
+
+}
+
+# Process args
+while getopts ":d:lrVh" option; do {
+    case $option in
+    h) # Display Help
+        _help
+        exit
+        ;;
+    r)
+        _restore
+        exit
+        ;;
+    V) # Version
+        _version
+        exit
+        ;;
+    \?) # Invalid option
+        echo "Error: Invalid option"
+        _help
+        exit 1
+        ;;
+    esac
+} done
+
+_backup
