@@ -14,7 +14,7 @@ shape = "Underline"
 
 [font]
 builtin_box_drawing = true
-size = 14
+size = 16
 
 [font.normal]
 family = "Iosevka Term"
