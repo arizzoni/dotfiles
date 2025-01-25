@@ -3,40 +3,40 @@ font-size = 16
 font-features = ""
 font-variations = ""
 hint-font = true
-text-color = #E5CBBD
+text-color = #F0E4DF
 
-prompt-color = #E5CBBD
-prompt-background = #02954E6
+prompt-color = #F0E4DF
+prompt-background = #131921
 prompt-background-padding = 0
 prompt-background-corner-radius = 0
 
-placeholder-color = #6495123E6
-placeholder-background = #02954E6
+placeholder-color = #8591100E6
+placeholder-background = #192533E6
 placeholder-background-padding = 0
 placeholder-background-corner-radius = 0
 
-input-background = #02954E6
+input-background = #192533E6
 input-background-padding = 0
 input-background-corner-radius = 0
 
-default-result-color = #774921
-default-result-background = #02954E6
+default-result-color = #5F492E
+default-result-background = #192533E6
 default-result-background-padding = 0
 default-result-background-corner-radius = 0
-alternate-result-color = #44689B
-alternate-result-background = #02954E6
+alternate-result-color = #2476B9
+alternate-result-background = #192533E6
 alternate-result-background-padding = 0
 alternate-result-background-corner-radius = 0
 
-selection-color = #6495123E6
-selection-background = #02954E6
+selection-color = #555B64
+selection-background = #192533E6
 selection-background-padding = 0
 selection-background-corner-radius = 0
-selection-match-color = #02954E6
+selection-match-color = #192533E6
 
 text-cursor-style = bar
-text-cursor-color = #E5CBBD
-text-cursor-background = #02954E6
+text-cursor-color = #F0E4DF
+text-cursor-background = #192533E6
 text-cursor-corner-radius = 0
 text-cursor-thickness = 2
 
@@ -50,16 +50,16 @@ min-input-width = 0
 
 width = 100%
 height = 100%
-background-color = #02954E6
+background-color = #192533E6
 outline-width = 0
-outline-color = #001D36
+outline-color = #131921
 border-width = 0
-border-color = #001D36
+border-color = #131921
 corner-radius = 0
-padding-top = 480
-padding-bottom = 480
-padding-left = 1080
-padding-right = 1080
+padding-top = 33%
+padding-bottom = 33%
+padding-left = 33%
+padding-right = 33%
 clip-to-padding = true
 scale = true
 

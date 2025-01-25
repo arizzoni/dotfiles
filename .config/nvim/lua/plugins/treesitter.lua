@@ -70,6 +70,7 @@ return {
 				"requirements",
 				"ssh_config",
 				"tsv",
+				"typst",
 				"query",
 				"yaml",
 				"tmux",

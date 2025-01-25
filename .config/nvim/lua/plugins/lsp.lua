@@ -176,6 +176,7 @@ return {
 				python = { "ruff_format", "ruff_organize_imports" },
 				bash = { "shfmt" },
 				latex = { "tex-fmt" },
+				typst = { "typstyle" },
 				["*"] = { "injected" },
 			},
 			format_on_save = {
@@ -191,18 +192,21 @@ return {
 					latex = "tex",
 					python = "py",
 					lua = "lua",
+					typst = "typst",
 				},
 				lang_to_ext = {
 					bash = "sh",
 					latex = "tex",
 					python = "py",
 					lua = "lua",
+					typst = "typ",
 				},
 				lang_to_formatters = {
 					lua = { "stylua" },
 					python = { "ruff_format", "ruff_organize_imports" },
 					bash = { "shfmt" },
 					latex = { "tex-fmt" },
+					typst = { "typstyle" },
 				},
 			}
 		end,
