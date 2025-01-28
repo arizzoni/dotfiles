@@ -30,7 +30,7 @@ lspconfig.texlab.setup({
 			},
 			latexFormatter = "latexindent",
 			latexindent = {
-				modifyLineBreaks = false,
+				modifyLineBreaks = true,
 			},
 		},
 	},

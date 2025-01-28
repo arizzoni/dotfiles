@@ -226,14 +226,14 @@ return {
 					return 84
 				end
 			end,
-			open_mapping = nil,
+			open_mapping = [[<C-enter>]],
 			hide_numbers = true,
 			autochdir = false,
 			shade_terminals = false,
 			start_in_insert = true,
 			insert_mappings = false,
 			terminal_mappings = true,
-			persist_size = false,
+			persist_size = true,
 			persist_mode = false,
 			direction = "vertical",
 			close_on_exit = true,
@@ -255,28 +255,6 @@ return {
 				true
 			)]
 
-			local ipy_cmd = function()
-				if os.getenv("VIRTUAL_ENV") ~= nil then
-					return os.getenv("VIRTUAL_ENV") .. "/bin/ipython"
-				elseif os.getenv("WORKON_HOME") ~= nil then
-					return os.getenv("WORKON_HOME") .. "/ipython/bin/ipython"
-				else
-					return "ipython"
-				end
-			end
-
-			local Terminal = require("toggleterm.terminal").Terminal
-			local ipython = Terminal:new({ cmd = ipy_cmd(), hidden = true })
-			local bash = Terminal:new({ cmd = "bash", hidden = true })
-
-			local repl_toggle = function()
-				if vim.bo.filetype == "python" or ipython:is_open() then
-					ipython:toggle()
-				else
-					bash:toggle()
-				end
-			end
-
 			util.vmap("<leader><C-enter>", function()
 				set_opfunc(function(motion_type)
 					toggleterm.send_lines_to_terminal(motion_type, false, { args = vim.v.count })
@@ -297,8 +275,6 @@ return {
 				end)
 				vim.api.nvim_feedkeys("ggg@G''", "n", false)
 			end, vim.api.nvim_get_current_buf(), "Send File to Terminal")
-
-			util.nmap([[<C-enter>]], repl_toggle, vim.api.nvim_get_current_buf(), "Toggle REPL")
 
 			util.nmap("<leader>sl", function()
 				local current_buf = vim.api.nvim_get_current_buf()
@@ -358,37 +334,39 @@ return {
 				group = term_enter_group,
 				callback = function()
 					if vim.opt.buftype:get() == "terminal" then
-						util.tmap("<esc>", [[<C-\><C-n>]], vim.api.nvim_get_current_buf(), "")
-						util.tmap("<C-w>h", [[<Cmd>wincmd h<CR>]], vim.api.nvim_get_current_buf(), "")
-						util.tmap("<C-w>j", [[<Cmd>wincmd j<CR>]], vim.api.nvim_get_current_buf(), "")
-						util.tmap("<C-w>k", [[<Cmd>wincmd k<CR>]], vim.api.nvim_get_current_buf(), "")
-						util.tmap("<C-w>l", [[<Cmd>wincmd l<CR>]], vim.api.nvim_get_current_buf(), "")
-						util.tmap("<C-w>w", [[<C-\><C-n><C-w>]], vim.api.nvim_get_current_buf(), "")
-						util.tmap([[<C-enter>]], repl_toggle, vim.api.nvim_get_current_buf(), "Toggle REPL")
+						local bufnr = vim.api.nvim_get_current_buf()
+						local target_width = 84
+						local target_height = vim.o.lines
+						util.tmap("<esc>", [[<C-\><C-n>]], bufnr, "")
+						util.tmap("<C-w>h", [[<Cmd>wincmd h<CR>]], bufnr, "")
+						util.tmap("<C-w>j", [[<Cmd>wincmd j<CR>]], bufnr, "")
+						util.tmap("<C-w>k", [[<Cmd>wincmd k<CR>]], bufnr, "")
+						util.tmap("<C-w>l", [[<Cmd>wincmd l<CR>]], bufnr, "")
+						util.tmap("<C-w>w", [[<C-\><C-n><C-w>]], bufnr, "")
 					end
 				end,
 			})
 
-			-- TODO Reimplement this for toggleterm, doesn't seem to work properly
-			-- vim.api.nvim_create_autocmd({ "WinResized", "WinLeave", "WinEnter" }, {
-			--   pattern = { "*" },
-			--   group = term_enter_group,
-			--   callback = function()
-			--       local bufnr = vim.api.nvim_get_current_buf()
-			--       if vim.api.nvim_get_option_value("filetype", {buf = bufnr}) == 'terminal' then
-			--         -- local target_width = math.floor(0.34 * vim.o.columns) -- or 84
-			--         local target_width = 84
-			--         local target_height = vim.o.lines
-			--
-			--         if vim.api.nvim_win_get_width(bufnr) ~= target_width then
-			--           vim.api.nvim_win_set_width(bufnr, target_width)
-			--         end
-			--         if vim.api.nvim_win_get_height(bufnr) ~= target_height then
-			--           vim.api.nvim_win_set_height(bufnr, target_height)
-			--         end
-			--       end
-			--   end,
-			-- })
+			vim.api.nvim_create_autocmd({ "WinResized", "VimResized", "WinEnter" }, {
+				pattern = { "*" },
+				group = term_enter_group,
+				callback = function()
+					if vim.opt.buftype:get() == "terminal" then
+						local bufnr = vim.api.nvim_get_current_buf()
+						local winnr = vim.api.nvim_get_current_win()
+						if vim.api.nvim_win_get_buf(winnr) == bufnr then
+							local target_width = math.min(84, math.floor(0.33 * vim.o.columns))
+							local target_height = vim.o.lines
+							if vim.api.nvim_win_get_width(winnr) ~= target_width then
+								vim.api.nvim_win_set_width(winnr, target_width)
+							end
+							if vim.api.nvim_win_get_height(winnr) ~= target_height then
+								vim.api.nvim_win_set_height(winnr, target_height)
+							end
+						end
+					end
+				end,
+			})
 
 			vim.api.nvim_create_autocmd("TermClose", {
 				group = term_enter_group,

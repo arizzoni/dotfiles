@@ -100,6 +100,29 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- Keep help in vertical split on resize
+vim.api.nvim_create_autocmd({ "WinResized", "VimResized" }, {
+	pattern = { "*" },
+	group = help_group,
+	callback = function()
+		if vim.bo.buftype == "help" then
+			local bufnr = vim.api.nvim_get_current_buf()
+			local winnr = vim.api.nvim_get_current_win()
+			if vim.api.nvim_win_get_buf(winnr) == bufnr then
+				local win_width = vim.api.nvim_win_get_width(winnr)
+				local target_width = math.max(math.floor(0.34 * win_width), vim.bo.textwidth + 4)
+				local target_height = vim.o.lines
+				if vim.api.nvim_win_get_width(winnr) ~= target_width then
+					vim.api.nvim_win_set_width(winnr, target_width)
+				end
+				if vim.api.nvim_win_get_height(winnr) ~= target_height then
+					vim.api.nvim_win_set_height(winnr, target_height)
+				end
+			end
+		end
+	end,
+})
+
 -- Statusline
 local statusline_group = vim.api.nvim_create_augroup("StatusLine", { clear = true })
 vim.api.nvim_create_autocmd({ "BufWinEnter", "TermOpen" }, {

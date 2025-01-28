@@ -1,4 +1,4 @@
-set font 'monospace normal 16'
+set font 'monospace 16'
 
 # Allow recolor
 set recolor "true"

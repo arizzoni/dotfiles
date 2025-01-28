@@ -73,6 +73,15 @@ _restore() {
 
 }
 
+_dep_check() {
+    # If duplicity is not executable, exit
+    if [ ! -x "$(command -v duplicity)" ]; then {
+        echo "Error: Required program Duplicity not found."
+        echo "Aborting script."
+        exit 1
+    }; fi
+}
+
 # Process args
 while getopts ":d:lrVh" option; do {
     case $option in
@@ -81,6 +90,7 @@ while getopts ":d:lrVh" option; do {
         exit
         ;;
     r)
+        _dep_check
         _restore
         exit
         ;;
@@ -96,4 +106,5 @@ while getopts ":d:lrVh" option; do {
     esac
 } done
 
+_dep_check
 _backup
