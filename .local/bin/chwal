@@ -6,7 +6,7 @@
 WALLPAPER_DIR="$HOME/pictures/wallpapers/space/"
 WALLPAPER_PATH="$HOME/.cache/wallust/path"
 WALLPAPER_CACHE="$HOME/.cache/wallust/wallpaper"
-RMWAL_DIR="$WALLPAPER_DIR/rmwal"
+RMWAL_DIR="$WALLPAPER_DIR/../rmwal"
 
 # Define command behavior
 CAT="command cat"
@@ -73,6 +73,24 @@ _newal() {
     return
 }
 
+_zathura() {
+    ZATHURA_IDS=$(dbus-send --session \
+        --dest=org.freedesktop.DBus \
+        --type=method_call \
+        --print-reply \
+        /org/freedesktop/DBus \
+        org.freedesktop.DBus.ListNames | grep -o 'org.pwmt.zathura.PID-[0-9]*')
+
+    for ID in $ZATHURA_IDS; do {
+        dbus-send --session \
+            --dest="$ID" \
+            --type=method_call \
+            --print-reply \
+            /org/pwmt/zathura \
+            org.pwmt.zathura.SourceConfig
+    }; done
+}
+
 _reload() {
     # Restart AwesomeWM to apply the new colorscheme
     if [ "$XDG_SESSION_DESKTOP" = 'awesome' ]; then {
@@ -84,10 +102,12 @@ _reload() {
     }; fi
 
     # Reload Hyprland wallpaper
-    if [ "$XDG_SESSION_DESKTOP" = 'Hyprland' ]; then {
+    if [ "$XDG_SESSION_DESKTOP" = 'hyprland' ]; then {
         hyprctl hyprpaper preload "$($CAT "$WALLPAPER_PATH")" >/dev/null 2>&1 &&
             hyprctl hyprpaper wallpaper ",$($CAT "$WALLPAPER_PATH")" >/dev/null 2>&1
     }; fi
+
+    _zathura >/dev/null 2>&1
 }
 
 _chwal() {

@@ -7,7 +7,7 @@ palette = 'ansidark'
 fallback_generator = "complementary"
 check_contrast = true
 saturation = 42
-alpha = 90
+alpha = 80
 
 [ templates ]
 alacritty.template = 'alacritty.toml'

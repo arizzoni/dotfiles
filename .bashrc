@@ -4,11 +4,11 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Source global definitions
-if [ -r /etc/bash.bashrc ]; then {
-        # shellcheck source=/dev/null
-    . /etc/bash.bashrc
-} fi
+# # Source global definitions
+# if [ -r /etc/bash.bashrc ]; then {
+#         # shellcheck source=/dev/null
+#     . /etc/bash.bashrc
+# } fi
 
 ## Bash options
 
@@ -29,6 +29,9 @@ if ! shopt -oq posix ; then {
         . '/etc/bash_completion'
     } fi
 } fi
+
+# LS colors
+eval "$(dircolors)"
 
 
 ## PSX Prompts
@@ -377,7 +380,7 @@ ls () {
     } fi
 }
 
-ll () {
+la () {
     local __files
     if [[ $# -eq 0 ]] ; then {
         __files=( "$PWD"/* )
@@ -400,7 +403,7 @@ ll () {
     } fi
 }
 
-la () {
+ll () {
     local __files
     if [[ $# -eq 0 ]] ; then {
         __files=( "$PWD"/* )
@@ -422,6 +425,115 @@ la () {
         } fi
     } fi
 }
+
+# fzy () { # TODO
+#     # Wrapper for fzy to emulate fzf behavior
+#     if [[ -x "$(command -v fzy)" ]] ; then {
+#         if [[ -x "$(command -v fd)" ]] ; then {
+#             alias fzf='fd . | fzy'
+#         } else {
+#         alias fzf='find . | fzy'
+#         } fi
+#     } fi
+# }
+
+if [[ -x "$(command -v fzy)" ]] ; then {
+    if [[ -x "$(command -v fd)" ]] ; then {
+        alias fzf='fd . | fzy'
+    } else {
+    alias fzf='find . | fzy'
+    } fi
+} fi
+
+extract () {
+    # Wrapper for various compression/extraction utilities. Extracts the file
+    # given as the first argument to the function.
+
+    if [[ -f "$1" ]] ; then {
+        case $1 in
+            *.tar.bz2)
+                tar xjf "$1"
+                ;;
+            *.tar.gz)
+                tar xzf "$1"
+                ;;
+            *.bz2)
+                bunzip2 "$1"
+                ;;
+            *.rar)
+                unrar x "$1"
+                ;;
+            *.gz)
+                gunzip "$1"
+                ;;
+            *.tar)
+                tar xf "$1"
+                ;;
+            *.tbz2)
+                tar xjf "$1"
+                ;;
+            *.tgz)
+                tar xzf "$1"
+                ;;
+            *.zip)
+                unzip "$1"
+                ;;
+            *.Z)
+                uncompress "$1"
+                ;;
+            *.7z)
+                7z x "$1"
+                ;;
+            *)
+                printf '%s cannot be extracted via extract ()' "$1"
+                ;;
+        esac
+    } else {
+                printf '%s is not a valid file' "$1"
+    } fi
+}
+
+# Neovim
+if [[ -x "$(command -v nvim)" ]] ; then {
+    alias nvim='nvim'
+    alias diff='nvim -d'
+} fi
+
+# Python
+if [[ -x "$(command -v python)" ]] ; then {
+    # IPython
+    ipython () {
+        if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
+            # shellcheck source=/dev/null
+            if . "$VIRTUAL_ENV/bin/activate" ; then {
+                "$VIRTUAL_ENV/bin/ipython"
+                deactivate
+            } fi
+        } elif [[ -e "$WORKON_HOME/ipython/bin/activate" ]] ; then  {
+            # shellcheck source=/dev/null
+            if . "$WORKON_HOME/ipython/bin/activate" ; then {
+                "$WORKON_HOME/ipython/bin/ipython"
+                deactivate
+            } fi
+        } fi
+    }
+
+    # Python UV
+    if [[ -x "$(command -v uv)" ]] ; then {
+        alias pip='uv pip'
+    } fi
+} fi
+
+# MATLAB
+if [[ -x "$(command -v matlab)" ]] ; then {
+    matlab () {
+        LD_PRELOAD=/usr/lib/libstdc++.so.6.0.33 command matlab
+    }
+
+    matlab-run () {
+        matlab -nodesktop -nosplash -r "$1"
+    }
+} fi
 
 # cd
 cd () {
@@ -524,138 +636,6 @@ cd () {
     unset __dir __current_dir __found __dir_uid __dir_gid __uid __gid
 }
 
-# fzy () { # TODO
-#     # Wrapper for fzy to emulate fzf behavior
-#     if [[ -x "$(command -v fzy)" ]] ; then {
-#         if [[ -x "$(command -v fd)" ]] ; then {
-#             alias fzf='fd . | fzy'
-#         } else {
-#         alias fzf='find . | fzy'
-#         } fi
-#     } fi
-# }
-
-if [[ -x "$(command -v fzy)" ]] ; then {
-    if [[ -x "$(command -v fd)" ]] ; then {
-        alias fzf='fd . | fzy'
-    } else {
-    alias fzf='find . | fzy'
-    } fi
-} fi
-
-extract () {
-    # Wrapper for various compression/extraction utilities. Extracts the file
-    # given as the first argument to the function.
-
-    if [[ -f "$1" ]] ; then {
-        case $1 in
-            *.tar.bz2)
-                tar xjf "$1"
-                ;;
-            *.tar.gz)
-                tar xzf "$1"
-                ;;
-            *.bz2)
-                bunzip2 "$1"
-                ;;
-            *.rar)
-                unrar x "$1"
-                ;;
-            *.gz)
-                gunzip "$1"
-                ;;
-            *.tar)
-                tar xf "$1"
-                ;;
-            *.tbz2)
-                tar xjf "$1"
-                ;;
-            *.tgz)
-                tar xzf "$1"
-                ;;
-            *.zip)
-                unzip "$1"
-                ;;
-            *.Z)
-                uncompress "$1"
-                ;;
-            *.7z)
-                7z x "$1"
-                ;;
-            *)
-                printf '%s cannot be extracted via extract ()' "$1"
-                ;;
-        esac
-    } else {
-                printf '%s is not a valid file' "$1"
-    } fi
-}
-
-loc () {
-    # Prints the number of lines in files with the provided suffixes.
-    # Usage: loc 'suffix1' 'suffix2' ... 'suffixN'
-    #        e.g. loc 'lua', loc 'py' 'toml', loc 'c' 'h'
-    
-    local __lines __extension
-
-    for __extension in "$@"; do {
-        __lines=$( \
-            find ./* -name "*.$__extension" -print0 \
-            | xargs -0 wc -l \
-            | grep total \
-        )
-        __lines="${__lines//[!0-9]/}"
-
-        if [[ -z $__lines ]] ; then {
-            __lines=0
-        } fi
-
-        printf '%s\n' "$__lines"
-    } done
-}
-
-# Neovim
-if [[ -x "$(command -v nvim)" ]] ; then {
-    alias nvim='nvim'
-    alias diff='nvim -d'
-} fi
-
-# Python
-if [[ -x "$(command -v python)" ]] ; then {
-    # IPython
-    ipython () {
-        if [[ -n "${VIRTUAL_ENV+x}" ]] ; then {
-            # shellcheck source=/dev/null
-            if . "$VIRTUAL_ENV/bin/activate" ; then {
-                "$VIRTUAL_ENV/bin/ipython"
-                deactivate
-            } fi
-        } elif [[ -e "$WORKON_HOME/ipython/bin/activate" ]] ; then  {
-            # shellcheck source=/dev/null
-            if . "$WORKON_HOME/ipython/bin/activate" ; then {
-                "$WORKON_HOME/ipython/bin/ipython"
-                deactivate
-            } fi
-        } fi
-    }
-
-    # Python UV
-    if [[ -x "$(command -v uv)" ]] ; then {
-        alias pip='uv pip'
-    } fi
-} fi
-
-# MATLAB
-if [[ -x "$(command -v matlab)" ]] ; then {
-    matlab () {
-        LD_PRELOAD=/usr/lib/libstdc++.so.6.0.33 command matlab
-    }
-
-    matlab-run () {
-        matlab -nodesktop -nosplash -r "$1"
-    }
-} fi
-
 # Distribution-specific Aliases
 if [[ -r /etc/arch-release ]] ; then {
         __mirror-update () {
@@ -703,5 +683,9 @@ if [[ -x "$(command -v minicom)" ]] ; then {
 
 
 ## Welcome Message
+if [[ -x "$(command -v fastfetch)" ]] ; then {
 fastfetch -s Title:OS:Kernel:Shell:Break:Colors:Break --logo arch_small \
-    && cd . && ll .
+    && cd . && la .
+} else {
+    cd . && la .
+} fi

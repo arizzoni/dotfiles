@@ -1,7 +1,7 @@
 local lspconfig = require("lspconfig")
 
 vim.g.digraph = true
-vim.opt.spell = true
+vim.opt.spell = false
 vim.opt.spelllang = { "en_us" }
 vim.bo.shiftwidth = 2
 vim.bo.tabstop = 2

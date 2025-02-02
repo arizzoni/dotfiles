@@ -1,0 +1,6 @@
+[Unit]
+Description=Automount USB drives
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mount /dev/%k /media/%k

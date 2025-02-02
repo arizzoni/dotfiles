@@ -26,12 +26,6 @@ export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 ## Docker
 export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
 
-## Gnome
-export GTK_RC_FILES="$XDG_CONFIG_HOME/gtk-1.0/gtkrc": \
-    "$XDG_CONFIG_HOME/gtk-1.0/gtkrc.mine"
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc": \
-    "$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine"
-
 ## Bash
 
 # Bash History
@@ -57,11 +51,6 @@ if [ -x "$(command -v python)" ]; then {
     export IPYTHONDIR="$HOME/.local/share/ipython"
 }; fi
 
-## Rlwrap
-if [ -x "$(command -v rlwrap)" ]; then {
-    export RLWRAP_HOME="$XDG_DATA_HOME/rlwrap"
-}; fi
-
 ## LaTeX
 if tex --version | grep -q 'TeX Live'; then {
     export TEXMFHOME="$XDG_DATA_HOME/texmf"
@@ -69,16 +58,16 @@ if tex --version | grep -q 'TeX Live'; then {
     export TEXMFCONFIG="$XDG_CONFIG_HOME/texlive/texmf-config"
 }; fi
 
-## W3m
-if [ -x "$(command -v w3m)" ]; then {
-    export W3M_DIR="$XDG_STATE_HOME/w3m"
-}; fi
-
 ## Editors
 if [ -x "$(command -v nvim)" ]; then {
     export EDITOR="nvim"              # Export Neovim as global editor
     export MANPAGER="nvim -c ':Man!'" # Use Neovim as manpager
+}; elif [ -x "$(command -v vim)" ]; then {
+    export EDITOR="vim"              # Export Vim as global editor
+    export MANPAGER="vim -c ':Man!'" # Use Vim as manpager
+}; else {
+    export EDITOR="vi" # Export Vi as global editor
+    if [ -x "$(command -v less)" ]; then {
+        export MANPAGER="less" # Use Less as manpager if available
+    }; fi
 }; fi
-
-## LS colors
-eval "$(dircolors)"
