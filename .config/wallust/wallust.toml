@@ -23,7 +23,7 @@ aerc.template = 'config.aerc'
 aerc.target = '~/.config/aerc/stylesets/wal'
 
 json.template = 'colors.json'
-json.target = '~/.cache/wal/colors.json'
+json.target = '~/.cache/wallust/colors.json'
 
 kicad.template = 'kicad_colorscheme.json'
 kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'

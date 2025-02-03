@@ -2,6 +2,14 @@ local util = require("util")
 
 return {
 	{
+		-- url = "https://www.github.com/arizzoni/wal.nvim",
+		dir = "/home/air/projects/wal.nvim",
+		branch = "file_watcher",
+		opts = {
+			wal_path = "/home/air/.cache/wallust/colors.json",
+		},
+	},
+	{
 		url = "https://www.github.com/kylechui/nvim-surround",
 		version = "*",
 		event = "VeryLazy",

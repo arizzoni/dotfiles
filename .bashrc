@@ -495,8 +495,13 @@ extract () {
 
 # Neovim
 if [[ -x "$(command -v nvim)" ]] ; then {
-    alias nvim='nvim'
-    alias diff='nvim -d'
+    if [[ -x "$(command -v neovide)" ]] ; then {
+        alias nvim='neovide'
+        alias diff='neovide -- -d'
+    } else {
+        alias nvim='nvim'
+        alias diff='nvim -d'
+    } fi
 } fi
 
 # Python

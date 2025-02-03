@@ -3,6 +3,24 @@
 
 vim.cmd.colorscheme("ts_termcolors")
 
+-- Neovide Settings
+if vim.g.neovide then
+	-- vim.env.TERM = "alacritty"
+	vim.opt.termguicolors = true
+	vim.cmd("colorscheme default")
+	vim.g.neovide_theme = "auto"
+	vim.g.neovide_transparency = 0.8
+	vim.g.neovide_refresh_rate = 60
+	vim.g.neovide_refresh_rate_idle = 6
+	vim.g.neovide_cursor_animation_length = 0.125
+	vim.g.neovide_cursor_trail_size = 0.5
+	vim.g.neovide_cursor_antialiasing = true
+	vim.g.neovide_cursor_animate_command_line = true
+	vim.g.neovide_cursor_vfx_mode = ""
+	vim.g.neovide_text_gamma = 0.8
+	vim.g.neovide_text_contrast = 0.1
+end
+
 local uname = vim.uv.os_uname()
 if uname.sysname == "Windows" then
 	vim.opt.shell = "powershell.exe"
