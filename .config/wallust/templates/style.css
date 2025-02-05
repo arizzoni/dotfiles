@@ -1,6 +1,6 @@
 * {
     font-family: sans-serif;
-    font-size: 13px;
+    font-size: 16px;
     background-color: rgb({{background | rgb}});
     color: #{{foreground | strip}};
 }

@@ -1,15 +1,13 @@
 -- ~/.config/nvim/lua/core/init.lua
 -- Neovim configuration entry script
 
-vim.cmd.colorscheme("ts_termcolors")
+vim.cmd("colorscheme wal")
 
 -- Neovide Settings
 if vim.g.neovide then
-	-- vim.env.TERM = "alacritty"
 	vim.opt.termguicolors = true
-	vim.cmd("colorscheme default")
 	vim.g.neovide_theme = "auto"
-	vim.g.neovide_transparency = 0.8
+	vim.g.neovide_transparency = 0.9
 	vim.g.neovide_refresh_rate = 60
 	vim.g.neovide_refresh_rate_idle = 6
 	vim.g.neovide_cursor_animation_length = 0.125

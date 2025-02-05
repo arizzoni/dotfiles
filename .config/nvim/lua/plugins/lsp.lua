@@ -6,6 +6,189 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 		},
+		init = function()
+			local lspconfig = require("lspconfig")
+
+			lspconfig.lua_ls.setup({
+				single_file_support = true,
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT",
+						},
+						hint = {
+							enable = true,
+						},
+						workspace = {
+							checkThirdParty = false,
+							library = {
+								[vim.env.VIMRUNTIME] = true,
+							},
+						},
+						format = {
+							enable = false,
+						},
+						diagnostics = {
+							globals = { "vim" },
+							neededFileStatus = "Any",
+						},
+						telemetry = { enable = false },
+					},
+					log_level = vim.lsp.protocol.MessageType.Info,
+				},
+				docs = {
+					description = { "LuaLS" },
+				},
+			})
+
+			local ruff = lspconfig.ruff.setup({
+				name = "ruff",
+				cmd = { "/home/air/.local/share/virtualenvs/neovim/bin/ruff", "server" }, -- TODO get this working properly
+				single_file_support = true,
+				settings = {
+					init_options = {
+						settings = {
+							logLevel = "debug",
+							analyze = {
+								preview = true,
+							},
+							format = {
+								line_length = vim.bo.textwidth,
+								indent_width = vim.bo.shiftwidth,
+								indent_style = "spaces",
+								quote_style = "double",
+								preview = true,
+							},
+							lint = {
+								select = {
+									"E",
+									"W", -- pycodestyle rules
+									"C90", -- mccabe rules
+									"I", -- isort rules
+									"N", -- pep8-naming rules
+									"D", -- pydocstyle rules
+									"PL", -- pylint rules
+									"NPY", -- numpy rules
+									"RUF", -- ruff rules
+								},
+								preview = true,
+								pydocstyle = {
+									convention = "numpy",
+								},
+							},
+						},
+					},
+				},
+			})
+
+			local pylsp = lspconfig.pylsp.setup({
+				name = "pylsp",
+				cmd = { vim.fn.expand("~/.local/share/virtualenvs/neovim/bin/pylsp") },
+				single_file_support = true,
+				settings = {
+					pylsp = {
+						filetypes = { "python" },
+						plugins = {
+							autopep8 = {
+								enabled = false,
+							},
+							flake8 = {
+								enabled = false,
+								executable = "flake8",
+							},
+							pylsp_isort = {
+								enabled = false,
+							},
+							jedi_completion = {
+								enabled = true,
+								fuzzy = true,
+							},
+							mccabe = {
+								enabled = false,
+							},
+							pylsp_mypy = {
+								enabled = false,
+							},
+							pycodestyle = {
+								enabled = false,
+							},
+							pydocstyle = {
+								enabled = false,
+								convention = "numpy",
+							},
+							pyflakes = {
+								enabled = false,
+							},
+							pylint = {
+								enabled = false,
+								executable = "pylint",
+							},
+							rope_autoimport = {
+								completions = { enabled = false },
+								code_actions = { enabled = true },
+							},
+						},
+					},
+				},
+				docs = {
+					description = { "Pylsp" },
+				},
+			})
+
+			-- Disable Ruff hover capability in favor of Pylsp
+			if ruff and pylsp then
+				for _, client in ipairs(vim.lsp.get_clients({ id = ruff })) do
+					client.server_capabilities.hoverProvider = false
+					client.server_capabilities.codeActionProvider = false
+				end
+				for _, client in ipairs(vim.lsp.get_clients({ id = pylsp })) do
+					for _, capability in ipairs(client.server_capabilities) do
+						if
+							not capability == client.server_capabilities.hoverProvider
+							or not capability == client.server_capabilities.codeActionProvider
+						then
+							capability = false
+						end
+					end
+				end
+			end
+
+			lspconfig.texlab.setup({
+				settings = {
+					texlab = {
+						build = {
+							args = {},
+							executable = "latexmk",
+							onSave = true,
+							forwardSearchAfter = true,
+						},
+						chktex = {
+							onEdit = false,
+							onOpenAndSave = false,
+						},
+						diagnosticsDelay = 10,
+						formatterLineLength = 80,
+						forwardSearch = {
+							executable = "/bin/zathura",
+							args = { "--synctex-forward", "%l:1:%f", "%p" },
+						},
+						latexFormatter = "latexindent",
+						latexindent = {
+							modifyLineBreaks = true,
+						},
+					},
+				},
+			})
+
+			lspconfig.tinymist.setup({
+				settings = {
+					formatterMode = "typstyle",
+					formatterPrintWidth = vim.bo.textwidth,
+					exportPdf = "onType",
+					semanticTokens = "disable",
+				},
+			})
+		end,
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("LspAttachGroup", { clear = true }),

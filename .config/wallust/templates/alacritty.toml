@@ -31,21 +31,21 @@ draw_bold_text_with_bright_colors = false
 
 [colors.primary]
 background            = "{{background}}"
-foreground            = "{{foreground}}"
+foreground            = "{{color15}}"
 dim_foreground        = "{{color7}}"
 bright_foreground     = "{{color15}}"
 
 [colors.cursor]
-text                  = "{{background}}"
-cursor                = "{{foreground}}"
+text                  = "{{color0}}"
+cursor                = "{{color15}}"
 
 [colors.vi_mode_cursor]
-text                  = "{{background}}"
+text                  = "{{color0}}"
 cursor                = "{{color8}}"
 
 [colors.search.matches]
 foreground            = "{{color3}}"
-background            = "{{background}}"
+background            = "{{color0}}"
 
 [colors.search.focused_match]
 foreground            = "{{color3}}"
@@ -53,11 +53,11 @@ background            = "{{color8}}"
 
 [colors.hints.start]
 foreground            = "{{color4}}"
-background            = "{{background}}"
+background            = "{{color0}}"
 
 [colors.hints.end]
 foreground            = "{{color4}}"
-background            = "{{background}}"
+background            = "{{color0}}"
 
 [colors.line_indicator]
 foreground            = "None"
@@ -65,7 +65,7 @@ background            = "None"
 
 [colors.footer_bar]
 foreground            = "{{color1}}"
-background            = "{{background}}"
+background            = "{{color0}}"
 
 [colors.selection]
 text                  = "{{color6}}"

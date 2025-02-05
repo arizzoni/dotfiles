@@ -1,42 +1,42 @@
 font = "monospace"
-font-size = 16
+font-size = 18
 font-features = ""
 font-variations = ""
 hint-font = true
-text-color = #D8D6D4
+text-color = #D1CFC6
 
-prompt-color = #D8D6D4
-prompt-background = #0D2131
+prompt-color = #D1CFC6
+prompt-background = #1F1B18
 prompt-background-padding = 0
 prompt-background-corner-radius = 0
 
-placeholder-color = #78100118CC
-placeholder-background = #133349CC
+placeholder-color = #625E5B
+placeholder-background = #1F1B18
 placeholder-background-padding = 0
 placeholder-background-corner-radius = 0
 
-input-background = #133349CC
+input-background = #1F1B18
 input-background-padding = 0
 input-background-corner-radius = 0
 
-default-result-color = #714A2A
-default-result-background = #133349CC
+default-result-color = #5D4332
+default-result-background = #1F1B18
 default-result-background-padding = 0
 default-result-background-corner-radius = 0
-alternate-result-color = #407AA9
-alternate-result-background = #133349CC
+alternate-result-color = #324C5D
+alternate-result-background = #1F1B18
 alternate-result-background-padding = 0
 alternate-result-background-corner-radius = 0
 
-selection-color = #4E6476
-selection-background = #133349CC
+selection-color = #625E5B
+selection-background = #1F1B18
 selection-background-padding = 0
 selection-background-corner-radius = 0
-selection-match-color = #133349CC
+selection-match-color = #1F1B18
 
 text-cursor-style = bar
-text-cursor-color = #D8D6D4
-text-cursor-background = #133349CC
+text-cursor-color = #D1CFC6
+text-cursor-background = #1F1B18
 text-cursor-corner-radius = 0
 text-cursor-thickness = 2
 
@@ -45,21 +45,21 @@ prompt-padding = 0
 placeholder-text = "... "
 num-results = 0
 result-spacing = 0
-horizontal = false
+horizontal = true
 min-input-width = 0
 
 width = 100%
 height = 100%
-background-color = #133349CC
+background-color = #312724CC
 outline-width = 0
-outline-color = #0D2131
+outline-color = #1F1B18
 border-width = 0
-border-color = #0D2131
+border-color = #1F1B18
 corner-radius = 0
-padding-top = 33%
-padding-bottom = 33%
-padding-left = 33%
-padding-right = 33%
+padding-top = 45%
+padding-bottom = 45%
+padding-left = 10%
+padding-right = 10%
 clip-to-padding = true
 scale = true
 

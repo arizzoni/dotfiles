@@ -28,12 +28,6 @@ json.target = '~/.cache/wallust/colors.json'
 kicad.template = 'kicad_colorscheme.json'
 kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'
 
-xresources.template = 'Xresources'
-xresources.target = '~/.config/Xresources'
-
-path.template = 'path'
-path.target = '~/.cache/wallust/path'
-
 hyprcolors.template = 'hyprcolors.conf'
 hyprcolors.target = '~/.config/hypr/hyprcolors.conf'
 

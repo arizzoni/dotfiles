@@ -4,10 +4,9 @@ return {
 	{
 		-- url = "https://www.github.com/arizzoni/wal.nvim",
 		dir = "/home/air/projects/wal.nvim",
-		branch = "file_watcher",
-		opts = {
-			wal_path = "/home/air/.cache/wallust/colors.json",
-		},
+		config = function()
+			vim.g.wal_path = "/home/air/.cache/wallust/colors.json"
+		end,
 	},
 	{
 		url = "https://www.github.com/kylechui/nvim-surround",

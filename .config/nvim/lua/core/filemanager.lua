@@ -11,7 +11,7 @@
 --      2.  Load the netrw buffer into the new window
 --  3.  When the close() method is called:
 --      1.  Hide the netrw buffer
---      2.  Close (destroy) the window (but keep the buffer?)
+--      2.  Close (destroy) the window but keep the buffer
 
 local util = require("util")
 
