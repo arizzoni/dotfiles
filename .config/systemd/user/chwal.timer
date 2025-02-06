@@ -2,8 +2,8 @@
 Description=Change Wallpaper
 
 [Timer]
-OnBootSec=1min
-OnUnitActiveSec=10m
+OnBootSec=5m
+OnUnitActiveSec=1h
 
 [Install]
 WantedBy=timers.target

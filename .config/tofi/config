@@ -3,40 +3,40 @@ font-size = 18
 font-features = ""
 font-variations = ""
 hint-font = true
-text-color = #D1CFC6
+text-color = #DCD6DC
 
-prompt-color = #D1CFC6
-prompt-background = #1F1B18
+prompt-color = #DCD6DC
+prompt-background = #110A09
 prompt-background-padding = 0
 prompt-background-corner-radius = 0
 
-placeholder-color = #625E5B
-placeholder-background = #1F1B18
+placeholder-color = #524A49
+placeholder-background = #110A09
 placeholder-background-padding = 0
 placeholder-background-corner-radius = 0
 
-input-background = #1F1B18
+input-background = #110A09
 input-background-padding = 0
 input-background-corner-radius = 0
 
-default-result-color = #5D4332
-default-result-background = #1F1B18
+default-result-color = #4D2A27
+default-result-background = #110A09
 default-result-background-padding = 0
 default-result-background-corner-radius = 0
-alternate-result-color = #324C5D
-alternate-result-background = #1F1B18
+alternate-result-color = #274A4D
+alternate-result-background = #110A09
 alternate-result-background-padding = 0
 alternate-result-background-corner-radius = 0
 
-selection-color = #625E5B
-selection-background = #1F1B18
+selection-color = #524A49
+selection-background = #110A09
 selection-background-padding = 0
 selection-background-corner-radius = 0
-selection-match-color = #1F1B18
+selection-match-color = #110A09
 
 text-cursor-style = bar
-text-cursor-color = #D1CFC6
-text-cursor-background = #1F1B18
+text-cursor-color = #DCD6DC
+text-cursor-background = #110A09
 text-cursor-corner-radius = 0
 text-cursor-thickness = 2
 
@@ -50,11 +50,11 @@ min-input-width = 0
 
 width = 100%
 height = 100%
-background-color = #312724CC
+background-color = #17109CC
 outline-width = 0
-outline-color = #1F1B18
+outline-color = #110A09
 border-width = 0
-border-color = #1F1B18
+border-color = #110A09
 corner-radius = 0
 padding-top = 45%
 padding-bottom = 45%
