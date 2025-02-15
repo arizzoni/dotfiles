@@ -1,5 +1,4 @@
 local util = require("util")
-
 return {
 	{
 		url = "https://www.github.com/neovim/nvim-lspconfig",
@@ -8,6 +7,15 @@ return {
 		},
 		init = function()
 			local lspconfig = require("lspconfig")
+
+			lspconfig.bashls.setup({
+				single_file_support = true,
+				settings = {
+					bashIde = {
+						globPattern = vim.env.GLOB_PATTERN or "*@(.sh|.inc|.bash|.command)",
+					},
+				},
+			})
 
 			lspconfig.lua_ls.setup({
 				single_file_support = true,
@@ -20,7 +28,7 @@ return {
 							enable = true,
 						},
 						workspace = {
-							checkThirdParty = false,
+							checkThirdParty = true,
 							library = {
 								[vim.env.VIMRUNTIME] = true,
 							},
@@ -358,7 +366,7 @@ return {
 				lua = { "stylua" },
 				python = { "ruff_format", "ruff_organize_imports" },
 				bash = { "shfmt" },
-				latex = { "tex-fmt" },
+				tex = { "tex-fmt", "latexindent", stop_after_first = true },
 				typst = { "typstyle" },
 				["*"] = { "injected" },
 			},
@@ -368,28 +376,15 @@ return {
 			},
 		},
 		init = function()
-			require("conform").formatters.injected = {
+			local conform = require("conform")
+			conform.formatters.injected = {
 				ignore_errors = false,
-				lang_to_ft = {
-					bash = "sh",
-					latex = "tex",
-					python = "py",
-					lua = "lua",
-					typst = "typst",
-				},
 				lang_to_ext = {
 					bash = "sh",
 					latex = "tex",
 					python = "py",
 					lua = "lua",
 					typst = "typ",
-				},
-				lang_to_formatters = {
-					lua = { "stylua" },
-					python = { "ruff_format", "ruff_organize_imports" },
-					bash = { "shfmt" },
-					latex = { "tex-fmt" },
-					typst = { "typstyle" },
 				},
 			}
 		end,

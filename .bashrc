@@ -40,7 +40,8 @@ __set_prompts () {
     # necessary variables each time the prompt renders.
 
     # Collect previous exit code for exit_status ()
-    local __exit_code=$? # This has to be the first thing in the function
+    # This has to be the first thing in the function
+    local __exit_code=$?
     
     # Define text styles
     if [[ $(tput bold) ]] ; then {
@@ -502,6 +503,7 @@ if [[ -x "$(command -v nvim)" ]] ; then {
         alias nvim='nvim'
         alias diff='nvim -d'
     } fi
+    alias vim='nvim'
 } fi
 
 # Python

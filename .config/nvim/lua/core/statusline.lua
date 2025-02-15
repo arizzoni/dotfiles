@@ -1,31 +1,25 @@
 -- ~/.config/nvim/lua/core/statusline.lua
 -- Neovim status line configuration
 
--- TODO:
--- Global variables:
---  Figure out how to render with window-local variables
--- Write a __to_string() method:
---  Maybe this solves the above problem?
-
 local util = require("util")
 
----@class StatusLine
----@field buf_str string Cached buffer number string
----@field win_str string Cached window number string
----@field tab_str string Cached tabpage number string
----@field path_str string Cached filepath string
----@field git_str string Cached Git buffer and Git status string
----@field venv_str string Cached Python virtual environment string
----@field diagnostric_str string Cached buffer diagnostics string
----@field mode_str string Cached editor mode string
----@field file_info_str string Cached file info string
----@field cursor_pos_string string Cached cursor position string
----@field winnr number Cached window number
+--- @class StatusLine
+--- @field buf_str string Cached buffer number string
+--- @field win_str string Cached window number string
+--- @field tab_str string Cached tabpage number string
+--- @field path_str string Cached filepath string
+--- @field git_str string Cached Git buffer and Git status string
+--- @field venv_str string Cached Python virtual environment string
+--- @field diagnostric_str string Cached buffer diagnostics string
+--- @field mode_str string Cached editor mode string
+--- @field file_info_str string Cached file info string
+--- @field cursor_pos_string string Cached cursor position string
+--- @field winnr number Cached window number
 local StatusLine = {}
 StatusLine.winnr = nil
 
 --- Constructor for the StatusLine class
----@return self
+--- @return self
 function StatusLine.new()
 	local self = setmetatable({}, StatusLine)
 	StatusLine.__index = StatusLine
@@ -35,7 +29,7 @@ function StatusLine.new()
 end
 
 --- File encoding, format, and type
----@return string file_info_str
+--- @return string file_info_str
 function StatusLine:get_file_info()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local opts = { buf = attached_buffer }
@@ -52,30 +46,30 @@ function StatusLine:get_file_info()
 end
 
 --- Cursor vertical and horizontal position
----@return string cursor_pos_str
+--- @return string cursor_pos_str
 function StatusLine:get_cursor_pos()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
-	return table.concat({ "%#StatusLineCursorPos#", " %l/%L:%c/", vim.bo[attached_buffer].textwidth, " " }) or ""
+	return table.concat({ "%#User1#", " %l/%L|%c/", vim.bo[attached_buffer].textwidth, " " }) or ""
 end
 
 --- Tab numbers
----@return string tabstr
+--- @return string tabstr
 function StatusLine:get_tab_number()
 	local current_tab = vim.api.nvim_get_current_tabpage()
 	local tabs = vim.api.nvim_list_tabpages()
 	local tabstr = ""
 	for _, tabnr in ipairs(tabs) do
 		if tabnr == current_tab then
-			tabstr = table.concat({ tabstr, "%#TabLineCurrentTab#", " ", tabnr, " " })
+			tabstr = table.concat({ tabstr, "%#User1#", " ", tabnr, " " })
 		else
-			tabstr = table.concat({ tabstr, "%#TabLineTabs#", " ", tabnr, " " })
+			tabstr = table.concat({ tabstr, "%#User9#", " ", tabnr, " " })
 		end
 	end
 	return tabstr
 end
 
 --- Buffer numbers
----@return string buf_str
+--- @return string buf_str
 function StatusLine:get_buf_number()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local bufs = vim.api.nvim_list_bufs()
@@ -91,9 +85,9 @@ function StatusLine:get_buf_number()
 				mod_str = "+"
 			end
 			if bufnr == attached_buffer then
-				buf_str = table.concat({ buf_str, "%#TabLineCurrentBuf#", " ", bufnr, mod_str, " " })
+				buf_str = table.concat({ buf_str, "%#User1#", " ", bufnr, mod_str, " " })
 			else
-				buf_str = table.concat({ buf_str, "%#TabLineBufs#", " ", bufnr, mod_str, " " })
+				buf_str = table.concat({ buf_str, "%#User9#", " ", bufnr, mod_str, " " })
 			end
 		end
 	end
@@ -101,13 +95,13 @@ function StatusLine:get_buf_number()
 end
 
 --- Filepath
----@return string path_str
+--- @return string path_str
 function StatusLine:get_filepath()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local buftype = vim.bo[attached_buffer].buftype
 
 	if buftype ~= "" then
-		return table.concat({ "%#StatusLineFilepath#", " ", (buftype:gsub("^%l", buftype:sub(1, 1):upper())), " " })
+		return table.concat({ "%#User7#", " ", (buftype:gsub("^%l", buftype:sub(1, 1):upper())), " " })
 	else
 		local filename = vim.api.nvim_buf_get_name(attached_buffer)
 		local fullpath = vim.uv.fs_realpath(filename)
@@ -125,7 +119,7 @@ function StatusLine:get_filepath()
 			if longpath then
 				pathstring = ".../" .. pathstring
 			end
-			return table.concat({ "%#StatusLineFilepath#", " ", pathstring })
+			return table.concat({ "%#User7#", " ", pathstring })
 		else
 			return ""
 		end
@@ -133,7 +127,7 @@ function StatusLine:get_filepath()
 end
 
 --- Git branch and Git status
----@return string git_str
+--- @return string git_str
 function StatusLine:get_git_branch()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local buftype = vim.bo[attached_buffer].buftype
@@ -148,8 +142,9 @@ function StatusLine:get_git_branch()
 			if status.code == 0 and status.stdout then
 				-- Repo has uncommitted changes
 				char_str = " " .. util.gitchars.change
+				return table.concat({ "%#DiffChange#", " (git:", branch_str, char_str, ")" })
 			end
-			return table.concat({ "%#StatusLineVersionControl#", " (git:", branch_str, char_str, ")" })
+			return table.concat({ "%#DiffText#", " (git:", branch_str, char_str, ")" })
 		else
 			-- Not in a git repository
 			return ""
@@ -158,7 +153,7 @@ function StatusLine:get_git_branch()
 end
 
 --- LSP name
----@return string lsp_str
+--- @return string lsp_str
 function StatusLine:get_lsp_info()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local clients = vim.lsp.get_clients({ bufnr = attached_buffer })
@@ -166,11 +161,10 @@ function StatusLine:get_lsp_info()
 	if #clients > 0 then
 		local client = clients[1]
 		local client_name = client.name or "Unknown LSP"
-		lsp_info = table.concat({ "%#StatusLineLSP#", " (", client_name, ") " })
+		lsp_info = table.concat({ "%#User9#", " (", client_name, ") " })
 	else
 		if vim.bo.buftype ~= "" then
-			lsp_info =
-				table.concat({ "%#StatusLineLSP#", " (", (vim.bo.buftype:gsub("^%l", vim.bo.buftype.upper)), ") " })
+			lsp_info = table.concat({ "%#User7#", " (", (vim.bo.buftype:gsub("^%l", vim.bo.buftype.upper)), ") " })
 		else
 			lsp_info = ""
 		end
@@ -179,7 +173,7 @@ function StatusLine:get_lsp_info()
 end
 
 --- Python virtual environment
----@return string venv_str
+--- @return string venv_str
 function StatusLine:get_virtual_env()
 	if vim.bo.buftype == "terminal" then
 		return ""
@@ -195,13 +189,13 @@ function StatusLine:get_virtual_env()
 			while #venvpath > 1 do
 				table.remove(venvpath, 1)
 			end
-			return table.concat({ "%#StatusLineVersionControl#", " (venv:", venvpath[1], ")" })
+			return table.concat({ "%#User7#", " (venv:", venvpath[1], ")" })
 		end
 	end
 end
 
 --- Buffer diagnostics
----@return string diagnostic_str
+--- @return string diagnostic_str
 function StatusLine:get_diagnostics()
 	local attached_buffer = vim.api.nvim_win_get_buf(0)
 	local diagnostics = vim.diagnostic.get(attached_buffer)
@@ -237,21 +231,21 @@ function StatusLine:get_diagnostics()
 end
 
 --- Editor mode
----@return string mode_str
+--- @return string mode_str
 function StatusLine:get_mode()
 	local mode = vim.api.nvim_get_mode()
 	local modes = {
-		n = "%#StatusLineNormal# NORMAL ",
-		i = "%#StatusLineInsert# INSERT ",
-		v = "%#StatusLineVisual# VISUAL ",
-		V = "%#StatusLineVisual# VISUAL-LINE ",
+		n = "%#User1# NORMAL ",
+		i = "%#User2# INSERT ",
+		v = "%#User3# VISUAL ",
+		V = "%#User3# VISUAL-LINE ",
 		-- For Ctrl-V mode:
 		["\22"] = "%#StatusLineVisual# VISUAL-BLOCK ",
-		c = "%#StatusLineCommand# COMMAND ",
-		R = "%#StatusLineReplace# REPLACE ",
-		s = "%#StatusLineSelect# SELECT ",
-		S = "%#StatusLineSelect# SELECT-LINE ",
-		t = "%#StatusLineTerminal# TERMINAL ",
+		c = "%#User4# COMMAND ",
+		R = "%#User5# REPLACE ",
+		s = "%#User6# SELECT ",
+		S = "%#User6# SELECT-LINE ",
+		t = "%#User8# TERMINAL ",
 	}
 	return modes[mode.mode] or mode.mode
 end

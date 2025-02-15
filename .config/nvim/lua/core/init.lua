@@ -1,13 +1,17 @@
 -- ~/.config/nvim/lua/core/init.lua
 -- Neovim configuration entry script
 
-vim.cmd("colorscheme wal")
+local term = require("core.terminal")
+
+term.new()
+
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:Cursor/lCursor"
 
 -- Neovide Settings
 if vim.g.neovide then
 	vim.opt.termguicolors = true
 	vim.g.neovide_theme = "auto"
-	vim.g.neovide_transparency = 0.9
+	vim.g.neovide_transparency = 0.8
 	vim.g.neovide_refresh_rate = 60
 	vim.g.neovide_refresh_rate_idle = 6
 	vim.g.neovide_cursor_animation_length = 0.125

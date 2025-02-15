@@ -2,24 +2,23 @@
 -- Neovim terminal configuration
 
 -- TODO:
--- !Bug: On shell exit close terminal
--- Terminal background color:
---  Can the terminal have a different background color than the rest of Neovim?
+-- On shell exit close terminal
 -- Horizontal/vertical orientation autocommand:
 --  Automatically change the terminal orientation on window resize, if necessary
 -- Error handling
 
 local util = require("util")
 
----@class Terminal
----@field shell string
----@field bufnr number
----@field term number
----@field winnr number
----@field chan_id number
----@field win_opts table
----@field group number
----@field ns_id number
+---Terminal class
+--- @class Terminal
+--- @field shell string
+--- @field bufnr number
+--- @field term number
+--- @field winnr number
+--- @field chan_id number
+--- @field win_opts table
+--- @field group number
+--- @field ns_id number
 local Terminal = {}
 
 Terminal.shell = nil
@@ -161,7 +160,7 @@ function Terminal.new(shell)
 end
 
 --- Show the terminal
----@return boolean success
+--- @return boolean success
 function Terminal:open()
 	if not self.bufnr or not vim.api.nvim_buf_is_valid(self.bufnr) then
 		self.bufnr = vim.api.nvim_create_buf(false, false)
@@ -176,7 +175,7 @@ function Terminal:open()
 end
 
 --- Hide the terminal
----@return boolean success
+--- @return boolean success
 function Terminal:close()
 	if self.winnr or vim.api.nvim_win_is_valid(self.winnr) then
 		vim.api.nvim_win_close(self.winnr, true)
@@ -185,7 +184,7 @@ function Terminal:close()
 end
 
 --- Toggle whether the terminal is hidden or shown
----@return boolean success
+--- @return boolean success
 function Terminal:toggle()
 	if self.bufnr and vim.api.nvim_buf_is_valid(self.bufnr) then
 		if self.winnr and vim.api.nvim_win_is_valid(self.winnr) then
@@ -200,7 +199,7 @@ function Terminal:toggle()
 end
 
 --- Send the selected lines to the terminal
----@return boolean success
+--- @return boolean success
 function Terminal:send_lines()
 	if not self.bufnr or not vim.api.nvim_buf_is_valid(self.bufnr) then
 		self:toggle()
@@ -230,7 +229,7 @@ function Terminal:send_lines()
 end
 
 --- Send the visual selection to the terminal
----@return boolean success
+--- @return boolean success
 function Terminal:send_selection()
 	if not self.bufnr or not vim.api.nvim_buf_is_valid(self.bufnr) then
 		self:toggle()
@@ -256,7 +255,7 @@ function Terminal:send_selection()
 end
 
 --- Send the line under the cursor to the terminal
----@return boolean success
+--- @return boolean success
 function Terminal:send_line()
 	if not self.bufnr or not vim.api.nvim_buf_is_valid(self.bufnr) then
 		self:toggle()

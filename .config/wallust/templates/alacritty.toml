@@ -20,8 +20,7 @@ program = "/bin/bash"
 
 [window]
 decorations = "None"
-opacity = 0.9
-# opacity = {{ alpha_dec }} # BUG:
+opacity = {{ alpha*0.01 }}
 dynamic_padding = true
 startup_mode = "Windowed"
 dynamic_title = true

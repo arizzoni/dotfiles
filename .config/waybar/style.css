@@ -1,8 +1,10 @@
+@import 'colors.css';
+
 * {
     font-family: sans-serif;
     font-size: 16px;
-    background-color: rgb(17,10,9);
-    color: #DCD6DC;
+    background-color: @background;
+    color: @foreground;
 }
 
 window#waybar {
@@ -11,21 +13,19 @@ window#waybar {
 }
 
 window#waybar.hidden {
-    opacity: 0.2;
+    opacity: 0;
 }
 
-/*
 window#waybar.empty {
-    background-color: #110A09;
+    background-color: @background;
 }
 window#waybar.solo {
-    background-color: #110A09;
+    background-color: @background;
 }
-*/
 
 button {
     /* Use box-shadow instead of border so the text isn't offset */
-    box-shadow: inset 0 -3px transparent;
+    box-shadow: inset 0 -2px transparent;
     /* Avoid rounded borders under each button name */
     border: none;
     border-radius: 0;
@@ -34,13 +34,13 @@ button {
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
     background: inherit;
-    box-shadow: inset 0 -3px #DCD6DC;
+    box-shadow: inset 0 -2px @foreground;
 }
 
 /* you can set a style on hover for any module like this */
 /*
  #pulseaudio:hover {
-    background-color: #110A09;
+    background-color: #211E1F;
 }
 */
 
@@ -49,17 +49,18 @@ button:hover {
 }
 
 #workspaces button:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background: @background;
+    box-shadow: inset 0 -2px @foreground;
 }
 
 #workspaces button.focused {
-    background-color: #4D2A27;
-    color: #DCD6DC;
-    box-shadow: inset 0 -3px #774239CC;
+    background-color: @background;
+    color: @foreground;
+    box-shadow: inset 0 -2px @foreground;
 }
 
 #workspaces button.urgent {
-    background-color: #814881;
+    background-color: @color9;
 }
 
 #clock,
@@ -77,8 +78,7 @@ button:hover {
 #idle_inhibitor,
 #power-profiles-daemon,
 #mpd {
-    padding: 0 10px;
-    color: #DCD6DC;
+    color: @foreground;
 }
 
 #window,
@@ -97,21 +97,21 @@ button:hover {
 }
 
 #battery.charging, #battery.plugged {
-    color: #274A4D;
-    background-color: #110A09;
+    color: @foreground;
+    background-color: @background;
 }
 
 @keyframes blink {
     to {
-        background-color: #110A09;
-        color: #DCD6DC;
+        background-color: @foreground;
+        color: @background;
     }
 }
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.critical:not(.charging) {
-    background-color: #274A4D;
-    color: #DCD6DC;
+    background-color: @background;
+    color: @color1;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: steps(12);
@@ -124,22 +124,22 @@ button:hover {
 }
 
 #power-profiles-daemon.performance {
-    background-color: #110A09;
-    color: #DCD6DC;
+    background-color: @background;
+    color: @color1;
 }
 
 #power-profiles-daemon.balanced {
-    background-color: #110A09;
-    color: #DCD6DC;
+    background-color: @background;
+    color: @color2;
 }
 
 #power-profiles-daemon.power-saver {
-    background-color: #110A09;
-    color: #DCD6DC;
+    background-color: @background;
+    color: @color3;
 }
 
 label:focus {
-    background-color: #4D2A27;
+    background-color: @color1;
 }
 
 #tray > .passive {
@@ -167,15 +167,15 @@ label:focus {
 }
 
 #keyboard-state > label.locked {
-    background: rgba(0, 0, 0, 0.2);
+    background: @background;
 }
 
 #scratchpad {
-    background: rgba(0, 0, 0, 0.2);
+    background: @background;
 }
 
 #scratchpad.empty {
-	background-color: #110A09;
+    background-color: @background;
 }
 
 #privacy {
@@ -184,17 +184,17 @@ label:focus {
 
 #privacy-item {
     padding: 0 5px;
-    color: #DCD6DC;
+    color: @foreground;
 }
 
 #privacy-item.screenshare {
-    background-color: #110A09;
+    background-color: @color1;
 }
 
 #privacy-item.audio-in {
-    background-color: #110A09;
+    background-color: @color1;
 }
 
 #privacy-item.audio-out {
-    background-color: #110A09;
+    background-color: @color1;
 }

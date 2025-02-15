@@ -4,9 +4,22 @@ return {
 	{
 		-- url = "https://www.github.com/arizzoni/wal.nvim",
 		dir = "/home/air/projects/wal.nvim",
-		config = function()
+		lazy = false,
+		init = function()
 			vim.g.wal_path = "/home/air/.cache/wallust/colors.json"
+			vim.cmd("colo wal")
 		end,
+	},
+	{
+		{
+			url = "https://www.github.com/folke/lazydev.nvim",
+			ft = "lua", -- only load on lua files
+			opts = {
+				library = {
+					{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				},
+			},
+		},
 	},
 	{
 		url = "https://www.github.com/kylechui/nvim-surround",
@@ -63,6 +76,7 @@ return {
 			"hrsh7th/cmp-nvim-lua", -- Neovim Lua completion source
 			"windwp/nvim-autopairs", -- Autopairs completion
 			"dmitmel/cmp-digraphs", -- Vim digraph completion
+			"https://www.github.com/folke/lazydev.nvim",
 			{
 				url = "https://www.github.com/windwp/nvim-autopairs",
 				event = "InsertEnter",
@@ -149,7 +163,7 @@ return {
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-Space>"] = cmp.mapping.complete({}),
-					["<Tab>"] = cmp.mapping.confirm({
+					["<Shift-Tab>"] = cmp.mapping.confirm({
 						behavior = cmp.ConfirmBehavior.Replace,
 						select = true,
 					}),
@@ -177,6 +191,7 @@ return {
 					{ name = "nvim_lua", keyword_length = 3 },
 					{ name = "autopairs", keyword_length = 3 },
 					{ name = "digraphs", keyword_length = 2 },
+					{ name = "lazydev", keyword_length = 2, group_index = 0 },
 				},
 				enabled = function()
 					local context = require("cmp.config.context")
@@ -224,6 +239,7 @@ return {
 	{
 		url = "https://www.github.com/akinsho/toggleterm.nvim",
 		version = "*",
+		active = false,
 		event = "VimEnter",
 		opts = {
 			size = function(term)

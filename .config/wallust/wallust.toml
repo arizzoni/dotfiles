@@ -2,7 +2,7 @@
 
 backend = 'kmeans'
 color_space = 'lab'
-threshold = 12
+threshold = 10
 palette = 'ansidark'
 fallback_generator = "complementary"
 check_contrast = true
@@ -31,11 +31,14 @@ kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'
 hyprcolors.template = 'hyprcolors.conf'
 hyprcolors.target = '~/.config/hypr/hyprcolors.conf'
 
-waybar.template = 'style.css'
-waybar.target = '~/.config/waybar/style.css'
+waybar.template = 'colors-waybar.css'
+waybar.target = '~/.config/waybar/colors.css'
 
 foot.template = 'foot.ini'
 foot.target = '~/.config/foot/foot.ini'
 
 tofi.template = 'tofi.config'
 tofi.target = '~/.config/tofi/config'
+
+dunst.template = 'dunstrc'
+dunst.target = '~/.config/dunst/dunstrc'

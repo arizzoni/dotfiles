@@ -20,5 +20,5 @@ hinting = "full"
 edging = "antialias"
 normal = [ [ "Iosevka Term", "Normal" ], [ "Symbols Nerd Font Mono", "Normal" ] ]
 bold = [ [ "Iosevka Term Slab", "Bold" ], [ "Symbols Nerd Font Mono", "Bold" ] ]
-italic = [ [ "Iosevka Term Curly", "Italic" ], [ "Symbols Nerd Font Mono", "Italic" ] ]
-bold_italic = [ [ "Iosevka Term Curly Slab", "Bold Italic" ], [ "Symbols Nerd Font Mono", "Bold Italic" ] ]
+italic = [ [ "Iosevka Term Curly", "Italic" ], [ "Symbols Nerd Font Mono", "Normal" ] ]
+bold_italic = [ [ "Iosevka Term Curly Slab", "Bold Italic" ], [ "Symbols Nerd Font Mono", "Bold" ] ]
