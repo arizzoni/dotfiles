@@ -1,34 +1,25 @@
 -- ~/.config/nvim/lua/core/init.lua
 -- Neovim configuration entry script
+require("util")
+require("core.search")
 
 local term = require("core.terminal")
 
-term.new()
-
-vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:Cursor/lCursor"
-
 -- Neovide Settings
 if vim.g.neovide then
-	vim.opt.termguicolors = true
-	vim.g.neovide_theme = "auto"
-	vim.g.neovide_transparency = 0.8
-	vim.g.neovide_refresh_rate = 60
-	vim.g.neovide_refresh_rate_idle = 6
-	vim.g.neovide_cursor_animation_length = 0.125
-	vim.g.neovide_cursor_trail_size = 0.5
-	vim.g.neovide_cursor_antialiasing = true
-	vim.g.neovide_cursor_animate_command_line = true
-	vim.g.neovide_cursor_vfx_mode = ""
-	vim.g.neovide_text_gamma = 0.8
-	vim.g.neovide_text_contrast = 0.1
+	require("core.neovide")
 end
 
 local uname = vim.uv.os_uname()
-if uname.sysname == "Windows" then
-	vim.opt.shell = "powershell.exe"
+if uname.sysname == "Linux" then
+	vim.o.shell = "/bin/bash"
+elseif uname.sysname == "Windows" then
+	vim.o.shell = "powershell.exe"
 else
-	vim.opt.shell = "/bin/bash"
+	vim.o.shell = "/bin/sh"
 end
+
+term.new(vim.o.shell)
 
 vim.o.title = true
 vim.o.writebackup = true
@@ -41,7 +32,7 @@ vim.o.concealcursor = "nvc"
 vim.o.copyindent = true
 vim.o.cursorline = true
 vim.o.cursorlineopt = "number"
-vim.o.expandtab = true
+-- vim.o.expandtab = true
 vim.o.hlsearch = false
 vim.o.linebreak = true
 vim.o.number = true
@@ -89,10 +80,23 @@ vim.keymap.set("n", "k", 'v:count == 0 ? "gk" : "k"', { expr = true, silent = tr
 vim.keymap.set("n", "j", 'v:count == 0 ? "gj" : "j"', { expr = true, silent = true })
 
 -- Set some nice unicode characters for the error/etc. characters in the sign column
-vim.fn.sign_define("DiagnosticSignError", { text = "×", texthl = "DiagnosticSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "!", texthl = "DiagnosticSignWarn" })
-vim.fn.sign_define("DiagnosticSignInfo", { text = "∗", texthl = "DiagnosticSignInfo" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "?", texthl = "DiagnosticSignHint" })
+local diagnostic_opts = {
+	underline = true,
+	virtual_text = true,
+	virtual_lines = false,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "×",
+			[vim.diagnostic.severity.WARN] = "!",
+			[vim.diagnostic.severity.INFO] = "∗",
+			[vim.diagnostic.severity.HINT] = "?",
+		},
+	},
+	update_in_insert = true,
+	severity_sort = true,
+}
+
+vim.diagnostic.config(diagnostic_opts)
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -173,6 +177,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "TermOpen" }, {
 					winbar:get_buf_number(),
 					winbar:get_filepath(),
 					winbar:get_git_branch(),
+					winbar:get_virtual_env(),
 					-- Horizontal fill
 					"%#StatusLine#%=",
 					winbar:get_tab_number(),

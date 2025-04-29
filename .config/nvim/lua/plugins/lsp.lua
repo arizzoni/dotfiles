@@ -8,6 +8,19 @@ return {
 		init = function()
 			local lspconfig = require("lspconfig")
 
+			lspconfig.matlab_ls.setup({
+				settings = {
+					cmd = { "/usr/bin/matlab-language-server", "--stdio" },
+					filetypes = { "matlab" },
+					matlab = {
+						capabilities = require("cmp_nvim_lsp").default_capabilities(),
+						indexWorkspace = true,
+						installPath = "/home/air/.local/bin/share/MATLAB/R2024a",
+					},
+					single_file_support = true,
+				},
+			})
+
 			lspconfig.bashls.setup({
 				single_file_support = true,
 				settings = {
@@ -16,9 +29,12 @@ return {
 					},
 				},
 			})
+			lspconfig.rust_analyzer.setup({
+				single_file_support = true,
+			})
 
 			lspconfig.lua_ls.setup({
-				single_file_support = true,
+				single_file_support = false,
 				settings = {
 					Lua = {
 						runtime = {
@@ -29,12 +45,9 @@ return {
 						},
 						workspace = {
 							checkThirdParty = true,
-							library = {
-								[vim.env.VIMRUNTIME] = true,
-							},
 						},
 						format = {
-							enable = false,
+							enable = true,
 						},
 						diagnostics = {
 							globals = { "vim" },
@@ -48,6 +61,8 @@ return {
 					description = { "LuaLS" },
 				},
 			})
+
+			lspconfig.systemd_ls.setup({})
 
 			local ruff = lspconfig.ruff.setup({
 				name = "ruff",
@@ -165,16 +180,20 @@ return {
 				settings = {
 					texlab = {
 						build = {
+							-- executable = "latexmk",
+							executable = nil,
 							args = {},
-							executable = "latexmk",
-							onSave = true,
-							forwardSearchAfter = true,
+							forwardSearchAfter = false,
+							onSave = false,
+							useFileList = false,
 						},
 						chktex = {
 							onEdit = false,
 							onOpenAndSave = false,
+							additionalArgs = { "-v", "1" },
 						},
 						diagnosticsDelay = 10,
+						bibtexFormatter = "latexindent",
 						formatterLineLength = 80,
 						forwardSearch = {
 							executable = "/bin/zathura",
@@ -183,17 +202,15 @@ return {
 						latexFormatter = "latexindent",
 						latexindent = {
 							modifyLineBreaks = true,
+							replacement = "-rv",
+						},
+						completion = {
+							matcher = "fuzzy-ignore-case",
+						},
+						experimental = {
+							followPackageLinks = true,
 						},
 					},
-				},
-			})
-
-			lspconfig.tinymist.setup({
-				settings = {
-					formatterMode = "typstyle",
-					formatterPrintWidth = vim.bo.textwidth,
-					exportPdf = "onType",
-					semanticTokens = "disable",
 				},
 			})
 		end,
@@ -310,10 +327,12 @@ return {
 				c = { "clangtidy" },
 			}
 
-			local shellcheck = lint.linters.shellcheck
-			shellcheck.args = { "-x" }
+			lint.linters.shellcheck.args = {
+				"-a",
+				"-x",
+			}
 
-			vim.api.nvim_create_autocmd({ "LspAttach", "InsertLeave", "BufWritePost" }, {
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged", "InsertLeave" }, {
 				pattern = "*",
 				group = vim.api.nvim_create_augroup("LintGroup", { clear = true }),
 				callback = function()
@@ -332,7 +351,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			lsp = {
-				diagnostic_update_events = { "BufWritePost", "InsertLeave" },
+				diagnostic_update_events = { "BufEnter", "BufWritePost", "InsertLeave", "TextChanged" },
 				root_dir = function(_, bufnr)
 					return vim.fs.root(bufnr or 0, {
 						".git",
@@ -353,22 +372,24 @@ return {
 			local completion = true
 			local diagnostics = true
 			local tsquery = nil
-
 			otter.activate(languages, completion, diagnostics, tsquery)
 		end,
 	},
 	{
 		url = "https://www.github.com/stevearc/conform.nvim",
-		event = { "BufWritePre" },
+		event = "VeryLazy",
 		cmd = { "ConformInfo" },
 		opts = {
+			formatters = {
+				shfmt = {
+					prepend_args = { "-s", "-bn", "-ci", "-sr" },
+				},
+			},
 			formatters_by_ft = {
 				lua = { "stylua" },
+				sh = { "shfmt" },
 				python = { "ruff_format", "ruff_organize_imports" },
-				bash = { "shfmt" },
-				tex = { "tex-fmt", "latexindent", stop_after_first = true },
-				typst = { "typstyle" },
-				["*"] = { "injected" },
+				tex = { "tex-fmt", "injected" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
@@ -380,11 +401,8 @@ return {
 			conform.formatters.injected = {
 				ignore_errors = false,
 				lang_to_ext = {
-					bash = "sh",
-					latex = "tex",
-					python = "py",
 					lua = "lua",
-					typst = "typ",
+					python = "py",
 				},
 			}
 		end,

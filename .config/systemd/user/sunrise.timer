@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for Bluelight Filter at Sunset and Sunrise
+
+[Timer]
+OnCalendar=*-*-* 07:00:00
+Unit=sunrise.service
+
+[Install]
+WantedBy=graphical.target
+

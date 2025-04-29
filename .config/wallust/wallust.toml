@@ -1,44 +1,23 @@
 # wallust 3.x
 
-backend = 'kmeans'
-color_space = 'lab'
-threshold = 10
-palette = 'ansidark'
-fallback_generator = "complementary"
+backend = 'full'
+color_space = 'lch'
+palette = 'ansidark16'
 check_contrast = true
-saturation = 42
-alpha = 80
+alpha = 90
 
 [ templates ]
-alacritty.template = 'alacritty.toml'
-alacritty.target = '~/.config/alacritty/alacritty.toml'
-
-zathura.template = 'zathurarc'
-zathura.target = '~/.config/zathura/zathurarc'
-
-cava.template = 'config.cava'
-cava.target = '~/.config/cava/config'
-
-aerc.template = 'config.aerc'
-aerc.target = '~/.config/aerc/stylesets/wal'
-
-json.template = 'colors.json'
-json.target = '~/.cache/wallust/colors.json'
-
-kicad.template = 'kicad_colorscheme.json'
-kicad.target = '~/.config/kicad/8.0/colors/kiwal.json'
-
-hyprcolors.template = 'hyprcolors.conf'
-hyprcolors.target = '~/.config/hypr/hyprcolors.conf'
-
-waybar.template = 'colors-waybar.css'
-waybar.target = '~/.config/waybar/colors.css'
-
-foot.template = 'foot.ini'
-foot.target = '~/.config/foot/foot.ini'
-
-tofi.template = 'tofi.config'
-tofi.target = '~/.config/tofi/config'
-
-dunst.template = 'dunstrc'
-dunst.target = '~/.config/dunst/dunstrc'
+aerc = { template = '.config/aerc/stylesets/wal', target = '~/.config/aerc/stylesets/wal' }
+alacritty = { template = '.config/alacritty/alacritty.toml', target = '~/.config/alacritty/alacritty.toml' }
+cava = { template = '.config/cava/config', target = '~/.config/cava/config' }
+dunst = { template = '.config/dunst/', target = '~/.config/dunst/' }
+ghostty = { template = '.config/ghostty/config', target = '~/.config/ghostty/config' }
+ghosttytheme = { template = '.config/ghostty/themes/wal', target = '~/.config/ghostty/themes/wal' }
+hyprcolors = { template = '.config/hypr/hyprcolors.conf', target = '~/.config/hypr/hyprcolors.conf' }
+json = { template = '.cache/wallust/colors.json', target = '~/.cache/wallust/colors.json' }
+path = { template = '.cache/wallust/path', target = '~/.cache/wallust/path' }
+kicad = { template = '.config/kicad/9.0/colors/kiwal.json', target = '~/.config/kicad/9.0/colors/kiwal.json' }
+tofi = { template = '.config/tofi/', target = '~/.config/tofi/' }
+waybar = { template = '.config/waybar/', target = '~/.config/waybar/' }
+waybarcolors = { template = '.config/waybar/colors.css', target = '~/.config/waybar/colors.css' }
+zathura = { template = '.config/zathura/zathurarc', target = '~/.config/zathura/zathurarc' }

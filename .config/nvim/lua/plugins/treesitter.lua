@@ -1,25 +1,10 @@
 return {
 	url = "https://www.github.com/nvim-treesitter/nvim-treesitter",
-	name = "nvim-treesitter",
 	event = "VeryLazy",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		"nvim-treesitter/nvim-treesitter-refactor",
-		{
-			url = "https://www.github.com/nvim-treesitter/nvim-treesitter-context",
-			opts = {
-				enable = true,
-				max_lines = 1,
-				min_window_height = 0,
-				line_numbers = true,
-				multiline_threshold = 1,
-				trim_scope = "outer",
-				mode = "cursor",
-				separator = nil,
-				zindex = 20,
-				on_attach = nil,
-			},
-		},
+		"nvim-treesitter/nvim-treesitter-context",
 		{
 			url = "https://www.github.com/JoosepAlviste/nvim-ts-context-commentstring",
 			opts = {
@@ -62,12 +47,14 @@ return {
 				"lua",
 				"make",
 				"markdown_inline",
+				"matlab",
 				"perl",
 				"psv",
 				"python",
 				"pymanifest",
 				"readline",
 				"requirements",
+				"rust",
 				"ssh_config",
 				"tsv",
 				"typst",
@@ -104,6 +91,7 @@ return {
 						["python"] = "python",
 						["pythonq"] = "python",
 						["pythonrepl"] = "python",
+						["pycode"] = "python",
 						["luacode"] = "lua",
 					},
 				},
@@ -119,6 +107,10 @@ return {
 						["if"] = "@function.inner",
 						["ac"] = "@class.outer",
 						["ic"] = "@class.inner",
+						["al"] = "@loop.outer",
+						["il"] = "@loop.inner",
+						["ai"] = "@conditional.outer",
+						["ii"] = "@conditional.inner",
 					},
 				},
 				move = {
@@ -141,6 +133,31 @@ return {
 						["[]"] = "@class.outer",
 					},
 				},
+				refactor = {
+					highlight_definitions = {
+						enable = true,
+						clear_on_cursor_move = true,
+					},
+					highlight_current_scope = {
+						enable = true,
+					},
+					smart_rename = {
+						enable = true,
+						keymaps = {
+							smart_rename = "grr",
+						},
+					},
+					navigation = {
+						enable = true,
+						keymaps = {
+							goto_definition_lsp_fallback = "gnd",
+							list_definitions = "gnD",
+							list_definitions_toc = "gO",
+							goto_next_usage = "<a-*>",
+							goto_previous_usage = "<a-#>",
+						},
+					},
+				},
 				swap = {
 					enable = true,
 					swap_next = {
@@ -152,5 +169,8 @@ return {
 				},
 			},
 		})
+		vim.g.foldmethod = "expr"
+		vim.g.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.g.foldlevelstart = 99
 	end,
 }

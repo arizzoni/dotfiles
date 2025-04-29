@@ -1,0 +1,31 @@
+#!/bin/env bash
+
+# Define text styles
+declare -A style
+
+# Text styles
+style["bold"]="$(tput bold 2> /dev/null || echo '')"
+style["remove_bold"]="\e[2m"
+
+style["reset"]="$(tput sgr0 2> /dev/null || echo '')"
+
+style["italic"]="$(tput sitm 2> /dev/null || echo '')"
+style["remove_italic"]="$(tput ritm 2> /dev/null || echo '')"
+
+style["dim"]="$(tput dim 2> /dev/null || echo '')"
+style["remove_dim"]="\e[22m"
+
+style["to_status_line"]="$(tput tsl 2> /dev/null || echo '')"
+style["from_status_line"]="$(tput fsl 2> /dev/null || echo '')"
+
+# Foreground colors
+for i in {0..15}; do
+    style["fg_color$i"]="$(tput setaf "$i" 2> /dev/null || echo '')"
+done
+
+# Background colors
+for i in {0..15}; do
+    style["bg_color$i"]="$(tput setab "$i" 2> /dev/null || echo '')"
+done
+
+export style

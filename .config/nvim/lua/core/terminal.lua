@@ -2,10 +2,10 @@
 -- Neovim terminal configuration
 
 -- TODO:
--- On shell exit close terminal
 -- Horizontal/vertical orientation autocommand:
 --  Automatically change the terminal orientation on window resize, if necessary
 -- Error handling
+-- keep terminal location when leaving window
 
 local util = require("util")
 
@@ -37,35 +37,27 @@ function Terminal.new(shell)
 	local self = setmetatable({}, Terminal)
 	Terminal.__index = Terminal
 
-	if not self.group then
-		self.group = vim.api.nvim_create_augroup("LocalTerm", { clear = true })
-	end
-
-	if not shell then
-		if vim.o.shell then
+	if shell then
+		self.shell = shell
+	else
+		if vim.opt.shell then
 			self.shell = vim.o.shell
 		elseif vim.env.SHELL then
 			self.shell = vim.env.SHELL
-		else
-			self.shell = "/bin/bash"
 		end
 	end
 
-	if not self.win_opts then
-		self.win_opts = {
-			width = math.floor(0.34 * vim.o.columns),
-			vertical = true,
-			split = "right",
-		}
-	end
-
-	if not self.ns_id then
-		self.ns_id = vim.api.nvim_create_namespace("Terminal")
-	end
+	self.group = vim.api.nvim_create_augroup("Terminal", { clear = false })
+	self.ns_id = vim.api.nvim_create_namespace("Terminal")
+	self.win_opts = {
+		width = math.floor(0.34 * vim.o.columns),
+		vertical = true,
+		split = "right",
+	}
 
 	vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-		pattern = { "*" },
 		group = self.group,
+		pattern = { "*" },
 		callback = function()
 			util.nmap([[<C-enter>]], function()
 				self:toggle()
@@ -83,8 +75,8 @@ function Terminal.new(shell)
 	})
 
 	vim.api.nvim_create_autocmd({ "TermOpen" }, {
-		pattern = { "*" },
 		group = self.group,
+		pattern = { "*" },
 		callback = function()
 			if vim.api.nvim_get_current_buf() == self.bufnr then
 				vim.api.nvim_set_option_value("number", false, { win = self.winnr })
@@ -106,8 +98,8 @@ function Terminal.new(shell)
 	})
 
 	vim.api.nvim_create_autocmd({ "BufEnter" }, {
-		pattern = { "*" },
 		group = self.group,
+		pattern = { "*" },
 		callback = function()
 			if vim.api.nvim_get_current_buf() == self.bufnr then
 				vim.cmd("startinsert")
@@ -116,8 +108,8 @@ function Terminal.new(shell)
 	})
 
 	vim.api.nvim_create_autocmd({ "WinResized", "WinLeave", "WinEnter" }, {
-		pattern = { "*" },
 		group = self.group,
+		pattern = { "*" },
 		callback = function()
 			if self.winnr == vim.api.nvim_get_current_win() then
 				local target_width = math.floor(0.34 * vim.o.columns) -- or 84
@@ -148,10 +140,14 @@ function Terminal.new(shell)
 	})
 
 	vim.api.nvim_create_autocmd("TermClose", {
+		buffer = self.bufnr,
 		group = self.group,
 		callback = function()
-			if self.bufnr == vim.api.nvim_get_current_buf() then
+			if vim.api.nvim_get_current_buf() == self.bufnr then
 				vim.api.nvim_buf_delete(self.bufnr, { force = true, unload = false })
+				self.bufnr = nil
+				self.winnr = nil
+				self.chan_id = nil
 			end
 		end,
 	})

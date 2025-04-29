@@ -1,0 +1,100 @@
+#!/bin/env bash
+
+# Define text styles
+declare -A _style
+
+# Text styles
+_style["bold"]="$(tput bold 2> /dev/null || echo '')"
+_style["remove_bold"]="\e[2m"
+
+_style["reset"]="$(tput sgr0 2> /dev/null || echo '')"
+
+_style["italic"]="$(tput sitm 2> /dev/null || echo '')"
+_style["remove_italic"]="$(tput ritm 2> /dev/null || echo '')"
+
+_style["dim"]="$(tput dim 2> /dev/null || echo '')"
+_style["remove_dim"]="\e[22m"
+
+_style["to_status_line"]="$(tput tsl 2> /dev/null || echo '')"
+_style["from_status_line"]="$(tput fsl 2> /dev/null || echo '')"
+
+# Foreground colors
+for i in {0..15}; do
+    _style["fg_color$i"]="$(tput setaf "$i" 2> /dev/null || echo '')"
+done
+
+# Background colors
+for i in {0..15}; do
+    _style["bg_color$i"]="$(tput setab "$i" 2> /dev/null || echo '')"
+done
+
+_context() {
+    # Set user and host context in the format user@host.
+
+    declare _user _host _separator_character
+
+    _user=$(id -un)
+    _host=$(uname -n)
+    _separator_character="@"
+
+    printf '%s%s%s%s%s%s%s%s%s' \
+        "${_style["fg_color2"]}" "${_style["bold"]}" \
+        "${_user}" "${_style["reset"]}" \
+        "${_separator_character}" \
+        "${_style["fg_color3"]}" "${_style["bold"]}" \
+        "${_host}" "${_style["reset"]}"
+    return
+}
+
+_system() {
+    #
+
+    declare _sys
+
+    if [[ -f "/etc/arch-release" ]]; then
+        _sys="Arch Linux"
+    elif [[ -f "/etc/debian-release" ]]; then
+        _sys="Debian Linux"
+
+    fi
+
+    printf '%s%s%s%s' \
+        "${_style["fg_color2"]}" "${_style["bold"]}" \
+        "${_sys}" \
+        "${_style["reset"]}"
+    return
+}
+
+_kernel() {
+    #
+
+    declare _kernel_name _kernel_release
+
+    _kernel_name="$(uname --kernel-name)"
+    _kernel_release="$(uname --kernel-release)"
+
+    printf '%s%s%s-%s%s' \
+        "${_style["fg_color2"]}" "${_style["bold"]}" \
+        "${_kernel_name}" "${_kernel_release}" \
+        "${_style["reset"]}"
+    return
+}
+
+_shell() {
+    #
+
+    printf '%s%s%s%s' \
+        "${_style["fg_color2"]}" "${_style["bold"]}" \
+        "${SHELL}" "${_style["reset"]}"
+    return
+}
+
+printf '\n'
+printf ' ╿ %s\n' "$(_context)"
+printf ' │ \n'
+printf ' │ OS:         %s\n' "$(_system)"
+printf ' │ Kernel:     %s\n' "$(_kernel)"
+printf ' ╽ Shell:      %s\n' "$(_shell)"
+printf '\n'
+
+unset _context _kernel _system _shell

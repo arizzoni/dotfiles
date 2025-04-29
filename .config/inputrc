@@ -1,0 +1,56 @@
+# .inputrc
+
+$include /etc/inputrc
+
+# do not bell on tab-completion
+set bell-style none
+
+# Meta
+set meta-flag on
+set input-meta on
+set convert-meta off
+set output-meta on
+
+# Vi mode
+set editing-mode vi
+$if mode=vi
+set show-mode-in-prompt on
+$if term=linux
+	set vi-ins-mode-string \1\e[?0c\2
+	set vi-cmd-mode-string \1\e[?8c\2
+$else
+	set vi-ins-mode-string \1\e[6 q\2
+	set vi-cmd-mode-string \1\e[2 q\2
+$endif
+set keymap vi-command
+# these are for vi-command mode
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+j: history-search-forward
+k: history-search-backward
+set keymap vi-insert
+# these are for vi-insert mode
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+$endif
+
+# Show all autocomplete options if uncertain
+set show-all-if-ambiguous on
+set completion-ignore-case on
+"\t": menu-complete
+"\e\t": complete
+
+# Color files by types, may cause completion text blink in xterm
+set colored-stats On 
+set visible-stats On
+set mark-symlinked-directories On
+set colored-completion-prefix On
+set menu-complete-display-prefix On
+
+# Completion settings
+set page-completions Off
+set print-completions-horizontally On
+set skip-completed-text On
+
+# Don't echo control characters
+set echo-control-characters off

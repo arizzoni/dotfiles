@@ -2,6 +2,9 @@ local util = require("util")
 
 return {
 	{
+		url = "https://www.github.com/tpope/vim-fugitive",
+	},
+	{
 		-- Adds git related signs to the gutter, as well as utilities for managing changes
 		url = "https://www.github.com/lewis6991/gitsigns.nvim",
 		name = "gitsigns.nvim",
@@ -34,11 +37,11 @@ return {
 					gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 				end, bufnr, "[R]eset [H]unk")
 				util.nmap("<leader>gS", gs.stage_buffer, bufnr, "[S]tage [B]uffer")
-				util.nmap("<leader>gu", gs.undo_stage_hunk, bufnr, "[U]ndo Stage [H]unk")
+				util.nmap("<leader>gu", gs.stage_hunk, bufnr, "[U]ndo Stage [H]unk")
 				util.nmap("<leader>gR", gs.reset_buffer, bufnr, "[R]eset Buffer")
-				util.nmap("<leader>gd", gs.diffthis, bufnr, "[D]iff [H]unk")
-				util.nmap("<leader>gD", gs.reset_buffer, bufnr, "[D]iff File")
-				util.nmap("<leader>td", gs.toggle_deleted, bufnr, "[T]oggle [D]eleted")
+				util.nmap("<leader>gd", gs.diffthis, bufnr, "[G]it [D]iff Hunk")
+				util.nmap("<leader>gD", gs.reset_buffer, bufnr, "[G]it [D]iff File")
+				util.nmap("<leader>gp", gs.preview_hunk, bufnr, "[G]it [P]review Hunk")
 			end,
 		},
 	},

@@ -1,0 +1,97 @@
+   #!/bin/env bash 
+    # Wrapper for various compression/extraction utilities. Extracts the file
+    # given as the first argument to the function.
+
+    if [[ -f $1 ]]; then
+        case $1 in
+            *.tar.bz2)
+                if [[ -x "$(command -v tar)" ]]; then
+                    tar xjf "$1"
+                else
+                    printf "Error: tar utility not found."
+                fi
+                ;;
+            *.bz2)
+                if [[ -x "$(command -v bunzip2)" ]]; then
+                    bunzip2 "$1"
+                else
+                    printf "Error: bunzip2 utility not found."
+                fi
+                ;;
+            *.deb)
+                if [[ -x "$(command -v ar)" ]]; then
+                    ar x "$1"
+                else
+                    printf "Error: ar utility not found."
+                fi
+                ;;
+            *.tar.gz)
+                if [[ -x "$(command -v tar)" ]]; then
+                    tar xzf "$1"
+                else
+                    printf "Error: tar utility not found."
+                fi
+                ;;
+            *.gz)
+                if [[ -x "$(command -v gunzip)" ]]; then
+                    gunzip "$1"
+                else
+                    printf "Error: gunzip utility not found."
+                fi
+                ;;
+            *.rar)
+                if [[ -x "$(command -v unrar)" ]]; then
+                    unrar x "$1"
+                else
+                    printf "Error: unrar utility not found."
+                fi
+                ;;
+            *.tar)
+                if [[ -x "$(command -v tar)" ]]; then
+                    tar xf "$1"
+                else
+                    printf "Error: tar utility not found."
+                fi
+                ;;
+            *.tbz2)
+                if [[ -x "$(command -v tar)" ]]; then
+                    tar xjf "$1"
+                else
+                    printf "Error: tar utility not found."
+                fi
+                ;;
+            *.tgz)
+                if [[ -x "$(command -v tar)" ]]; then
+                    tar xzf "$1"
+                else
+                    printf "Error: tar utility not found."
+                fi
+                ;;
+            *.zip)
+                if [[ -x "$(command -v unzip)" ]]; then
+                    unzip "$1"
+                else
+                    printf "Error: unzip utility not found."
+                fi
+                ;;
+            *.Z)
+                if [[ -x "$(command -v uncompress)" ]]; then
+                    uncompress "$1"
+                else
+                    printf "Error: uncompress utility not found."
+                fi
+                ;;
+            *.7z)
+                if [[ -x "$(command -v 7z)" ]]; then
+                    7z x "$1"
+                else
+                    printf "Error: 7z utility not found."
+                fi
+                ;;
+            *)
+                printf '%s cannot be extracted via extract ()' "$1"
+                ;;
+        esac
+    else
+        printf '%s is not a valid file' "$1"
+    fi

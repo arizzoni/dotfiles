@@ -1,0 +1,7 @@
+# This is the configuration file for Ghostty.
+
+theme = wal
+font-family = monospace
+font-size = 16
+window-padding-balance = true
+keybind = clear

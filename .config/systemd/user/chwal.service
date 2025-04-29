@@ -3,5 +3,5 @@ Description=Task: Change Wallpaper
 
 [Service]
 Type=oneshot
-ExecStart=/home/air/.local/bin/chwal
+ExecStart=/home/air/.local/bin/chwal -p /home/air/.local/bin/pre_hook -P /home/air/.local/bin/post_hook
 Restart=on-failure

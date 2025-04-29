@@ -1,0 +1,93 @@
+#!/bin/sh
+# Automatic Bluelight Control
+# Version 0.1
+
+if [ ! "$(command -v hyprctl)" ] || [ ! "$(command -v hyprsunset)" ]; then
+        exit 1
+fi
+
+version() {
+        echo "sunset 0.1"
+}
+
+help() {
+        echo "Usage: sunset [-h | --help] [-V | --version] [-r | --sunrise] [-s | --sunset]"
+        echo
+        echo "  -r, --sunrise      Perform sunrise (increase temperature)."
+        echo "  -s, --sunset       Perform sunset (decrease temperature)."
+        echo "  -h, --help         Print this help message and exit."
+        echo "  -V, --version      Print software version and exit."
+        echo
+        return 0
+}
+
+set_temperature() {
+        hyprctl hyprsunset temperature "$1"
+        return
+}
+
+# Smooth sunset effect
+sunset() {
+        TEMPERATURE_CHANGE=$1
+        DURATION=$2 # given in seconds
+        CURRENT_TEMPERATURE=$(hyprctl hyprsunset temperature)
+
+        START_EPOCH=$(date +%s)
+        STEPS=$((DURATION / 10))
+        DELTA=$((TEMPERATURE_CHANGE / STEPS))
+        NEXT_TEMPERATURE=$((CURRENT_TEMPERATURE - DELTA))
+        echo $NEXT_TEMPERATURE
+
+        while [ $(($(date +%s))) -lt $((START_EPOCH + DURATION)) ]; do
+                printf '%s %s\n' $NEXT_TEMPERATURE "$(set_temperature $NEXT_TEMPERATURE)"
+                NEXT_TEMPERATURE=$((NEXT_TEMPERATURE - DELTA))
+                sleep 10s
+        done
+}
+
+# Smooth sunrise effect
+sunrise() {
+        TEMPERATURE_CHANGE=$1
+        DURATION=$2 # given in seconds
+        CURRENT_TEMPERATURE=$(hyprctl hyprsunset temperature)
+
+        START_EPOCH=$(date +%s)
+        STEPS=$((DURATION / 10))
+        DELTA=$((TEMPERATURE_CHANGE / STEPS))
+        NEXT_TEMPERATURE=$((CURRENT_TEMPERATURE + DELTA))
+        echo $NEXT_TEMPERATURE
+
+        while [ $(($(date +%s))) -lt $((START_EPOCH + DURATION)) ]; do
+                printf '%s %s\n' $NEXT_TEMPERATURE "$(set_temperature $NEXT_TEMPERATURE)"
+                NEXT_TEMPERATURE=$((NEXT_TEMPERATURE + DELTA))
+                sleep 10s
+        done
+}
+
+while [ $# -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+                help
+                exit 0
+                ;;
+        -V | --version)
+                version
+                exit 0
+                ;;
+        -r | --sunrise)
+                shift
+                sunrise "$@"
+                ;;
+        -s | --sunset)
+                shift
+                sunset "$@"
+                ;;
+        *)
+                echo "Unknown option: $1"
+                help
+                exit 1
+                ;;
+        esac
+done
+
+set_temperature && exit 0 || exit 1

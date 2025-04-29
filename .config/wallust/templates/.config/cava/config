@@ -1,0 +1,32 @@
+## Configuration file for CAVA.
+
+[general]
+autosens = 1
+sensitivity = 100
+
+[input]
+
+method = pipewire
+source = auto
+
+[output]
+
+channels = mono
+mono_option = average
+alacritty_sync = 1
+
+[color]
+background = default
+foreground = cyan
+
+[smoothing]
+monstercat = 0
+waves = 0
+noise_reduction = 40
+
+[eq]
+1 = 1 # bass
+2 = 1
+3 = 1 # midtone
+4 = 1
+5 = 1 # treble

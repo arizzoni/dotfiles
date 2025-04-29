@@ -1,0 +1,8 @@
+[Unit]
+Description=Bluelight Filter Control (Sunrise)
+After=graphical.target
+
+[Service]
+Type=simple
+ExecStart=/home/air/.local/bin/sunset.sh --sunrise 1500 3600
+Restart=on-failure
